@@ -7,7 +7,7 @@
 		<AfterIlcCompile></AfterIlcCompile>
 	</Target>
 
-	<Target Name="BeforeBuildTarget" AfterTargets="BeforeBuild">
+	<Target Name="BeforeBuildTarget" AfterTargets="BeforeBuild" Condition="'$(MicrosoftNETBuildTasksTFM)' != 'net472'">
 		<AfterBeforeBuild></AfterBeforeBuild>
 	</Target>
 
