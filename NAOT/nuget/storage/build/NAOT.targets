@@ -1,0 +1,17 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="AfterWriteIlcRspFileForCompilationTarget" AfterTargets="WriteIlcRspFileForCompilation">
+		<AfterWriteIlcRspFileForCompilation></AfterWriteIlcRspFileForCompilation>
+	</Target>
+
+	<Target Name="AfterIlcCompileTarget" AfterTargets="IlcCompile">
+		<AfterIlcCompile></AfterIlcCompile>
+	</Target>
+
+	<Target Name="BeforeBuildTarget" AfterTargets="BeforeBuild">
+		<AfterBeforeBuild></AfterBeforeBuild>
+	</Target>
+
+	<UsingTask TaskName="AfterWriteIlcRspFileForCompilation" AssemblyFile="NAOT.Tasks.dll" />
+	<UsingTask TaskName="AfterIlcCompile" AssemblyFile="NAOT.Tasks.dll" />
+	<UsingTask TaskName="AfterBeforeBuild" AssemblyFile="NAOT.Tasks.dll" />
+</Project>

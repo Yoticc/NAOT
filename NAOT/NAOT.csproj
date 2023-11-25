@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Title>NAOT</Title>
+    <Authors>Yotic</Authors>
+    <Company />
+    <PackageOutputPath>bin\</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="nuget\packages\**" />
+    <EmbeddedResource Remove="nuget\packages\**" />
+    <None Remove="nuget\packages\**" />
+  </ItemGroup>
+
+</Project>
