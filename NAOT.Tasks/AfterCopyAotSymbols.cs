@@ -2,7 +2,7 @@
 using NAOT.Core.Tasks;
 using System.Security;
 
-public class AfterIlcCompile : Microsoft.Build.Utilities.Task
+public class AfterCopyAotSymbols : Microsoft.Build.Utilities.Task
 {
     public override bool Execute()
     {
@@ -10,7 +10,7 @@ public class AfterIlcCompile : Microsoft.Build.Utilities.Task
         {
             ExecuteASMTasks();
         }
-        catch (Exception ex) { Console.WriteLine($"Exception in AfterIlcCompile: " + ex); }
+        catch (Exception ex) { Console.WriteLine($"Exception in AfterCopyAotSymbols: " + ex); }
 
         return true;
     }
@@ -25,7 +25,7 @@ public class AfterIlcCompile : Microsoft.Build.Utilities.Task
             {
                 asmExecute.Invoke(task, [Globals.OutputNativeFile]);
             }
-            catch (Exception ex) { Console.WriteLine($"Exception in AfterIlcCompile->{task.GetType().Name}: " + ex); }
+            catch (Exception ex) { Console.WriteLine($"Exception in AfterCopyAotSymbols->{task.GetType().Name}: " + ex); }
         }
     }
 }

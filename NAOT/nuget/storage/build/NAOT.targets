@@ -3,8 +3,8 @@
 		<AfterWriteIlcRspFileForCompilation></AfterWriteIlcRspFileForCompilation>
 	</Target>
 
-	<Target Name="AfterIlcCompileTarget" AfterTargets="IlcCompile">
-		<AfterIlcCompile></AfterIlcCompile>
+	<Target Name="AfterCopyAotSymbolsTarget" AfterTargets="_CopyAotSymbols">
+		<AfterCopyAotSymbols></AfterCopyAotSymbols>
 	</Target>
 
 	<Target Name="BeforeBuildTarget" AfterTargets="BeforeBuild" Condition="'$(MicrosoftNETBuildTasksTFM)' != 'net472'">
@@ -12,6 +12,6 @@
 	</Target>
 
 	<UsingTask TaskName="AfterWriteIlcRspFileForCompilation" AssemblyFile="NAOT.Tasks.dll" />
-	<UsingTask TaskName="AfterIlcCompile" AssemblyFile="NAOT.Tasks.dll" />
+	<UsingTask TaskName="AfterCopyAotSymbols" AssemblyFile="NAOT.Tasks.dll" />
 	<UsingTask TaskName="AfterBeforeBuild" AssemblyFile="NAOT.Tasks.dll" />
 </Project>
