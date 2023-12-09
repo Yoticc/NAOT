@@ -27,10 +27,13 @@ public static class Globals
     public static string NaotAnalyzersDir;
     public static string ObjNaotDir;
     public static string MirrorLibsDir;
+    public static string OutLibsDir; 
     public static string RspFile;
+    public static string OutputNativeFile;
 
     public static string PackagesDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".nuget\packages");
     public static string PackageNaotDir = Path.Combine(PackagesDir, "naot", PackageVersion);
+    public static string PackageNaotBuildDir = Path.Combine(PackageNaotDir, "build");
 
     public static List<string> OriginalLibPaths;
     public static List<string> SpoofedLibPaths;
@@ -38,16 +41,20 @@ public static class Globals
     public static string MainLibPath;
 
     public static List<Assembly> Analyzers;
-    public static List<object> AllTaskInstances;
-    public static List<object> ILTaskInstances;
-    public static List<object> ILMainTaskInstances;
-    public static List<object> ASMTaskInstances;
-    public static List<object> InitTaskInstances;
+    public static List<object> AllTaskInstances = new();
+    public static List<object> ILTaskInstances = new();
+    public static List<object> ILActualTaskInstances = new();
+    public static List<object> ILMainTaskInstances = new();
+    public static List<object> ASMTaskInstances = new();
+    public static List<object> InitTaskInstances = new();
 
     public static ModuleContext DnContext;
+    public static Dictionary<ModuleDefMD, string> DnModulesNames;
+    public static Dictionary<ModuleDefMD, string> DnModulesPaths;
     public static List<ModuleDefMD> DnModules;
+    public static ModuleDefMD DnNAOTModule;
     public static ModuleDefMD DnMainModule;
     public static ModuleDefMD DnMscorelib;
-    public static ModuleDefMD DnSystemPrivateCorLib;
+    public static ModuleDefMD DnSystemPrivateCoreLib;
     public static ModuleDefMD DnSystemRuntimeInteropServices;
 }

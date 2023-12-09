@@ -12,10 +12,19 @@ public class InitializeTask : InitTask
 {
     public override void Execute()
     {
-        AGlobals.UnmanagedCallersOnlyAttribute = Globals.DnSystemPrivateCorLib.FindType("System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
-        AGlobals.UnmanagedCallersOnlyAttributeCtor = AGlobals.UnmanagedCallersOnlyAttribute.FindConstructors().First();
+        AGlobals.UnmanagedCallersOnlyAttribute = Globals.DnSystemPrivateCoreLib.FindType("System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
+        if (AGlobals.UnmanagedCallersOnlyAttribute == null)
+            Console.WriteLine($"Unable find type System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute in System.Private.CoreLib");
 
-        AGlobals.TypeType = Globals.DnMscorelib.FindType("System.Type").ToTypeSig();
+        AGlobals.UnmanagedCallersOnlyAttributeCtor = AGlobals.UnmanagedCallersOnlyAttribute.FindConstructors().First();
+        if (AGlobals.UnmanagedCallersOnlyAttributeCtor == null)
+            Console.WriteLine($"Unable get constructor from System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
+
+        AGlobals.TypeType = Globals.DnSystemPrivateCoreLib.FindType("System.Type").ToTypeSig();
         AGlobals.TypeArrayType = new SZArraySig(AGlobals.TypeType);
+
+        AGlobals.NativeFuncAttribute = Globals.DnNAOTModule.FindType("NativeFuncAttribute");
+        AGlobals.NativeFuncAttribute_1 = Globals.DnNAOTModule.FindType("NativeFuncAttribute`1");
+        AGlobals.EntryPointAttribute = Globals.DnNAOTModule.FindType("NAOT.EntryPointAttribute");
     }
 }

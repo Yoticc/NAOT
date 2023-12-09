@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,10 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NAOT.Core\NAOT.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>

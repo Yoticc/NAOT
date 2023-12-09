@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NAOT;
-
 [AttributeUsage(AttributeTargets.Method)]
 public class NativeFuncAttribute<T> : Attribute where T : INAOTCallConv
 {
     public readonly string? EntryPoint;
 
-    public NativeFuncAttribute() { }
-
-    public NativeFuncAttribute(string entryPoint) => EntryPoint = entryPoint;
+    public NativeFuncAttribute(string? entryPoint = null) => EntryPoint = entryPoint;
 }
 
-public class NativeFuncAttribute : NativeFuncAttribute<__cdecl>;
+public class NativeFuncAttribute(string? entryPoint = null) : NativeFuncAttribute<__cdecl>(entryPoint);

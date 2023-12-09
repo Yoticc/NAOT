@@ -23,7 +23,7 @@ public class AfterIlcCompile : Microsoft.Build.Utilities.Task
         {
             try
             {
-                asmExecute.Invoke(task, null);
+                asmExecute.Invoke(task, [Globals.OutputNativeFile]);
             }
             catch (Exception ex) { Console.WriteLine($"Exception in AfterIlcCompile->{task.GetType().Name}: " + ex); }
         }

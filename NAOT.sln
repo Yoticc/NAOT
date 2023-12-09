@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildPackage", "BuildPackag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAOT.Tasks", "NAOT.Tasks\NAOT.Tasks.csproj", "{879FAC48-CE65-4C84-8DD0-FC579E0535B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAOT.Core", "NAOT.Core\NAOT.Core.csproj", "{23081CF7-6032-4D74-8EA6-286FE63B3225}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAOT.Core", "NAOT.Core\NAOT.Core.csproj", "{23081CF7-6032-4D74-8EA6-286FE63B3225}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAOT.Analyzer", "NAOT.Analyzer\NAOT.Analyzer.csproj", "{4C34C645-D03C-4A19-9F36-EC715B63BF27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAOT.Analyzer", "NAOT.Analyzer\NAOT.Analyzer.csproj", "{4C34C645-D03C-4A19-9F36-EC715B63BF27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auxiliary", "Auxiliary\Auxiliary.csproj", "{9B825E04-BB8E-4881-BDB6-198FB3AC8F0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{4C34C645-D03C-4A19-9F36-EC715B63BF27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C34C645-D03C-4A19-9F36-EC715B63BF27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C34C645-D03C-4A19-9F36-EC715B63BF27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B825E04-BB8E-4881-BDB6-198FB3AC8F0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B825E04-BB8E-4881-BDB6-198FB3AC8F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B825E04-BB8E-4881-BDB6-198FB3AC8F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B825E04-BB8E-4881-BDB6-198FB3AC8F0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,11 @@
 ﻿using dnlib.DotNet;
+using dnlib.PE;
+using NAOT.Analyzer.Utils;
+using NAOT.Analyzer.Utils.Sugar;
 using NAOT.Core;
 using NAOT.Core.Tasks;
 using NAOT.Core.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,53 +19,81 @@ public class HandleEntryPointTaskIL : ILMainTask
 {
     public override void Execute(ModuleDefMD module)
     {
-        foreach (var type in module.Types.SelectMany(t => t.GetTypes()))
-        {
-            foreach (var method in type.Methods)
+        var meths = 
+            module
+            .GetMethodsByAttribute(AGlobals.EntryPointAttribute)
+            .Where(m =>
             {
-                var attrb = method.CustomAttributes.ToList();
-                if (attrb.Find(a => a.AttributeType.FullName == "NAOT.Attributes.EntryPointAttribute") == null)
-                    continue;
-
-                if (method.HasReturnType)
+                if (m.HasReturnType)
                 {
-                    Console.WriteLine($"EntryPoint {method.FullName} skipped because it's has return type");
-                    continue;
+                    Console.WriteLine($"EntryPoint {m.FullName} skipped because it's has return type");
+                    return false;
                 }
 
-                if (!method.IsStatic)
+                if (!m.IsStatic)
                 {
-                    Console.WriteLine($"EntryPoint {method.FullName} skipped because it's not static");
-                    continue;
+                    Console.WriteLine($"EntryPoint {m.FullName} skipped because it's not static");
+                    return false;
                 }
 
-                if (method.Parameters.Count > 0)
+                if (m.Parameters.Count > 0)
                 {
-                    Console.WriteLine($"EntryPoint {method.FullName} skipped because it's has parameters");
-                    continue;
+                    Console.WriteLine($"EntryPoint {m.FullName} skipped because it's has parameters");
+                    return false;
                 }
 
-                HandleEntryPoint(module, method);
-                return;
-            }
+                return true;
+            }).ToList();
+
+        if (meths.Count == 0)
+        {
+            Console.WriteLine("Unable find EntryPoint method");
+            return;
         }
 
-        Console.WriteLine("Unable find EntryPoint method");
+        if (meths.Count > 1)
+            Console.WriteLine($"Found more than one EntryPoint methods. Handled first, other skipped (methods: {string.Join(", ", meths.Select(m => m.FullName))})");
+
+        var meth = meths[0];
+        HandleEntryPoint(module, meth);
     }
 
     void HandleEntryPoint(ModuleDefMD module, MethodDef meth)
     {
         var attbr = meth.CustomAttributes;
 
-        attbr.RemoveAt(attbr.ToList().FindIndex(a => a.TypeFullName == "NAOT.Attributes.EntryPointAttribute"));
+        attbr.RemoveAt(attbr.ToList().FindIndex(a => a.AttributeType.IsSameByName(AGlobals.EntryPointAttribute)));
         attbr.Add(Helper.GetUnmanagedCallersOnlyAttribute(module, "NAOT.Analyzer.EntryPoint", typeof(CallConvStdcall)));
     }
 }
 
-public class HandleEntryPointTaskASM : ASMTask
+public unsafe class HandleEntryPointTaskASM : ASMTask
 {
     public override void Execute(string module)
     {
+        var naotEPName = "NAOT.Analyzer.EntryPoint"u8;
+        var internalDllMainName = "NAOT.Internal.DllMain"u8;
 
+        using var pe = new PEEditor(module);
+
+        Console.WriteLine(string.Join(' ', pe.Image->GetEATFuncIndex(naotEPName), pe.GetExportFunctionAddress(naotEPName), pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(naotEPName)), pe.GetExportFunctionAddress(internalDllMainName), pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(internalDllMainName))));
+
+        var naotEPFunc = pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(naotEPName));
+        pe.RemoveExportFunction(naotEPName);
+
+        var internalDllMainFunc = pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(internalDllMainName));
+        pe.RemoveExportFunction(internalDllMainName);
+
+
+        var originalEP = pe.EntryPoint;
+        var originalEPFO = pe.Image->RvaToFileOffset(originalEP);
+        var originalEPPtr = (byte*)pe.Image->ptr + originalEPFO;
+        //pe.EntryPoint = internalDllMainFunc;
+
+        *originalEPPtr = 0xFE;
+        *(originalEPPtr + 1) = 0xFD;
+        *(originalEPPtr + 2) = 0xFA;
+
+        pe.Save(module);
     }
 }

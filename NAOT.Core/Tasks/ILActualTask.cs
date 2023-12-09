@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NAOT.Core.Tasks;
-public abstract class ASMTask
+public abstract class ILActualTask
 {
-    public abstract void Execute(string module);
+    public abstract void Execute(ModuleDefMD module);
 }

@@ -8,6 +8,7 @@
     <Authors>Yotic</Authors>
     <Company />
     <PackageOutputPath>bin\</PackageOutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
