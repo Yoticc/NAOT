@@ -12,6 +12,8 @@ public class InitializeTask : InitTask
 {
     public override void Execute()
     {
+        Console.WriteLine(string.Join(' ', Globals.Configuration, Globals.TargetBinDir, Globals.AssemblyName, Globals.ProjectDir));
+
         AGlobals.UnmanagedCallersOnlyAttribute = Globals.DnSystemPrivateCoreLib.FindType("System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
         if (AGlobals.UnmanagedCallersOnlyAttribute == null)
             Console.WriteLine($"Unable find type System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute in System.Private.CoreLib");

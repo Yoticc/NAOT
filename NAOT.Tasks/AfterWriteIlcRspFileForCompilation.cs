@@ -9,6 +9,8 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
     {
         try
         {
+
+
             SetupGlobals();
             SetupNaotLibDir();
             CopyLibsToMirror();

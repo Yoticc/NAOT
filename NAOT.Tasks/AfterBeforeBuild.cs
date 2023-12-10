@@ -12,7 +12,6 @@ public class AfterBeforeBuild : Microsoft.Build.Utilities.Task
         try
         {
             Globals.Configuration = BuildEngine.GetEnvVar("Configuration") == "Debug" ? "Debug" : "Release";
-            Globals.RuntimeIdentifier = BuildEngine.GetEnvVar("RuntimeIdentifier");
             Globals.TargetBinDir = BuildEngine.GetEnvVar("TargetDir");
             Globals.AssemblyName = BuildEngine.GetEnvVar("AssemblyName");
             Globals.ProjectDir = BuildEngine.GetEnvVar("ProjectDir");
@@ -30,6 +29,7 @@ public class AfterBeforeBuild : Microsoft.Build.Utilities.Task
             SetupNaot();
             LoadAnalyzers();
             ClearObj();
+            LogAnalyzers();
         }
         catch (Exception ex) { Console.WriteLine($"Exception in AfterBeforeBuild: " + ex); }
 
@@ -97,4 +97,10 @@ public class AfterBeforeBuild : Microsoft.Build.Utilities.Task
             File.CreateSymbolicLink(Path.Combine(Globals.NaotAnalyzersDir, "NAOT.Analyzer.dll"), Path.Combine(Globals.PackageNaotBuildDir, "NAOT.Analyzer.dll"));
         }
     }
-}
+
+    void LogAnalyzers()
+    {
+        Console.WriteLine($"  Uses {Globals.Analyzers.Count} analyzers");
+        File.WriteAllText("C:\\a.txt", $"asc2 {string.Join(", ", Globals.Configuration, Globals.TargetBinDir, Globals.AssemblyName, Globals.ProjectDir)}");
+    }                                                       
+}                                                           

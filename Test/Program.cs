@@ -1,6 +1,7 @@
 ﻿using NAOT;
 using static NaotDefines;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Test;
 
@@ -15,13 +16,19 @@ public unsafe class Program
 
     static void Meth_() { }
 
-    static void A(void* a, object b, void* c) { } 
+    static void A(void* a, object b, void* c) { }
+
+    [DllImport("user32", SetLastError = true, CharSet = CharSet.Auto)]
+    public static extern int MessageBox(nint hWnd, string text, string caption, uint type);
 
     [EntryPoint]
-    static void Main() { }
+    static void Main()
+    {
+        MessageBox(0, "hoba", "", 0);
+    }
 
     [NativeFunc]
-    static void TestNative() { }
+    static void TestNative() { }    
 
     [NativeFunc("DllExportFuncA")]
     static void TestNative2() { }

@@ -12,11 +12,8 @@ internal unsafe class DllMain
     [UnmanagedCallersOnly(EntryPoint = "NAOT.Internal.DllMain", CallConvs = [typeof(CallConvStdcall)])]
     static bool DllMain_(nint module, uint reason, nint reserved)
     {
-        var _DllMainCRTStartup = (delegate* unmanaged<nint, uint, nint, bool>)0xDEADBEAF;
-        var entryPoint = (delegate* unmanaged<void>)0xDEADBEAF;
-
-        _DllMainCRTStartup(module, reason, reserved);
-        entryPoint();
+        ((delegate* unmanaged<nint, uint, nint, bool>)(module + 0xDEAD))(module, reason, reserved);
+        ((delegate* unmanaged<void>)(module + 0xBEEF))();
 
         return true;
     }

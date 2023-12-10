@@ -27,7 +27,6 @@ public unsafe class PEEditor : IDisposable
     public void RemoveExportFunction(ReadOnlySpan<byte> nameToRemove)
     {
         var functionIndex = Image->GetEATFuncIndex(nameToRemove);
-        Console.WriteLine($"{nameToRemove.ToString()}, {functionIndex}");
         if (functionIndex != -1)
         {
             Image->ShiftTableEntries((uint*)(Image->ptr + Image->enptOffset), Image->exportDirectory->NumberOfNames, (uint)functionIndex);
@@ -43,6 +42,29 @@ public unsafe class PEEditor : IDisposable
     }
 
     public uint GetExportFunctionAddress(ReadOnlySpan<byte> name) => Image->GetEATFunc(name);
+
+    public long CalculateFunctionSize(nint start, byte[] pattern)
+    {
+        var ptr = (byte*)start;
+        var step = 0;
+        for (uint i = 0;;)
+        {
+            if (i > 0x1000)
+                return -1;
+
+            if (ptr[i + step] == pattern[step])
+            {
+                step++;
+                if (step == pattern.Length)
+                    return i;
+            }
+            else
+            {
+                step = 0;
+                i++;
+            }
+        }
+    }
 
     public void Save(string path)
     {

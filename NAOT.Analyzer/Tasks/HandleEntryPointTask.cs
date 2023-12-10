@@ -7,6 +7,7 @@ using NAOT.Core.Tasks;
 using NAOT.Core.Utils;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -76,23 +77,66 @@ public unsafe class HandleEntryPointTaskASM : ASMTask
 
         using var pe = new PEEditor(module);
 
-        Console.WriteLine(string.Join(' ', pe.Image->GetEATFuncIndex(naotEPName), pe.GetExportFunctionAddress(naotEPName), pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(naotEPName)), pe.GetExportFunctionAddress(internalDllMainName), pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(internalDllMainName))));
-
-        var naotEPFunc = pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(naotEPName));
+        var naotEPFunc = pe.GetExportFunctionAddress(naotEPName);
+        var naotEPFuncFO = pe.Image->RvaToFileOffset(naotEPFunc);
+        var naotEPFuncPtr = (byte*)pe.Image->ptr + naotEPFuncFO;
         pe.RemoveExportFunction(naotEPName);
 
-        var internalDllMainFunc = pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(internalDllMainName));
+        var internalDllMainFunc = pe.GetExportFunctionAddress(internalDllMainName);
+        var internalDllMainFuncFO = pe.Image->RvaToFileOffset(pe.GetExportFunctionAddress(internalDllMainName));
+        var internalDllMainFuncPtr = (byte*)pe.Image->ptr + internalDllMainFuncFO;
         pe.RemoveExportFunction(internalDllMainName);
-
 
         var originalEP = pe.EntryPoint;
         var originalEPFO = pe.Image->RvaToFileOffset(originalEP);
         var originalEPPtr = (byte*)pe.Image->ptr + originalEPFO;
-        //pe.EntryPoint = internalDllMainFunc;
+        pe.EntryPoint = internalDllMainFunc;
 
-        *originalEPPtr = 0xFE;
-        *(originalEPPtr + 1) = 0xFD;
-        *(originalEPPtr + 2) = 0xFA;
+        var internalDllMainFuncSize = pe.CalculateFunctionSize((nint)internalDllMainFuncPtr, [0x90, 0x90, 0x90, 0x90]);
+
+        if (internalDllMainFuncSize == -1)
+            Console.WriteLine("Unable calculate size of NAOT.Internal.DllMain function");
+
+        var foundFirstOffset = false;
+        var foundSecondOffset = false;
+
+        for (int i = 0; i < internalDllMainFuncSize; i++)
+            internalDllMainFuncPtr[i] = 0x90;
+
+        byte[] newBytes = [ // Modified asm code. There is a problem. That unmodified code uses a GC call before calling the original entrypoint and the program crashes
+            0x4C, 0x89, 0x44, 0x24, 0x18, 0x89, 0x54, 0x24, 0x10, 0x48, 0x89, 0x4C, 0x24, 0x08, 0x55, 0x57,
+            0x48, 0x81, 0xEC, 0xE8, 0x00, 0x00, 0x00, 0x48, 0x8D, 0x6C, 0x24, 0x20, 0x48, 0x8B, 0x85, 0xE0,
+            0x00, 0x00, 0x00, 0x48, 0x05, 0xAD, 0xDE, 0x00, 0x00, 0x4C, 0x8B, 0x85, 0xF0, 0x00, 0x00, 0x00,
+            0x8B, 0x95, 0xE8, 0x00, 0x00, 0x00, 0x48, 0x8B, 0x8D, 0xE0, 0x00, 0x00, 0x00, 0xFF, 0xD0, 0x48,
+            0x8B, 0x85, 0xE0, 0x00, 0x00, 0x00, 0x48, 0x05, 0xEF, 0xBE, 0x00, 0x00, 0xFF, 0xD0, 0xB0, 0x01,
+            0x48, 0x8D, 0xA5, 0xC8, 0x00, 0x00, 0x00, 0x5F, 0x5D, 0xC3
+            ];
+
+        for (int i = 0; i < newBytes.Length; i++)
+            internalDllMainFuncPtr[i] = newBytes[i];
+
+        for (int i = 0; i < internalDllMainFuncSize; i++)
+        {
+            var ptr = internalDllMainFuncPtr + i;
+            var intPtr = (uint*)ptr;
+            switch (*intPtr)
+            {
+                case 0xDEAD:
+                    foundFirstOffset = true;
+                    *intPtr = originalEP;
+                    break;
+
+                case 0xBEEF:
+                    foundSecondOffset = true;
+                    *intPtr = naotEPFunc;
+                    break;
+            }
+        }
+
+        if (!foundFirstOffset)
+            Console.WriteLine("Unable found first offset in NAOT.Internal.DllMain function");
+        if (!foundSecondOffset)
+            Console.WriteLine("Unable found second offset in NAOT.Internal.DllMain function");
 
         pe.Save(module);
     }
