@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NAOT.Analyzer.Tasks;
-public class HandleNativeFuncsTasks : ILActualTask
+public class HandleNativeFuncsILTask : ILActualTask
 {
     public override void Execute(ModuleDefMD module)
     {
@@ -39,4 +39,4 @@ public class HandleNativeFuncsTasks : ILActualTask
             attbrs.Add(Helper.GetUnmanagedCallersOnlyAttribute(module, entryPoint, AGlobals.CallConvToNativeCallConvDic[callConvType]));
         }    
     }
-}
+}   

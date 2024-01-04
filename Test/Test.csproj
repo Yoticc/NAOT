@@ -26,4 +26,8 @@
     <PackageReference Include="NAOT" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Test_\Test_.csproj" />
+  </ItemGroup>
+
 </Project>

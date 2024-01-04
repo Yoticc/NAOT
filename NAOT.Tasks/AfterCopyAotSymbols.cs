@@ -19,8 +19,9 @@ public class AfterCopyAotSymbols : Microsoft.Build.Utilities.Task
     {
         var asmExecute = typeof(ASMTask).GetMethods().First();
 
-        foreach (var task in Globals.ASMTaskInstances)
+        foreach (var instance in Globals.ASMTaskInstances)
         {
+            var task = instance.Task;
             try
             {
                 asmExecute.Invoke(task, [Globals.OutputNativeFile]);

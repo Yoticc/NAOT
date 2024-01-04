@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NAOT.Core.Tasks;
-public abstract class ILActualTask
+public abstract class ILActualTask(double Order = -1)
 {
     public abstract void Execute(ModuleDefMD module);
 }

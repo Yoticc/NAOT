@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NAOT.Internal;
-internal unsafe class DllMain
+internal unsafe static class DllMain
 {
     [UnmanagedCallersOnly(EntryPoint = "NAOT.Internal.DllMain", CallConvs = [typeof(CallConvStdcall)])]
     static bool DllMain_(nint module, uint reason, nint reserved)

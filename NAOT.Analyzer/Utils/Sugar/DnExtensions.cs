@@ -18,6 +18,16 @@ public static class DnExtensions
 
     public static bool IsSameByName(this IType type1, IType type2) => GetNonGenericParamsFullName(type1) == GetNonGenericParamsFullName(type2);
 
+    public static bool ContainsAttribute(this IMethodDefOrRef method, params ITypeDefOrRef[] attributes)
+    {
+        var attributesList = attributes.ToList();
+        return 
+            method
+            .CustomAttributes
+            .ToList()
+            .Find(a => attributesList.Find(al => al.IsSameByName(a.AttributeType)) != null) != null;
+    }
+
     public static List<MethodDef> GetMethodsByAttribute(this ModuleDefMD module, params ITypeDefOrRef[] attributes)
     {
         var attributesList = attributes.ToList();

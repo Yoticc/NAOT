@@ -4,8 +4,5 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NAOT.Core.Tasks;
-public abstract class InitTask(double Order = -1)
-{
-    public abstract void Execute();
-}
+namespace NAOT.Core;
+public record class TaskInstanceData(object Task, double Order);

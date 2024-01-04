@@ -28,9 +28,14 @@ public static class AGlobals
 
     public static TypeSig TypeType;
     public static TypeSig TypeArrayType;
+    public static TypeDef NAOTKernel32InteropType;
+    public static TypeDef NAOTUser32InteropType;
     public static TypeDef UnmanagedCallersOnlyAttribute;
     public static MethodDef UnmanagedCallersOnlyAttributeCtor;
     public static TypeDef EntryPointAttribute;
     public static TypeDef NativeFuncAttribute;
     public static TypeDef NativeFuncAttribute_1;
+    public static TypeDef DllImportAttribute;
+
+    public static TypeDef[] NativeMethodAttributes;
 }

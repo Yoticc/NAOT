@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NAOT.Core.Tasks;
-public abstract class InitTask(double Order = -1)
+public abstract class PrepareNativeTask(double Order = -1)
 {
     public abstract void Execute();
 }

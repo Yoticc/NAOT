@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <Title>NAOT</Title>
     <Authors>Yotic</Authors>
-    <Company />
+	<Company />
     <PackageOutputPath>bin\</PackageOutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -15,6 +15,10 @@
     <Compile Remove="nuget\packages\**" />
     <EmbeddedResource Remove="nuget\packages\**" />
     <None Remove="nuget\packages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interop\" />
   </ItemGroup>
 
 </Project>

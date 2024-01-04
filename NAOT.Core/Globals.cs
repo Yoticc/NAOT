@@ -14,6 +14,8 @@ public static class Globals
 
     public static Random Rnd = new();
 
+    public static RSPArguments RspArguments;
+
     [AllowedValues("Debug", "Release")]
     public static string Configuration;
     public static string RuntimeIdentifier;
@@ -35,23 +37,27 @@ public static class Globals
     public static string PackageNaotDir = Path.Combine(PackagesDir, "naot", PackageVersion);
     public static string PackageNaotBuildDir = Path.Combine(PackageNaotDir, "build");
 
-    public static List<string> OriginalLibPaths;
+    public static List<string> AdditionalCompilerLibPaths;
     public static List<string> SpoofedLibPaths;
-    public static List<string> AllLibPaths;
+    public static List<string> SpoofedActualLibPaths;
+    public static List<string> ActualLibPaths;
+    public static List<string> DnLibPaths;
     public static string MainLibPath;
 
     public static List<Assembly> Analyzers;
-    public static List<object> AllTaskInstances = new();
-    public static List<object> ILTaskInstances = new();
-    public static List<object> ILActualTaskInstances = new();
-    public static List<object> ILMainTaskInstances = new();
-    public static List<object> ASMTaskInstances = new();
-    public static List<object> InitTaskInstances = new();
+    public static List<TaskInstanceData> AllTaskInstances = new();
+    public static List<TaskInstanceData> ILTaskInstances = new();
+    public static List<TaskInstanceData> ILActualTaskInstances = new();
+    public static List<TaskInstanceData> ILMainTaskInstances = new();
+    public static List<TaskInstanceData> ASMTaskInstances = new();
+    public static List<TaskInstanceData> InitTaskInstances = new();
+    public static List<TaskInstanceData> PrepareNativeTaskInstances = new();
 
     public static ModuleContext DnContext;
     public static Dictionary<ModuleDefMD, string> DnModulesNames;
     public static Dictionary<ModuleDefMD, string> DnModulesPaths;
     public static List<ModuleDefMD> DnModules;
+    public static List<ModuleDefMD> DnActualModules;
     public static ModuleDefMD DnNAOTModule;
     public static ModuleDefMD DnMainModule;
     public static ModuleDefMD DnMscorelib;

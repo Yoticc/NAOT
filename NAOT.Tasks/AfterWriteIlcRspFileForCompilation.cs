@@ -1,7 +1,11 @@
 ﻿using dnlib.DotNet;
 using NAOT.Core;
 using NAOT.Core.Tasks;
+using NAOT.Core.Utils;
+using Newtonsoft.Json;
+using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
 {
@@ -9,9 +13,11 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
     {
         try
         {
+            SetupVars();
+            SetupNaot();
+            LoadAnalyzers();
+            LogAnalyzers();
 
-
-            SetupGlobals();
             SetupNaotLibDir();
             CopyLibsToMirror();
             LoadLibs();
@@ -19,30 +25,153 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
             SaveModules();
             SpoofMainLib();
             SpoofLibsPaths();
+            AddInputsInRsp();
+            ExecutePrepareNativeTasks();
+            PushVars();
         }
         catch (Exception ex) { Console.WriteLine($"Exception in AfterWriteIlcRspFileForCompilation: " + ex); }
 
         return true;
     }
 
+    void PushVars()
+    {
+        File.WriteAllLines(Globals.RspFile, Globals.RspArguments.Serialize());
+    }
+
+    void ExecutePrepareNativeTasks()
+    {
+        var execute = typeof(PrepareNativeTask).GetMethods().First();
+
+        foreach (var instance in Globals.PrepareNativeTaskInstances)
+        {
+            var task = instance.Task;
+            try
+            {
+                execute.Invoke(task, []);
+            }
+            catch (Exception ex) { Console.WriteLine($"Exception in AfterWriteIlcRspFileForCompilation->ExecutePrepareNativeTasks->{task.GetType().Name}: " + ex); }
+        }
+    }
+
+    void AddInputsInRsp()
+    {
+        Globals.RspArguments.Inputs.AddRange(Globals.SpoofedActualLibPaths);
+    }
+
+    void SetupVars()
+    {
+        Globals.Configuration = BuildEngine.GetEnvVar("Configuration") == "Debug" ? "Debug" : "Release";
+        Globals.TargetBinDir = BuildEngine.GetEnvVar("TargetDir");
+        Globals.AssemblyName = BuildEngine.GetEnvVar("AssemblyName");
+        Globals.ProjectDir = BuildEngine.GetEnvVar("ProjectDir");
+
+        Globals.TargetObjDir = Globals.TargetBinDir.Replace("\\bin", "\\obj"); // 🥶
+        Globals.NaotDir = Path.Combine(Globals.ProjectDir, "naot");
+        Globals.ObjNaotDir = Path.Combine(Globals.TargetObjDir, "naot");
+        Globals.MirrorLibsDir = Path.Combine(Globals.ObjNaotDir, "mirror");
+        Globals.OutLibsDir = Path.Combine(Globals.ObjNaotDir, "out");
+        Globals.NaotConfigFile = Path.Combine(Globals.NaotDir, "config.json");
+        Globals.NaotAnalyzersDir = Path.Combine(Globals.NaotDir, "analyzers");
+        Globals.RspFile = Path.Combine(Globals.TargetObjDir, "native", $"{Globals.AssemblyName}.ilc.rsp");
+        Globals.OutputNativeFile = Path.Combine(Globals.TargetBinDir, "native", $"{Globals.AssemblyName}.dll");
+
+        Globals.RspArguments = RSPArguments.Parse(File.ReadAllLines(Globals.RspFile));
+    }
+
+    record TaskList(Type Type, List<TaskInstanceData> List);
+    void LoadAnalyzers()
+    {
+        Globals.Analyzers = new();
+
+        AppDomain.CurrentDomain.AssemblyResolve += (s, e) => {
+            var name = e.Name.Split(", ")[0].Replace(".resources", "");
+            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Concat([typeof(ModuleDef).Assembly]).ToList();
+
+            var assembly = loadedAssemblies.Find(a => a.FullName != null && a.FullName.Split(", ")[0] == name);
+            if (assembly == null)
+                Console.WriteLine("AppDomain.CurrentDomain.AssemblyResolve: Cannot find loaded assembly for " + e.Name);
+            return assembly;
+        };
+
+        var tasks = new List<TaskList>()
+        {
+            new(typeof(ASMTask), Globals.ASMTaskInstances),
+            new(typeof(ILTask), Globals.ILTaskInstances),
+            new(typeof(ILMainTask), Globals.ILMainTaskInstances),
+            new(typeof(ILActualTask), Globals.ILActualTaskInstances),
+            new(typeof(InitTask), Globals.InitTaskInstances),
+            new(typeof(PrepareNativeTask), Globals.PrepareNativeTaskInstances)
+        };
+
+        foreach (var analyzerFile in Directory.GetFiles(Globals.NaotAnalyzersDir))
+        {
+            var analyzerAssembly = Assembly.LoadFrom(analyzerFile);
+
+            Globals.Analyzers.Add(analyzerAssembly);
+            foreach (var type in analyzerAssembly.GetTypes())
+            {
+                var task = tasks.Find(t => type.BaseType != null && type.BaseType.FullName == t.Type.FullName);
+                if (task != null)
+                {
+                    var ctors = type.GetConstructors();
+                    if (ctors.Length == 0)
+                        Console.WriteLine($"AfterWriteIlcRspFileForCompilation->LoadAnalyzers: Cannot get .ctor for task \"{type.Name}\"");
+
+                    var ctor = ctors[0];
+                    var body = ctor.GetMethodBody();
+
+                    if (body == null)
+                        Console.WriteLine($"AfterWriteIlcRspFileForCompilation->LoadAnalyzers: Due to some reason .ctor body for task \"{type.Name}\" is null");
+
+                    var bodyInsts = body.GetILAsByteArray();
+
+                    if (bodyInsts == null)
+                        Console.WriteLine($"AfterWriteIlcRspFileForCompilation->LoadAnalyzers: Due to some reason .ctor body instructions for task \"{type.Name}\" is null");
+
+                    var order = GetOrderFromILBytes(bodyInsts);
+                    var instance = Activator.CreateInstance(type);
+                    var taskInstance = new TaskInstanceData(instance, order);
+
+                    Globals.AllTaskInstances.Add(taskInstance);
+                    task.List.Add(taskInstance);
+
+                    double GetOrderFromILBytes(byte[] il)
+                    {
+                        return BitConverter.ToDouble(il, il.Length - 14);
+                    }
+                }
+            }
+        }
+
+        for (int t = 0; t < tasks.Count; t++)
+            tasks[t] = new(tasks[t].Type, tasks[t].List.OrderBy(o => o.Order).ToList());
+    }
+
+    void SetupNaot()
+    {
+        if (!Directory.Exists(Globals.NaotDir))
+        {
+            Directory.CreateDirectory(Globals.NaotDir);
+
+            File.Create(Globals.NaotConfigFile).Dispose();
+            File.WriteAllText(Globals.NaotConfigFile, JsonConvert.SerializeObject(new Config()));
+
+            Directory.CreateDirectory(Globals.NaotAnalyzersDir);
+            File.CreateSymbolicLink(Path.Combine(Globals.NaotAnalyzersDir, "NAOT.Analyzer.dll"), Path.Combine(Globals.PackageNaotBuildDir, "NAOT.Analyzer.dll"));
+        }
+    }
+
+    void LogAnalyzers()
+    {
+        Console.WriteLine($"  Uses {Globals.Analyzers.Count} analyzers"); // This prints from time to time, related to project, idk what wrong. 
+    }
+
     void SpoofLibsPaths()
     {
-        var startLine = -1;
-        var lines = File.ReadAllLines(Globals.RspFile).ToList();
-        for (int i = 0; i < lines.Count;)
-            if (lines[i].StartsWith("-r:"))
-            {
-                if (startLine == -1)
-                    startLine = i;
-
-                lines.RemoveAt(i);
-            }
-            else i++;
-        
-        foreach (var lib in Directory.GetFiles(Globals.OutLibsDir))
-            lines.Insert(startLine, lib);
-
-        File.WriteAllLines(Globals.RspFile, lines);
+        Globals.RspArguments.References.Clear();
+        Globals.RspArguments.References.AddRange(Directory.GetFiles(Globals.OutLibsDir));
+        Globals.RspArguments.References.AddRange(Globals.AdditionalCompilerLibPaths);
     }
 
     void SpoofMainLib()
@@ -69,8 +198,9 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
         var ilActualExecute = typeof(ILActualTask).GetMethods().First();
         var initExecute = typeof(InitTask).GetMethods().First();
 
-        foreach (var task in Globals.InitTaskInstances)
+        foreach (var instance in Globals.InitTaskInstances)
         {
+            var task = instance.Task;
             try
             {
                 initExecute.Invoke(task, null);
@@ -78,8 +208,9 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
             catch (Exception ex) { Console.WriteLine($"Exception in AfterWriteIlcRspFileForCompilation->Init->{task.GetType().Name}: " + ex); }
         }
 
-        foreach (var task in Globals.ILMainTaskInstances)
+        foreach (var instance in Globals.ILMainTaskInstances)
         {
+            var task = instance.Task;
             try
             {
                 ilMainExecute.Invoke(task, [Globals.DnMainModule]);
@@ -89,26 +220,27 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
 
         foreach (var module in Globals.DnModules)
         {
-            foreach (var task in Globals.ILTaskInstances)
+            foreach (var instance in Globals.ILTaskInstances)
             {
+                var task = instance.Task;
                 try
                 {
                     ilExecute.Invoke(task, [module]);
                 }
                 catch (Exception ex) { Console.WriteLine($"Exception in AfterWriteIlcRspFileForCompilation->IL->{task.GetType().Name}: " + ex); }
             }
+        }
 
-            var path = Globals.DnModulesPaths[module];
-            if (!path.Contains("runtime.win-x64.microsoft.dotnet.ilcompiler"))
+        foreach (var module in Globals.DnActualModules)
+        {
+            foreach (var instance in Globals.ILActualTaskInstances)
             {
-                foreach (var task in Globals.ILActualTaskInstances)
+                var task = instance.Task;
+                try
                 {
-                    try
-                    {
-                        ilActualExecute.Invoke(task, [module]);
-                    }
-                    catch (Exception ex) { Console.WriteLine($"Exception in AfterWriteIlcRspFileForCompilation->ILActual->{task.GetType().Name}: " + ex); }
+                    ilActualExecute.Invoke(task, [module]);
                 }
+                catch (Exception ex) { Console.WriteLine($"Exception in AfterWriteIlcRspFileForCompilation->ActualIL->{task.GetType().Name}: " + ex); }
             }
         }
     }
@@ -116,14 +248,15 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
     void LoadLibs()
     {
         Globals.DnModules = new();
+        Globals.DnActualModules = new();
         Globals.DnModulesNames = new();
         Globals.DnModulesPaths = new();
 
-        var resolver = new PathAssemblyResolver(Globals.AllLibPaths);
+        var resolver = new PathAssemblyResolver(Globals.DnLibPaths);
         var ctx = new MetadataLoadContext(resolver, "mscorlib");
         Globals.DnContext = ModuleDef.CreateModuleContext();
 
-        foreach (var lib in Globals.AllLibPaths)
+        foreach (var lib in Globals.DnLibPaths)
         {
             var name = Path.GetFileNameWithoutExtension(lib);
             var assembly = ctx.LoadFromAssemblyPath(lib);
@@ -145,6 +278,9 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
             Globals.DnModules.Add(module);
             Globals.DnModulesNames.Add(module, name);
             Globals.DnModulesPaths.Add(module, lib);
+
+            if (!lib.Contains("runtime.win-x64.microsoft.dotnet.ilcompiler"))
+                Globals.DnActualModules.Add(module);
 
             if (lib == Globals.MainLibPath)
                 Globals.DnMainModule = module;
@@ -184,11 +320,18 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
     void CopyLibsToMirror()
     {
         Globals.SpoofedLibPaths = new();
+        Globals.SpoofedActualLibPaths = new();
+        Globals.DnLibPaths = new();
+        Globals.ActualLibPaths = new();
+        Globals.AdditionalCompilerLibPaths = new();
 
-        foreach (var lib in Globals.OriginalLibPaths)
+        foreach (var lib in Globals.RspArguments.References)
         {
-            if (lib.Contains("microsoft.netcore.app.runtime.win-x64") && lib.Contains("WindowsBase.dll"))
+            if (lib.Contains("microsoft.netcore.app.runtime") && lib.Contains("WindowsBase.dll"))
+            {
+                Globals.AdditionalCompilerLibPaths.Add(lib);
                 continue;
+            }
 
             var name = Path.GetFileName(lib);
             string spoofedPath;
@@ -197,21 +340,16 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
             else spoofedPath = Path.Combine(Globals.MirrorLibsDir, Path.GetFileName(lib));
             File.Copy(lib, spoofedPath);
             Globals.SpoofedLibPaths.Add(spoofedPath);
+            Globals.DnLibPaths.Add(spoofedPath);
+
+            if (!lib.Contains("runtime.win-x64.microsoft.dotnet.ilcompiler"))
+            {
+                Globals.ActualLibPaths.Add(lib);
+                Globals.SpoofedActualLibPaths.Add(spoofedPath);
+            }
         }
 
-        Globals.AllLibPaths = Globals.SpoofedLibPaths;
         Globals.MainLibPath = Path.Combine(Globals.TargetObjDir, Globals.AssemblyName + ".dll");
-        Globals.AllLibPaths.Add(Globals.MainLibPath);
-    }
-
-    void SetupGlobals()
-    {
-        var args = File.ReadAllLines(Globals.RspFile);
-
-        var libs = Globals.OriginalLibPaths = new();
-
-        foreach (var arg in args)
-            if (arg.StartsWith("-r:"))
-                libs.Add(arg.Substring(3));
+        Globals.DnLibPaths.Add(Globals.MainLibPath);
     }
 }

@@ -365,3 +365,5 @@ FodyWeavers.xsd
 /NAOT/nuget/storage/build/NAOT.Tasks.dll
 /NAOT/nuget/storage/build/NAOT.Core.dll
 /NAOT/nuget/storage/build/NAOT.Analyzer.dll
+
+**/naot/analyzers

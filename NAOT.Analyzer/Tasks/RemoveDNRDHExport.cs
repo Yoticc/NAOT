@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NAOT.Analyzer.Tasks;
-public unsafe class RemoveDNRDHExport : ASMTask
+public unsafe class RemoveDNRDHExportASMTask : ASMTask
 {
     public override void Execute(string module)
     {

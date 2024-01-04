@@ -1,24 +1,27 @@
 ﻿using dnlib.DotNet.Emit;
+using NAOT.Analyzer.Utils.Sugar;
 using NAOT.Core.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NAOT.Analyzer.Tasks;
-public class HandleLdftn : ILActualTask
+public class HandleLdftnILTask : ILActualTask
 {
     public override void Execute(ModuleDefMD module)
     {
         RedirectMethodCalls(module);
         StoreCompileGeneratedClasses();
         RemoveCompileGeneratedMembers();
-
+        AddAtributesToAnnativeMethods(module);
 
     }
 
     List<FieldDef> compilerGeneratedFields = new();
+    List<IMethodDefOrRef> usedUnnativedMethods = new();
     void RedirectMethodCalls(ModuleDefMD module)
     {
         Code[][] codeSequence = [
@@ -80,7 +83,10 @@ public class HandleLdftn : ILActualTask
                             compilerGeneratedFields.Add(ldsfldField);
 
                         var ldftnInst = instr[start + 5];
-                        var ldftnMeth = (IMethod)ldftnInst.Operand;
+                        var ldftnMeth = (IMethodDefOrRef)ldftnInst.Operand;
+
+                        if (!ldftnMeth.ContainsAttribute(AGlobals.NativeMethodAttributes))
+                            usedUnnativedMethods.Add(ldftnMeth);
 
                         instr.RemoveAt(start);
                         instr.RemoveAt(start);
@@ -115,5 +121,15 @@ public class HandleLdftn : ILActualTask
         foreach (var type in compilerGeneratedClasses)
             if (type.IsEmpty())
                 type.RemoveTypeFromModule();
+    }
+
+    void AddAtributesToAnnativeMethods(ModuleDefMD module)
+    {
+        foreach (var method in usedUnnativedMethods)
+        {
+            var attributes = method.CustomAttributes;
+            var nativeAttribute = Helper.GetUnmanagedCallersOnlyAttribute(module, null, typeof(CallConvStdcall));
+            attributes.Add(nativeAttribute);
+        }
     }
 }

@@ -23,16 +23,19 @@ public unsafe class Program
 
     [EntryPoint]
     static void Main()
-    {
+    {        
+        void* a = null;
+        //kernel32.LeaveCriticalSection(a);
+        //void* ptr1 = ldftn(kernel32.LeaveCriticalSectionWhenCallbackReturns);
         MessageBox(0, "hoba", "", 0);
     }
 
     [NativeFunc]
-    static void TestNative() { }    
+    static void TestNative() { }
 
     [NativeFunc("DllExportFuncA")]
     static void TestNative2() { }
 
     [NativeFunc<__stdcall>]
-    static void TestNative3() { }    
+    static void TestNative3() { }  
 }
