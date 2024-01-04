@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/NAOT/nuget/storage/lib/net8.0/NAOT.dll
+/NAOT/nuget/storage/build/NAOT.Tasks.dll
+/NAOT/nuget/storage/build/NAOT.Core.dll
+/NAOT/nuget/storage/build/NAOT.Analyzer.dll
