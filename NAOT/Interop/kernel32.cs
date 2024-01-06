@@ -3,14 +3,6 @@ using System.Runtime.InteropServices;
 public unsafe class kernel32
 {
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int IsEnclaveTypeSupported(int flEnclaveType);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEnclave(cpointer hProcess, cpointer lpAddress, cpointer dwSize, cpointer dwInitialCommitment, int flEnclaveType, cpointer lpEnclaveInformation, int dwInfoLength, cpointer unfoundType_LPDWORD_lpEnclaveError);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int LoadEnclaveData(cpointer hProcess, cpointer lpAddress, cpointer lpBuffer, cpointer nSize, int flProtect, cpointer lpPageInformation, int dwInfoLength, cpointer unfoundType_PSIZE_T_lpNumberOfBytesWritten, cpointer unfoundType_LPDWORD_lpEnclaveError);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int InitializeEnclave(cpointer hProcess, cpointer lpAddress, cpointer lpEnclaveInformation, int dwInfoLength, cpointer unfoundType_LPDWORD_lpEnclaveError);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer VirtualAlloc(cpointer lpAddress, cpointer dwSize, int flAllocationType, int flProtect);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int VirtualProtect(cpointer lpAddress, cpointer dwSize, int flNewProtect, cpointer unfoundType_PDWORD_lpflOldProtect);
@@ -121,6 +113,14 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int DiscardVirtualMemory(cpointer VirtualAddress, cpointer Size);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int IsEnclaveTypeSupported(int flEnclaveType);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEnclave(cpointer hProcess, cpointer lpAddress, cpointer dwSize, cpointer dwInitialCommitment, int flEnclaveType, cpointer lpEnclaveInformation, int dwInfoLength, cpointer unfoundType_LPDWORD_lpEnclaveError);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int LoadEnclaveData(cpointer hProcess, cpointer lpAddress, cpointer lpBuffer, cpointer nSize, int flProtect, cpointer lpPageInformation, int dwInfoLength, cpointer unfoundType_PSIZE_T_lpNumberOfBytesWritten, cpointer unfoundType_LPDWORD_lpEnclaveError);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int InitializeEnclave(cpointer hProcess, cpointer lpAddress, cpointer lpEnclaveInformation, int dwInfoLength, cpointer unfoundType_LPDWORD_lpEnclaveError);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         void RaiseException(int dwExceptionCode, int dwExceptionFlags, int nNumberOfArguments, cpointer unfoundType_ULONG_PTR_lpArguments);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int UnhandledExceptionFilter(cpointer unfoundType__EXCEPTION_POINTERS_ExceptionInfo);
@@ -147,7 +147,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         void RaiseFailFastException(cpointer unfoundType_PEXCEPTION_RECORD_pExceptionRecord, cpointer unfoundType_PCONTEXT_pContextRecord, int dwFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void FatalAppExitA(uint uAction, cpointer unfoundType_LPCSTR_lpMessageText);
+        void FatalAppExitA(uint uAction, [MarshalAs(UnmanagedType.LPStr)] string lpMessageText);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void FatalAppExitA(uint uAction, byte* lpMessageText);
     [DllImport("kernel32", EntryPoint="FatalAppExitW", SetLastError=true, ExactSpelling=true)] public static extern
         void FatalAppExit(uint uAction, [MarshalAs(UnmanagedType.LPWStr)] string lpMessageText);
     [DllImport("kernel32", EntryPoint="FatalAppExitW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -325,7 +327,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetModuleFileNameW(cpointer unfoundType_HMODULE_hModule, char* lpFilename, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer GetModuleHandleA(cpointer unfoundType_LPCSTR_lpModuleName);
+        cpointer GetModuleHandleA([MarshalAs(UnmanagedType.LPStr)] string lpModuleName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer GetModuleHandleA(byte* lpModuleName);
     [DllImport("kernel32", EntryPoint="GetModuleHandleW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)] string lpModuleName);
     [DllImport("kernel32", EntryPoint="GetModuleHandleW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -335,7 +339,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GetModuleHandleW(char* lpModuleName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetModuleHandleExA(int dwFlags, cpointer unfoundType_LPCSTR_lpModuleName, cpointer unfoundType_HMODULE_phModule);
+        int GetModuleHandleExA(int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpModuleName, cpointer unfoundType_HMODULE_phModule);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetModuleHandleExA(int dwFlags, byte* lpModuleName, cpointer unfoundType_HMODULE_phModule);
     [DllImport("kernel32", EntryPoint="GetModuleHandleExW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetModuleHandleEx(int dwFlags, [MarshalAs(UnmanagedType.LPWStr)] string lpModuleName, cpointer unfoundType_HMODULE_phModule);
     [DllImport("kernel32", EntryPoint="GetModuleHandleExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -345,9 +351,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetModuleHandleExW(int dwFlags, char* lpModuleName, cpointer unfoundType_HMODULE_phModule);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer GetProcAddress(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_LPCSTR_lpProcName);
+        cpointer GetProcAddress(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadLibraryExA(cpointer unfoundType_LPCSTR_lpLibFileName, cpointer hFile, int dwFlags);
+        cpointer GetProcAddress(cpointer unfoundType_HMODULE_hModule, byte* lpProcName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadLibraryExA([MarshalAs(UnmanagedType.LPStr)] string lpLibFileName, cpointer hFile, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadLibraryExA(byte* lpLibFileName, cpointer hFile, int dwFlags);
     [DllImport("kernel32", EntryPoint="LoadLibraryExW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadLibraryEx([MarshalAs(UnmanagedType.LPWStr)] string lpLibFileName, cpointer hFile, int dwFlags);
     [DllImport("kernel32", EntryPoint="LoadLibraryExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -371,7 +381,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetDefaultDllDirectories(int DirectoryFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int EnumResourceLanguagesExA(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_LPCSTR_lpType, cpointer unfoundType_LPCSTR_lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
+        int EnumResourceLanguagesExA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpType, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumResourceLanguagesExA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpType, byte* lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumResourceLanguagesExA(cpointer unfoundType_HMODULE_hModule, byte* lpType, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumResourceLanguagesExA(cpointer unfoundType_HMODULE_hModule, byte* lpType, byte* lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
     [DllImport("kernel32", EntryPoint="EnumResourceLanguagesExW", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumResourceLanguagesEx(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPWStr)] string lpType, [MarshalAs(UnmanagedType.LPWStr)] string lpName, cpointer unfoundType_ENUMRESLANGPROCW_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
     [DllImport("kernel32", EntryPoint="EnumResourceLanguagesExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -389,7 +405,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumResourceLanguagesExW(cpointer unfoundType_HMODULE_hModule, char* lpType, char* lpName, cpointer unfoundType_ENUMRESLANGPROCW_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int EnumResourceNamesExA(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_LPCSTR_lpType, cpointer unfoundType_ENUMRESNAMEPROCA_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
+        int EnumResourceNamesExA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpType, cpointer unfoundType_ENUMRESNAMEPROCA_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumResourceNamesExA(cpointer unfoundType_HMODULE_hModule, byte* lpType, cpointer unfoundType_ENUMRESNAMEPROCA_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
     [DllImport("kernel32", EntryPoint="EnumResourceNamesExW", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumResourceNamesEx(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPWStr)] string lpType, cpointer unfoundType_ENUMRESNAMEPROCW_lpEnumFunc, long lParam, int dwFlags, cpointer unfoundType_LANGID_LangId);
     [DllImport("kernel32", EntryPoint="EnumResourceNamesExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -421,7 +439,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindResourceW(cpointer unfoundType_HMODULE_hModule, char* lpName, char* lpType);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadLibraryA(cpointer unfoundType_LPCSTR_lpLibFileName);
+        cpointer LoadLibraryA([MarshalAs(UnmanagedType.LPStr)] string lpLibFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadLibraryA(byte* lpLibFileName);
     [DllImport("kernel32", EntryPoint="LoadLibraryW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadLibrary([MarshalAs(UnmanagedType.LPWStr)] string lpLibFileName);
     [DllImport("kernel32", EntryPoint="LoadLibraryW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -439,7 +459,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumResourceNamesW(cpointer unfoundType_HMODULE_hModule, char* lpType, cpointer unfoundType_ENUMRESNAMEPROCW_lpEnumFunc, long lParam);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int EnumResourceNamesA(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_LPCSTR_lpType, cpointer unfoundType_ENUMRESNAMEPROCA_lpEnumFunc, long lParam);
+        int EnumResourceNamesA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpType, cpointer unfoundType_ENUMRESNAMEPROCA_lpEnumFunc, long lParam);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumResourceNamesA(cpointer unfoundType_HMODULE_hModule, byte* lpType, cpointer unfoundType_ENUMRESNAMEPROCA_lpEnumFunc, long lParam);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadPackagedLibrary([MarshalAs(UnmanagedType.LPWStr)] string lpwLibFileName, int Reserved);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -521,7 +543,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CompareFileTime(cpointer unfoundType_FILETIME_lpFileTime1, cpointer unfoundType_FILETIME_lpFileTime2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateDirectoryA(cpointer unfoundType_LPCSTR_lpPathName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+        int CreateDirectoryA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateDirectoryA(byte* lpPathName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", EntryPoint="CreateDirectoryW", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateDirectory([MarshalAs(UnmanagedType.LPWStr)] string lpPathName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", EntryPoint="CreateDirectoryW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -531,7 +555,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateDirectoryW(char* lpPathName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateFileA(cpointer unfoundType_LPCSTR_lpFileName, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, cpointer hTemplateFile);
+        cpointer CreateFileA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, cpointer hTemplateFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateFileA(byte* lpFileName, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, cpointer hTemplateFile);
     [DllImport("kernel32", EntryPoint="CreateFileW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateFile([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, cpointer hTemplateFile);
     [DllImport("kernel32", EntryPoint="CreateFileW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -557,7 +583,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int DefineDosDeviceW(int dwFlags, char* lpDeviceName, char* lpTargetPath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DeleteFileA(cpointer unfoundType_LPCSTR_lpFileName);
+        int DeleteFileA([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DeleteFileA(byte* lpFileName);
     [DllImport("kernel32", EntryPoint="DeleteFileW", SetLastError=true, ExactSpelling=true)] public static extern
         int DeleteFile([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("kernel32", EntryPoint="DeleteFileW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -581,7 +609,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int FindCloseChangeNotification(cpointer hChangeHandle);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindFirstChangeNotificationA(cpointer unfoundType_LPCSTR_lpPathName, int bWatchSubtree, int dwNotifyFilter);
+        cpointer FindFirstChangeNotificationA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, int bWatchSubtree, int dwNotifyFilter);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindFirstChangeNotificationA(byte* lpPathName, int bWatchSubtree, int dwNotifyFilter);
     [DllImport("kernel32", EntryPoint="FindFirstChangeNotificationW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstChangeNotification([MarshalAs(UnmanagedType.LPWStr)] string lpPathName, int bWatchSubtree, int dwNotifyFilter);
     [DllImport("kernel32", EntryPoint="FindFirstChangeNotificationW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -591,7 +621,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstChangeNotificationW(char* lpPathName, int bWatchSubtree, int dwNotifyFilter);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindFirstFileA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPWIN32_FIND_DATAA_lpFindFileData);
+        cpointer FindFirstFileA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer unfoundType_LPWIN32_FIND_DATAA_lpFindFileData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindFirstFileA(byte* lpFileName, cpointer unfoundType_LPWIN32_FIND_DATAA_lpFindFileData);
     [DllImport("kernel32", EntryPoint="FindFirstFileW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstFile([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, cpointer unfoundType_LPWIN32_FIND_DATAW_lpFindFileData);
     [DllImport("kernel32", EntryPoint="FindFirstFileW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -601,7 +633,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstFileW(char* lpFileName, cpointer unfoundType_LPWIN32_FIND_DATAW_lpFindFileData);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindFirstFileExA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags);
+        cpointer FindFirstFileExA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindFirstFileExA(byte* lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags);
     [DllImport("kernel32", EntryPoint="FindFirstFileExW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstFileEx([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags);
     [DllImport("kernel32", EntryPoint="FindFirstFileExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -639,7 +673,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int FlushFileBuffers(cpointer hFile);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDiskFreeSpaceA(cpointer unfoundType_LPCSTR_lpRootPathName, cpointer unfoundType_LPDWORD_lpSectorsPerCluster, cpointer unfoundType_LPDWORD_lpBytesPerSector, cpointer unfoundType_LPDWORD_lpNumberOfFreeClusters, cpointer unfoundType_LPDWORD_lpTotalNumberOfClusters);
+        int GetDiskFreeSpaceA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, cpointer unfoundType_LPDWORD_lpSectorsPerCluster, cpointer unfoundType_LPDWORD_lpBytesPerSector, cpointer unfoundType_LPDWORD_lpNumberOfFreeClusters, cpointer unfoundType_LPDWORD_lpTotalNumberOfClusters);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDiskFreeSpaceA(byte* lpRootPathName, cpointer unfoundType_LPDWORD_lpSectorsPerCluster, cpointer unfoundType_LPDWORD_lpBytesPerSector, cpointer unfoundType_LPDWORD_lpNumberOfFreeClusters, cpointer unfoundType_LPDWORD_lpTotalNumberOfClusters);
     [DllImport("kernel32", EntryPoint="GetDiskFreeSpaceW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetDiskFreeSpace([MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName, cpointer unfoundType_LPDWORD_lpSectorsPerCluster, cpointer unfoundType_LPDWORD_lpBytesPerSector, cpointer unfoundType_LPDWORD_lpNumberOfFreeClusters, cpointer unfoundType_LPDWORD_lpTotalNumberOfClusters);
     [DllImport("kernel32", EntryPoint="GetDiskFreeSpaceW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -649,7 +685,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetDiskFreeSpaceW(char* lpRootPathName, cpointer unfoundType_LPDWORD_lpSectorsPerCluster, cpointer unfoundType_LPDWORD_lpBytesPerSector, cpointer unfoundType_LPDWORD_lpNumberOfFreeClusters, cpointer unfoundType_LPDWORD_lpTotalNumberOfClusters);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDiskFreeSpaceExA(cpointer unfoundType_LPCSTR_lpDirectoryName, cpointer unfoundType_PULARGE_INTEGER_lpFreeBytesAvailableToCaller, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfBytes, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfFreeBytes);
+        int GetDiskFreeSpaceExA([MarshalAs(UnmanagedType.LPStr)] string lpDirectoryName, cpointer unfoundType_PULARGE_INTEGER_lpFreeBytesAvailableToCaller, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfBytes, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfFreeBytes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDiskFreeSpaceExA(byte* lpDirectoryName, cpointer unfoundType_PULARGE_INTEGER_lpFreeBytesAvailableToCaller, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfBytes, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfFreeBytes);
     [DllImport("kernel32", EntryPoint="GetDiskFreeSpaceExW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetDiskFreeSpaceEx([MarshalAs(UnmanagedType.LPWStr)] string lpDirectoryName, cpointer unfoundType_PULARGE_INTEGER_lpFreeBytesAvailableToCaller, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfBytes, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfFreeBytes);
     [DllImport("kernel32", EntryPoint="GetDiskFreeSpaceExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -659,7 +697,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetDiskFreeSpaceExW(char* lpDirectoryName, cpointer unfoundType_PULARGE_INTEGER_lpFreeBytesAvailableToCaller, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfBytes, cpointer unfoundType_PULARGE_INTEGER_lpTotalNumberOfFreeBytes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer GetDiskSpaceInformationA(cpointer unfoundType_LPCSTR_rootPath, cpointer unfoundType_DISK_SPACE_INFORMATION_diskSpaceInfo);
+        cpointer GetDiskSpaceInformationA([MarshalAs(UnmanagedType.LPStr)] string rootPath, cpointer unfoundType_DISK_SPACE_INFORMATION_diskSpaceInfo);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer GetDiskSpaceInformationA(byte* rootPath, cpointer unfoundType_DISK_SPACE_INFORMATION_diskSpaceInfo);
     [DllImport("kernel32", EntryPoint="GetDiskSpaceInformationW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GetDiskSpaceInformation([MarshalAs(UnmanagedType.LPWStr)] string rootPath, cpointer unfoundType_DISK_SPACE_INFORMATION_diskSpaceInfo);
     [DllImport("kernel32", EntryPoint="GetDiskSpaceInformationW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -669,7 +709,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GetDiskSpaceInformationW(char* rootPath, cpointer unfoundType_DISK_SPACE_INFORMATION_diskSpaceInfo);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint GetDriveTypeA(cpointer unfoundType_LPCSTR_lpRootPathName);
+        uint GetDriveTypeA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetDriveTypeA(byte* lpRootPathName);
     [DllImport("kernel32", EntryPoint="GetDriveTypeW", SetLastError=true, ExactSpelling=true)] public static extern
         uint GetDriveType([MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName);
     [DllImport("kernel32", EntryPoint="GetDriveTypeW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -679,7 +721,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         uint GetDriveTypeW(char* lpRootPathName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFileAttributesA(cpointer unfoundType_LPCSTR_lpFileName);
+        int GetFileAttributesA([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFileAttributesA(byte* lpFileName);
     [DllImport("kernel32", EntryPoint="GetFileAttributesW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFileAttributes([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("kernel32", EntryPoint="GetFileAttributesW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -689,7 +733,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFileAttributesW(char* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFileAttributesExA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation);
+        int GetFileAttributesExA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFileAttributesExA(byte* lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation);
     [DllImport("kernel32", EntryPoint="GetFileAttributesExW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFileAttributesEx([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation);
     [DllImport("kernel32", EntryPoint="GetFileAttributesExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -755,23 +801,41 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFullPathNameW(char* lpFileName, int nBufferLength, char* lpBuffer, char** lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+        int GetFullPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameA(byte* lpFileName, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetLogicalDrives();
     [DllImport("kernel32", EntryPoint="GetLogicalDriveStringsW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -783,11 +847,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetLogicalDriveStringsW(int nBufferLength, char* lpBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetLongPathNameA(cpointer unfoundType_LPCSTR_lpszShortPath, [MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, int cchBuffer);
+        int GetLongPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, [MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, int cchBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetLongPathNameA(cpointer unfoundType_LPCSTR_lpszShortPath, ReadOnlySpan<byte> lpszLongPath, int cchBuffer);
+        int GetLongPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, ReadOnlySpan<byte> lpszLongPath, int cchBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetLongPathNameA(cpointer unfoundType_LPCSTR_lpszShortPath, byte* lpszLongPath, int cchBuffer);
+        int GetLongPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, byte* lpszLongPath, int cchBuffer);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameA(byte* lpszShortPath, [MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, int cchBuffer);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameA(byte* lpszShortPath, ReadOnlySpan<byte> lpszLongPath, int cchBuffer);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameA(byte* lpszShortPath, byte* lpszLongPath, int cchBuffer);
     [DllImport("kernel32", EntryPoint="GetLongPathNameW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetLongPathName([MarshalAs(UnmanagedType.LPWStr)] string lpszShortPath, string lpszLongPath, int cchBuffer);
     [DllImport("kernel32", EntryPoint="GetLongPathNameW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -947,7 +1017,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int ReadFileScatter(cpointer hFile, cpointer unfoundType_FILE_SEGMENT_ELEMENT_aSegmentArray, int nNumberOfBytesToRead, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPOVERLAPPED_lpOverlapped);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int RemoveDirectoryA(cpointer unfoundType_LPCSTR_lpPathName);
+        int RemoveDirectoryA([MarshalAs(UnmanagedType.LPStr)] string lpPathName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int RemoveDirectoryA(byte* lpPathName);
     [DllImport("kernel32", EntryPoint="RemoveDirectoryW", SetLastError=true, ExactSpelling=true)] public static extern
         int RemoveDirectory([MarshalAs(UnmanagedType.LPWStr)] string lpPathName);
     [DllImport("kernel32", EntryPoint="RemoveDirectoryW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -959,7 +1031,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetEndOfFile(cpointer hFile);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetFileAttributesA(cpointer unfoundType_LPCSTR_lpFileName, int dwFileAttributes);
+        int SetFileAttributesA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int dwFileAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFileAttributesA(byte* lpFileName, int dwFileAttributes);
     [DllImport("kernel32", EntryPoint="SetFileAttributesW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFileAttributes([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, int dwFileAttributes);
     [DllImport("kernel32", EntryPoint="SetFileAttributesW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1035,7 +1109,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFileIoOverlappedRange(cpointer FileHandle, cpointer unfoundType_PUCHAR_OverlappedRangeStart, uint Length);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetCompressedFileSizeA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh);
+        int GetCompressedFileSizeA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetCompressedFileSizeA(byte* lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh);
     [DllImport("kernel32", EntryPoint="GetCompressedFileSizeW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetCompressedFileSize([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh);
     [DllImport("kernel32", EntryPoint="GetCompressedFileSizeW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1089,29 +1165,65 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int FindNextFileNameW(cpointer hFindStream, cpointer unfoundType_LPDWORD_StringLength, char* LinkName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeInformationA(cpointer unfoundType_LPCSTR_lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
+        int GetVolumeInformationA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint GetTempFileNameA(cpointer unfoundType_LPCSTR_lpPathName, cpointer unfoundType_LPCSTR_lpPrefixString, uint uUnique, [MarshalAs(UnmanagedType.LPStr)] string lpTempFileName);
+        int GetVolumeInformationA(byte* lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint GetTempFileNameA(cpointer unfoundType_LPCSTR_lpPathName, cpointer unfoundType_LPCSTR_lpPrefixString, uint uUnique, ReadOnlySpan<byte> lpTempFileName);
+        int GetVolumeInformationA(byte* lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint GetTempFileNameA(cpointer unfoundType_LPCSTR_lpPathName, cpointer unfoundType_LPCSTR_lpPrefixString, uint uUnique, byte* lpTempFileName);
+        int GetVolumeInformationA(byte* lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumeInformationA(byte* lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumeInformationA(byte* lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumeInformationA(byte* lpRootPathName, ReadOnlySpan<byte> lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumeInformationA(byte* lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, [MarshalAs(UnmanagedType.LPStr)] string lpFileSystemNameBuffer, int nFileSystemNameSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumeInformationA(byte* lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, ReadOnlySpan<byte> lpFileSystemNameBuffer, int nFileSystemNameSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumeInformationA(byte* lpRootPathName, byte* lpVolumeNameBuffer, int nVolumeNameSize, cpointer unfoundType_LPDWORD_lpVolumeSerialNumber, cpointer unfoundType_LPDWORD_lpMaximumComponentLength, cpointer unfoundType_LPDWORD_lpFileSystemFlags, byte* lpFileSystemNameBuffer, int nFileSystemNameSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, [MarshalAs(UnmanagedType.LPStr)] string lpPrefixString, uint uUnique, [MarshalAs(UnmanagedType.LPStr)] string lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, [MarshalAs(UnmanagedType.LPStr)] string lpPrefixString, uint uUnique, ReadOnlySpan<byte> lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, [MarshalAs(UnmanagedType.LPStr)] string lpPrefixString, uint uUnique, byte* lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, byte* lpPrefixString, uint uUnique, [MarshalAs(UnmanagedType.LPStr)] string lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, byte* lpPrefixString, uint uUnique, ReadOnlySpan<byte> lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, byte* lpPrefixString, uint uUnique, byte* lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA(byte* lpPathName, [MarshalAs(UnmanagedType.LPStr)] string lpPrefixString, uint uUnique, [MarshalAs(UnmanagedType.LPStr)] string lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA(byte* lpPathName, [MarshalAs(UnmanagedType.LPStr)] string lpPrefixString, uint uUnique, ReadOnlySpan<byte> lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA(byte* lpPathName, [MarshalAs(UnmanagedType.LPStr)] string lpPrefixString, uint uUnique, byte* lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA(byte* lpPathName, byte* lpPrefixString, uint uUnique, [MarshalAs(UnmanagedType.LPStr)] string lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA(byte* lpPathName, byte* lpPrefixString, uint uUnique, ReadOnlySpan<byte> lpTempFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetTempFileNameA(byte* lpPathName, byte* lpPrefixString, uint uUnique, byte* lpTempFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         void SetFileApisToOEM();
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1331,114 +1443,6 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int WaitCommEvent(cpointer hFile, cpointer unfoundType_LPDWORD_lpEvtMask, cpointer unfoundType_LPOVERLAPPED_lpOverlapped);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, cpointer unfoundType_LPCSTR_lpFormat, [MarshalAs(UnmanagedType.LPStr)] string lpDateStr, int cchDate);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, cpointer unfoundType_LPCSTR_lpFormat, ReadOnlySpan<byte> lpDateStr, int cchDate);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, cpointer unfoundType_LPCSTR_lpFormat, byte* lpDateStr, int cchDate);
-    [DllImport("kernel32", EntryPoint="GetDateFormatW", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate);
-    [DllImport("kernel32", EntryPoint="GetDateFormatW", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate);
-    [DllImport("kernel32", EntryPoint="GetDateFormatW", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate);
-    [DllImport("kernel32", EntryPoint="GetDateFormatW", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, cpointer unfoundType_LPCSTR_lpFormat, [MarshalAs(UnmanagedType.LPStr)] string lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, cpointer unfoundType_LPCSTR_lpFormat, ReadOnlySpan<byte> lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, cpointer unfoundType_LPCSTR_lpFormat, byte* lpTimeStr, int cchTime);
-    [DllImport("kernel32", EntryPoint="GetTimeFormatW", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpTimeStr, int cchTime);
-    [DllImport("kernel32", EntryPoint="GetTimeFormatW", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpTimeStr, int cchTime);
-    [DllImport("kernel32", EntryPoint="GetTimeFormatW", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, string lpTimeStr, int cchTime);
-    [DllImport("kernel32", EntryPoint="GetTimeFormatW", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, char* lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, string lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, char* lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, string lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, char* lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, string lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, char* lpTimeStr, int cchTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate, char* lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate, char* lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate, char* lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate, char* lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate, char* lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate, char* lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate, char* lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate, char* lpCalendar);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDurationFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDurationStr, int cchDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDurationFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDurationStr, int cchDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDurationFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, string lpDurationStr, int cchDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDurationFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, char* lpDurationStr, int cchDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDurationFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDurationStr, int cchDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDurationFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDurationStr, int cchDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDurationFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, string lpDurationStr, int cchDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDurationFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, char* lpDurationStr, int cchDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int AllocConsole();
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int FreeConsole();
@@ -1527,7 +1531,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetConsoleWindowInfo(cpointer hConsoleOutput, int bAbsolute, cpointer unfoundType_SMALL_RECT_lpConsoleWindow);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WriteConsoleOutputCharacterA(cpointer hConsoleOutput, cpointer unfoundType_LPCSTR_lpCharacter, int nLength, cpointer unfoundType_COORD_dwWriteCoord, cpointer unfoundType_LPDWORD_lpNumberOfCharsWritten);
+        int WriteConsoleOutputCharacterA(cpointer hConsoleOutput, [MarshalAs(UnmanagedType.LPStr)] string lpCharacter, int nLength, cpointer unfoundType_COORD_dwWriteCoord, cpointer unfoundType_LPDWORD_lpNumberOfCharsWritten);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteConsoleOutputCharacterA(cpointer hConsoleOutput, byte* lpCharacter, int nLength, cpointer unfoundType_COORD_dwWriteCoord, cpointer unfoundType_LPDWORD_lpNumberOfCharsWritten);
     [DllImport("kernel32", EntryPoint="WriteConsoleOutputCharacterW", SetLastError=true, ExactSpelling=true)] public static extern
         int WriteConsoleOutputCharacter(cpointer hConsoleOutput, [MarshalAs(UnmanagedType.LPWStr)] string lpCharacter, int nLength, cpointer unfoundType_COORD_dwWriteCoord, cpointer unfoundType_LPDWORD_lpNumberOfCharsWritten);
     [DllImport("kernel32", EntryPoint="WriteConsoleOutputCharacterW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1607,7 +1613,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetConsoleOriginalTitleW(char* lpConsoleTitle, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetConsoleTitleA(cpointer unfoundType_LPCSTR_lpConsoleTitle);
+        int SetConsoleTitleA([MarshalAs(UnmanagedType.LPStr)] string lpConsoleTitle);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetConsoleTitleA(byte* lpConsoleTitle);
     [DllImport("kernel32", EntryPoint="SetConsoleTitleW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetConsoleTitle([MarshalAs(UnmanagedType.LPWStr)] string lpConsoleTitle);
     [DllImport("kernel32", EntryPoint="SetConsoleTitleW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1957,6 +1965,154 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetConsoleProcessList(cpointer unfoundType_LPDWORD_lpdwProcessList, int dwProcessCount);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPStr)] string lpFormat, [MarshalAs(UnmanagedType.LPStr)] string lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPStr)] string lpFormat, ReadOnlySpan<byte> lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPStr)] string lpFormat, byte* lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, byte* lpFormat, [MarshalAs(UnmanagedType.LPStr)] string lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, byte* lpFormat, ReadOnlySpan<byte> lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, byte* lpFormat, byte* lpDateStr, int cchDate);
+    [DllImport("kernel32", EntryPoint="GetDateFormatW", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate);
+    [DllImport("kernel32", EntryPoint="GetDateFormatW", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate);
+    [DllImport("kernel32", EntryPoint="GetDateFormatW", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate);
+    [DllImport("kernel32", EntryPoint="GetDateFormatW", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPStr)] string lpFormat, [MarshalAs(UnmanagedType.LPStr)] string lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPStr)] string lpFormat, ReadOnlySpan<byte> lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPStr)] string lpFormat, byte* lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, byte* lpFormat, [MarshalAs(UnmanagedType.LPStr)] string lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, byte* lpFormat, ReadOnlySpan<byte> lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, byte* lpFormat, byte* lpTimeStr, int cchTime);
+    [DllImport("kernel32", EntryPoint="GetTimeFormatW", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpTimeStr, int cchTime);
+    [DllImport("kernel32", EntryPoint="GetTimeFormatW", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpTimeStr, int cchTime);
+    [DllImport("kernel32", EntryPoint="GetTimeFormatW", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, string lpTimeStr, int cchTime);
+    [DllImport("kernel32", EntryPoint="GetTimeFormatW", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, char* lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, string lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, char* lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, string lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, char* lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, string lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpTime, char* lpFormat, char* lpTimeStr, int cchTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate, char* lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate, char* lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate, char* lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate, char* lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDateStr, int cchDate, char* lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDateStr, int cchDate, char* lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, string lpDateStr, int cchDate, char* lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate, [MarshalAs(UnmanagedType.LPWStr)] string lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDateFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDate, char* lpFormat, char* lpDateStr, int cchDate, char* lpCalendar);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDurationFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDurationStr, int cchDuration);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDurationFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDurationStr, int cchDuration);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDurationFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, string lpDurationStr, int cchDuration);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDurationFormatEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, char* lpDurationStr, int cchDuration);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDurationFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, string lpDurationStr, int cchDuration);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDurationFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, [MarshalAs(UnmanagedType.LPWStr)] string lpFormat, char* lpDurationStr, int cchDuration);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDurationFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, string lpDurationStr, int cchDuration);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDurationFormatEx(char* lpLocaleName, int dwFlags, cpointer unfoundType_SYSTEMTIME_lpDuration, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, char* lpDurationStr, int cchDuration);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int IsDebuggerPresent();
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void DebugBreak();
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void OutputDebugStringA([MarshalAs(UnmanagedType.LPStr)] string lpOutputString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void OutputDebugStringA(byte* lpOutputString);
+    [DllImport("kernel32", EntryPoint="OutputDebugStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        void OutputDebugString([MarshalAs(UnmanagedType.LPWStr)] string lpOutputString);
+    [DllImport("kernel32", EntryPoint="OutputDebugStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        void OutputDebugString(char* lpOutputString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void OutputDebugStringW([MarshalAs(UnmanagedType.LPWStr)] string lpOutputString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void OutputDebugStringW(char* lpOutputString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ContinueDebugEvent(int dwProcessId, int dwThreadId, int dwContinueStatus);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WaitForDebugEvent(cpointer unfoundType_LPDEBUG_EVENT_lpDebugEvent, int dwMilliseconds);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DebugActiveProcess(int dwProcessId);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DebugActiveProcessStop(int dwProcessId);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CheckRemoteDebuggerPresent(cpointer hProcess, cpointer pbDebuggerPresent);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WaitForDebugEventEx(cpointer unfoundType_LPDEBUG_EVENT_lpDebugEvent, int dwMilliseconds);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CreatePipe(cpointer unfoundType_PHANDLE_hReadPipe, cpointer unfoundType_PHANDLE_hWritePipe, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpPipeAttributes, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int ConnectNamedPipe(cpointer hNamedPipe, cpointer unfoundType_LPOVERLAPPED_lpOverlapped);
@@ -2058,32 +2214,6 @@ public unsafe class kernel32
         cpointer GetProcessesInVirtualizationContext([MarshalAs(UnmanagedType.LPWStr)] string packageFamilyName, cpointer count, cpointer processes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GetProcessesInVirtualizationContext(char* packageFamilyName, cpointer count, cpointer processes);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int IsDebuggerPresent();
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void DebugBreak();
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void OutputDebugStringA(cpointer unfoundType_LPCSTR_lpOutputString);
-    [DllImport("kernel32", EntryPoint="OutputDebugStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        void OutputDebugString([MarshalAs(UnmanagedType.LPWStr)] string lpOutputString);
-    [DllImport("kernel32", EntryPoint="OutputDebugStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        void OutputDebugString(char* lpOutputString);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void OutputDebugStringW([MarshalAs(UnmanagedType.LPWStr)] string lpOutputString);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void OutputDebugStringW(char* lpOutputString);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ContinueDebugEvent(int dwProcessId, int dwThreadId, int dwContinueStatus);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WaitForDebugEvent(cpointer unfoundType_LPDEBUG_EVENT_lpDebugEvent, int dwMilliseconds);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DebugActiveProcess(int dwProcessId);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DebugActiveProcessStop(int dwProcessId);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CheckRemoteDebuggerPresent(cpointer hProcess, cpointer pbDebuggerPresent);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WaitForDebugEventEx(cpointer unfoundType_LPDEBUG_EVENT_lpDebugEvent, int dwMilliseconds);
     [DllImport("kernel32", EntryPoint="SetEnvironmentStringsW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetEnvironmentStrings(string NewEnvironment);
     [DllImport("kernel32", EntryPoint="SetEnvironmentStringsW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2127,11 +2257,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int FreeEnvironmentStringsW(char* penv);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetEnvironmentVariableA(cpointer unfoundType_LPCSTR_lpName, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, int nSize);
+        int GetEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetEnvironmentVariableA(cpointer unfoundType_LPCSTR_lpName, ReadOnlySpan<byte> lpBuffer, int nSize);
+        int GetEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, ReadOnlySpan<byte> lpBuffer, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetEnvironmentVariableA(cpointer unfoundType_LPCSTR_lpName, byte* lpBuffer, int nSize);
+        int GetEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, byte* lpBuffer, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetEnvironmentVariableA(byte* lpName, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetEnvironmentVariableA(byte* lpName, ReadOnlySpan<byte> lpBuffer, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetEnvironmentVariableA(byte* lpName, byte* lpBuffer, int nSize);
     [DllImport("kernel32", EntryPoint="GetEnvironmentVariableW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)] string lpName, string lpBuffer, int nSize);
     [DllImport("kernel32", EntryPoint="GetEnvironmentVariableW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2149,7 +2285,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetEnvironmentVariableW(char* lpName, char* lpBuffer, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetEnvironmentVariableA(cpointer unfoundType_LPCSTR_lpName, cpointer unfoundType_LPCSTR_lpValue);
+        int SetEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpValue);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, byte* lpValue);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetEnvironmentVariableA(byte* lpName, [MarshalAs(UnmanagedType.LPStr)] string lpValue);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetEnvironmentVariableA(byte* lpName, byte* lpValue);
     [DllImport("kernel32", EntryPoint="SetEnvironmentVariableW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)] string lpName, [MarshalAs(UnmanagedType.LPWStr)] string lpValue);
     [DllImport("kernel32", EntryPoint="SetEnvironmentVariableW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2167,11 +2309,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetEnvironmentVariableW(char* lpName, char* lpValue);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ExpandEnvironmentStringsA(cpointer unfoundType_LPCSTR_lpSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDst, int nSize);
+        int ExpandEnvironmentStringsA([MarshalAs(UnmanagedType.LPStr)] string lpSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDst, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ExpandEnvironmentStringsA(cpointer unfoundType_LPCSTR_lpSrc, ReadOnlySpan<byte> lpDst, int nSize);
+        int ExpandEnvironmentStringsA([MarshalAs(UnmanagedType.LPStr)] string lpSrc, ReadOnlySpan<byte> lpDst, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ExpandEnvironmentStringsA(cpointer unfoundType_LPCSTR_lpSrc, byte* lpDst, int nSize);
+        int ExpandEnvironmentStringsA([MarshalAs(UnmanagedType.LPStr)] string lpSrc, byte* lpDst, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ExpandEnvironmentStringsA(byte* lpSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDst, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ExpandEnvironmentStringsA(byte* lpSrc, ReadOnlySpan<byte> lpDst, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ExpandEnvironmentStringsA(byte* lpSrc, byte* lpDst, int nSize);
     [DllImport("kernel32", EntryPoint="ExpandEnvironmentStringsW", SetLastError=true, ExactSpelling=true)] public static extern
         int ExpandEnvironmentStrings([MarshalAs(UnmanagedType.LPWStr)] string lpSrc, string lpDst, int nSize);
     [DllImport("kernel32", EntryPoint="ExpandEnvironmentStringsW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2189,7 +2337,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int ExpandEnvironmentStringsW(char* lpSrc, char* lpDst, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetCurrentDirectoryA(cpointer unfoundType_LPCSTR_lpPathName);
+        int SetCurrentDirectoryA([MarshalAs(UnmanagedType.LPStr)] string lpPathName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetCurrentDirectoryA(byte* lpPathName);
     [DllImport("kernel32", EntryPoint="SetCurrentDirectoryW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetCurrentDirectory([MarshalAs(UnmanagedType.LPWStr)] string lpPathName);
     [DllImport("kernel32", EntryPoint="SetCurrentDirectoryW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2341,25 +2491,153 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SearchPathW(char* lpPath, char* lpFileName, char* lpExtension, int nBufferLength, char* lpBuffer, char** lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SearchPathA(cpointer unfoundType_LPCSTR_lpPath, cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int NeedCurrentDirectoryForExePathA(cpointer unfoundType_LPCSTR_ExeName);
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA([MarshalAs(UnmanagedType.LPStr)] string lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, [MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, ReadOnlySpan<byte> lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, [MarshalAs(UnmanagedType.LPStr)] string lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, ReadOnlySpan<byte> lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SearchPathA(byte* lpPath, byte* lpFileName, byte* lpExtension, int nBufferLength, byte* lpBuffer, byte** lpFilePart);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int NeedCurrentDirectoryForExePathA([MarshalAs(UnmanagedType.LPStr)] string ExeName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int NeedCurrentDirectoryForExePathA(byte* ExeName);
     [DllImport("kernel32", EntryPoint="NeedCurrentDirectoryForExePathW", SetLastError=true, ExactSpelling=true)] public static extern
         int NeedCurrentDirectoryForExePath([MarshalAs(UnmanagedType.LPWStr)] string ExeName);
     [DllImport("kernel32", EntryPoint="NeedCurrentDirectoryForExePathW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2443,11 +2721,29 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int TlsFree(int dwTlsIndex);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateProcessA(cpointer unfoundType_LPCSTR_lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, cpointer unfoundType_LPCSTR_lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+        int CreateProcessA([MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateProcessA(cpointer unfoundType_LPCSTR_lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, cpointer unfoundType_LPCSTR_lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+        int CreateProcessA([MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateProcessA(cpointer unfoundType_LPCSTR_lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, cpointer unfoundType_LPCSTR_lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+        int CreateProcessA([MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA([MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA([MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA([MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA(byte* lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA(byte* lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA(byte* lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA(byte* lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA(byte* lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessA(byte* lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
     [DllImport("kernel32", EntryPoint="CreateProcessW", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateProcess([MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName, string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOW_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
     [DllImport("kernel32", EntryPoint="CreateProcessW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2621,11 +2917,29 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetThreadSelectedCpuSets(cpointer Thread, cpointer CpuSetIds, uint CpuSetIdCount);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateProcessAsUserA(cpointer hToken, cpointer unfoundType_LPCSTR_lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, cpointer unfoundType_LPCSTR_lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+        int CreateProcessAsUserA(cpointer hToken, [MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateProcessAsUserA(cpointer hToken, cpointer unfoundType_LPCSTR_lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, cpointer unfoundType_LPCSTR_lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+        int CreateProcessAsUserA(cpointer hToken, [MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateProcessAsUserA(cpointer hToken, cpointer unfoundType_LPCSTR_lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, cpointer unfoundType_LPCSTR_lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+        int CreateProcessAsUserA(cpointer hToken, [MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, [MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, [MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, [MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, byte* lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, byte* lpApplicationName, [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, byte* lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, byte* lpApplicationName, ReadOnlySpan<byte> lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, byte* lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateProcessAsUserA(cpointer hToken, byte* lpApplicationName, byte* lpCommandLine, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpProcessAttributes, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpThreadAttributes, int bInheritHandles, int dwCreationFlags, cpointer lpEnvironment, byte* lpCurrentDirectory, cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo, cpointer unfoundType_LPPROCESS_INFORMATION_lpProcessInformation);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetProcessShutdownParameters(cpointer unfoundType_LPDWORD_lpdwLevel, cpointer unfoundType_LPDWORD_lpdwFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2663,6 +2977,16 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int UnregisterWaitUntilOOBECompleted(cpointer WaitHandle);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryThreadCycleTime(cpointer ThreadHandle, cpointer unfoundType_PULONG64_CycleTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryProcessCycleTime(cpointer ProcessHandle, cpointer unfoundType_PULONG64_CycleTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryIdleProcessorCycleTime(cpointer unfoundType_PULONG_BufferLength, cpointer unfoundType_PULONG64_ProcessorIdleCycleTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryIdleProcessorCycleTimeEx(ushort Group, cpointer unfoundType_PULONG_BufferLength, cpointer unfoundType_PULONG64_ProcessorIdleCycleTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryUnbiasedInterruptTime(cpointer unfoundType_PULONGLONG_UnbiasedTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetAppContainerNamedObjectPath(cpointer Token, cpointer unfoundType_PSID_AppContainerSid, uint ObjectPathLength, string ObjectPath, cpointer unfoundType_PULONG_ReturnLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetAppContainerNamedObjectPath(cpointer Token, cpointer unfoundType_PSID_AppContainerSid, uint ObjectPathLength, char* ObjectPath, cpointer unfoundType_PULONG_ReturnLength);
@@ -2681,15 +3005,45 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetCachedSigningLevel(cpointer File, cpointer unfoundType_PULONG_Flags, cpointer unfoundType_PULONG_SigningLevel, cpointer unfoundType_PUCHAR_Thumbprint, cpointer unfoundType_PULONG_ThumbprintSize, cpointer unfoundType_PULONG_ThumbprintAlgorithm);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int QueryThreadCycleTime(cpointer ThreadHandle, cpointer unfoundType_PULONG64_CycleTime);
+        ushort RtlCaptureStackBackTrace(uint FramesToSkip, uint FramesToCapture, cpointer BackTrace, cpointer unfoundType_PULONG_BackTraceHash);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int QueryProcessCycleTime(cpointer ProcessHandle, cpointer unfoundType_PULONG64_CycleTime);
+        void RtlCaptureContext(cpointer unfoundType_PCONTEXT_ContextRecord);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int QueryIdleProcessorCycleTime(cpointer unfoundType_PULONG_BufferLength, cpointer unfoundType_PULONG64_ProcessorIdleCycleTime);
+        void RtlUnwind(cpointer TargetFrame, cpointer TargetIp, cpointer unfoundType_PEXCEPTION_RECORD_ExceptionRecord, cpointer ReturnValue);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
+        cpointer RtlAddFunctionTable(cpointer unfoundType_PRUNTIME_FUNCTION_FunctionTable, uint EntryCount, cpointer unfoundType_ULONG64_BaseAddress);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
+        cpointer RtlDeleteFunctionTable(cpointer unfoundType_PRUNTIME_FUNCTION_FunctionTable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
+        cpointer RtlInstallFunctionTableCallback(cpointer unfoundType_ULONG64_TableIdentifier, cpointer unfoundType_ULONG64_BaseAddress, uint Length, cpointer unfoundType_PGET_RUNTIME_FUNCTION_CALLBACK_Callback, cpointer Context, [MarshalAs(UnmanagedType.LPWStr)] string OutOfProcessCallbackDll);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
+        cpointer RtlInstallFunctionTableCallback(cpointer unfoundType_ULONG64_TableIdentifier, cpointer unfoundType_ULONG64_BaseAddress, uint Length, cpointer unfoundType_PGET_RUNTIME_FUNCTION_CALLBACK_Callback, cpointer Context, char* OutOfProcessCallbackDll);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int QueryIdleProcessorCycleTimeEx(ushort Group, cpointer unfoundType_PULONG_BufferLength, cpointer unfoundType_PULONG64_ProcessorIdleCycleTime);
+        cpointer RtlLookupFunctionEntry(cpointer unfoundType_ULONG64_ControlPc, cpointer unfoundType_PULONG64_ImageBase, cpointer unfoundType_PUNWIND_HISTORY_TABLE_HistoryTable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
+        void RtlRestoreContext(cpointer unfoundType_PCONTEXT_ContextRecord, cpointer unfoundType__EXCEPTION_RECORD_ExceptionRecord);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int QueryUnbiasedInterruptTime(cpointer unfoundType_PULONGLONG_UnbiasedTime);
+        void RtlUnwindEx(cpointer TargetFrame, cpointer TargetIp, cpointer unfoundType_PEXCEPTION_RECORD_ExceptionRecord, cpointer ReturnValue, cpointer unfoundType_PCONTEXT_ContextRecord, cpointer unfoundType_PUNWIND_HISTORY_TABLE_HistoryTable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RtlVirtualUnwind(uint HandlerType, cpointer unfoundType_ULONG64_ImageBase, cpointer unfoundType_ULONG64_ControlPc, cpointer unfoundType_PRUNTIME_FUNCTION_FunctionEntry, cpointer unfoundType_PCONTEXT_ContextRecord, cpointer HandlerData, cpointer unfoundType_PULONG64_EstablisherFrame, cpointer unfoundType_PKNONVOLATILE_CONTEXT_POINTERS_ContextPointers);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RtlVirtualUnwind2(uint HandlerType, cpointer unfoundType_ULONG64_ImageBase, cpointer unfoundType_ULONG64_ControlPc, cpointer unfoundType_PRUNTIME_FUNCTION_FunctionEntry, cpointer unfoundType_PCONTEXT_ContextRecord, cpointer unfoundType_PBOOLEAN_MachineFrameUnwound, cpointer HandlerData, cpointer unfoundType_PULONG64_EstablisherFrame, cpointer unfoundType_PKNONVOLATILE_CONTEXT_POINTERS_ContextPointers, cpointer unfoundType_PULONG64_LowLimit, cpointer unfoundType_PULONG64_HighLimit, cpointer unfoundType_PEXCEPTION_ROUTINE_HandlerRoutine, uint UnwindFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RtlIsEcCode(cpointer unfoundType_ULONG64_CodePointer);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void RtlRaiseException(cpointer unfoundType_PEXCEPTION_RECORD_ExceptionRecord);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RtlPcToFileHeader(cpointer PcValue, cpointer BaseOfImage);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint* RtlCompareMemory(cpointer Source1, cpointer Source2, cpointer Length);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetNumaHighestNodeNumber(cpointer unfoundType_PULONG_HighestNodeNumber);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetNumaNodeProcessorMaskEx(ushort Node, cpointer unfoundType_PGROUP_AFFINITY_ProcessorMask);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetNumaNodeProcessorMask2(ushort NodeNumber, cpointer unfoundType_PGROUP_AFFINITY_ProcessorMasks, ushort ProcessorMaskCount, cpointer unfoundType_PUSHORT_RequiredMaskCount);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetNumaProximityNodeEx(uint ProximityId, cpointer unfoundType_PUSHORT_NodeNumber);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CompareStringEx([MarshalAs(UnmanagedType.LPWStr)] string lpLocaleName, int dwCmpFlags, [MarshalAs(UnmanagedType.LPWStr)] string lpString1, int cchCount1, [MarshalAs(UnmanagedType.LPWStr)] string lpString2, int cchCount2, cpointer unfoundType_LPNLSVERSIONINFO_lpVersionInformation, cpointer lpReserved, long lParam);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2779,236 +3133,6 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int WideCharToMultiByte(uint CodePage, int dwFlags, char* lpWideCharStr, int cchWideChar, byte* lpMultiByteStr, int cbMultiByte, cpointer unfoundType_LPCCH_lpDefaultChar, cpointer unfoundType_LPBOOL_lpUsedDefaultChar);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetNumaHighestNodeNumber(cpointer unfoundType_PULONG_HighestNodeNumber);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetNumaNodeProcessorMaskEx(ushort Node, cpointer unfoundType_PGROUP_AFFINITY_ProcessorMask);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetNumaNodeProcessorMask2(ushort NodeNumber, cpointer unfoundType_PGROUP_AFFINITY_ProcessorMasks, ushort ProcessorMaskCount, cpointer unfoundType_PUSHORT_RequiredMaskCount);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetNumaProximityNodeEx(uint ProximityId, cpointer unfoundType_PUSHORT_NodeNumber);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ushort RtlCaptureStackBackTrace(uint FramesToSkip, uint FramesToCapture, cpointer BackTrace, cpointer unfoundType_PULONG_BackTraceHash);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void RtlCaptureContext(cpointer unfoundType_PCONTEXT_ContextRecord);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void RtlUnwind(cpointer TargetFrame, cpointer TargetIp, cpointer unfoundType_PEXCEPTION_RECORD_ExceptionRecord, cpointer ReturnValue);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
-        cpointer RtlAddFunctionTable(cpointer unfoundType_PRUNTIME_FUNCTION_FunctionTable, uint EntryCount, cpointer unfoundType_ULONG64_BaseAddress);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
-        cpointer RtlDeleteFunctionTable(cpointer unfoundType_PRUNTIME_FUNCTION_FunctionTable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
-        cpointer RtlInstallFunctionTableCallback(cpointer unfoundType_ULONG64_TableIdentifier, cpointer unfoundType_ULONG64_BaseAddress, uint Length, cpointer unfoundType_PGET_RUNTIME_FUNCTION_CALLBACK_Callback, cpointer Context, [MarshalAs(UnmanagedType.LPWStr)] string OutOfProcessCallbackDll);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
-        cpointer RtlInstallFunctionTableCallback(cpointer unfoundType_ULONG64_TableIdentifier, cpointer unfoundType_ULONG64_BaseAddress, uint Length, cpointer unfoundType_PGET_RUNTIME_FUNCTION_CALLBACK_Callback, cpointer Context, char* OutOfProcessCallbackDll);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RtlLookupFunctionEntry(cpointer unfoundType_ULONG64_ControlPc, cpointer unfoundType_PULONG64_ImageBase, cpointer unfoundType_PUNWIND_HISTORY_TABLE_HistoryTable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
-        void RtlRestoreContext(cpointer unfoundType_PCONTEXT_ContextRecord, cpointer unfoundType__EXCEPTION_RECORD_ExceptionRecord);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void RtlUnwindEx(cpointer TargetFrame, cpointer TargetIp, cpointer unfoundType_PEXCEPTION_RECORD_ExceptionRecord, cpointer ReturnValue, cpointer unfoundType_PCONTEXT_ContextRecord, cpointer unfoundType_PUNWIND_HISTORY_TABLE_HistoryTable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RtlVirtualUnwind(uint HandlerType, cpointer unfoundType_ULONG64_ImageBase, cpointer unfoundType_ULONG64_ControlPc, cpointer unfoundType_PRUNTIME_FUNCTION_FunctionEntry, cpointer unfoundType_PCONTEXT_ContextRecord, cpointer HandlerData, cpointer unfoundType_PULONG64_EstablisherFrame, cpointer unfoundType_PKNONVOLATILE_CONTEXT_POINTERS_ContextPointers);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RtlVirtualUnwind2(uint HandlerType, cpointer unfoundType_ULONG64_ImageBase, cpointer unfoundType_ULONG64_ControlPc, cpointer unfoundType_PRUNTIME_FUNCTION_FunctionEntry, cpointer unfoundType_PCONTEXT_ContextRecord, cpointer unfoundType_PBOOLEAN_MachineFrameUnwound, cpointer HandlerData, cpointer unfoundType_PULONG64_EstablisherFrame, cpointer unfoundType_PKNONVOLATILE_CONTEXT_POINTERS_ContextPointers, cpointer unfoundType_PULONG64_LowLimit, cpointer unfoundType_PULONG64_HighLimit, cpointer unfoundType_PEXCEPTION_ROUTINE_HandlerRoutine, uint UnwindFlags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RtlIsEcCode(cpointer unfoundType_ULONG64_CodePointer);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void RtlRaiseException(cpointer unfoundType_PEXCEPTION_RECORD_ExceptionRecord);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RtlPcToFileHeader(cpointer PcValue, cpointer BaseOfImage);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint* RtlCompareMemory(cpointer Source1, cpointer Source2, cpointer Length);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void InitializeSRWLock(cpointer unfoundType_PSRWLOCK_SRWLock);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void ReleaseSRWLockExclusive(cpointer unfoundType_PSRWLOCK_SRWLock);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void ReleaseSRWLockShared(cpointer unfoundType_PSRWLOCK_SRWLock);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void AcquireSRWLockExclusive(cpointer unfoundType_PSRWLOCK_SRWLock);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void AcquireSRWLockShared(cpointer unfoundType_PSRWLOCK_SRWLock);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer TryAcquireSRWLockExclusive(cpointer unfoundType_PSRWLOCK_SRWLock);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer TryAcquireSRWLockShared(cpointer unfoundType_PSRWLOCK_SRWLock);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void InitializeCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void EnterCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void LeaveCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int InitializeCriticalSectionAndSpinCount(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection, int dwSpinCount);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int InitializeCriticalSectionEx(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection, int dwSpinCount, int Flags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetCriticalSectionSpinCount(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection, int dwSpinCount);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int TryEnterCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void DeleteCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void InitOnceInitialize(cpointer unfoundType_PINIT_ONCE_InitOnce);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int InitOnceExecuteOnce(cpointer unfoundType_PINIT_ONCE_InitOnce, cpointer unfoundType_PINIT_ONCE_FN_InitFn, cpointer Parameter, cpointer Context);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int InitOnceBeginInitialize(cpointer unfoundType_LPINIT_ONCE_lpInitOnce, int dwFlags, cpointer fPending, cpointer lpContext);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int InitOnceComplete(cpointer unfoundType_LPINIT_ONCE_lpInitOnce, int dwFlags, cpointer lpContext);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void InitializeConditionVariable(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void WakeConditionVariable(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void WakeAllConditionVariable(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SleepConditionVariableCS(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable, cpointer unfoundType_PCRITICAL_SECTION_CriticalSection, int dwMilliseconds);
-    [DllImport("kernel32", EntryPoint="SleepConditionVariableSRW", SetLastError=true, ExactSpelling=true)] public static extern
-        int SleepConditionVariableSR(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable, cpointer unfoundType_PSRWLOCK_SRWLock, int dwMilliseconds, uint Flags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SleepConditionVariableSRW(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable, cpointer unfoundType_PSRWLOCK_SRWLock, int dwMilliseconds, uint Flags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetEvent(cpointer hEvent);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ResetEvent(cpointer hEvent);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ReleaseSemaphore(cpointer hSemaphore, int lReleaseCount, cpointer unfoundType_LPLONG_lpPreviousCount);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ReleaseMutex(cpointer hMutex);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WaitForSingleObject(cpointer hHandle, int dwMilliseconds);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SleepEx(int dwMilliseconds, int bAlertable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WaitForSingleObjectEx(cpointer hHandle, int dwMilliseconds, int bAlertable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WaitForMultipleObjectsEx(int nCount, cpointer lpHandles, int bWaitAll, int dwMilliseconds, int bAlertable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutexA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, cpointer unfoundType_LPCSTR_lpName);
-    [DllImport("kernel32", EntryPoint="CreateMutexW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutex(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", EntryPoint="CreateMutexW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutex(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, char* lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutexW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutexW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, char* lpName);
-    [DllImport("kernel32", EntryPoint="OpenMutexW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenMutex(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", EntryPoint="OpenMutexW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenMutex(int dwDesiredAccess, int bInheritHandle, char* lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenMutexW(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenMutexW(int dwDesiredAccess, int bInheritHandle, char* lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEventA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, cpointer unfoundType_LPCSTR_lpName);
-    [DllImport("kernel32", EntryPoint="CreateEventW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEvent(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", EntryPoint="CreateEventW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEvent(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, char* lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEventW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEventW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, char* lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenEventA(int dwDesiredAccess, int bInheritHandle, cpointer unfoundType_LPCSTR_lpName);
-    [DllImport("kernel32", EntryPoint="OpenEventW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenEvent(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", EntryPoint="OpenEventW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenEvent(int dwDesiredAccess, int bInheritHandle, char* lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenEventW(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenEventW(int dwDesiredAccess, int bInheritHandle, char* lpName);
-    [DllImport("kernel32", EntryPoint="OpenSemaphoreW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenSemaphore(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", EntryPoint="OpenSemaphoreW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenSemaphore(int dwDesiredAccess, int bInheritHandle, char* lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenSemaphoreW(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenSemaphoreW(int dwDesiredAccess, int bInheritHandle, char* lpName);
-    [DllImport("kernel32", EntryPoint="OpenWaitableTimerW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenWaitableTimer(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName);
-    [DllImport("kernel32", EntryPoint="OpenWaitableTimerW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenWaitableTimer(int dwDesiredAccess, int bInheritHandle, char* lpTimerName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenWaitableTimerW(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenWaitableTimerW(int dwDesiredAccess, int bInheritHandle, char* lpTimerName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetWaitableTimerEx(cpointer hTimer, cpointer unfoundType_LARGE_INTEGER_lpDueTime, int lPeriod, cpointer unfoundType_PTIMERAPCROUTINE_pfnCompletionRoutine, cpointer lpArgToCompletionRoutine, cpointer unfoundType_PREASON_CONTEXT_WakeContext, uint TolerableDelay);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetWaitableTimer(cpointer hTimer, cpointer unfoundType_LARGE_INTEGER_lpDueTime, int lPeriod, cpointer unfoundType_PTIMERAPCROUTINE_pfnCompletionRoutine, cpointer lpArgToCompletionRoutine, int fResume);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CancelWaitableTimer(cpointer hTimer);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutexExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, cpointer unfoundType_LPCSTR_lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", EntryPoint="CreateMutexExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutexEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", EntryPoint="CreateMutexExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutexEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, char* lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutexExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMutexExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, char* lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEventExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, cpointer unfoundType_LPCSTR_lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", EntryPoint="CreateEventExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEventEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", EntryPoint="CreateEventExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEventEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, char* lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEventExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateEventExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, char* lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", EntryPoint="CreateSemaphoreExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphoreEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", EntryPoint="CreateSemaphoreExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphoreEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, char* lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphoreExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphoreExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, char* lpName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", EntryPoint="CreateWaitableTimerExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimerEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", EntryPoint="CreateWaitableTimerExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimerEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, char* lpTimerName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimerExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimerExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, char* lpTimerName, int dwFlags, int dwDesiredAccess);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int EnterSynchronizationBarrier(cpointer unfoundType_LPSYNCHRONIZATION_BARRIER_lpBarrier, int dwFlags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int InitializeSynchronizationBarrier(cpointer unfoundType_LPSYNCHRONIZATION_BARRIER_lpBarrier, int lTotalThreads, int lSpinCount);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DeleteSynchronizationBarrier(cpointer unfoundType_LPSYNCHRONIZATION_BARRIER_lpBarrier);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        void Sleep(int dwMilliseconds);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SignalObjectAndWait(cpointer hObjectToSignal, cpointer hObjectToWaitOn, int dwMilliseconds, int bAlertable);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WaitForMultipleObjects(int nCount, cpointer lpHandles, int bWaitAll, int dwMilliseconds);
-    [DllImport("kernel32", EntryPoint="CreateSemaphoreW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphore(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", EntryPoint="CreateSemaphoreW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphore(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, char* lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphoreW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphoreW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, char* lpName);
-    [DllImport("kernel32", EntryPoint="CreateWaitableTimerW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimer(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName);
-    [DllImport("kernel32", EntryPoint="CreateWaitableTimerW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimer(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, char* lpTimerName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimerW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimerW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, char* lpTimerName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateThreadpool(cpointer reserved);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         void SetThreadpoolThreadMaximum(cpointer unfoundType_PTP_POOL_ptpp, int cthrdMost);
@@ -3083,6 +3207,206 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetThreadpoolWaitEx(cpointer unfoundType_PTP_WAIT_pwa, cpointer h, cpointer unfoundType_PFILETIME_pftTimeout, cpointer Reserved);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void InitializeSRWLock(cpointer unfoundType_PSRWLOCK_SRWLock);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void ReleaseSRWLockExclusive(cpointer unfoundType_PSRWLOCK_SRWLock);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void ReleaseSRWLockShared(cpointer unfoundType_PSRWLOCK_SRWLock);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void AcquireSRWLockExclusive(cpointer unfoundType_PSRWLOCK_SRWLock);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void AcquireSRWLockShared(cpointer unfoundType_PSRWLOCK_SRWLock);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer TryAcquireSRWLockExclusive(cpointer unfoundType_PSRWLOCK_SRWLock);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer TryAcquireSRWLockShared(cpointer unfoundType_PSRWLOCK_SRWLock);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void InitializeCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void EnterCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void LeaveCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int InitializeCriticalSectionAndSpinCount(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection, int dwSpinCount);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int InitializeCriticalSectionEx(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection, int dwSpinCount, int Flags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetCriticalSectionSpinCount(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection, int dwSpinCount);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int TryEnterCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void DeleteCriticalSection(cpointer unfoundType_LPCRITICAL_SECTION_lpCriticalSection);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void InitOnceInitialize(cpointer unfoundType_PINIT_ONCE_InitOnce);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int InitOnceExecuteOnce(cpointer unfoundType_PINIT_ONCE_InitOnce, cpointer unfoundType_PINIT_ONCE_FN_InitFn, cpointer Parameter, cpointer Context);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int InitOnceBeginInitialize(cpointer unfoundType_LPINIT_ONCE_lpInitOnce, int dwFlags, cpointer fPending, cpointer lpContext);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int InitOnceComplete(cpointer unfoundType_LPINIT_ONCE_lpInitOnce, int dwFlags, cpointer lpContext);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void InitializeConditionVariable(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void WakeConditionVariable(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void WakeAllConditionVariable(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SleepConditionVariableCS(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable, cpointer unfoundType_PCRITICAL_SECTION_CriticalSection, int dwMilliseconds);
+    [DllImport("kernel32", EntryPoint="SleepConditionVariableSRW", SetLastError=true, ExactSpelling=true)] public static extern
+        int SleepConditionVariableSR(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable, cpointer unfoundType_PSRWLOCK_SRWLock, int dwMilliseconds, uint Flags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SleepConditionVariableSRW(cpointer unfoundType_PCONDITION_VARIABLE_ConditionVariable, cpointer unfoundType_PSRWLOCK_SRWLock, int dwMilliseconds, uint Flags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetEvent(cpointer hEvent);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ResetEvent(cpointer hEvent);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReleaseSemaphore(cpointer hSemaphore, int lReleaseCount, cpointer unfoundType_LPLONG_lpPreviousCount);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReleaseMutex(cpointer hMutex);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WaitForSingleObject(cpointer hHandle, int dwMilliseconds);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SleepEx(int dwMilliseconds, int bAlertable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WaitForSingleObjectEx(cpointer hHandle, int dwMilliseconds, int bAlertable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WaitForMultipleObjectsEx(int nCount, cpointer lpHandles, int bWaitAll, int dwMilliseconds, int bAlertable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, [MarshalAs(UnmanagedType.LPStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, byte* lpName);
+    [DllImport("kernel32", EntryPoint="CreateMutexW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutex(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", EntryPoint="CreateMutexW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutex(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, char* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, int bInitialOwner, char* lpName);
+    [DllImport("kernel32", EntryPoint="OpenMutexW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenMutex(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", EntryPoint="OpenMutexW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenMutex(int dwDesiredAccess, int bInheritHandle, char* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenMutexW(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenMutexW(int dwDesiredAccess, int bInheritHandle, char* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, [MarshalAs(UnmanagedType.LPStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, byte* lpName);
+    [DllImport("kernel32", EntryPoint="CreateEventW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEvent(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", EntryPoint="CreateEventW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEvent(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, char* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, int bManualReset, int bInitialState, char* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenEventA(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenEventA(int dwDesiredAccess, int bInheritHandle, byte* lpName);
+    [DllImport("kernel32", EntryPoint="OpenEventW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenEvent(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", EntryPoint="OpenEventW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenEvent(int dwDesiredAccess, int bInheritHandle, char* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenEventW(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenEventW(int dwDesiredAccess, int bInheritHandle, char* lpName);
+    [DllImport("kernel32", EntryPoint="OpenSemaphoreW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenSemaphore(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", EntryPoint="OpenSemaphoreW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenSemaphore(int dwDesiredAccess, int bInheritHandle, char* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenSemaphoreW(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenSemaphoreW(int dwDesiredAccess, int bInheritHandle, char* lpName);
+    [DllImport("kernel32", EntryPoint="OpenWaitableTimerW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenWaitableTimer(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName);
+    [DllImport("kernel32", EntryPoint="OpenWaitableTimerW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenWaitableTimer(int dwDesiredAccess, int bInheritHandle, char* lpTimerName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenWaitableTimerW(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenWaitableTimerW(int dwDesiredAccess, int bInheritHandle, char* lpTimerName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetWaitableTimerEx(cpointer hTimer, cpointer unfoundType_LARGE_INTEGER_lpDueTime, int lPeriod, cpointer unfoundType_PTIMERAPCROUTINE_pfnCompletionRoutine, cpointer lpArgToCompletionRoutine, cpointer unfoundType_PREASON_CONTEXT_WakeContext, uint TolerableDelay);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetWaitableTimer(cpointer hTimer, cpointer unfoundType_LARGE_INTEGER_lpDueTime, int lPeriod, cpointer unfoundType_PTIMERAPCROUTINE_pfnCompletionRoutine, cpointer lpArgToCompletionRoutine, int fResume);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CancelWaitableTimer(cpointer hTimer);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, [MarshalAs(UnmanagedType.LPStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, byte* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", EntryPoint="CreateMutexExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", EntryPoint="CreateMutexExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, char* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMutexExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpMutexAttributes, char* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, [MarshalAs(UnmanagedType.LPStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, byte* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", EntryPoint="CreateEventExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", EntryPoint="CreateEventExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, char* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateEventExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpEventAttributes, char* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", EntryPoint="CreateSemaphoreExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphoreEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", EntryPoint="CreateSemaphoreExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphoreEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, char* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphoreExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphoreExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, char* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", EntryPoint="CreateWaitableTimerExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimerEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", EntryPoint="CreateWaitableTimerExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimerEx(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, char* lpTimerName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimerExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimerExW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, char* lpTimerName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnterSynchronizationBarrier(cpointer unfoundType_LPSYNCHRONIZATION_BARRIER_lpBarrier, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int InitializeSynchronizationBarrier(cpointer unfoundType_LPSYNCHRONIZATION_BARRIER_lpBarrier, int lTotalThreads, int lSpinCount);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DeleteSynchronizationBarrier(cpointer unfoundType_LPSYNCHRONIZATION_BARRIER_lpBarrier);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        void Sleep(int dwMilliseconds);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SignalObjectAndWait(cpointer hObjectToSignal, cpointer hObjectToWaitOn, int dwMilliseconds, int bAlertable);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WaitForMultipleObjects(int nCount, cpointer lpHandles, int bWaitAll, int dwMilliseconds);
+    [DllImport("kernel32", EntryPoint="CreateSemaphoreW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphore(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", EntryPoint="CreateSemaphoreW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphore(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, char* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphoreW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphoreW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, char* lpName);
+    [DllImport("kernel32", EntryPoint="CreateWaitableTimerW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimer(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName);
+    [DllImport("kernel32", EntryPoint="CreateWaitableTimerW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimer(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, char* lpTimerName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimerW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, [MarshalAs(UnmanagedType.LPWStr)] string lpTimerName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimerW(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, char* lpTimerName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int QueueUserWorkItem(cpointer unfoundType_LPTHREAD_START_ROUTINE_Function, cpointer Context, uint Flags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int UnregisterWaitEx(cpointer WaitHandle, cpointer CompletionEvent);
@@ -3098,6 +3422,74 @@ public unsafe class kernel32
         int DeleteTimerQueue(cpointer TimerQueue);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int DeleteTimerQueueEx(cpointer TimerQueue, cpointer CompletionEvent);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer timeGetSystemTime(cpointer unfoundType_LPMMTIME_pmmt, uint cbmmt);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int timeGetTime();
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer timeGetDevCaps(cpointer unfoundType_LPTIMECAPS_ptc, uint cbtc);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer timeBeginPeriod(uint uPeriod);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer timeEndPeriod(uint uPeriod);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SystemTimeToTzSpecificLocalTime(cpointer unfoundType_TIME_ZONE_INFORMATION_lpTimeZoneInformation, cpointer unfoundType_SYSTEMTIME_lpUniversalTime, cpointer unfoundType_LPSYSTEMTIME_lpLocalTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int TzSpecificLocalTimeToSystemTime(cpointer unfoundType_TIME_ZONE_INFORMATION_lpTimeZoneInformation, cpointer unfoundType_SYSTEMTIME_lpLocalTime, cpointer unfoundType_LPSYSTEMTIME_lpUniversalTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int FileTimeToSystemTime(cpointer unfoundType_FILETIME_lpFileTime, cpointer unfoundType_LPSYSTEMTIME_lpSystemTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SystemTimeToFileTime(cpointer unfoundType_SYSTEMTIME_lpSystemTime, cpointer unfoundType_LPFILETIME_lpFileTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeZoneInformation(cpointer unfoundType_LPTIME_ZONE_INFORMATION_lpTimeZoneInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetTimeZoneInformation(cpointer unfoundType_TIME_ZONE_INFORMATION_lpTimeZoneInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetDynamicTimeZoneInformation(cpointer unfoundType_DYNAMIC_TIME_ZONE_INFORMATION_lpTimeZoneInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDynamicTimeZoneInformation(cpointer unfoundType_PDYNAMIC_TIME_ZONE_INFORMATION_pTimeZoneInformation);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTimeZoneInformationForYear(ushort wYear, cpointer unfoundType_PDYNAMIC_TIME_ZONE_INFORMATION_pdtzi, cpointer unfoundType_LPTIME_ZONE_INFORMATION_ptzi);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SystemTimeToTzSpecificLocalTimeEx(cpointer unfoundType_DYNAMIC_TIME_ZONE_INFORMATION_lpTimeZoneInformation, cpointer unfoundType_SYSTEMTIME_lpUniversalTime, cpointer unfoundType_LPSYSTEMTIME_lpLocalTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int TzSpecificLocalTimeToSystemTimeEx(cpointer unfoundType_DYNAMIC_TIME_ZONE_INFORMATION_lpTimeZoneInformation, cpointer unfoundType_SYSTEMTIME_lpLocalTime, cpointer unfoundType_LPSYSTEMTIME_lpUniversalTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int LocalFileTimeToLocalSystemTime(cpointer unfoundType_TIME_ZONE_INFORMATION_timeZoneInformation, cpointer unfoundType_FILETIME_localFileTime, cpointer unfoundType_SYSTEMTIME_localSystemTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int LocalSystemTimeToLocalFileTime(cpointer unfoundType_TIME_ZONE_INFORMATION_timeZoneInformation, cpointer unfoundType_SYSTEMTIME_localSystemTime, cpointer unfoundType_FILETIME_localFileTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateToolhelp32Snapshot(int dwFlags, int th32ProcessID);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Heap32ListFirst(cpointer hSnapshot, cpointer unfoundType_LPHEAPLIST32_lphl);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Heap32ListNext(cpointer hSnapshot, cpointer unfoundType_LPHEAPLIST32_lphl);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Heap32First(cpointer unfoundType_LPHEAPENTRY32_lphe, int th32ProcessID, cpointer unfoundType_ULONG_PTR_th32HeapID);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Heap32Next(cpointer unfoundType_LPHEAPENTRY32_lphe);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Toolhelp32ReadProcessMemory(int th32ProcessID, cpointer lpBaseAddress, cpointer lpBuffer, cpointer cbRead, cpointer lpNumberOfBytesRead);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Process32FirstW(cpointer hSnapshot, cpointer unfoundType_LPPROCESSENTRY32W_lppe);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Process32NextW(cpointer hSnapshot, cpointer unfoundType_LPPROCESSENTRY32W_lppe);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Process32First(cpointer hSnapshot, cpointer unfoundType_LPPROCESSENTRY32_lppe);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Process32Next(cpointer hSnapshot, cpointer unfoundType_LPPROCESSENTRY32_lppe);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Thread32First(cpointer hSnapshot, cpointer unfoundType_LPTHREADENTRY32_lpte);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Thread32Next(cpointer hSnapshot, cpointer unfoundType_LPTHREADENTRY32_lpte);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Module32FirstW(cpointer hSnapshot, cpointer unfoundType_LPMODULEENTRY32W_lpme);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Module32NextW(cpointer hSnapshot, cpointer unfoundType_LPMODULEENTRY32W_lpme);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Module32First(cpointer hSnapshot, cpointer unfoundType_LPMODULEENTRY32_lpme);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int Module32Next(cpointer hSnapshot, cpointer unfoundType_LPMODULEENTRY32_lpme);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GlobalMemoryStatusEx(cpointer unfoundType_LPMEMORYSTATUSEX_lpBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3241,7 +3633,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetProcessorSystemCycleTime(ushort Group, cpointer unfoundType_PSYSTEM_PROCESSOR_CYCLE_TIME_INFORMATION_Buffer, cpointer unfoundType_PDWORD_ReturnedLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetComputerNameA(cpointer unfoundType_LPCSTR_lpComputerName);
+        int SetComputerNameA([MarshalAs(UnmanagedType.LPStr)] string lpComputerName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetComputerNameA(byte* lpComputerName);
     [DllImport("kernel32", EntryPoint="SetComputerNameW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetComputerName([MarshalAs(UnmanagedType.LPWStr)] string lpComputerName);
     [DllImport("kernel32", EntryPoint="SetComputerNameW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3251,359 +3645,59 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetComputerNameW(char* lpComputerName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetComputerNameExA(cpointer unfoundType_COMPUTER_NAME_FORMAT_NameType, cpointer unfoundType_LPCSTR_lpBuffer);
+        int SetComputerNameExA(cpointer unfoundType_COMPUTER_NAME_FORMAT_NameType, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer timeGetSystemTime(cpointer unfoundType_LPMMTIME_pmmt, uint cbmmt);
+        int SetComputerNameExA(cpointer unfoundType_COMPUTER_NAME_FORMAT_NameType, byte* lpBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int timeGetTime();
+        cpointer WerRegisterFile([MarshalAs(UnmanagedType.LPWStr)] string pwzFile, cpointer unfoundType_WER_REGISTER_FILE_TYPE_regFileType, int dwFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer timeGetDevCaps(cpointer unfoundType_LPTIMECAPS_ptc, uint cbtc);
+        cpointer WerRegisterFile(char* pwzFile, cpointer unfoundType_WER_REGISTER_FILE_TYPE_regFileType, int dwFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer timeBeginPeriod(uint uPeriod);
+        cpointer WerUnregisterFile([MarshalAs(UnmanagedType.LPWStr)] string pwzFilePath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer timeEndPeriod(uint uPeriod);
+        cpointer WerUnregisterFile(char* pwzFilePath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SystemTimeToTzSpecificLocalTime(cpointer unfoundType_TIME_ZONE_INFORMATION_lpTimeZoneInformation, cpointer unfoundType_SYSTEMTIME_lpUniversalTime, cpointer unfoundType_LPSYSTEMTIME_lpLocalTime);
+        cpointer WerRegisterMemoryBlock(cpointer pvAddress, int dwSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int TzSpecificLocalTimeToSystemTime(cpointer unfoundType_TIME_ZONE_INFORMATION_lpTimeZoneInformation, cpointer unfoundType_SYSTEMTIME_lpLocalTime, cpointer unfoundType_LPSYSTEMTIME_lpUniversalTime);
+        cpointer WerUnregisterMemoryBlock(cpointer pvAddress);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int FileTimeToSystemTime(cpointer unfoundType_FILETIME_lpFileTime, cpointer unfoundType_LPSYSTEMTIME_lpSystemTime);
+        cpointer WerRegisterExcludedMemoryBlock(cpointer address, int size);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SystemTimeToFileTime(cpointer unfoundType_SYSTEMTIME_lpSystemTime, cpointer unfoundType_LPFILETIME_lpFileTime);
+        cpointer WerUnregisterExcludedMemoryBlock(cpointer address);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeZoneInformation(cpointer unfoundType_LPTIME_ZONE_INFORMATION_lpTimeZoneInformation);
+        cpointer WerRegisterCustomMetadata([MarshalAs(UnmanagedType.LPWStr)] string key, [MarshalAs(UnmanagedType.LPWStr)] string value);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetTimeZoneInformation(cpointer unfoundType_TIME_ZONE_INFORMATION_lpTimeZoneInformation);
+        cpointer WerRegisterCustomMetadata([MarshalAs(UnmanagedType.LPWStr)] string key, char* value);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetDynamicTimeZoneInformation(cpointer unfoundType_DYNAMIC_TIME_ZONE_INFORMATION_lpTimeZoneInformation);
+        cpointer WerRegisterCustomMetadata(char* key, [MarshalAs(UnmanagedType.LPWStr)] string value);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDynamicTimeZoneInformation(cpointer unfoundType_PDYNAMIC_TIME_ZONE_INFORMATION_pTimeZoneInformation);
+        cpointer WerRegisterCustomMetadata(char* key, char* value);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTimeZoneInformationForYear(ushort wYear, cpointer unfoundType_PDYNAMIC_TIME_ZONE_INFORMATION_pdtzi, cpointer unfoundType_LPTIME_ZONE_INFORMATION_ptzi);
+        cpointer WerUnregisterCustomMetadata([MarshalAs(UnmanagedType.LPWStr)] string key);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SystemTimeToTzSpecificLocalTimeEx(cpointer unfoundType_DYNAMIC_TIME_ZONE_INFORMATION_lpTimeZoneInformation, cpointer unfoundType_SYSTEMTIME_lpUniversalTime, cpointer unfoundType_LPSYSTEMTIME_lpLocalTime);
+        cpointer WerUnregisterCustomMetadata(char* key);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int TzSpecificLocalTimeToSystemTimeEx(cpointer unfoundType_DYNAMIC_TIME_ZONE_INFORMATION_lpTimeZoneInformation, cpointer unfoundType_SYSTEMTIME_lpLocalTime, cpointer unfoundType_LPSYSTEMTIME_lpUniversalTime);
+        cpointer WerRegisterAdditionalProcess(int processId, int captureExtraInfoForThreadId);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int LocalFileTimeToLocalSystemTime(cpointer unfoundType_TIME_ZONE_INFORMATION_timeZoneInformation, cpointer unfoundType_FILETIME_localFileTime, cpointer unfoundType_SYSTEMTIME_localSystemTime);
+        cpointer WerUnregisterAdditionalProcess(int processId);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int LocalSystemTimeToLocalFileTime(cpointer unfoundType_TIME_ZONE_INFORMATION_timeZoneInformation, cpointer unfoundType_SYSTEMTIME_localSystemTime, cpointer unfoundType_FILETIME_localFileTime);
+        cpointer WerRegisterAppLocalDump([MarshalAs(UnmanagedType.LPWStr)] string localAppDataRelativePath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateToolhelp32Snapshot(int dwFlags, int th32ProcessID);
+        cpointer WerRegisterAppLocalDump(char* localAppDataRelativePath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Heap32ListFirst(cpointer hSnapshot, cpointer unfoundType_LPHEAPLIST32_lphl);
+        cpointer WerUnregisterAppLocalDump();
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Heap32ListNext(cpointer hSnapshot, cpointer unfoundType_LPHEAPLIST32_lphl);
+        cpointer WerSetFlags(int dwFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Heap32First(cpointer unfoundType_LPHEAPENTRY32_lphe, int th32ProcessID, cpointer unfoundType_ULONG_PTR_th32HeapID);
+        cpointer WerGetFlags(cpointer hProcess, cpointer unfoundType_PDWORD_pdwFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Heap32Next(cpointer unfoundType_LPHEAPENTRY32_lphe);
+        cpointer WerRegisterRuntimeExceptionModule([MarshalAs(UnmanagedType.LPWStr)] string pwszOutOfProcessCallbackDll, cpointer pContext);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Toolhelp32ReadProcessMemory(int th32ProcessID, cpointer lpBaseAddress, cpointer lpBuffer, cpointer cbRead, cpointer lpNumberOfBytesRead);
+        cpointer WerRegisterRuntimeExceptionModule(char* pwszOutOfProcessCallbackDll, cpointer pContext);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Process32FirstW(cpointer hSnapshot, cpointer unfoundType_LPPROCESSENTRY32W_lppe);
+        cpointer WerUnregisterRuntimeExceptionModule([MarshalAs(UnmanagedType.LPWStr)] string pwszOutOfProcessCallbackDll, cpointer pContext);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Process32NextW(cpointer hSnapshot, cpointer unfoundType_LPPROCESSENTRY32W_lppe);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Process32First(cpointer hSnapshot, cpointer unfoundType_LPPROCESSENTRY32_lppe);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Process32Next(cpointer hSnapshot, cpointer unfoundType_LPPROCESSENTRY32_lppe);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Thread32First(cpointer hSnapshot, cpointer unfoundType_LPTHREADENTRY32_lpte);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Thread32Next(cpointer hSnapshot, cpointer unfoundType_LPTHREADENTRY32_lpte);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Module32FirstW(cpointer hSnapshot, cpointer unfoundType_LPMODULEENTRY32W_lpme);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Module32NextW(cpointer hSnapshot, cpointer unfoundType_LPMODULEENTRY32W_lpme);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Module32First(cpointer hSnapshot, cpointer unfoundType_LPMODULEENTRY32_lpme);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Module32Next(cpointer hSnapshot, cpointer unfoundType_LPMODULEENTRY32_lpme);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer EncodePointer(cpointer Ptr);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer DecodePointer(cpointer Ptr);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer EncodeSystemPointer(cpointer Ptr);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer DecodeSystemPointer(cpointer Ptr);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int Beep(int dwFreq, int dwDuration);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CeipIsOptedIn();
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCloseKey(nint hKey);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegOpenUserClassesRoot(cpointer hToken, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegOpenCurrentUser(cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDisablePredefinedCacheEx();
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyExA(nint hKey, cpointer unfoundType_LPCSTR_lpSubKey, int Reserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyExA(nint hKey, cpointer unfoundType_LPCSTR_lpSubKey, int Reserved, ReadOnlySpan<byte> lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyExA(nint hKey, cpointer unfoundType_LPCSTR_lpSubKey, int Reserved, byte* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", EntryPoint="RegCreateKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int Reserved, string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", EntryPoint="RegCreateKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int Reserved, char* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", EntryPoint="RegCreateKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyEx(nint hKey, char* lpSubKey, int Reserved, string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", EntryPoint="RegCreateKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyEx(nint hKey, char* lpSubKey, int Reserved, char* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int Reserved, string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int Reserved, char* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyExW(nint hKey, char* lpSubKey, int Reserved, string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCreateKeyExW(nint hKey, char* lpSubKey, int Reserved, char* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteKeyExA(nint hKey, cpointer unfoundType_LPCSTR_lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
-    [DllImport("kernel32", EntryPoint="RegDeleteKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
-    [DllImport("kernel32", EntryPoint="RegDeleteKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteKeyEx(nint hKey, char* lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteKeyExW(nint hKey, char* lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteValueA(nint hKey, cpointer unfoundType_LPCSTR_lpValueName);
-    [DllImport("kernel32", EntryPoint="RegDeleteValueW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteValue(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName);
-    [DllImport("kernel32", EntryPoint="RegDeleteValueW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteValue(nint hKey, char* lpValueName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteValueW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteValueW(nint hKey, char* lpValueName);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, ReadOnlySpan<byte> lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, byte* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, ReadOnlySpan<byte> lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, ReadOnlySpan<byte> lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, ReadOnlySpan<byte> lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, ReadOnlySpan<byte> lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, byte* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, byte* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, byte* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, ReadOnlySpan<byte> lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExA(nint hKey, int dwIndex, byte* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, byte* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", EntryPoint="RegEnumKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyEx(nint hKey, int dwIndex, string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", EntryPoint="RegEnumKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyEx(nint hKey, int dwIndex, string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", EntryPoint="RegEnumKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyEx(nint hKey, int dwIndex, char* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", EntryPoint="RegEnumKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyEx(nint hKey, int dwIndex, char* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExW(nint hKey, int dwIndex, string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExW(nint hKey, int dwIndex, string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExW(nint hKey, int dwIndex, char* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumKeyExW(nint hKey, int dwIndex, char* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumValueA(nint hKey, int dwIndex, [MarshalAs(UnmanagedType.LPStr)] string lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumValueA(nint hKey, int dwIndex, ReadOnlySpan<byte> lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumValueA(nint hKey, int dwIndex, byte* lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", EntryPoint="RegEnumValueW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumValue(nint hKey, int dwIndex, string lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", EntryPoint="RegEnumValueW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumValue(nint hKey, int dwIndex, char* lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumValueW(nint hKey, int dwIndex, string lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegEnumValueW(nint hKey, int dwIndex, char* lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegFlushKey(nint hKey);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetKeySecurity(nint hKey, cpointer unfoundType_SECURITY_INFORMATION_SecurityInformation, cpointer unfoundType_PSECURITY_DESCRIPTOR_pSecurityDescriptor, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKeyA(nint hKey, cpointer unfoundType_LPCSTR_lpSubKey, cpointer unfoundType_LPCSTR_lpFile);
-    [DllImport("kernel32", EntryPoint="RegLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKey(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile);
-    [DllImport("kernel32", EntryPoint="RegLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKey(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, char* lpFile);
-    [DllImport("kernel32", EntryPoint="RegLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKey(nint hKey, char* lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile);
-    [DllImport("kernel32", EntryPoint="RegLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKey(nint hKey, char* lpSubKey, char* lpFile);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKeyW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKeyW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, char* lpFile);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKeyW(nint hKey, char* lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadKeyW(nint hKey, char* lpSubKey, char* lpFile);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegNotifyChangeKeyValue(nint hKey, int bWatchSubtree, int dwNotifyFilter, cpointer hEvent, int fAsynchronous);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegOpenKeyExA(nint hKey, cpointer unfoundType_LPCSTR_lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
-    [DllImport("kernel32", EntryPoint="RegOpenKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegOpenKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
-    [DllImport("kernel32", EntryPoint="RegOpenKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegOpenKeyEx(nint hKey, char* lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegOpenKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegOpenKeyExW(nint hKey, char* lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryInfoKeyA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryInfoKeyA(nint hKey, ReadOnlySpan<byte> lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryInfoKeyA(nint hKey, byte* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", EntryPoint="RegQueryInfoKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryInfoKey(nint hKey, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", EntryPoint="RegQueryInfoKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryInfoKey(nint hKey, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryInfoKeyW(nint hKey, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryInfoKeyW(nint hKey, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryValueExA(nint hKey, cpointer unfoundType_LPCSTR_lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", EntryPoint="RegQueryValueExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryValueEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", EntryPoint="RegQueryValueExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryValueEx(nint hKey, char* lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryValueExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegQueryValueExW(nint hKey, char* lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegRestoreKeyA(nint hKey, cpointer unfoundType_LPCSTR_lpFile, int dwFlags);
-    [DllImport("kernel32", EntryPoint="RegRestoreKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegRestoreKey(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile, int dwFlags);
-    [DllImport("kernel32", EntryPoint="RegRestoreKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegRestoreKey(nint hKey, char* lpFile, int dwFlags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegRestoreKeyW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile, int dwFlags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegRestoreKeyW(nint hKey, char* lpFile, int dwFlags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSetKeySecurity(nint hKey, cpointer unfoundType_SECURITY_INFORMATION_SecurityInformation, cpointer unfoundType_PSECURITY_DESCRIPTOR_pSecurityDescriptor);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSetValueExA(nint hKey, cpointer unfoundType_LPCSTR_lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
-    [DllImport("kernel32", EntryPoint="RegSetValueExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSetValueEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
-    [DllImport("kernel32", EntryPoint="RegSetValueExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSetValueEx(nint hKey, char* lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSetValueExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSetValueExW(nint hKey, char* lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegUnLoadKeyA(nint hKey, cpointer unfoundType_LPCSTR_lpSubKey);
-    [DllImport("kernel32", EntryPoint="RegUnLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegUnLoadKey(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey);
-    [DllImport("kernel32", EntryPoint="RegUnLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegUnLoadKey(nint hKey, char* lpSubKey);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegUnLoadKeyW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegUnLoadKeyW(nint hKey, char* lpSubKey);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteTreeA(nint hKey, cpointer unfoundType_LPCSTR_lpSubKey);
-    [DllImport("kernel32", EntryPoint="RegDeleteTreeW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteTree(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey);
-    [DllImport("kernel32", EntryPoint="RegDeleteTreeW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteTree(nint hKey, char* lpSubKey);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteTreeW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegDeleteTreeW(nint hKey, char* lpSubKey);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValueA(nint hkey, cpointer unfoundType_LPCSTR_lpSubKey, cpointer unfoundType_LPCSTR_lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", EntryPoint="RegGetValueW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValue(nint hkey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", EntryPoint="RegGetValueW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValue(nint hkey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, char* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", EntryPoint="RegGetValueW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValue(nint hkey, char* lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", EntryPoint="RegGetValueW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValue(nint hkey, char* lpSubKey, char* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValueW(nint hkey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValueW(nint hkey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, char* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValueW(nint hkey, char* lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegGetValueW(nint hkey, char* lpSubKey, char* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
-    [DllImport("kernel32", EntryPoint="RegCopyTreeW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCopyTree(nint hKeySrc, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, nint hKeyDest);
-    [DllImport("kernel32", EntryPoint="RegCopyTreeW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCopyTree(nint hKeySrc, char* lpSubKey, nint hKeyDest);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCopyTreeW(nint hKeySrc, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, nint hKeyDest);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegCopyTreeW(nint hKeySrc, char* lpSubKey, nint hKeyDest);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringA(nint hKey, cpointer unfoundType_LPCSTR_pszValue, [MarshalAs(UnmanagedType.LPStr)] string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, cpointer unfoundType_LPCSTR_pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringA(nint hKey, cpointer unfoundType_LPCSTR_pszValue, ReadOnlySpan<byte> pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, cpointer unfoundType_LPCSTR_pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringA(nint hKey, cpointer unfoundType_LPCSTR_pszValue, byte* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, cpointer unfoundType_LPCSTR_pszDirectory);
-    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIString(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
-    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIString(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
-    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIString(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
-    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIString(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
-    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIString(nint hKey, char* pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
-    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIString(nint hKey, char* pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
-    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIString(nint hKey, char* pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
-    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIString(nint hKey, char* pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringW(nint hKey, char* pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringW(nint hKey, char* pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringW(nint hKey, char* pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegLoadMUIStringW(nint hKey, char* pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSaveKeyExA(nint hKey, cpointer unfoundType_LPCSTR_lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
-    [DllImport("kernel32", EntryPoint="RegSaveKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSaveKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
-    [DllImport("kernel32", EntryPoint="RegSaveKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSaveKeyEx(nint hKey, char* lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSaveKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
-    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RegSaveKeyExW(nint hKey, char* lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
+        cpointer WerUnregisterRuntimeExceptionModule(char* pwszOutOfProcessCallbackDll, cpointer pContext);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GlobalAlloc(uint uFlags, cpointer dwBytes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3653,7 +3747,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         uint* LocalCompact(uint uMinFree);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetBinaryTypeA(cpointer unfoundType_LPCSTR_lpApplicationName, cpointer unfoundType_LPDWORD_lpBinaryType);
+        int GetBinaryTypeA([MarshalAs(UnmanagedType.LPStr)] string lpApplicationName, cpointer unfoundType_LPDWORD_lpBinaryType);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetBinaryTypeA(byte* lpApplicationName, cpointer unfoundType_LPDWORD_lpBinaryType);
     [DllImport("kernel32", EntryPoint="GetBinaryTypeW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetBinaryType([MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName, cpointer unfoundType_LPDWORD_lpBinaryType);
     [DllImport("kernel32", EntryPoint="GetBinaryTypeW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3663,17 +3759,29 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetBinaryTypeW(char* lpApplicationName, cpointer unfoundType_LPDWORD_lpBinaryType);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetShortPathNameA(cpointer unfoundType_LPCSTR_lpszLongPath, [MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, int cchBuffer);
+        int GetShortPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, [MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, int cchBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetShortPathNameA(cpointer unfoundType_LPCSTR_lpszLongPath, ReadOnlySpan<byte> lpszShortPath, int cchBuffer);
+        int GetShortPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, ReadOnlySpan<byte> lpszShortPath, int cchBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetShortPathNameA(cpointer unfoundType_LPCSTR_lpszLongPath, byte* lpszShortPath, int cchBuffer);
+        int GetShortPathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, byte* lpszShortPath, int cchBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetLongPathNameTransactedA(cpointer unfoundType_LPCSTR_lpszShortPath, [MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, int cchBuffer, cpointer hTransaction);
+        int GetShortPathNameA(byte* lpszLongPath, [MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, int cchBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetLongPathNameTransactedA(cpointer unfoundType_LPCSTR_lpszShortPath, ReadOnlySpan<byte> lpszLongPath, int cchBuffer, cpointer hTransaction);
+        int GetShortPathNameA(byte* lpszLongPath, ReadOnlySpan<byte> lpszShortPath, int cchBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetLongPathNameTransactedA(cpointer unfoundType_LPCSTR_lpszShortPath, byte* lpszLongPath, int cchBuffer, cpointer hTransaction);
+        int GetShortPathNameA(byte* lpszLongPath, byte* lpszShortPath, int cchBuffer);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, [MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, int cchBuffer, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, ReadOnlySpan<byte> lpszLongPath, int cchBuffer, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpszShortPath, byte* lpszLongPath, int cchBuffer, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameTransactedA(byte* lpszShortPath, [MarshalAs(UnmanagedType.LPStr)] string lpszLongPath, int cchBuffer, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameTransactedA(byte* lpszShortPath, ReadOnlySpan<byte> lpszLongPath, int cchBuffer, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetLongPathNameTransactedA(byte* lpszShortPath, byte* lpszLongPath, int cchBuffer, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="GetLongPathNameTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetLongPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpszShortPath, string lpszLongPath, int cchBuffer, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="GetLongPathNameTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3789,7 +3897,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetMessageWaitingIndicator(cpointer hMsgIndicator, uint ulMsgCount);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetFileShortNameA(cpointer hFile, cpointer unfoundType_LPCSTR_lpShortName);
+        int SetFileShortNameA(cpointer hFile, [MarshalAs(UnmanagedType.LPStr)] string lpShortName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFileShortNameA(cpointer hFile, byte* lpShortName);
     [DllImport("kernel32", EntryPoint="SetFileShortNameW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFileShortName(cpointer hFile, [MarshalAs(UnmanagedType.LPWStr)] string lpShortName);
     [DllImport("kernel32", EntryPoint="SetFileShortNameW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3799,9 +3909,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFileShortNameW(cpointer hFile, char* lpShortName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int LoadModule(cpointer unfoundType_LPCSTR_lpModuleName, cpointer lpParameterBlock);
+        int LoadModule([MarshalAs(UnmanagedType.LPStr)] string lpModuleName, cpointer lpParameterBlock);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint WinExec(cpointer unfoundType_LPCSTR_lpCmdLine, uint uCmdShow);
+        int LoadModule(byte* lpModuleName, cpointer lpParameterBlock);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint WinExec([MarshalAs(UnmanagedType.LPStr)] string lpCmdLine, uint uCmdShow);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint WinExec(byte* lpCmdLine, uint uCmdShow);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetTapePosition(cpointer hDevice, int dwPositionMethod, int dwPartition, int dwOffsetLow, int dwOffsetHigh, int bImmediate);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3845,7 +3959,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int FormatMessageW(int dwFlags, cpointer lpSource, int dwMessageId, int dwLanguageId, char* lpBuffer, int nSize, cpointer unfoundType_va_listArgumentsArguments_unnamed_6);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMailslotA(cpointer unfoundType_LPCSTR_lpName, int nMaxMessageSize, int lReadTimeout, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+        cpointer CreateMailslotA([MarshalAs(UnmanagedType.LPStr)] string lpName, int nMaxMessageSize, int lReadTimeout, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMailslotA(byte* lpName, int nMaxMessageSize, int lReadTimeout, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", EntryPoint="CreateMailslotW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateMailslot([MarshalAs(UnmanagedType.LPWStr)] string lpName, int nMaxMessageSize, int lReadTimeout, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", EntryPoint="CreateMailslotW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3859,7 +3975,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetMailslotInfo(cpointer hMailslot, int lReadTimeout);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int lstrcmpA(cpointer unfoundType_LPCSTR_lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        int lstrcmpA([MarshalAs(UnmanagedType.LPStr)] string lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int lstrcmpA([MarshalAs(UnmanagedType.LPStr)] string lpString1, byte* lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int lstrcmpA(byte* lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int lstrcmpA(byte* lpString1, byte* lpString2);
     [DllImport("kernel32", EntryPoint="lstrcmpW", SetLastError=true, ExactSpelling=true)] public static extern
         int lstrcmp([MarshalAs(UnmanagedType.LPWStr)] string lpString1, [MarshalAs(UnmanagedType.LPWStr)] string lpString2);
     [DllImport("kernel32", EntryPoint="lstrcmpW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3877,7 +3999,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int lstrcmpW(char* lpString1, char* lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int lstrcmpiA(cpointer unfoundType_LPCSTR_lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        int lstrcmpiA([MarshalAs(UnmanagedType.LPStr)] string lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int lstrcmpiA([MarshalAs(UnmanagedType.LPStr)] string lpString1, byte* lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int lstrcmpiA(byte* lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int lstrcmpiA(byte* lpString1, byte* lpString2);
     [DllImport("kernel32", EntryPoint="lstrcmpiW", SetLastError=true, ExactSpelling=true)] public static extern
         int lstrcmpi([MarshalAs(UnmanagedType.LPWStr)] string lpString1, [MarshalAs(UnmanagedType.LPWStr)] string lpString2);
     [DllImport("kernel32", EntryPoint="lstrcmpiW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3895,17 +4023,29 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int lstrcmpiW(char* lpString1, char* lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcpynA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, cpointer unfoundType_LPCSTR_lpString2, int iMaxLength);
+        byte* lstrcpynA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2, int iMaxLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcpynA_(ReadOnlySpan<byte> lpString1, cpointer unfoundType_LPCSTR_lpString2, int iMaxLength);
+        byte* lstrcpynA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, byte* lpString2, int iMaxLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcpynA_(byte* lpString1, cpointer unfoundType_LPCSTR_lpString2, int iMaxLength);
+        byte* lstrcpynA_(ReadOnlySpan<byte> lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2, int iMaxLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcpynA([MarshalAs(UnmanagedType.LPStr)] string lpString1, cpointer unfoundType_LPCSTR_lpString2, int iMaxLength);
+        byte* lstrcpynA_(ReadOnlySpan<byte> lpString1, byte* lpString2, int iMaxLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcpynA(ReadOnlySpan<byte> lpString1, cpointer unfoundType_LPCSTR_lpString2, int iMaxLength);
+        byte* lstrcpynA_(byte* lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2, int iMaxLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcpynA(byte* lpString1, cpointer unfoundType_LPCSTR_lpString2, int iMaxLength);
+        byte* lstrcpynA_(byte* lpString1, byte* lpString2, int iMaxLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpynA([MarshalAs(UnmanagedType.LPStr)] string lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2, int iMaxLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpynA([MarshalAs(UnmanagedType.LPStr)] string lpString1, byte* lpString2, int iMaxLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpynA(ReadOnlySpan<byte> lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2, int iMaxLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpynA(ReadOnlySpan<byte> lpString1, byte* lpString2, int iMaxLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpynA(byte* lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2, int iMaxLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpynA(byte* lpString1, byte* lpString2, int iMaxLength);
     [DllImport("kernel32", EntryPoint="lstrcpynW", SetLastError=true, ExactSpelling=true)] public static extern
         char* lstrcpyn_(string lpString1, [MarshalAs(UnmanagedType.LPWStr)] string lpString2, int iMaxLength);
     [DllImport("kernel32", EntryPoint="lstrcpynW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3939,17 +4079,29 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         string lstrcpynW(char* lpString1, char* lpString2, int iMaxLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcpyA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcpyA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcpyA_(ReadOnlySpan<byte> lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcpyA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, byte* lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcpyA_(byte* lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcpyA_(ReadOnlySpan<byte> lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcpyA([MarshalAs(UnmanagedType.LPStr)] string lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcpyA_(ReadOnlySpan<byte> lpString1, byte* lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcpyA(ReadOnlySpan<byte> lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcpyA_(byte* lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcpyA(byte* lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcpyA_(byte* lpString1, byte* lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpyA([MarshalAs(UnmanagedType.LPStr)] string lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpyA([MarshalAs(UnmanagedType.LPStr)] string lpString1, byte* lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpyA(ReadOnlySpan<byte> lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpyA(ReadOnlySpan<byte> lpString1, byte* lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpyA(byte* lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcpyA(byte* lpString1, byte* lpString2);
     [DllImport("kernel32", EntryPoint="lstrcpyW", SetLastError=true, ExactSpelling=true)] public static extern
         char* lstrcpy_(string lpString1, [MarshalAs(UnmanagedType.LPWStr)] string lpString2);
     [DllImport("kernel32", EntryPoint="lstrcpyW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -3983,17 +4135,29 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         string lstrcpyW(char* lpString1, char* lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcatA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcatA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcatA_(ReadOnlySpan<byte> lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcatA_([MarshalAs(UnmanagedType.LPStr)] string lpString1, byte* lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* lstrcatA_(byte* lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcatA_(ReadOnlySpan<byte> lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcatA([MarshalAs(UnmanagedType.LPStr)] string lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcatA_(ReadOnlySpan<byte> lpString1, byte* lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcatA(ReadOnlySpan<byte> lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcatA_(byte* lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> lstrcatA(byte* lpString1, cpointer unfoundType_LPCSTR_lpString2);
+        byte* lstrcatA_(byte* lpString1, byte* lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcatA([MarshalAs(UnmanagedType.LPStr)] string lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcatA([MarshalAs(UnmanagedType.LPStr)] string lpString1, byte* lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcatA(ReadOnlySpan<byte> lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcatA(ReadOnlySpan<byte> lpString1, byte* lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcatA(byte* lpString1, [MarshalAs(UnmanagedType.LPStr)] string lpString2);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> lstrcatA(byte* lpString1, byte* lpString2);
     [DllImport("kernel32", EntryPoint="lstrcatW", SetLastError=true, ExactSpelling=true)] public static extern
         char* lstrcat_(string lpString1, [MarshalAs(UnmanagedType.LPWStr)] string lpString2);
     [DllImport("kernel32", EntryPoint="lstrcatW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4027,7 +4191,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         string lstrcatW(char* lpString1, char* lpString2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int lstrlenA(cpointer unfoundType_LPCSTR_lpString);
+        int lstrlenA([MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int lstrlenA(byte* lpString);
     [DllImport("kernel32", EntryPoint="lstrlenW", SetLastError=true, ExactSpelling=true)] public static extern
         int lstrlen([MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("kernel32", EntryPoint="lstrlenW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4037,11 +4203,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int lstrlenW(char* lpString);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OpenFile(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPOFSTRUCT_lpReOpenBuff, uint uStyle);
+        int OpenFile([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer unfoundType_LPOFSTRUCT_lpReOpenBuff, uint uStyle);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int _lopen(cpointer unfoundType_LPCSTR_lpPathName, int iReadWrite);
+        int OpenFile(byte* lpFileName, cpointer unfoundType_LPOFSTRUCT_lpReOpenBuff, uint uStyle);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int _lcreat(cpointer unfoundType_LPCSTR_lpPathName, int iAttribute);
+        int _lopen([MarshalAs(UnmanagedType.LPStr)] string lpPathName, int iReadWrite);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int _lopen(byte* lpPathName, int iReadWrite);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int _lcreat([MarshalAs(UnmanagedType.LPStr)] string lpPathName, int iAttribute);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int _lcreat(byte* lpPathName, int iAttribute);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         uint _lread(int hFile, cpointer lpBuffer, uint uBytes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4061,25 +4233,45 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int BackupWrite(cpointer hFile, cpointer unfoundType_LPBYTE_lpBuffer, int nNumberOfBytesToWrite, cpointer unfoundType_LPDWORD_lpNumberOfBytesWritten, int bAbort, int bProcessSecurity, cpointer unfoundType_LPVOIDlpContextlpContext_unnamed_6);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenMutexA(int dwDesiredAccess, int bInheritHandle, cpointer unfoundType_LPCSTR_lpName);
+        cpointer OpenMutexA(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPStr)] string lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphoreA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, cpointer unfoundType_LPCSTR_lpName);
+        cpointer OpenMutexA(int dwDesiredAccess, int bInheritHandle, byte* lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenSemaphoreA(int dwDesiredAccess, int bInheritHandle, cpointer unfoundType_LPCSTR_lpName);
+        cpointer CreateSemaphoreA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPStr)] string lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimerA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, cpointer unfoundType_LPCSTR_lpTimerName);
+        cpointer CreateSemaphoreA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, byte* lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenWaitableTimerA(int dwDesiredAccess, int bInheritHandle, cpointer unfoundType_LPCSTR_lpTimerName);
+        cpointer OpenSemaphoreA(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPStr)] string lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSemaphoreExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, cpointer unfoundType_LPCSTR_lpName, int dwFlags, int dwDesiredAccess);
+        cpointer OpenSemaphoreA(int dwDesiredAccess, int bInheritHandle, byte* lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWaitableTimerExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, cpointer unfoundType_LPCSTR_lpTimerName, int dwFlags, int dwDesiredAccess);
+        cpointer CreateWaitableTimerA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, [MarshalAs(UnmanagedType.LPStr)] string lpTimerName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateFileMappingA(cpointer hFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpFileMappingAttributes, int flProtect, int dwMaximumSizeHigh, int dwMaximumSizeLow, cpointer unfoundType_LPCSTR_lpName);
+        cpointer CreateWaitableTimerA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, int bManualReset, byte* lpTimerName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateFileMappingNumaA(cpointer hFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpFileMappingAttributes, int flProtect, int dwMaximumSizeHigh, int dwMaximumSizeLow, cpointer unfoundType_LPCSTR_lpName, int nndPreferred);
+        cpointer OpenWaitableTimerA(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPStr)] string lpTimerName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenFileMappingA(int dwDesiredAccess, int bInheritHandle, cpointer unfoundType_LPCSTR_lpName);
+        cpointer OpenWaitableTimerA(int dwDesiredAccess, int bInheritHandle, byte* lpTimerName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphoreExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, [MarshalAs(UnmanagedType.LPStr)] string lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSemaphoreExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSemaphoreAttributes, int lInitialCount, int lMaximumCount, byte* lpName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimerExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, [MarshalAs(UnmanagedType.LPStr)] string lpTimerName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWaitableTimerExA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpTimerAttributes, byte* lpTimerName, int dwFlags, int dwDesiredAccess);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateFileMappingA(cpointer hFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpFileMappingAttributes, int flProtect, int dwMaximumSizeHigh, int dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateFileMappingA(cpointer hFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpFileMappingAttributes, int flProtect, int dwMaximumSizeHigh, int dwMaximumSizeLow, byte* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateFileMappingNumaA(cpointer hFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpFileMappingAttributes, int flProtect, int dwMaximumSizeHigh, int dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPStr)] string lpName, int nndPreferred);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateFileMappingNumaA(cpointer hFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpFileMappingAttributes, int flProtect, int dwMaximumSizeHigh, int dwMaximumSizeLow, byte* lpName, int nndPreferred);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenFileMappingA(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenFileMappingA(int dwDesiredAccess, int bInheritHandle, byte* lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetLogicalDriveStringsA(int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4103,7 +4295,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         void GetStartupInfoA(cpointer unfoundType_LPSTARTUPINFOA_lpStartupInfo);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFirmwareEnvironmentVariableA(cpointer unfoundType_LPCSTR_lpName, cpointer unfoundType_LPCSTR_lpGuid, cpointer pBuffer, int nSize);
+        int GetFirmwareEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpGuid, cpointer pBuffer, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFirmwareEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, byte* lpGuid, cpointer pBuffer, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFirmwareEnvironmentVariableA(byte* lpName, [MarshalAs(UnmanagedType.LPStr)] string lpGuid, cpointer pBuffer, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFirmwareEnvironmentVariableA(byte* lpName, byte* lpGuid, cpointer pBuffer, int nSize);
     [DllImport("kernel32", EntryPoint="GetFirmwareEnvironmentVariableW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFirmwareEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)] string lpName, [MarshalAs(UnmanagedType.LPWStr)] string lpGuid, cpointer pBuffer, int nSize);
     [DllImport("kernel32", EntryPoint="GetFirmwareEnvironmentVariableW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4121,7 +4319,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFirmwareEnvironmentVariableW(char* lpName, char* lpGuid, cpointer pBuffer, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFirmwareEnvironmentVariableExA(cpointer unfoundType_LPCSTR_lpName, cpointer unfoundType_LPCSTR_lpGuid, cpointer pBuffer, int nSize, cpointer unfoundType_PDWORD_pdwAttribubutes);
+        int GetFirmwareEnvironmentVariableExA([MarshalAs(UnmanagedType.LPStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpGuid, cpointer pBuffer, int nSize, cpointer unfoundType_PDWORD_pdwAttribubutes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFirmwareEnvironmentVariableExA([MarshalAs(UnmanagedType.LPStr)] string lpName, byte* lpGuid, cpointer pBuffer, int nSize, cpointer unfoundType_PDWORD_pdwAttribubutes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFirmwareEnvironmentVariableExA(byte* lpName, [MarshalAs(UnmanagedType.LPStr)] string lpGuid, cpointer pBuffer, int nSize, cpointer unfoundType_PDWORD_pdwAttribubutes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFirmwareEnvironmentVariableExA(byte* lpName, byte* lpGuid, cpointer pBuffer, int nSize, cpointer unfoundType_PDWORD_pdwAttribubutes);
     [DllImport("kernel32", EntryPoint="GetFirmwareEnvironmentVariableExW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFirmwareEnvironmentVariableEx([MarshalAs(UnmanagedType.LPWStr)] string lpName, [MarshalAs(UnmanagedType.LPWStr)] string lpGuid, cpointer pBuffer, int nSize, cpointer unfoundType_PDWORD_pdwAttribubutes);
     [DllImport("kernel32", EntryPoint="GetFirmwareEnvironmentVariableExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4139,7 +4343,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFirmwareEnvironmentVariableExW(char* lpName, char* lpGuid, cpointer pBuffer, int nSize, cpointer unfoundType_PDWORD_pdwAttribubutes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetFirmwareEnvironmentVariableA(cpointer unfoundType_LPCSTR_lpName, cpointer unfoundType_LPCSTR_lpGuid, cpointer pValue, int nSize);
+        int SetFirmwareEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpGuid, cpointer pValue, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFirmwareEnvironmentVariableA([MarshalAs(UnmanagedType.LPStr)] string lpName, byte* lpGuid, cpointer pValue, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFirmwareEnvironmentVariableA(byte* lpName, [MarshalAs(UnmanagedType.LPStr)] string lpGuid, cpointer pValue, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFirmwareEnvironmentVariableA(byte* lpName, byte* lpGuid, cpointer pValue, int nSize);
     [DllImport("kernel32", EntryPoint="SetFirmwareEnvironmentVariableW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFirmwareEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)] string lpName, [MarshalAs(UnmanagedType.LPWStr)] string lpGuid, cpointer pValue, int nSize);
     [DllImport("kernel32", EntryPoint="SetFirmwareEnvironmentVariableW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4157,7 +4367,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFirmwareEnvironmentVariableW(char* lpName, char* lpGuid, cpointer pValue, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetFirmwareEnvironmentVariableExA(cpointer unfoundType_LPCSTR_lpName, cpointer unfoundType_LPCSTR_lpGuid, cpointer pValue, int nSize, int dwAttributes);
+        int SetFirmwareEnvironmentVariableExA([MarshalAs(UnmanagedType.LPStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpGuid, cpointer pValue, int nSize, int dwAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFirmwareEnvironmentVariableExA([MarshalAs(UnmanagedType.LPStr)] string lpName, byte* lpGuid, cpointer pValue, int nSize, int dwAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFirmwareEnvironmentVariableExA(byte* lpName, [MarshalAs(UnmanagedType.LPStr)] string lpGuid, cpointer pValue, int nSize, int dwAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFirmwareEnvironmentVariableExA(byte* lpName, byte* lpGuid, cpointer pValue, int nSize, int dwAttributes);
     [DllImport("kernel32", EntryPoint="SetFirmwareEnvironmentVariableExW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFirmwareEnvironmentVariableEx([MarshalAs(UnmanagedType.LPWStr)] string lpName, [MarshalAs(UnmanagedType.LPWStr)] string lpGuid, cpointer pValue, int nSize, int dwAttributes);
     [DllImport("kernel32", EntryPoint="SetFirmwareEnvironmentVariableExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4179,9 +4395,21 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int IsNativeVhdBoot(cpointer NativeVhdBoot);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindResourceA(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_LPCSTR_lpName, cpointer unfoundType_LPCSTR_lpType);
+        cpointer FindResourceA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpType);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindResourceExA(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_LPCSTR_lpType, cpointer unfoundType_LPCSTR_lpName, short wLanguage);
+        cpointer FindResourceA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpName, byte* lpType);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindResourceA(cpointer unfoundType_HMODULE_hModule, byte* lpName, [MarshalAs(UnmanagedType.LPStr)] string lpType);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindResourceA(cpointer unfoundType_HMODULE_hModule, byte* lpName, byte* lpType);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindResourceExA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpType, [MarshalAs(UnmanagedType.LPStr)] string lpName, short wLanguage);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindResourceExA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpType, byte* lpName, short wLanguage);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindResourceExA(cpointer unfoundType_HMODULE_hModule, byte* lpType, [MarshalAs(UnmanagedType.LPStr)] string lpName, short wLanguage);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindResourceExA(cpointer unfoundType_HMODULE_hModule, byte* lpType, byte* lpName, short wLanguage);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumResourceTypesA(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_ENUMRESTYPEPROCA_lpEnumFunc, long lParam);
     [DllImport("kernel32", EntryPoint="EnumResourceTypesW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4189,7 +4417,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumResourceTypesW(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_ENUMRESTYPEPROCW_lpEnumFunc, long lParam);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int EnumResourceLanguagesA(cpointer unfoundType_HMODULE_hModule, cpointer unfoundType_LPCSTR_lpType, cpointer unfoundType_LPCSTR_lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam);
+        int EnumResourceLanguagesA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpType, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumResourceLanguagesA(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPStr)] string lpType, byte* lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumResourceLanguagesA(cpointer unfoundType_HMODULE_hModule, byte* lpType, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumResourceLanguagesA(cpointer unfoundType_HMODULE_hModule, byte* lpType, byte* lpName, cpointer unfoundType_ENUMRESLANGPROCA_lpEnumFunc, long lParam);
     [DllImport("kernel32", EntryPoint="EnumResourceLanguagesW", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumResourceLanguages(cpointer unfoundType_HMODULE_hModule, [MarshalAs(UnmanagedType.LPWStr)] string lpType, [MarshalAs(UnmanagedType.LPWStr)] string lpName, cpointer unfoundType_ENUMRESLANGPROCW_lpEnumFunc, long lParam);
     [DllImport("kernel32", EntryPoint="EnumResourceLanguagesW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4207,7 +4441,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumResourceLanguagesW(cpointer unfoundType_HMODULE_hModule, char* lpType, char* lpName, cpointer unfoundType_ENUMRESLANGPROCW_lpEnumFunc, long lParam);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer BeginUpdateResourceA(cpointer unfoundType_LPCSTR_pFileName, int bDeleteExistingResources);
+        cpointer BeginUpdateResourceA([MarshalAs(UnmanagedType.LPStr)] string pFileName, int bDeleteExistingResources);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer BeginUpdateResourceA(byte* pFileName, int bDeleteExistingResources);
     [DllImport("kernel32", EntryPoint="BeginUpdateResourceW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer BeginUpdateResource([MarshalAs(UnmanagedType.LPWStr)] string pFileName, int bDeleteExistingResources);
     [DllImport("kernel32", EntryPoint="BeginUpdateResourceW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4217,7 +4453,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer BeginUpdateResourceW(char* pFileName, int bDeleteExistingResources);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int UpdateResourceA(cpointer hUpdate, cpointer unfoundType_LPCSTR_lpType, cpointer unfoundType_LPCSTR_lpName, short wLanguage, cpointer lpData, int cb);
+        int UpdateResourceA(cpointer hUpdate, [MarshalAs(UnmanagedType.LPStr)] string lpType, [MarshalAs(UnmanagedType.LPStr)] string lpName, short wLanguage, cpointer lpData, int cb);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int UpdateResourceA(cpointer hUpdate, [MarshalAs(UnmanagedType.LPStr)] string lpType, byte* lpName, short wLanguage, cpointer lpData, int cb);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int UpdateResourceA(cpointer hUpdate, byte* lpType, [MarshalAs(UnmanagedType.LPStr)] string lpName, short wLanguage, cpointer lpData, int cb);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int UpdateResourceA(cpointer hUpdate, byte* lpType, byte* lpName, short wLanguage, cpointer lpData, int cb);
     [DllImport("kernel32", EntryPoint="UpdateResourceW", SetLastError=true, ExactSpelling=true)] public static extern
         int UpdateResource(cpointer hUpdate, [MarshalAs(UnmanagedType.LPWStr)] string lpType, [MarshalAs(UnmanagedType.LPWStr)] string lpName, short wLanguage, cpointer lpData, int cb);
     [DllImport("kernel32", EntryPoint="UpdateResourceW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4241,7 +4483,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int EndUpdateResourceW(cpointer hUpdate, int fDiscard);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        short GlobalAddAtomA(cpointer unfoundType_LPCSTR_lpString);
+        short GlobalAddAtomA([MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        short GlobalAddAtomA(byte* lpString);
     [DllImport("kernel32", EntryPoint="GlobalAddAtomW", SetLastError=true, ExactSpelling=true)] public static extern
         short GlobalAddAtom([MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("kernel32", EntryPoint="GlobalAddAtomW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4251,7 +4495,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         short GlobalAddAtomW(char* lpString);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        short GlobalAddAtomExA(cpointer unfoundType_LPCSTR_lpString, int Flags);
+        short GlobalAddAtomExA([MarshalAs(UnmanagedType.LPStr)] string lpString, int Flags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        short GlobalAddAtomExA(byte* lpString, int Flags);
     [DllImport("kernel32", EntryPoint="GlobalAddAtomExW", SetLastError=true, ExactSpelling=true)] public static extern
         short GlobalAddAtomEx([MarshalAs(UnmanagedType.LPWStr)] string lpString, int Flags);
     [DllImport("kernel32", EntryPoint="GlobalAddAtomExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4261,7 +4507,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         short GlobalAddAtomExW(char* lpString, int Flags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        short GlobalFindAtomA(cpointer unfoundType_LPCSTR_lpString);
+        short GlobalFindAtomA([MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        short GlobalFindAtomA(byte* lpString);
     [DllImport("kernel32", EntryPoint="GlobalFindAtomW", SetLastError=true, ExactSpelling=true)] public static extern
         short GlobalFindAtom([MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("kernel32", EntryPoint="GlobalFindAtomW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4285,7 +4533,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         uint GlobalGetAtomNameW(short nAtom, char* lpBuffer, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        short AddAtomA(cpointer unfoundType_LPCSTR_lpString);
+        short AddAtomA([MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        short AddAtomA(byte* lpString);
     [DllImport("kernel32", EntryPoint="AddAtomW", SetLastError=true, ExactSpelling=true)] public static extern
         short AddAtom([MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("kernel32", EntryPoint="AddAtomW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4295,7 +4545,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         short AddAtomW(char* lpString);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        short FindAtomA(cpointer unfoundType_LPCSTR_lpString);
+        short FindAtomA([MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        short FindAtomA(byte* lpString);
     [DllImport("kernel32", EntryPoint="FindAtomW", SetLastError=true, ExactSpelling=true)] public static extern
         short FindAtom([MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("kernel32", EntryPoint="FindAtomW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4319,7 +4571,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         uint GetAtomNameW(short nAtom, char* lpBuffer, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint GetProfileIntA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, int nDefault);
+        uint GetProfileIntA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, int nDefault);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetProfileIntA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, int nDefault);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetProfileIntA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, int nDefault);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetProfileIntA(byte* lpAppName, byte* lpKeyName, int nDefault);
     [DllImport("kernel32", EntryPoint="GetProfileIntW", SetLastError=true, ExactSpelling=true)] public static extern
         uint GetProfileInt([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, [MarshalAs(UnmanagedType.LPWStr)] string lpKeyName, int nDefault);
     [DllImport("kernel32", EntryPoint="GetProfileIntW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4337,11 +4595,53 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         uint GetProfileIntW(char* lpAppName, char* lpKeyName, int nDefault);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetProfileStringA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, cpointer unfoundType_LPCSTR_lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetProfileStringA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, cpointer unfoundType_LPCSTR_lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetProfileStringA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, cpointer unfoundType_LPCSTR_lpDefault, byte* lpReturnedString, int nSize);
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize);
     [DllImport("kernel32", EntryPoint="GetProfileStringW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetProfileString([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, [MarshalAs(UnmanagedType.LPWStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPWStr)] string lpDefault, string lpReturnedString, int nSize);
     [DllImport("kernel32", EntryPoint="GetProfileStringW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4407,7 +4707,21 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetProfileStringW(char* lpAppName, char* lpKeyName, char* lpDefault, char* lpReturnedString, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WriteProfileStringA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, cpointer unfoundType_LPCSTR_lpString);
+        int WriteProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpString);
     [DllImport("kernel32", EntryPoint="WriteProfileStringW", SetLastError=true, ExactSpelling=true)] public static extern
         int WriteProfileString([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, [MarshalAs(UnmanagedType.LPWStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("kernel32", EntryPoint="WriteProfileStringW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4441,11 +4755,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int WriteProfileStringW(char* lpAppName, char* lpKeyName, char* lpString);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetProfileSectionA(cpointer unfoundType_LPCSTR_lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+        int GetProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetProfileSectionA(cpointer unfoundType_LPCSTR_lpAppName, ReadOnlySpan<byte> lpReturnedString, int nSize);
+        int GetProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, ReadOnlySpan<byte> lpReturnedString, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetProfileSectionA(cpointer unfoundType_LPCSTR_lpAppName, byte* lpReturnedString, int nSize);
+        int GetProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileSectionA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileSectionA(byte* lpAppName, ReadOnlySpan<byte> lpReturnedString, int nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetProfileSectionA(byte* lpAppName, byte* lpReturnedString, int nSize);
     [DllImport("kernel32", EntryPoint="GetProfileSectionW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetProfileSection([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, string lpReturnedString, int nSize);
     [DllImport("kernel32", EntryPoint="GetProfileSectionW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4463,7 +4783,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetProfileSectionW(char* lpAppName, char* lpReturnedString, int nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WriteProfileSectionA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpString);
+        int WriteProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileSectionA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WriteProfileSectionA(byte* lpAppName, byte* lpString);
     [DllImport("kernel32", EntryPoint="WriteProfileSectionW", SetLastError=true, ExactSpelling=true)] public static extern
         int WriteProfileSection([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("kernel32", EntryPoint="WriteProfileSectionW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4481,7 +4807,21 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int WriteProfileSectionW(char* lpAppName, char* lpString);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint GetPrivateProfileIntA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, int nDefault, cpointer unfoundType_LPCSTR_lpFileName);
+        uint GetPrivateProfileIntA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, int nDefault, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetPrivateProfileIntA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, int nDefault, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetPrivateProfileIntA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, int nDefault, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetPrivateProfileIntA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, int nDefault, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetPrivateProfileIntA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, int nDefault, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetPrivateProfileIntA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, int nDefault, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetPrivateProfileIntA(byte* lpAppName, byte* lpKeyName, int nDefault, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint GetPrivateProfileIntA(byte* lpAppName, byte* lpKeyName, int nDefault, byte* lpFileName);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileIntW", SetLastError=true, ExactSpelling=true)] public static extern
         uint GetPrivateProfileInt([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, [MarshalAs(UnmanagedType.LPWStr)] string lpKeyName, int nDefault, [MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileIntW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4515,11 +4855,101 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         uint GetPrivateProfileIntW(char* lpAppName, char* lpKeyName, int nDefault, char* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileStringA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, cpointer unfoundType_LPCSTR_lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileStringA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, cpointer unfoundType_LPCSTR_lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileStringA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, cpointer unfoundType_LPCSTR_lpDefault, byte* lpReturnedString, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpDefault, byte* lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpDefault, byte* lpReturnedString, int nSize, byte* lpFileName);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileStringW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetPrivateProfileString([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, [MarshalAs(UnmanagedType.LPWStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPWStr)] string lpDefault, string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileStringW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4649,7 +5079,37 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetPrivateProfileStringW(char* lpAppName, char* lpKeyName, char* lpDefault, char* lpReturnedString, int nSize, char* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WritePrivateProfileStringA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpKeyName, cpointer unfoundType_LPCSTR_lpString, cpointer unfoundType_LPCSTR_lpFileName);
+        int WritePrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpKeyName, byte* lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpKeyName, byte* lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA(byte* lpAppName, byte* lpKeyName, [MarshalAs(UnmanagedType.LPStr)] string lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStringA(byte* lpAppName, byte* lpKeyName, byte* lpString, byte* lpFileName);
     [DllImport("kernel32", EntryPoint="WritePrivateProfileStringW", SetLastError=true, ExactSpelling=true)] public static extern
         int WritePrivateProfileString([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, [MarshalAs(UnmanagedType.LPWStr)] string lpKeyName, [MarshalAs(UnmanagedType.LPWStr)] string lpString, [MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("kernel32", EntryPoint="WritePrivateProfileStringW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4715,11 +5175,29 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int WritePrivateProfileStringW(char* lpAppName, char* lpKeyName, char* lpString, char* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileSectionA(cpointer unfoundType_LPCSTR_lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileSectionA(cpointer unfoundType_LPCSTR_lpAppName, ReadOnlySpan<byte> lpReturnedString, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileSectionA(cpointer unfoundType_LPCSTR_lpAppName, byte* lpReturnedString, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA(byte* lpAppName, ReadOnlySpan<byte> lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA(byte* lpAppName, ReadOnlySpan<byte> lpReturnedString, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA(byte* lpAppName, byte* lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionA(byte* lpAppName, byte* lpReturnedString, int nSize, byte* lpFileName);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileSectionW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetPrivateProfileSection([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, string lpReturnedString, int nSize, [MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileSectionW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4753,7 +5231,21 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetPrivateProfileSectionW(char* lpAppName, char* lpReturnedString, int nSize, char* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WritePrivateProfileSectionA(cpointer unfoundType_LPCSTR_lpAppName, cpointer unfoundType_LPCSTR_lpString, cpointer unfoundType_LPCSTR_lpFileName);
+        int WritePrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileSectionA([MarshalAs(UnmanagedType.LPStr)] string lpAppName, byte* lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileSectionA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileSectionA(byte* lpAppName, [MarshalAs(UnmanagedType.LPStr)] string lpString, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileSectionA(byte* lpAppName, byte* lpString, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileSectionA(byte* lpAppName, byte* lpString, byte* lpFileName);
     [DllImport("kernel32", EntryPoint="WritePrivateProfileSectionW", SetLastError=true, ExactSpelling=true)] public static extern
         int WritePrivateProfileSection([MarshalAs(UnmanagedType.LPWStr)] string lpAppName, [MarshalAs(UnmanagedType.LPWStr)] string lpString, [MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("kernel32", EntryPoint="WritePrivateProfileSectionW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4787,11 +5279,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int WritePrivateProfileSectionW(char* lpAppName, char* lpString, char* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileSectionNamesA([MarshalAs(UnmanagedType.LPStr)] string lpszReturnBuffer, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileSectionNamesA([MarshalAs(UnmanagedType.LPStr)] string lpszReturnBuffer, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileSectionNamesA(ReadOnlySpan<byte> lpszReturnBuffer, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileSectionNamesA([MarshalAs(UnmanagedType.LPStr)] string lpszReturnBuffer, int nSize, byte* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileSectionNamesA(byte* lpszReturnBuffer, int nSize, cpointer unfoundType_LPCSTR_lpFileName);
+        int GetPrivateProfileSectionNamesA(ReadOnlySpan<byte> lpszReturnBuffer, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionNamesA(ReadOnlySpan<byte> lpszReturnBuffer, int nSize, byte* lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionNamesA(byte* lpszReturnBuffer, int nSize, [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileSectionNamesA(byte* lpszReturnBuffer, int nSize, byte* lpFileName);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileSectionNamesW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetPrivateProfileSectionNames(string lpszReturnBuffer, int nSize, [MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileSectionNamesW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4809,7 +5307,21 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetPrivateProfileSectionNamesW(char* lpszReturnBuffer, int nSize, char* lpFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetPrivateProfileStructA(cpointer unfoundType_LPCSTR_lpszSection, cpointer unfoundType_LPCSTR_lpszKey, cpointer lpStruct, uint uSizeStruct, cpointer unfoundType_LPCSTR_szFile);
+        int GetPrivateProfileStructA([MarshalAs(UnmanagedType.LPStr)] string lpszSection, [MarshalAs(UnmanagedType.LPStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPStr)] string szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStructA([MarshalAs(UnmanagedType.LPStr)] string lpszSection, [MarshalAs(UnmanagedType.LPStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, byte* szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStructA([MarshalAs(UnmanagedType.LPStr)] string lpszSection, byte* lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPStr)] string szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStructA([MarshalAs(UnmanagedType.LPStr)] string lpszSection, byte* lpszKey, cpointer lpStruct, uint uSizeStruct, byte* szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStructA(byte* lpszSection, [MarshalAs(UnmanagedType.LPStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPStr)] string szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStructA(byte* lpszSection, [MarshalAs(UnmanagedType.LPStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, byte* szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStructA(byte* lpszSection, byte* lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPStr)] string szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetPrivateProfileStructA(byte* lpszSection, byte* lpszKey, cpointer lpStruct, uint uSizeStruct, byte* szFile);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileStructW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetPrivateProfileStruct([MarshalAs(UnmanagedType.LPWStr)] string lpszSection, [MarshalAs(UnmanagedType.LPWStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPWStr)] string szFile);
     [DllImport("kernel32", EntryPoint="GetPrivateProfileStructW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4843,7 +5355,21 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetPrivateProfileStructW(char* lpszSection, char* lpszKey, cpointer lpStruct, uint uSizeStruct, char* szFile);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WritePrivateProfileStructA(cpointer unfoundType_LPCSTR_lpszSection, cpointer unfoundType_LPCSTR_lpszKey, cpointer lpStruct, uint uSizeStruct, cpointer unfoundType_LPCSTR_szFile);
+        int WritePrivateProfileStructA([MarshalAs(UnmanagedType.LPStr)] string lpszSection, [MarshalAs(UnmanagedType.LPStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPStr)] string szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStructA([MarshalAs(UnmanagedType.LPStr)] string lpszSection, [MarshalAs(UnmanagedType.LPStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, byte* szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStructA([MarshalAs(UnmanagedType.LPStr)] string lpszSection, byte* lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPStr)] string szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStructA([MarshalAs(UnmanagedType.LPStr)] string lpszSection, byte* lpszKey, cpointer lpStruct, uint uSizeStruct, byte* szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStructA(byte* lpszSection, [MarshalAs(UnmanagedType.LPStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPStr)] string szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStructA(byte* lpszSection, [MarshalAs(UnmanagedType.LPStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, byte* szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStructA(byte* lpszSection, byte* lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPStr)] string szFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WritePrivateProfileStructA(byte* lpszSection, byte* lpszKey, cpointer lpStruct, uint uSizeStruct, byte* szFile);
     [DllImport("kernel32", EntryPoint="WritePrivateProfileStructW", SetLastError=true, ExactSpelling=true)] public static extern
         int WritePrivateProfileStruct([MarshalAs(UnmanagedType.LPWStr)] string lpszSection, [MarshalAs(UnmanagedType.LPWStr)] string lpszKey, cpointer lpStruct, uint uSizeStruct, [MarshalAs(UnmanagedType.LPWStr)] string szFile);
     [DllImport("kernel32", EntryPoint="WritePrivateProfileStructW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4877,7 +5403,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int WritePrivateProfileStructW(char* lpszSection, char* lpszKey, cpointer lpStruct, uint uSizeStruct, char* szFile);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetDllDirectoryA(cpointer unfoundType_LPCSTR_lpPathName);
+        int SetDllDirectoryA([MarshalAs(UnmanagedType.LPStr)] string lpPathName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetDllDirectoryA(byte* lpPathName);
     [DllImport("kernel32", EntryPoint="SetDllDirectoryW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetDllDirectory([MarshalAs(UnmanagedType.LPWStr)] string lpPathName);
     [DllImport("kernel32", EntryPoint="SetDllDirectoryW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4903,7 +5431,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetSearchPathMode(int Flags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateDirectoryExA(cpointer unfoundType_LPCSTR_lpTemplateDirectory, cpointer unfoundType_LPCSTR_lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+        int CreateDirectoryExA([MarshalAs(UnmanagedType.LPStr)] string lpTemplateDirectory, [MarshalAs(UnmanagedType.LPStr)] string lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateDirectoryExA([MarshalAs(UnmanagedType.LPStr)] string lpTemplateDirectory, byte* lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateDirectoryExA(byte* lpTemplateDirectory, [MarshalAs(UnmanagedType.LPStr)] string lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateDirectoryExA(byte* lpTemplateDirectory, byte* lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", EntryPoint="CreateDirectoryExW", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateDirectoryEx([MarshalAs(UnmanagedType.LPWStr)] string lpTemplateDirectory, [MarshalAs(UnmanagedType.LPWStr)] string lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", EntryPoint="CreateDirectoryExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4921,7 +5455,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateDirectoryExW(char* lpTemplateDirectory, char* lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateDirectoryTransactedA(cpointer unfoundType_LPCSTR_lpTemplateDirectory, cpointer unfoundType_LPCSTR_lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
+        int CreateDirectoryTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpTemplateDirectory, [MarshalAs(UnmanagedType.LPStr)] string lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateDirectoryTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpTemplateDirectory, byte* lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateDirectoryTransactedA(byte* lpTemplateDirectory, [MarshalAs(UnmanagedType.LPStr)] string lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateDirectoryTransactedA(byte* lpTemplateDirectory, byte* lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="CreateDirectoryTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpTemplateDirectory, [MarshalAs(UnmanagedType.LPWStr)] string lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="CreateDirectoryTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4939,7 +5479,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateDirectoryTransactedW(char* lpTemplateDirectory, char* lpNewDirectory, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int RemoveDirectoryTransactedA(cpointer unfoundType_LPCSTR_lpPathName, cpointer hTransaction);
+        int RemoveDirectoryTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpPathName, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int RemoveDirectoryTransactedA(byte* lpPathName, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="RemoveDirectoryTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int RemoveDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpPathName, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="RemoveDirectoryTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4949,11 +5491,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int RemoveDirectoryTransactedW(char* lpPathName, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameTransactedA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
+        int GetFullPathNameTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameTransactedA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
+        int GetFullPathNameTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFullPathNameTransactedA(cpointer unfoundType_LPCSTR_lpFileName, int nBufferLength, byte* lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
+        int GetFullPathNameTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int nBufferLength, byte* lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameTransactedA(byte* lpFileName, int nBufferLength, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameTransactedA(byte* lpFileName, int nBufferLength, ReadOnlySpan<byte> lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFullPathNameTransactedA(byte* lpFileName, int nBufferLength, byte* lpBuffer, cpointer unfoundType_LPSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="GetFullPathNameTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFullPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, int nBufferLength, string lpBuffer, cpointer unfoundType_LPWSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="GetFullPathNameTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4971,15 +5519,29 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFullPathNameTransactedW(char* lpFileName, int nBufferLength, char* lpBuffer, cpointer unfoundType_LPWSTRlpFilePartlpFilePart_unnamed_3, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DefineDosDeviceA(int dwFlags, cpointer unfoundType_LPCSTR_lpDeviceName, cpointer unfoundType_LPCSTR_lpTargetPath);
+        int DefineDosDeviceA(int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpDeviceName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetPath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int QueryDosDeviceA(cpointer unfoundType_LPCSTR_lpDeviceName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetPath, int ucchMax);
+        int DefineDosDeviceA(int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpDeviceName, byte* lpTargetPath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int QueryDosDeviceA(cpointer unfoundType_LPCSTR_lpDeviceName, ReadOnlySpan<byte> lpTargetPath, int ucchMax);
+        int DefineDosDeviceA(int dwFlags, byte* lpDeviceName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetPath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int QueryDosDeviceA(cpointer unfoundType_LPCSTR_lpDeviceName, byte* lpTargetPath, int ucchMax);
+        int DefineDosDeviceA(int dwFlags, byte* lpDeviceName, byte* lpTargetPath);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateFileTransactedA(cpointer unfoundType_LPCSTR_lpFileName, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, cpointer hTemplateFile, cpointer hTransaction, cpointer unfoundType_PUSHORT_pusMiniVersion, cpointer lpExtendedParameter);
+        int QueryDosDeviceA([MarshalAs(UnmanagedType.LPStr)] string lpDeviceName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetPath, int ucchMax);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryDosDeviceA([MarshalAs(UnmanagedType.LPStr)] string lpDeviceName, ReadOnlySpan<byte> lpTargetPath, int ucchMax);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryDosDeviceA([MarshalAs(UnmanagedType.LPStr)] string lpDeviceName, byte* lpTargetPath, int ucchMax);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryDosDeviceA(byte* lpDeviceName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetPath, int ucchMax);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryDosDeviceA(byte* lpDeviceName, ReadOnlySpan<byte> lpTargetPath, int ucchMax);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int QueryDosDeviceA(byte* lpDeviceName, byte* lpTargetPath, int ucchMax);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateFileTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, cpointer hTemplateFile, cpointer hTransaction, cpointer unfoundType_PUSHORT_pusMiniVersion, cpointer lpExtendedParameter);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateFileTransactedA(byte* lpFileName, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, cpointer hTemplateFile, cpointer hTransaction, cpointer unfoundType_PUSHORT_pusMiniVersion, cpointer lpExtendedParameter);
     [DllImport("kernel32", EntryPoint="CreateFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwCreationDisposition, int dwFlagsAndAttributes, cpointer hTemplateFile, cpointer hTransaction, cpointer unfoundType_PUSHORT_pusMiniVersion, cpointer lpExtendedParameter);
     [DllImport("kernel32", EntryPoint="CreateFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -4991,7 +5553,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer ReOpenFile(cpointer hOriginalFile, int dwDesiredAccess, int dwShareMode, int dwFlagsAndAttributes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetFileAttributesTransactedA(cpointer unfoundType_LPCSTR_lpFileName, int dwFileAttributes, cpointer hTransaction);
+        int SetFileAttributesTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, int dwFileAttributes, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetFileAttributesTransactedA(byte* lpFileName, int dwFileAttributes, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="SetFileAttributesTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, int dwFileAttributes, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="SetFileAttributesTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5001,7 +5565,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetFileAttributesTransactedW(char* lpFileName, int dwFileAttributes, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetFileAttributesTransactedA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation, cpointer hTransaction);
+        int GetFileAttributesTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetFileAttributesTransactedA(byte* lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="GetFileAttributesTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="GetFileAttributesTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5011,7 +5577,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetFileAttributesTransactedW(char* lpFileName, cpointer unfoundType_GET_FILEEX_INFO_LEVELS_fInfoLevelId, cpointer lpFileInformation, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetCompressedFileSizeTransactedA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh, cpointer hTransaction);
+        int GetCompressedFileSizeTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetCompressedFileSizeTransactedA(byte* lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="GetCompressedFileSizeTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetCompressedFileSizeTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="GetCompressedFileSizeTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5021,7 +5589,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetCompressedFileSizeTransactedW(char* lpFileName, cpointer unfoundType_LPDWORD_lpFileSizeHigh, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DeleteFileTransactedA(cpointer unfoundType_LPCSTR_lpFileName, cpointer hTransaction);
+        int DeleteFileTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DeleteFileTransactedA(byte* lpFileName, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="DeleteFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int DeleteFileTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="DeleteFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5031,11 +5601,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int DeleteFileTransactedW(char* lpFileName, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CheckNameLegalDOS8Dot3A(cpointer unfoundType_LPCSTR_lpName, [MarshalAs(UnmanagedType.LPStr)] string lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
+        int CheckNameLegalDOS8Dot3A([MarshalAs(UnmanagedType.LPStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CheckNameLegalDOS8Dot3A(cpointer unfoundType_LPCSTR_lpName, ReadOnlySpan<byte> lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
+        int CheckNameLegalDOS8Dot3A([MarshalAs(UnmanagedType.LPStr)] string lpName, ReadOnlySpan<byte> lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CheckNameLegalDOS8Dot3A(cpointer unfoundType_LPCSTR_lpName, byte* lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
+        int CheckNameLegalDOS8Dot3A([MarshalAs(UnmanagedType.LPStr)] string lpName, byte* lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CheckNameLegalDOS8Dot3A(byte* lpName, [MarshalAs(UnmanagedType.LPStr)] string lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CheckNameLegalDOS8Dot3A(byte* lpName, ReadOnlySpan<byte> lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CheckNameLegalDOS8Dot3A(byte* lpName, byte* lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
     [DllImport("kernel32", EntryPoint="CheckNameLegalDOS8Dot3W", SetLastError=true, ExactSpelling=true)] public static extern
         int CheckNameLegalDOS8Dot3([MarshalAs(UnmanagedType.LPWStr)] string lpName, [MarshalAs(UnmanagedType.LPStr)] string lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
     [DllImport("kernel32", EntryPoint="CheckNameLegalDOS8Dot3W", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5061,7 +5637,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CheckNameLegalDOS8Dot3W(char* lpName, byte* lpOemName, int OemNameSize, cpointer pbNameContainsSpaces, cpointer pbNameLegal);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindFirstFileTransactedA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags, cpointer hTransaction);
+        cpointer FindFirstFileTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindFirstFileTransactedA(byte* lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="FindFirstFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstFileTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="FindFirstFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5071,7 +5649,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstFileTransactedW(char* lpFileName, cpointer unfoundType_FINDEX_INFO_LEVELS_fInfoLevelId, cpointer lpFindFileData, cpointer unfoundType_FINDEX_SEARCH_OPS_fSearchOp, cpointer lpSearchFilter, int dwAdditionalFlags, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CopyFileA(cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPCSTR_lpNewFileName, int bFailIfExists);
+        int CopyFileA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, int bFailIfExists);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, byte* lpNewFileName, int bFailIfExists);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileA(byte* lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, int bFailIfExists);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileA(byte* lpExistingFileName, byte* lpNewFileName, int bFailIfExists);
     [DllImport("kernel32", EntryPoint="CopyFileW", SetLastError=true, ExactSpelling=true)] public static extern
         int CopyFile([MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpNewFileName, int bFailIfExists);
     [DllImport("kernel32", EntryPoint="CopyFileW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5089,7 +5673,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CopyFileW(char* lpExistingFileName, char* lpNewFileName, int bFailIfExists);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CopyFileExA(cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPCSTR_lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags);
+        int CopyFileExA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileExA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, byte* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileExA(byte* lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileExA(byte* lpExistingFileName, byte* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags);
     [DllImport("kernel32", EntryPoint="CopyFileExW", SetLastError=true, ExactSpelling=true)] public static extern
         int CopyFileEx([MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags);
     [DllImport("kernel32", EntryPoint="CopyFileExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5107,7 +5697,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CopyFileExW(char* lpExistingFileName, char* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CopyFileTransactedA(cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPCSTR_lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags, cpointer hTransaction);
+        int CopyFileTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, byte* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileTransactedA(byte* lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CopyFileTransactedA(byte* lpExistingFileName, byte* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="CopyFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int CopyFileTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, cpointer unfoundType_LPBOOL_pbCancel, int dwCopyFlags, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="CopyFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5133,7 +5729,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CopyFile2(char* pwszExistingFileName, char* pwszNewFileName, cpointer unfoundType_COPYFILE2_EXTENDED_PARAMETERSpExtendedParameterspExtendedParameters_unnamed_2);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int MoveFileA(cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPCSTR_lpNewFileName);
+        int MoveFileA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, byte* lpNewFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileA(byte* lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileA(byte* lpExistingFileName, byte* lpNewFileName);
     [DllImport("kernel32", EntryPoint="MoveFileW", SetLastError=true, ExactSpelling=true)] public static extern
         int MoveFile([MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpNewFileName);
     [DllImport("kernel32", EntryPoint="MoveFileW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5151,7 +5753,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int MoveFileW(char* lpExistingFileName, char* lpNewFileName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int MoveFileExA(cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPCSTR_lpNewFileName, int dwFlags);
+        int MoveFileExA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileExA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, byte* lpNewFileName, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileExA(byte* lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileExA(byte* lpExistingFileName, byte* lpNewFileName, int dwFlags);
     [DllImport("kernel32", EntryPoint="MoveFileExW", SetLastError=true, ExactSpelling=true)] public static extern
         int MoveFileEx([MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpNewFileName, int dwFlags);
     [DllImport("kernel32", EntryPoint="MoveFileExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5169,7 +5777,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int MoveFileExW(char* lpExistingFileName, char* lpNewFileName, int dwFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int MoveFileWithProgressA(cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPCSTR_lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags);
+        int MoveFileWithProgressA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileWithProgressA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, byte* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileWithProgressA(byte* lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileWithProgressA(byte* lpExistingFileName, byte* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags);
     [DllImport("kernel32", EntryPoint="MoveFileWithProgressW", SetLastError=true, ExactSpelling=true)] public static extern
         int MoveFileWithProgress([MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags);
     [DllImport("kernel32", EntryPoint="MoveFileWithProgressW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5187,7 +5801,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int MoveFileWithProgressW(char* lpExistingFileName, char* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int MoveFileTransactedA(cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPCSTR_lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags, cpointer hTransaction);
+        int MoveFileTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, byte* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileTransactedA(byte* lpExistingFileName, [MarshalAs(UnmanagedType.LPStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MoveFileTransactedA(byte* lpExistingFileName, byte* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="MoveFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int MoveFileTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="MoveFileTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5205,7 +5825,21 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int MoveFileTransactedW(char* lpExistingFileName, char* lpNewFileName, cpointer unfoundType_LPPROGRESS_ROUTINE_lpProgressRoutine, cpointer lpData, int dwFlags, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ReplaceFileA(cpointer unfoundType_LPCSTR_lpReplacedFileName, cpointer unfoundType_LPCSTR_lpReplacementFileName, cpointer unfoundType_LPCSTR_lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
+        int ReplaceFileA([MarshalAs(UnmanagedType.LPStr)] string lpReplacedFileName, [MarshalAs(UnmanagedType.LPStr)] string lpReplacementFileName, [MarshalAs(UnmanagedType.LPStr)] string lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReplaceFileA([MarshalAs(UnmanagedType.LPStr)] string lpReplacedFileName, [MarshalAs(UnmanagedType.LPStr)] string lpReplacementFileName, byte* lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReplaceFileA([MarshalAs(UnmanagedType.LPStr)] string lpReplacedFileName, byte* lpReplacementFileName, [MarshalAs(UnmanagedType.LPStr)] string lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReplaceFileA([MarshalAs(UnmanagedType.LPStr)] string lpReplacedFileName, byte* lpReplacementFileName, byte* lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReplaceFileA(byte* lpReplacedFileName, [MarshalAs(UnmanagedType.LPStr)] string lpReplacementFileName, [MarshalAs(UnmanagedType.LPStr)] string lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReplaceFileA(byte* lpReplacedFileName, [MarshalAs(UnmanagedType.LPStr)] string lpReplacementFileName, byte* lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReplaceFileA(byte* lpReplacedFileName, byte* lpReplacementFileName, [MarshalAs(UnmanagedType.LPStr)] string lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ReplaceFileA(byte* lpReplacedFileName, byte* lpReplacementFileName, byte* lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
     [DllImport("kernel32", EntryPoint="ReplaceFileW", SetLastError=true, ExactSpelling=true)] public static extern
         int ReplaceFile([MarshalAs(UnmanagedType.LPWStr)] string lpReplacedFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpReplacementFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
     [DllImport("kernel32", EntryPoint="ReplaceFileW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5239,7 +5873,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int ReplaceFileW(char* lpReplacedFileName, char* lpReplacementFileName, char* lpBackupFileName, int dwReplaceFlags, cpointer lpExclude, cpointer lpReserved);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateHardLinkA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+        int CreateHardLinkA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateHardLinkA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateHardLinkA(byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateHardLinkA(byte* lpFileName, byte* lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", EntryPoint="CreateHardLinkW", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateHardLink([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", EntryPoint="CreateHardLinkW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5257,7 +5897,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateHardLinkW(char* lpFileName, char* lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CreateHardLinkTransactedA(cpointer unfoundType_LPCSTR_lpFileName, cpointer unfoundType_LPCSTR_lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
+        int CreateHardLinkTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateHardLinkTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpFileName, byte* lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateHardLinkTransactedA(byte* lpFileName, [MarshalAs(UnmanagedType.LPStr)] string lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CreateHardLinkTransactedA(byte* lpFileName, byte* lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="CreateHardLinkTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateHardLinkTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpExistingFileName, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="CreateHardLinkTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5299,7 +5945,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstFileNameTransactedW(char* lpFileName, int dwFlags, cpointer unfoundType_LPDWORD_StringLength, char* LinkName, cpointer hTransaction);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateNamedPipeA(cpointer unfoundType_LPCSTR_lpName, int dwOpenMode, int dwPipeMode, int nMaxInstances, int nOutBufferSize, int nInBufferSize, int nDefaultTimeOut, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+        cpointer CreateNamedPipeA([MarshalAs(UnmanagedType.LPStr)] string lpName, int dwOpenMode, int dwPipeMode, int nMaxInstances, int nOutBufferSize, int nInBufferSize, int nDefaultTimeOut, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateNamedPipeA(byte* lpName, int dwOpenMode, int dwPipeMode, int nMaxInstances, int nOutBufferSize, int nInBufferSize, int nDefaultTimeOut, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetNamedPipeHandleStateA(cpointer hNamedPipe, cpointer unfoundType_LPDWORD_lpState, cpointer unfoundType_LPDWORD_lpCurInstances, cpointer unfoundType_LPDWORD_lpMaxCollectionCount, cpointer unfoundType_LPDWORD_lpCollectDataTimeout, [MarshalAs(UnmanagedType.LPStr)] string lpUserName, int nMaxUserNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5307,9 +5955,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetNamedPipeHandleStateA(cpointer hNamedPipe, cpointer unfoundType_LPDWORD_lpState, cpointer unfoundType_LPDWORD_lpCurInstances, cpointer unfoundType_LPDWORD_lpMaxCollectionCount, cpointer unfoundType_LPDWORD_lpCollectDataTimeout, byte* lpUserName, int nMaxUserNameSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CallNamedPipeA(cpointer unfoundType_LPCSTR_lpNamedPipeName, cpointer lpInBuffer, int nInBufferSize, cpointer lpOutBuffer, int nOutBufferSize, cpointer unfoundType_LPDWORD_lpBytesRead, int nTimeOut);
+        int CallNamedPipeA([MarshalAs(UnmanagedType.LPStr)] string lpNamedPipeName, cpointer lpInBuffer, int nInBufferSize, cpointer lpOutBuffer, int nOutBufferSize, cpointer unfoundType_LPDWORD_lpBytesRead, int nTimeOut);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WaitNamedPipeA(cpointer unfoundType_LPCSTR_lpNamedPipeName, int nTimeOut);
+        int CallNamedPipeA(byte* lpNamedPipeName, cpointer lpInBuffer, int nInBufferSize, cpointer lpOutBuffer, int nOutBufferSize, cpointer unfoundType_LPDWORD_lpBytesRead, int nTimeOut);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WaitNamedPipeA([MarshalAs(UnmanagedType.LPStr)] string lpNamedPipeName, int nTimeOut);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WaitNamedPipeA(byte* lpNamedPipeName, int nTimeOut);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetNamedPipeClientComputerNameA(cpointer Pipe, [MarshalAs(UnmanagedType.LPStr)] string ClientComputerName, uint ClientComputerNameLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5325,7 +5977,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetNamedPipeServerSessionId(cpointer Pipe, cpointer unfoundType_PULONG_ServerSessionId);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetVolumeLabelA(cpointer unfoundType_LPCSTR_lpRootPathName, cpointer unfoundType_LPCSTR_lpVolumeName);
+        int SetVolumeLabelA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetVolumeLabelA([MarshalAs(UnmanagedType.LPStr)] string lpRootPathName, byte* lpVolumeName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetVolumeLabelA(byte* lpRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpVolumeName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetVolumeLabelA(byte* lpRootPathName, byte* lpVolumeName);
     [DllImport("kernel32", EntryPoint="SetVolumeLabelW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetVolumeLabel([MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName, [MarshalAs(UnmanagedType.LPWStr)] string lpVolumeName);
     [DllImport("kernel32", EntryPoint="SetVolumeLabelW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5367,7 +6025,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int IsBadCodePtr(cpointer unfoundType__In_opt_PROC_lpfn);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int IsBadStringPtrA(cpointer unfoundType_LPCSTR_lpsz, ulong ucchMax);
+        int IsBadStringPtrA([MarshalAs(UnmanagedType.LPStr)] string lpsz, ulong ucchMax);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int IsBadStringPtrA(byte* lpsz, ulong ucchMax);
     [DllImport("kernel32", EntryPoint="IsBadStringPtrW", SetLastError=true, ExactSpelling=true)] public static extern
         int IsBadStringPtr([MarshalAs(UnmanagedType.LPWStr)] string lpsz, ulong ucchMax);
     [DllImport("kernel32", EntryPoint="IsBadStringPtrW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5377,7 +6037,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int IsBadStringPtrW(char* lpsz, ulong ucchMax);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int BuildCommDCBA(cpointer unfoundType_LPCSTR_lpDef, cpointer unfoundType_LPDCB_lpDCB);
+        int BuildCommDCBA([MarshalAs(UnmanagedType.LPStr)] string lpDef, cpointer unfoundType_LPDCB_lpDCB);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int BuildCommDCBA(byte* lpDef, cpointer unfoundType_LPDCB_lpDCB);
     [DllImport("kernel32", EntryPoint="BuildCommDCBW", SetLastError=true, ExactSpelling=true)] public static extern
         int BuildCommDCB([MarshalAs(UnmanagedType.LPWStr)] string lpDef, cpointer unfoundType_LPDCB_lpDCB);
     [DllImport("kernel32", EntryPoint="BuildCommDCBW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5387,7 +6049,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int BuildCommDCBW(char* lpDef, cpointer unfoundType_LPDCB_lpDCB);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int BuildCommDCBAndTimeoutsA(cpointer unfoundType_LPCSTR_lpDef, cpointer unfoundType_LPDCB_lpDCB, cpointer unfoundType_LPCOMMTIMEOUTS_lpCommTimeouts);
+        int BuildCommDCBAndTimeoutsA([MarshalAs(UnmanagedType.LPStr)] string lpDef, cpointer unfoundType_LPDCB_lpDCB, cpointer unfoundType_LPCOMMTIMEOUTS_lpCommTimeouts);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int BuildCommDCBAndTimeoutsA(byte* lpDef, cpointer unfoundType_LPDCB_lpDCB, cpointer unfoundType_LPCOMMTIMEOUTS_lpCommTimeouts);
     [DllImport("kernel32", EntryPoint="BuildCommDCBAndTimeoutsW", SetLastError=true, ExactSpelling=true)] public static extern
         int BuildCommDCBAndTimeouts([MarshalAs(UnmanagedType.LPWStr)] string lpDef, cpointer unfoundType_LPDCB_lpDCB, cpointer unfoundType_LPCOMMTIMEOUTS_lpCommTimeouts);
     [DllImport("kernel32", EntryPoint="BuildCommDCBAndTimeoutsW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5397,7 +6061,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int BuildCommDCBAndTimeoutsW(char* lpDef, cpointer unfoundType_LPDCB_lpDCB, cpointer unfoundType_LPCOMMTIMEOUTS_lpCommTimeouts);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CommConfigDialogA(cpointer unfoundType_LPCSTR_lpszName, cpointer hWnd, cpointer unfoundType_LPCOMMCONFIG_lpCC);
+        int CommConfigDialogA([MarshalAs(UnmanagedType.LPStr)] string lpszName, cpointer hWnd, cpointer unfoundType_LPCOMMCONFIG_lpCC);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CommConfigDialogA(byte* lpszName, cpointer hWnd, cpointer unfoundType_LPCOMMCONFIG_lpCC);
     [DllImport("kernel32", EntryPoint="CommConfigDialogW", SetLastError=true, ExactSpelling=true)] public static extern
         int CommConfigDialog([MarshalAs(UnmanagedType.LPWStr)] string lpszName, cpointer hWnd, cpointer unfoundType_LPCOMMCONFIG_lpCC);
     [DllImport("kernel32", EntryPoint="CommConfigDialogW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5407,7 +6073,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CommConfigDialogW(char* lpszName, cpointer hWnd, cpointer unfoundType_LPCOMMCONFIG_lpCC);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetDefaultCommConfigA(cpointer unfoundType_LPCSTR_lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, cpointer unfoundType_LPDWORD_lpdwSize);
+        int GetDefaultCommConfigA([MarshalAs(UnmanagedType.LPStr)] string lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, cpointer unfoundType_LPDWORD_lpdwSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetDefaultCommConfigA(byte* lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, cpointer unfoundType_LPDWORD_lpdwSize);
     [DllImport("kernel32", EntryPoint="GetDefaultCommConfigW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetDefaultCommConfig([MarshalAs(UnmanagedType.LPWStr)] string lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, cpointer unfoundType_LPDWORD_lpdwSize);
     [DllImport("kernel32", EntryPoint="GetDefaultCommConfigW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5417,7 +6085,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetDefaultCommConfigW(char* lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, cpointer unfoundType_LPDWORD_lpdwSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetDefaultCommConfigA(cpointer unfoundType_LPCSTR_lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, int dwSize);
+        int SetDefaultCommConfigA([MarshalAs(UnmanagedType.LPStr)] string lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, int dwSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetDefaultCommConfigA(byte* lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, int dwSize);
     [DllImport("kernel32", EntryPoint="SetDefaultCommConfigW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetDefaultCommConfig([MarshalAs(UnmanagedType.LPWStr)] string lpszName, cpointer unfoundType_LPCOMMCONFIG_lpCC, int dwSize);
     [DllImport("kernel32", EntryPoint="SetDefaultCommConfigW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5441,11 +6111,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetComputerNameW(char* lpBuffer, cpointer unfoundType_LPDWORD_nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DnsHostnameToComputerNameA(cpointer unfoundType_LPCSTR_Hostname, [MarshalAs(UnmanagedType.LPStr)] string ComputerName, cpointer unfoundType_LPDWORD_nSize);
+        int DnsHostnameToComputerNameA([MarshalAs(UnmanagedType.LPStr)] string Hostname, [MarshalAs(UnmanagedType.LPStr)] string ComputerName, cpointer unfoundType_LPDWORD_nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DnsHostnameToComputerNameA(cpointer unfoundType_LPCSTR_Hostname, ReadOnlySpan<byte> ComputerName, cpointer unfoundType_LPDWORD_nSize);
+        int DnsHostnameToComputerNameA([MarshalAs(UnmanagedType.LPStr)] string Hostname, ReadOnlySpan<byte> ComputerName, cpointer unfoundType_LPDWORD_nSize);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DnsHostnameToComputerNameA(cpointer unfoundType_LPCSTR_Hostname, byte* ComputerName, cpointer unfoundType_LPDWORD_nSize);
+        int DnsHostnameToComputerNameA([MarshalAs(UnmanagedType.LPStr)] string Hostname, byte* ComputerName, cpointer unfoundType_LPDWORD_nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DnsHostnameToComputerNameA(byte* Hostname, [MarshalAs(UnmanagedType.LPStr)] string ComputerName, cpointer unfoundType_LPDWORD_nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DnsHostnameToComputerNameA(byte* Hostname, ReadOnlySpan<byte> ComputerName, cpointer unfoundType_LPDWORD_nSize);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DnsHostnameToComputerNameA(byte* Hostname, byte* ComputerName, cpointer unfoundType_LPDWORD_nSize);
     [DllImport("kernel32", EntryPoint="DnsHostnameToComputerNameW", SetLastError=true, ExactSpelling=true)] public static extern
         int DnsHostnameToComputerName([MarshalAs(UnmanagedType.LPWStr)] string Hostname, string ComputerName, cpointer unfoundType_LPDWORD_nSize);
     [DllImport("kernel32", EntryPoint="DnsHostnameToComputerNameW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5473,11 +6149,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CancelTimerQueueTimer(cpointer TimerQueue, cpointer Timer);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreatePrivateNamespaceA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpPrivateNamespaceAttributes, cpointer lpBoundaryDescriptor, cpointer unfoundType_LPCSTR_lpAliasPrefix);
+        cpointer CreatePrivateNamespaceA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpPrivateNamespaceAttributes, cpointer lpBoundaryDescriptor, [MarshalAs(UnmanagedType.LPStr)] string lpAliasPrefix);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenPrivateNamespaceA(cpointer lpBoundaryDescriptor, cpointer unfoundType_LPCSTR_lpAliasPrefix);
+        cpointer CreatePrivateNamespaceA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpPrivateNamespaceAttributes, cpointer lpBoundaryDescriptor, byte* lpAliasPrefix);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateBoundaryDescriptorA(cpointer unfoundType_LPCSTR_Name, uint Flags);
+        cpointer OpenPrivateNamespaceA(cpointer lpBoundaryDescriptor, [MarshalAs(UnmanagedType.LPStr)] string lpAliasPrefix);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenPrivateNamespaceA(cpointer lpBoundaryDescriptor, byte* lpAliasPrefix);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateBoundaryDescriptorA([MarshalAs(UnmanagedType.LPStr)] string Name, uint Flags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateBoundaryDescriptorA(byte* Name, uint Flags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int AddIntegrityLabelToBoundaryDescriptor(cpointer BoundaryDescriptor, cpointer unfoundType_PSID_IntegrityLabel);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5493,9 +6175,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int MapUserPhysicalPagesScatter(cpointer unfoundType_PVOIDVirtualAddressesVirtualAddresses_unnamed_0, cpointer unfoundType_ULONG_PTR_NumberOfPages, cpointer PageArray);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateJobObjectA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpJobAttributes, cpointer unfoundType_LPCSTR_lpName);
+        cpointer CreateJobObjectA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpJobAttributes, [MarshalAs(UnmanagedType.LPStr)] string lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenJobObjectA(int dwDesiredAccess, int bInheritHandle, cpointer unfoundType_LPCSTR_lpName);
+        cpointer CreateJobObjectA(cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpJobAttributes, byte* lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenJobObjectA(int dwDesiredAccess, int bInheritHandle, [MarshalAs(UnmanagedType.LPStr)] string lpName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenJobObjectA(int dwDesiredAccess, int bInheritHandle, byte* lpName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int CreateJobSet(uint NumJob, cpointer unfoundType_PJOB_SET_ARRAY_UserJobSet, uint Flags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5511,11 +6197,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int FindNextVolumeA(cpointer hFindVolume, byte* lpszVolumeName, int cchBufferLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindFirstVolumeMountPointA(cpointer unfoundType_LPCSTR_lpszRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint, int cchBufferLength);
+        cpointer FindFirstVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint, int cchBufferLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindFirstVolumeMountPointA(cpointer unfoundType_LPCSTR_lpszRootPathName, ReadOnlySpan<byte> lpszVolumeMountPoint, int cchBufferLength);
+        cpointer FindFirstVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszRootPathName, ReadOnlySpan<byte> lpszVolumeMountPoint, int cchBufferLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindFirstVolumeMountPointA(cpointer unfoundType_LPCSTR_lpszRootPathName, byte* lpszVolumeMountPoint, int cchBufferLength);
+        cpointer FindFirstVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszRootPathName, byte* lpszVolumeMountPoint, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindFirstVolumeMountPointA(byte* lpszRootPathName, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindFirstVolumeMountPointA(byte* lpszRootPathName, ReadOnlySpan<byte> lpszVolumeMountPoint, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindFirstVolumeMountPointA(byte* lpszRootPathName, byte* lpszVolumeMountPoint, int cchBufferLength);
     [DllImport("kernel32", EntryPoint="FindFirstVolumeMountPointW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindFirstVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)] string lpszRootPathName, string lpszVolumeMountPoint, int cchBufferLength);
     [DllImport("kernel32", EntryPoint="FindFirstVolumeMountPointW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5549,7 +6241,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int FindVolumeMountPointClose(cpointer hFindVolumeMountPoint);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetVolumeMountPointA(cpointer unfoundType_LPCSTR_lpszVolumeMountPoint, cpointer unfoundType_LPCSTR_lpszVolumeName);
+        int SetVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumeName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint, byte* lpszVolumeName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetVolumeMountPointA(byte* lpszVolumeMountPoint, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumeName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetVolumeMountPointA(byte* lpszVolumeMountPoint, byte* lpszVolumeName);
     [DllImport("kernel32", EntryPoint="SetVolumeMountPointW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)] string lpszVolumeMountPoint, [MarshalAs(UnmanagedType.LPWStr)] string lpszVolumeName);
     [DllImport("kernel32", EntryPoint="SetVolumeMountPointW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5567,21 +6265,37 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetVolumeMountPointW(char* lpszVolumeMountPoint, char* lpszVolumeName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DeleteVolumeMountPointA(cpointer unfoundType_LPCSTR_lpszVolumeMountPoint);
+        int DeleteVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeNameForVolumeMountPointA(cpointer unfoundType_LPCSTR_lpszVolumeMountPoint, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumeName, int cchBufferLength);
+        int DeleteVolumeMountPointA(byte* lpszVolumeMountPoint);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeNameForVolumeMountPointA(cpointer unfoundType_LPCSTR_lpszVolumeMountPoint, ReadOnlySpan<byte> lpszVolumeName, int cchBufferLength);
+        int GetVolumeNameForVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumeName, int cchBufferLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumeNameForVolumeMountPointA(cpointer unfoundType_LPCSTR_lpszVolumeMountPoint, byte* lpszVolumeName, int cchBufferLength);
+        int GetVolumeNameForVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint, ReadOnlySpan<byte> lpszVolumeName, int cchBufferLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumePathNameA(cpointer unfoundType_LPCSTR_lpszFileName, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumePathName, int cchBufferLength);
+        int GetVolumeNameForVolumeMountPointA([MarshalAs(UnmanagedType.LPStr)] string lpszVolumeMountPoint, byte* lpszVolumeName, int cchBufferLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumePathNameA(cpointer unfoundType_LPCSTR_lpszFileName, ReadOnlySpan<byte> lpszVolumePathName, int cchBufferLength);
+        int GetVolumeNameForVolumeMountPointA(byte* lpszVolumeMountPoint, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumeName, int cchBufferLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumePathNameA(cpointer unfoundType_LPCSTR_lpszFileName, byte* lpszVolumePathName, int cchBufferLength);
+        int GetVolumeNameForVolumeMountPointA(byte* lpszVolumeMountPoint, ReadOnlySpan<byte> lpszVolumeName, int cchBufferLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetVolumePathNamesForVolumeNameA(cpointer unfoundType_LPCSTR_lpszVolumeName, cpointer unfoundType_LPCH_lpszVolumePathNames, int cchBufferLength, cpointer unfoundType_PDWORD_lpcchReturnLength);
+        int GetVolumeNameForVolumeMountPointA(byte* lpszVolumeMountPoint, byte* lpszVolumeName, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumePathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszFileName, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumePathName, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumePathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszFileName, ReadOnlySpan<byte> lpszVolumePathName, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumePathNameA([MarshalAs(UnmanagedType.LPStr)] string lpszFileName, byte* lpszVolumePathName, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumePathNameA(byte* lpszFileName, [MarshalAs(UnmanagedType.LPStr)] string lpszVolumePathName, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumePathNameA(byte* lpszFileName, ReadOnlySpan<byte> lpszVolumePathName, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumePathNameA(byte* lpszFileName, byte* lpszVolumePathName, int cchBufferLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumePathNamesForVolumeNameA([MarshalAs(UnmanagedType.LPStr)] string lpszVolumeName, cpointer unfoundType_LPCH_lpszVolumePathNames, int cchBufferLength, cpointer unfoundType_PDWORD_lpcchReturnLength);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetVolumePathNamesForVolumeNameA(byte* lpszVolumeName, cpointer unfoundType_LPCH_lpszVolumePathNames, int cchBufferLength, cpointer unfoundType_PDWORD_lpcchReturnLength);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateActCtxA(cpointer unfoundType_PCACTCTXA_pActCtx);
     [DllImport("kernel32", EntryPoint="CreateActCtxW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5601,7 +6315,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetCurrentActCtx(cpointer unfoundType_HANDLElphActCtxlphActCtx_unnamed_0);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int FindActCtxSectionStringA(int dwFlags, cpointer unfoundType_GUIDlpExtensionGuidlpExtensionGuid_unnamed_1, uint ulSectionId, cpointer unfoundType_LPCSTR_lpStringToFind, cpointer unfoundType_PACTCTX_SECTION_KEYED_DATA_ReturnedData);
+        int FindActCtxSectionStringA(int dwFlags, cpointer unfoundType_GUIDlpExtensionGuidlpExtensionGuid_unnamed_1, uint ulSectionId, [MarshalAs(UnmanagedType.LPStr)] string lpStringToFind, cpointer unfoundType_PACTCTX_SECTION_KEYED_DATA_ReturnedData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int FindActCtxSectionStringA(int dwFlags, cpointer unfoundType_GUIDlpExtensionGuidlpExtensionGuid_unnamed_1, uint ulSectionId, byte* lpStringToFind, cpointer unfoundType_PACTCTX_SECTION_KEYED_DATA_ReturnedData);
     [DllImport("kernel32", EntryPoint="FindActCtxSectionStringW", SetLastError=true, ExactSpelling=true)] public static extern
         int FindActCtxSectionString(int dwFlags, cpointer unfoundType_GUIDlpExtensionGuidlpExtensionGuid_unnamed_1, uint ulSectionId, [MarshalAs(UnmanagedType.LPWStr)] string lpStringToFind, cpointer unfoundType_PACTCTX_SECTION_KEYED_DATA_ReturnedData);
     [DllImport("kernel32", EntryPoint="FindActCtxSectionStringW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5665,7 +6381,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer OpenFileById(cpointer hVolumeHint, cpointer unfoundType_LPFILE_ID_DESCRIPTOR_lpFileId, int dwDesiredAccess, int dwShareMode, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int dwFlagsAndAttributes);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSymbolicLinkA(cpointer unfoundType_LPCSTR_lpSymlinkFileName, cpointer unfoundType_LPCSTR_lpTargetFileName, int dwFlags);
+        cpointer CreateSymbolicLinkA([MarshalAs(UnmanagedType.LPStr)] string lpSymlinkFileName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetFileName, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSymbolicLinkA([MarshalAs(UnmanagedType.LPStr)] string lpSymlinkFileName, byte* lpTargetFileName, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSymbolicLinkA(byte* lpSymlinkFileName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetFileName, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSymbolicLinkA(byte* lpSymlinkFileName, byte* lpTargetFileName, int dwFlags);
     [DllImport("kernel32", EntryPoint="CreateSymbolicLinkW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateSymbolicLink([MarshalAs(UnmanagedType.LPWStr)] string lpSymlinkFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpTargetFileName, int dwFlags);
     [DllImport("kernel32", EntryPoint="CreateSymbolicLinkW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5715,7 +6437,13 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int QueryActCtxSettingsW(int dwFlags, cpointer hActCtx, char* settingsNameSpace, char* settingName, char* pvBuffer, cpointer dwBuffer, cpointer unfoundType_SIZE_TpdwWrittenOrRequiredpdwWrittenOrRequired_unnamed_6);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateSymbolicLinkTransactedA(cpointer unfoundType_LPCSTR_lpSymlinkFileName, cpointer unfoundType_LPCSTR_lpTargetFileName, int dwFlags, cpointer hTransaction);
+        cpointer CreateSymbolicLinkTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpSymlinkFileName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetFileName, int dwFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSymbolicLinkTransactedA([MarshalAs(UnmanagedType.LPStr)] string lpSymlinkFileName, byte* lpTargetFileName, int dwFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSymbolicLinkTransactedA(byte* lpSymlinkFileName, [MarshalAs(UnmanagedType.LPStr)] string lpTargetFileName, int dwFlags, cpointer hTransaction);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateSymbolicLinkTransactedA(byte* lpSymlinkFileName, byte* lpTargetFileName, int dwFlags, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="CreateSymbolicLinkTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateSymbolicLinkTransacted([MarshalAs(UnmanagedType.LPWStr)] string lpSymlinkFileName, [MarshalAs(UnmanagedType.LPWStr)] string lpTargetFileName, int dwFlags, cpointer hTransaction);
     [DllImport("kernel32", EntryPoint="CreateSymbolicLinkTransactedW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5771,55 +6499,343 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int ReadThreadProfilingData(cpointer PerformanceDataHandle, int Flags, cpointer unfoundType_PPERFORMANCE_DATA_PerformanceData);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterFile([MarshalAs(UnmanagedType.LPWStr)] string pwzFile, cpointer unfoundType_WER_REGISTER_FILE_TYPE_regFileType, int dwFlags);
+        cpointer EncodePointer(cpointer Ptr);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterFile(char* pwzFile, cpointer unfoundType_WER_REGISTER_FILE_TYPE_regFileType, int dwFlags);
+        cpointer DecodePointer(cpointer Ptr);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterFile([MarshalAs(UnmanagedType.LPWStr)] string pwzFilePath);
+        cpointer EncodeSystemPointer(cpointer Ptr);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterFile(char* pwzFilePath);
+        cpointer DecodeSystemPointer(cpointer Ptr);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterMemoryBlock(cpointer pvAddress, int dwSize);
+        int Beep(int dwFreq, int dwDuration);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterMemoryBlock(cpointer pvAddress);
+        int CeipIsOptedIn();
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterExcludedMemoryBlock(cpointer address, int size);
+        cpointer RegCloseKey(nint hKey);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterExcludedMemoryBlock(cpointer address);
+        cpointer RegOpenUserClassesRoot(cpointer hToken, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterCustomMetadata([MarshalAs(UnmanagedType.LPWStr)] string key, [MarshalAs(UnmanagedType.LPWStr)] string value);
+        cpointer RegOpenCurrentUser(cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterCustomMetadata([MarshalAs(UnmanagedType.LPWStr)] string key, char* value);
+        cpointer RegDisablePredefinedCacheEx();
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterCustomMetadata(char* key, [MarshalAs(UnmanagedType.LPWStr)] string value);
+        cpointer RegCreateKeyExA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, int Reserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterCustomMetadata(char* key, char* value);
+        cpointer RegCreateKeyExA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, int Reserved, ReadOnlySpan<byte> lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterCustomMetadata([MarshalAs(UnmanagedType.LPWStr)] string key);
+        cpointer RegCreateKeyExA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, int Reserved, byte* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterCustomMetadata(char* key);
+        cpointer RegCreateKeyExA(nint hKey, byte* lpSubKey, int Reserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterAdditionalProcess(int processId, int captureExtraInfoForThreadId);
+        cpointer RegCreateKeyExA(nint hKey, byte* lpSubKey, int Reserved, ReadOnlySpan<byte> lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterAdditionalProcess(int processId);
+        cpointer RegCreateKeyExA(nint hKey, byte* lpSubKey, int Reserved, byte* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
+    [DllImport("kernel32", EntryPoint="RegCreateKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegCreateKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int Reserved, string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
+    [DllImport("kernel32", EntryPoint="RegCreateKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegCreateKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int Reserved, char* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
+    [DllImport("kernel32", EntryPoint="RegCreateKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegCreateKeyEx(nint hKey, char* lpSubKey, int Reserved, string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
+    [DllImport("kernel32", EntryPoint="RegCreateKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegCreateKeyEx(nint hKey, char* lpSubKey, int Reserved, char* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterAppLocalDump([MarshalAs(UnmanagedType.LPWStr)] string localAppDataRelativePath);
+        cpointer RegCreateKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int Reserved, string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterAppLocalDump(char* localAppDataRelativePath);
+        cpointer RegCreateKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int Reserved, char* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterAppLocalDump();
+        cpointer RegCreateKeyExW(nint hKey, char* lpSubKey, int Reserved, string lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerSetFlags(int dwFlags);
+        cpointer RegCreateKeyExW(nint hKey, char* lpSubKey, int Reserved, char* lpClass, int dwOptions, cpointer unfoundType_REGSAM_samDesired, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, cpointer phkResult, cpointer unfoundType_LPDWORD_lpdwDisposition);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerGetFlags(cpointer hProcess, cpointer unfoundType_PDWORD_pdwFlags);
+        cpointer RegDeleteKeyExA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterRuntimeExceptionModule([MarshalAs(UnmanagedType.LPWStr)] string pwszOutOfProcessCallbackDll, cpointer pContext);
+        cpointer RegDeleteKeyExA(nint hKey, byte* lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
+    [DllImport("kernel32", EntryPoint="RegDeleteKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
+    [DllImport("kernel32", EntryPoint="RegDeleteKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteKeyEx(nint hKey, char* lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerRegisterRuntimeExceptionModule(char* pwszOutOfProcessCallbackDll, cpointer pContext);
+        cpointer RegDeleteKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterRuntimeExceptionModule([MarshalAs(UnmanagedType.LPWStr)] string pwszOutOfProcessCallbackDll, cpointer pContext);
+        cpointer RegDeleteKeyExW(nint hKey, char* lpSubKey, cpointer unfoundType_REGSAM_samDesired, int Reserved);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer WerUnregisterRuntimeExceptionModule(char* pwszOutOfProcessCallbackDll, cpointer pContext);
+        cpointer RegDeleteValueA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpValueName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteValueA(nint hKey, byte* lpValueName);
+    [DllImport("kernel32", EntryPoint="RegDeleteValueW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteValue(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName);
+    [DllImport("kernel32", EntryPoint="RegDeleteValueW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteValue(nint hKey, char* lpValueName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteValueW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteValueW(nint hKey, char* lpValueName);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, ReadOnlySpan<byte> lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, [MarshalAs(UnmanagedType.LPStr)] string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, byte* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, ReadOnlySpan<byte> lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, ReadOnlySpan<byte> lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, ReadOnlySpan<byte> lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, ReadOnlySpan<byte> lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, byte* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, byte* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, [MarshalAs(UnmanagedType.LPStr)] string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, byte* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, ReadOnlySpan<byte> lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExA(nint hKey, int dwIndex, byte* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, byte* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", EntryPoint="RegEnumKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyEx(nint hKey, int dwIndex, string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", EntryPoint="RegEnumKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyEx(nint hKey, int dwIndex, string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", EntryPoint="RegEnumKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyEx(nint hKey, int dwIndex, char* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", EntryPoint="RegEnumKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyEx(nint hKey, int dwIndex, char* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExW(nint hKey, int dwIndex, string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExW(nint hKey, int dwIndex, string lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExW(nint hKey, int dwIndex, char* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumKeyExW(nint hKey, int dwIndex, char* lpName, cpointer unfoundType_LPDWORD_lpcchName, cpointer unfoundType_LPDWORD_lpReserved, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumValueA(nint hKey, int dwIndex, [MarshalAs(UnmanagedType.LPStr)] string lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumValueA(nint hKey, int dwIndex, ReadOnlySpan<byte> lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumValueA(nint hKey, int dwIndex, byte* lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", EntryPoint="RegEnumValueW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumValue(nint hKey, int dwIndex, string lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", EntryPoint="RegEnumValueW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumValue(nint hKey, int dwIndex, char* lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumValueW(nint hKey, int dwIndex, string lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegEnumValueW(nint hKey, int dwIndex, char* lpValueName, cpointer unfoundType_LPDWORD_lpcchValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegFlushKey(nint hKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetKeySecurity(nint hKey, cpointer unfoundType_SECURITY_INFORMATION_SecurityInformation, cpointer unfoundType_PSECURITY_DESCRIPTOR_pSecurityDescriptor, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKeyA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPStr)] string lpFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKeyA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, byte* lpFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKeyA(nint hKey, byte* lpSubKey, [MarshalAs(UnmanagedType.LPStr)] string lpFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKeyA(nint hKey, byte* lpSubKey, byte* lpFile);
+    [DllImport("kernel32", EntryPoint="RegLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKey(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile);
+    [DllImport("kernel32", EntryPoint="RegLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKey(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, char* lpFile);
+    [DllImport("kernel32", EntryPoint="RegLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKey(nint hKey, char* lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile);
+    [DllImport("kernel32", EntryPoint="RegLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKey(nint hKey, char* lpSubKey, char* lpFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKeyW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKeyW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, char* lpFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKeyW(nint hKey, char* lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadKeyW(nint hKey, char* lpSubKey, char* lpFile);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegNotifyChangeKeyValue(nint hKey, int bWatchSubtree, int dwNotifyFilter, cpointer hEvent, int fAsynchronous);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegOpenKeyExA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegOpenKeyExA(nint hKey, byte* lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
+    [DllImport("kernel32", EntryPoint="RegOpenKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegOpenKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
+    [DllImport("kernel32", EntryPoint="RegOpenKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegOpenKeyEx(nint hKey, char* lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegOpenKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegOpenKeyExW(nint hKey, char* lpSubKey, int ulOptions, cpointer unfoundType_REGSAM_samDesired, cpointer phkResult);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryInfoKeyA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryInfoKeyA(nint hKey, ReadOnlySpan<byte> lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryInfoKeyA(nint hKey, byte* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", EntryPoint="RegQueryInfoKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryInfoKey(nint hKey, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", EntryPoint="RegQueryInfoKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryInfoKey(nint hKey, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryInfoKeyW(nint hKey, string lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryInfoKeyW(nint hKey, char* lpClass, cpointer unfoundType_LPDWORD_lpcchClass, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpcSubKeys, cpointer unfoundType_LPDWORD_lpcbMaxSubKeyLen, cpointer unfoundType_LPDWORD_lpcbMaxClassLen, cpointer unfoundType_LPDWORD_lpcValues, cpointer unfoundType_LPDWORD_lpcbMaxValueNameLen, cpointer unfoundType_LPDWORD_lpcbMaxValueLen, cpointer unfoundType_LPDWORD_lpcbSecurityDescriptor, cpointer unfoundType_PFILETIME_lpftLastWriteTime);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryValueExA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryValueExA(nint hKey, byte* lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", EntryPoint="RegQueryValueExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryValueEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", EntryPoint="RegQueryValueExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryValueEx(nint hKey, char* lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryValueExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegQueryValueExW(nint hKey, char* lpValueName, cpointer unfoundType_LPDWORD_lpReserved, cpointer unfoundType_LPDWORD_lpType, cpointer unfoundType_LPBYTE_lpData, cpointer unfoundType_LPDWORD_lpcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegRestoreKeyA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpFile, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegRestoreKeyA(nint hKey, byte* lpFile, int dwFlags);
+    [DllImport("kernel32", EntryPoint="RegRestoreKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegRestoreKey(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile, int dwFlags);
+    [DllImport("kernel32", EntryPoint="RegRestoreKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegRestoreKey(nint hKey, char* lpFile, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegRestoreKeyW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegRestoreKeyW(nint hKey, char* lpFile, int dwFlags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSetKeySecurity(nint hKey, cpointer unfoundType_SECURITY_INFORMATION_SecurityInformation, cpointer unfoundType_PSECURITY_DESCRIPTOR_pSecurityDescriptor);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSetValueExA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSetValueExA(nint hKey, byte* lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
+    [DllImport("kernel32", EntryPoint="RegSetValueExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSetValueEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
+    [DllImport("kernel32", EntryPoint="RegSetValueExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSetValueEx(nint hKey, char* lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSetValueExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSetValueExW(nint hKey, char* lpValueName, int Reserved, int dwType, cpointer lpData, int cbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegUnLoadKeyA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegUnLoadKeyA(nint hKey, byte* lpSubKey);
+    [DllImport("kernel32", EntryPoint="RegUnLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegUnLoadKey(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey);
+    [DllImport("kernel32", EntryPoint="RegUnLoadKeyW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegUnLoadKey(nint hKey, char* lpSubKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegUnLoadKeyW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegUnLoadKeyW(nint hKey, char* lpSubKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteTreeA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteTreeA(nint hKey, byte* lpSubKey);
+    [DllImport("kernel32", EntryPoint="RegDeleteTreeW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteTree(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey);
+    [DllImport("kernel32", EntryPoint="RegDeleteTreeW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteTree(nint hKey, char* lpSubKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteTreeW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegDeleteTreeW(nint hKey, char* lpSubKey);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValueA(nint hkey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValueA(nint hkey, [MarshalAs(UnmanagedType.LPStr)] string lpSubKey, byte* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValueA(nint hkey, byte* lpSubKey, [MarshalAs(UnmanagedType.LPStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValueA(nint hkey, byte* lpSubKey, byte* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", EntryPoint="RegGetValueW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValue(nint hkey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", EntryPoint="RegGetValueW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValue(nint hkey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, char* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", EntryPoint="RegGetValueW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValue(nint hkey, char* lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", EntryPoint="RegGetValueW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValue(nint hkey, char* lpSubKey, char* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValueW(nint hkey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValueW(nint hkey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, char* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValueW(nint hkey, char* lpSubKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegGetValueW(nint hkey, char* lpSubKey, char* lpValue, int dwFlags, cpointer unfoundType_LPDWORD_pdwType, cpointer pvData, cpointer unfoundType_LPDWORD_pcbData);
+    [DllImport("kernel32", EntryPoint="RegCopyTreeW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegCopyTree(nint hKeySrc, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, nint hKeyDest);
+    [DllImport("kernel32", EntryPoint="RegCopyTreeW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegCopyTree(nint hKeySrc, char* lpSubKey, nint hKeyDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegCopyTreeW(nint hKeySrc, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, nint hKeyDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegCopyTreeW(nint hKeySrc, char* lpSubKey, nint hKeyDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string pszValue, [MarshalAs(UnmanagedType.LPStr)] string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string pszValue, [MarshalAs(UnmanagedType.LPStr)] string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, byte* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string pszValue, ReadOnlySpan<byte> pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string pszValue, ReadOnlySpan<byte> pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, byte* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string pszValue, byte* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string pszValue, byte* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, byte* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, byte* pszValue, [MarshalAs(UnmanagedType.LPStr)] string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, byte* pszValue, [MarshalAs(UnmanagedType.LPStr)] string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, byte* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, byte* pszValue, ReadOnlySpan<byte> pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, byte* pszValue, ReadOnlySpan<byte> pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, byte* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, byte* pszValue, byte* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringA(nint hKey, byte* pszValue, byte* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, byte* pszDirectory);
+    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIString(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
+    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIString(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
+    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIString(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
+    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIString(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
+    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIString(nint hKey, char* pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
+    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIString(nint hKey, char* pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
+    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIString(nint hKey, char* pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
+    [DllImport("kernel32", EntryPoint="RegLoadMUIStringW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIString(nint hKey, char* pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringW(nint hKey, char* pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringW(nint hKey, char* pszValue, string pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringW(nint hKey, char* pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, [MarshalAs(UnmanagedType.LPWStr)] string pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegLoadMUIStringW(nint hKey, char* pszValue, char* pszOutBuf, int cbOutBuf, cpointer unfoundType_LPDWORD_pcbData, int Flags, char* pszDirectory);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSaveKeyExA(nint hKey, [MarshalAs(UnmanagedType.LPStr)] string lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSaveKeyExA(nint hKey, byte* lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
+    [DllImport("kernel32", EntryPoint="RegSaveKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSaveKeyEx(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
+    [DllImport("kernel32", EntryPoint="RegSaveKeyExW", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSaveKeyEx(nint hKey, char* lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSaveKeyExW(nint hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RegSaveKeyExW(nint hKey, char* lpFile, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpSecurityAttributes, int Flags);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer Wow64EnableWow64FsRedirection(cpointer unfoundType_BOOLEAN_Wow64FsEnableRedirection);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5907,11 +6923,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int LCMapStringW(cpointer unfoundType_LCID_Locale, int dwMapFlags, char* lpSrcStr, int cchSrc, char* lpDestStr, int cchDest);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, cpointer unfoundType_LPCSTR_lpSrcStr, int cchSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDestStr, int cchDest);
+        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, [MarshalAs(UnmanagedType.LPStr)] string lpSrcStr, int cchSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDestStr, int cchDest);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, cpointer unfoundType_LPCSTR_lpSrcStr, int cchSrc, ReadOnlySpan<byte> lpDestStr, int cchDest);
+        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, [MarshalAs(UnmanagedType.LPStr)] string lpSrcStr, int cchSrc, ReadOnlySpan<byte> lpDestStr, int cchDest);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, cpointer unfoundType_LPCSTR_lpSrcStr, int cchSrc, byte* lpDestStr, int cchDest);
+        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, [MarshalAs(UnmanagedType.LPStr)] string lpSrcStr, int cchSrc, byte* lpDestStr, int cchDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, byte* lpSrcStr, int cchSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDestStr, int cchDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, byte* lpSrcStr, int cchSrc, ReadOnlySpan<byte> lpDestStr, int cchDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int LCMapStringA(cpointer unfoundType_LCID_Locale, int dwMapFlags, byte* lpSrcStr, int cchSrc, byte* lpDestStr, int cchDest);
     [DllImport("kernel32", EntryPoint="GetLocaleInfoW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetLocaleInfo(cpointer unfoundType_LCID_Locale, cpointer unfoundType_LCTYPE_LCType, string lpLCData, int cchData);
     [DllImport("kernel32", EntryPoint="GetLocaleInfoW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5927,7 +6949,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetLocaleInfoA(cpointer unfoundType_LCID_Locale, cpointer unfoundType_LCTYPE_LCType, byte* lpLCData, int cchData);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetLocaleInfoA(cpointer unfoundType_LCID_Locale, cpointer unfoundType_LCTYPE_LCType, cpointer unfoundType_LPCSTR_lpLCData);
+        int SetLocaleInfoA(cpointer unfoundType_LCID_Locale, cpointer unfoundType_LCTYPE_LCType, [MarshalAs(UnmanagedType.LPStr)] string lpLCData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetLocaleInfoA(cpointer unfoundType_LCID_Locale, cpointer unfoundType_LCTYPE_LCType, byte* lpLCData);
     [DllImport("kernel32", EntryPoint="SetLocaleInfoW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetLocaleInfo(cpointer unfoundType_LCID_Locale, cpointer unfoundType_LCTYPE_LCType, [MarshalAs(UnmanagedType.LPWStr)] string lpLCData);
     [DllImport("kernel32", EntryPoint="SetLocaleInfoW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5951,7 +6975,9 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetCalendarInfoW(cpointer unfoundType_LCID_Locale, cpointer unfoundType_CALID_Calendar, cpointer unfoundType_CALTYPE_CalType, char* lpCalData, int cchData, cpointer unfoundType_LPDWORD_lpValue);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetCalendarInfoA(cpointer unfoundType_LCID_Locale, cpointer unfoundType_CALID_Calendar, cpointer unfoundType_CALTYPE_CalType, cpointer unfoundType_LPCSTR_lpCalData);
+        int SetCalendarInfoA(cpointer unfoundType_LCID_Locale, cpointer unfoundType_CALID_Calendar, cpointer unfoundType_CALTYPE_CalType, [MarshalAs(UnmanagedType.LPStr)] string lpCalData);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetCalendarInfoA(cpointer unfoundType_LCID_Locale, cpointer unfoundType_CALID_Calendar, cpointer unfoundType_CALTYPE_CalType, byte* lpCalData);
     [DllImport("kernel32", EntryPoint="SetCalendarInfoW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetCalendarInfo(cpointer unfoundType_LCID_Locale, cpointer unfoundType_CALID_Calendar, cpointer unfoundType_CALTYPE_CalType, [MarshalAs(UnmanagedType.LPWStr)] string lpCalData);
     [DllImport("kernel32", EntryPoint="SetCalendarInfoW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -5981,11 +7007,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetDurationFormat(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_SYSTEMTIMElpDurationlpDuration_unnamed_2, cpointer unfoundType_ULONGLONG_ullDuration, char* lpFormat, char* lpDurationStr, int cchDuration);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_LPCSTR_lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, [MarshalAs(UnmanagedType.LPStr)] string lpNumberStr, int cchNumber);
+        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, [MarshalAs(UnmanagedType.LPStr)] string lpNumberStr, int cchNumber);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_LPCSTR_lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, ReadOnlySpan<byte> lpNumberStr, int cchNumber);
+        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, ReadOnlySpan<byte> lpNumberStr, int cchNumber);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_LPCSTR_lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, byte* lpNumberStr, int cchNumber);
+        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, byte* lpNumberStr, int cchNumber);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, byte* lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, [MarshalAs(UnmanagedType.LPStr)] string lpNumberStr, int cchNumber);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, byte* lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, ReadOnlySpan<byte> lpNumberStr, int cchNumber);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetNumberFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, byte* lpValue, cpointer unfoundType_NUMBERFMTAlpFormatlpFormat_unnamed_3, byte* lpNumberStr, int cchNumber);
     [DllImport("kernel32", EntryPoint="GetNumberFormatW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetNumberFormat(cpointer unfoundType_LCID_Locale, int dwFlags, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, cpointer unfoundType_NUMBERFMTWlpFormatlpFormat_unnamed_3, string lpNumberStr, int cchNumber);
     [DllImport("kernel32", EntryPoint="GetNumberFormatW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -6003,11 +7035,17 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetNumberFormatW(cpointer unfoundType_LCID_Locale, int dwFlags, char* lpValue, cpointer unfoundType_NUMBERFMTWlpFormatlpFormat_unnamed_3, char* lpNumberStr, int cchNumber);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_LPCSTR_lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, [MarshalAs(UnmanagedType.LPStr)] string lpCurrencyStr, int cchCurrency);
+        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, [MarshalAs(UnmanagedType.LPStr)] string lpCurrencyStr, int cchCurrency);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_LPCSTR_lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, ReadOnlySpan<byte> lpCurrencyStr, int cchCurrency);
+        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, ReadOnlySpan<byte> lpCurrencyStr, int cchCurrency);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, cpointer unfoundType_LPCSTR_lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, byte* lpCurrencyStr, int cchCurrency);
+        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, [MarshalAs(UnmanagedType.LPStr)] string lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, byte* lpCurrencyStr, int cchCurrency);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, byte* lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, [MarshalAs(UnmanagedType.LPStr)] string lpCurrencyStr, int cchCurrency);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, byte* lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, ReadOnlySpan<byte> lpCurrencyStr, int cchCurrency);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetCurrencyFormatA(cpointer unfoundType_LCID_Locale, int dwFlags, byte* lpValue, cpointer unfoundType_CURRENCYFMTAlpFormatlpFormat_unnamed_3, byte* lpCurrencyStr, int cchCurrency);
     [DllImport("kernel32", EntryPoint="GetCurrencyFormatW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetCurrencyFormat(cpointer unfoundType_LCID_Locale, int dwFlags, [MarshalAs(UnmanagedType.LPWStr)] string lpValue, cpointer unfoundType_CURRENCYFMTWlpFormatlpFormat_unnamed_3, string lpCurrencyStr, int cchCurrency);
     [DllImport("kernel32", EntryPoint="GetCurrencyFormatW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -6169,15 +7207,25 @@ public unsafe class kernel32
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int NotifyUILanguageChange(int dwFlags, char* pcwstrNewLanguage, char* pcwstrPreviousLanguage, int dwReserved, cpointer unfoundType_PDWORD_pdwStatusRtrn);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetStringTypeExA(cpointer unfoundType_LCID_Locale, int dwInfoType, cpointer unfoundType_LPCSTR_lpSrcStr, int cchSrc, cpointer unfoundType_LPWORD_lpCharType);
+        int GetStringTypeExA(cpointer unfoundType_LCID_Locale, int dwInfoType, [MarshalAs(UnmanagedType.LPStr)] string lpSrcStr, int cchSrc, cpointer unfoundType_LPWORD_lpCharType);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetStringTypeA(cpointer unfoundType_LCID_Locale, int dwInfoType, cpointer unfoundType_LPCSTR_lpSrcStr, int cchSrc, cpointer unfoundType_LPWORD_lpCharType);
+        int GetStringTypeExA(cpointer unfoundType_LCID_Locale, int dwInfoType, byte* lpSrcStr, int cchSrc, cpointer unfoundType_LPWORD_lpCharType);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int FoldStringA(int dwMapFlags, cpointer unfoundType_LPCSTR_lpSrcStr, int cchSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDestStr, int cchDest);
+        int GetStringTypeA(cpointer unfoundType_LCID_Locale, int dwInfoType, [MarshalAs(UnmanagedType.LPStr)] string lpSrcStr, int cchSrc, cpointer unfoundType_LPWORD_lpCharType);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int FoldStringA(int dwMapFlags, cpointer unfoundType_LPCSTR_lpSrcStr, int cchSrc, ReadOnlySpan<byte> lpDestStr, int cchDest);
+        int GetStringTypeA(cpointer unfoundType_LCID_Locale, int dwInfoType, byte* lpSrcStr, int cchSrc, cpointer unfoundType_LPWORD_lpCharType);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
-        int FoldStringA(int dwMapFlags, cpointer unfoundType_LPCSTR_lpSrcStr, int cchSrc, byte* lpDestStr, int cchDest);
+        int FoldStringA(int dwMapFlags, [MarshalAs(UnmanagedType.LPStr)] string lpSrcStr, int cchSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDestStr, int cchDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int FoldStringA(int dwMapFlags, [MarshalAs(UnmanagedType.LPStr)] string lpSrcStr, int cchSrc, ReadOnlySpan<byte> lpDestStr, int cchDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int FoldStringA(int dwMapFlags, [MarshalAs(UnmanagedType.LPStr)] string lpSrcStr, int cchSrc, byte* lpDestStr, int cchDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int FoldStringA(int dwMapFlags, byte* lpSrcStr, int cchSrc, [MarshalAs(UnmanagedType.LPStr)] string lpDestStr, int cchDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int FoldStringA(int dwMapFlags, byte* lpSrcStr, int cchSrc, ReadOnlySpan<byte> lpDestStr, int cchDest);
+    [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
+        int FoldStringA(int dwMapFlags, byte* lpSrcStr, int cchSrc, byte* lpDestStr, int cchDest);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumSystemLocalesA(cpointer unfoundType_LOCALE_ENUMPROCA_lpLocaleEnumProc, int dwFlags);
     [DllImport("kernel32", EntryPoint="EnumSystemLocalesW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -6346,4 +7394,5 @@ public unsafe class kernel32
         int ResolveLocaleName(char* lpNameToResolve, string lpLocaleName, int cchLocaleName);
     [DllImport("kernel32", SetLastError=true, ExactSpelling=true)] public static extern
         int ResolveLocaleName(char* lpNameToResolve, char* lpLocaleName, int cchLocaleName);
+
 }

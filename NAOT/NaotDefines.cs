@@ -47,4 +47,14 @@ public unsafe static class NaotDefines
         uint handle = CreateThread(null, 0, entryPoint, &parameter, 0, out threadID);
         return handle;
     }
+
+    public static uint threadwhile(Action action) => thread(() =>{
+        while (true)
+            action();
+    });
+
+    public static uint threadwhile(Func<bool> shouldReturnFalseWhenEndWhile) => thread(() => {
+        do { }
+        while (shouldReturnFalseWhenEndWhile());
+    });
 }

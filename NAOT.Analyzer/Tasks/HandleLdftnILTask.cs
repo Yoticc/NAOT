@@ -1,5 +1,6 @@
 ﻿using dnlib.DotNet.Emit;
 using NAOT.Analyzer.Utils.Sugar;
+using NAOT.Core;
 using NAOT.Core.Tasks;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static NAOT.Core.Globals;
 
 namespace NAOT.Analyzer.Tasks;
 public class HandleLdftnILTask : ILActualTask
@@ -17,13 +19,14 @@ public class HandleLdftnILTask : ILActualTask
         StoreCompileGeneratedClasses();
         RemoveCompileGeneratedMembers();
         AddAtributesToAnnativeMethods(module);
-
     }
 
-    List<FieldDef> compilerGeneratedFields = new();
-    List<IMethodDefOrRef> usedUnnativedMethods = new();
+    List<FieldDef> compilerGeneratedFields;
+    List<IMethodDefOrRef> usedUnnativedMethods;
     void RedirectMethodCalls(ModuleDefMD module)
     {
+        compilerGeneratedFields = new();
+        usedUnnativedMethods = new();
         Code[][] codeSequence = [
             [Code.Ldsfld],
             [Code.Dup],
@@ -105,9 +108,10 @@ public class HandleLdftnILTask : ILActualTask
         }
     }
 
-    List<TypeDef> compilerGeneratedClasses = new();
+    List<TypeDef> compilerGeneratedClasses;
     void StoreCompileGeneratedClasses()
     {
+        compilerGeneratedClasses = new();
         foreach (var field in compilerGeneratedFields)
             if (!compilerGeneratedClasses.Contains(field.DeclaringType))
                 compilerGeneratedClasses.Add(field.DeclaringType);

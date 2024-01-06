@@ -12,4 +12,4 @@ public class NativeFuncAttribute<T> : Attribute where T : INAOTCallConv
     public NativeFuncAttribute(string? entryPoint = null) => EntryPoint = entryPoint;
 }
 
-public class NativeFuncAttribute(string? entryPoint = null) : NativeFuncAttribute<__cdecl>(entryPoint);
+public class NativeFuncAttribute(string? entryPoint = null) : NativeFuncAttribute<__stdcall>(entryPoint);

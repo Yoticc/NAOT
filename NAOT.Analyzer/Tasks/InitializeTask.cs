@@ -7,13 +7,15 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static NAOT.Core.Globals.Dn;
+using static NAOT.Core.Globals.Dn.DnModules;
 
 namespace NAOT.Analyzer.Tasks;
 public class InitializeTask : InitTask
 {
     public override void Execute()
     {
-        AGlobals.UnmanagedCallersOnlyAttribute = Globals.DnSystemPrivateCoreLib.FindType("System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
+        AGlobals.UnmanagedCallersOnlyAttribute = SystemPrivateCoreLib.FindType("System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
         if (AGlobals.UnmanagedCallersOnlyAttribute == null)
             Console.WriteLine($"Unable find type System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute in System.Private.CoreLib");
 
@@ -21,15 +23,15 @@ public class InitializeTask : InitTask
         if (AGlobals.UnmanagedCallersOnlyAttributeCtor == null)
             Console.WriteLine($"Unable get constructor from System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
 
-        AGlobals.TypeType = Globals.DnSystemPrivateCoreLib.FindType("System.Type").ToTypeSig();
+        AGlobals.TypeType = SystemPrivateCoreLib.FindType("System.Type").ToTypeSig();
         AGlobals.TypeArrayType = new SZArraySig(AGlobals.TypeType);
         
-        AGlobals.NativeFuncAttribute = Globals.DnNAOTModule.FindType("NativeFuncAttribute");
-        AGlobals.NativeFuncAttribute_1 = Globals.DnNAOTModule.FindType("NativeFuncAttribute`1");
-        AGlobals.EntryPointAttribute = Globals.DnNAOTModule.FindType("NAOT.EntryPointAttribute");
-        AGlobals.DllImportAttribute = Globals.DnSystemRuntimeInteropServices.FindType("System.Runtime.InteropServices.DllImportAttribute");
-        AGlobals.NAOTKernel32InteropType = Globals.DnNAOTModule.FindType("kernel32");
-        AGlobals.NAOTUser32InteropType = Globals.DnNAOTModule.FindType("user32");
+        AGlobals.NativeFuncAttribute = DnModules.NAOT.FindType("NativeFuncAttribute");
+        AGlobals.NativeFuncAttribute_1 = DnModules.NAOT.FindType("NativeFuncAttribute`1");
+        AGlobals.EntryPointAttribute = DnModules.NAOT.FindType("NAOT.EntryPointAttribute");
+        AGlobals.DllImportAttribute = SystemRuntimeInteropServices.FindType("System.Runtime.InteropServices.DllImportAttribute");
+        AGlobals.NAOTKernel32InteropType = DnModules.NAOT.FindType("kernel32");
+        AGlobals.NAOTUser32InteropType = DnModules.NAOT.FindType("user32");
 
         AGlobals.NativeMethodAttributes = [AGlobals.NativeFuncAttribute, AGlobals.NativeFuncAttribute_1, AGlobals.EntryPointAttribute, AGlobals.DllImportAttribute];
     }

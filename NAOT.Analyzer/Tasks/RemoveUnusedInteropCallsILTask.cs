@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NAOT.Analyzer.Tasks;
-public class RemoveUnusedInteropCallsILTask : ILMainTask
+public class RemoveUnusedInteropCallsILTask : PrepareNativeTask
 {
-    public override void Execute(ModuleDefMD unused)
+    public override void Execute()
     {
         var referenceTypes = new TypeDef[] { 
             AGlobals.NAOTKernel32InteropType,
@@ -21,7 +21,7 @@ public class RemoveUnusedInteropCallsILTask : ILMainTask
         var referenceMehodsNames = referenceTypes.Select(t => t.Methods).SelectMany(m => m).Select(m => m.FullName.ToString()).ToList();
 
         var usedMethods = new List<string>();
-        foreach (var module in Globals.DnActualModules)
+        foreach (var module in Globals.Dn.DnModules.Input)
         {
             foreach (var type in module.GetTypes())
             {

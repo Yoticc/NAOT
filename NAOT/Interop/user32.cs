@@ -71,7 +71,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         uint DdeGetLastError(int idInst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer DdeCreateStringHandleA(int idInst, cpointer unfoundType_LPCSTR_psz, int iCodePage);
+        cpointer DdeCreateStringHandleA(int idInst, [MarshalAs(UnmanagedType.LPStr)] string psz, int iCodePage);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer DdeCreateStringHandleA(int idInst, byte* psz, int iCodePage);
     [DllImport("user32", EntryPoint="DdeCreateStringHandleW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer DdeCreateStringHandle(int idInst, [MarshalAs(UnmanagedType.LPWStr)] string psz, int iCodePage);
     [DllImport("user32", EntryPoint="DdeCreateStringHandleW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -101,11 +103,17 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int DdeCmpStringHandles(cpointer unfoundType_HSZ_hsz1, cpointer unfoundType_HSZ_hsz2);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int wvsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, cpointer unfoundType_LPCSTR_unnamed_1, cpointer arglist);
+        int wvsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer arglist);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int wvsprintfA(ReadOnlySpan<byte> unnamed_0, cpointer unfoundType_LPCSTR_unnamed_1, cpointer arglist);
+        int wvsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, byte* unnamed_1, cpointer arglist);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int wvsprintfA(byte* unnamed_0, cpointer unfoundType_LPCSTR_unnamed_1, cpointer arglist);
+        int wvsprintfA(ReadOnlySpan<byte> unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer arglist);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int wvsprintfA(ReadOnlySpan<byte> unnamed_0, byte* unnamed_1, cpointer arglist);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int wvsprintfA(byte* unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer arglist);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int wvsprintfA(byte* unnamed_0, byte* unnamed_1, cpointer arglist);
     [DllImport("user32", EntryPoint="wvsprintfW", SetLastError=true, ExactSpelling=true)] public static extern
         int wvsprintf(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer arglist);
     [DllImport("user32", EntryPoint="wvsprintfW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -123,11 +131,17 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int wvsprintfW(char* unnamed_0, char* unnamed_1, cpointer arglist);
     [DllImport("user32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
-        int wsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, cpointer unfoundType_LPCSTR_unnamed_1, cpointer unnamed_2);
+        int wsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer unnamed_2);
     [DllImport("user32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
-        int wsprintfA(ReadOnlySpan<byte> unnamed_0, cpointer unfoundType_LPCSTR_unnamed_1, cpointer unnamed_2);
+        int wsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, byte* unnamed_1, cpointer unnamed_2);
     [DllImport("user32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
-        int wsprintfA(byte* unnamed_0, cpointer unfoundType_LPCSTR_unnamed_1, cpointer unnamed_2);
+        int wsprintfA(ReadOnlySpan<byte> unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer unnamed_2);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
+        int wsprintfA(ReadOnlySpan<byte> unnamed_0, byte* unnamed_1, cpointer unnamed_2);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
+        int wsprintfA(byte* unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer unnamed_2);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
+        int wsprintfA(byte* unnamed_0, byte* unnamed_1, cpointer unnamed_2);
     [DllImport("user32", EntryPoint="wsprintfW", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
         int wsprintf(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer unnamed_2);
     [DllImport("user32", EntryPoint="wsprintfW", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
@@ -145,7 +159,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true, CallingConvention=CallingConvention.Cdecl)] public static extern
         int wsprintfW(char* unnamed_0, char* unnamed_1, cpointer unnamed_2);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadKeyboardLayoutA(cpointer unfoundType_LPCSTR_pwszKLID, uint Flags);
+        cpointer LoadKeyboardLayoutA([MarshalAs(UnmanagedType.LPStr)] string pwszKLID, uint Flags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadKeyboardLayoutA(byte* pwszKLID, uint Flags);
     [DllImport("user32", EntryPoint="LoadKeyboardLayoutW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadKeyboardLayout([MarshalAs(UnmanagedType.LPWStr)] string pwszKLID, uint Flags);
     [DllImport("user32", EntryPoint="LoadKeyboardLayoutW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -183,7 +199,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetMouseMovePointsEx(uint cbSize, cpointer unfoundType_LPMOUSEMOVEPOINT_lppt, cpointer unfoundType_LPMOUSEMOVEPOINT_lpptBuf, int nBufPoints, int resolution);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateDesktopA(cpointer unfoundType_LPCSTR_lpszDesktop, cpointer unfoundType_LPCSTR_lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        cpointer CreateDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, byte* lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateDesktopA(byte* lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateDesktopA(byte* lpszDesktop, byte* lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport("user32", EntryPoint="CreateDesktopW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateDesktop([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport("user32", EntryPoint="CreateDesktopW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -201,7 +223,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateDesktopW(char* lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateDesktopExA(cpointer unfoundType_LPCSTR_lpszDesktop, cpointer unfoundType_LPCSTR_lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        cpointer CreateDesktopExA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateDesktopExA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, byte* lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateDesktopExA(byte* lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateDesktopExA(byte* lpszDesktop, byte* lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
     [DllImport("user32", EntryPoint="CreateDesktopExW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
     [DllImport("user32", EntryPoint="CreateDesktopExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -219,7 +247,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateDesktopExW(char* lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenDesktopA(cpointer unfoundType_LPCSTR_lpszDesktop, int dwFlags, int fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        cpointer OpenDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, int dwFlags, int fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenDesktopA(byte* lpszDesktop, int dwFlags, int fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport("user32", EntryPoint="OpenDesktopW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer OpenDesktop([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, int dwFlags, int fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport("user32", EntryPoint="OpenDesktopW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -247,7 +277,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GetThreadDesktop(int dwThreadId);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWindowStationA(cpointer unfoundType_LPCSTR_lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        cpointer CreateWindowStationA([MarshalAs(UnmanagedType.LPStr)] string lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWindowStationA(byte* lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport("user32", EntryPoint="CreateWindowStationW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)] string lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport("user32", EntryPoint="CreateWindowStationW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -257,7 +289,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateWindowStationW(char* lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer OpenWindowStationA(cpointer unfoundType_LPCSTR_lpszWinSta, int fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        cpointer OpenWindowStationA([MarshalAs(UnmanagedType.LPStr)] string lpszWinSta, int fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer OpenWindowStationA(byte* lpszWinSta, int fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport("user32", EntryPoint="OpenWindowStationW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer OpenWindowStation([MarshalAs(UnmanagedType.LPWStr)] string lpszWinSta, int fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport("user32", EntryPoint="OpenWindowStationW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -299,7 +333,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         void DisableProcessWindowsGhosting();
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint RegisterWindowMessageA(cpointer unfoundType_LPCSTR_lpString);
+        uint RegisterWindowMessageA([MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint RegisterWindowMessageA(byte* lpString);
     [DllImport("user32", EntryPoint="RegisterWindowMessageW", SetLastError=true, ExactSpelling=true)] public static extern
         uint RegisterWindowMessage([MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("user32", EntryPoint="RegisterWindowMessageW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -461,7 +497,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         short RegisterClassW(cpointer unfoundType_WNDCLASSWlpWndClasslpWndClass_unnamed_0);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int UnregisterClassA(cpointer unfoundType_LPCSTR_lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
+        int UnregisterClassA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int UnregisterClassA(byte* lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
     [DllImport("user32", EntryPoint="UnregisterClassW", SetLastError=true, ExactSpelling=true)] public static extern
         int UnregisterClass([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
     [DllImport("user32", EntryPoint="UnregisterClassW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -471,7 +509,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int UnregisterClassW(char* lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetClassInfoA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpClassName, cpointer unfoundType_LPWNDCLASSA_lpWndClass);
+        int GetClassInfoA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, cpointer unfoundType_LPWNDCLASSA_lpWndClass);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetClassInfoA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpClassName, cpointer unfoundType_LPWNDCLASSA_lpWndClass);
     [DllImport("user32", EntryPoint="GetClassInfoW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetClassInfo(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, cpointer unfoundType_LPWNDCLASSW_lpWndClass);
     [DllImport("user32", EntryPoint="GetClassInfoW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -487,7 +527,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         short RegisterClassExW(cpointer unfoundType_WNDCLASSEXW_unnamed_0);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetClassInfoExA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpszClass, cpointer unfoundType_LPWNDCLASSEXA_lpwcx);
+        int GetClassInfoExA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, cpointer unfoundType_LPWNDCLASSEXA_lpwcx);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetClassInfoExA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpszClass, cpointer unfoundType_LPWNDCLASSEXA_lpwcx);
     [DllImport("user32", EntryPoint="GetClassInfoExW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetClassInfoEx(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, cpointer unfoundType_LPWNDCLASSEXW_lpwcx);
     [DllImport("user32", EntryPoint="GetClassInfoExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -497,7 +539,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetClassInfoExW(cpointer unfoundType_HINSTANCE_hInstance, char* lpszClass, cpointer unfoundType_LPWNDCLASSEXW_lpwcx);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateWindowExA(int dwExStyle, cpointer unfoundType_LPCSTR_lpClassName, cpointer unfoundType_LPCSTR_lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        cpointer CreateWindowExA(int dwExStyle, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWindowExA(int dwExStyle, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWindowExA(int dwExStyle, byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateWindowExA(int dwExStyle, byte* lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
     [DllImport("user32", EntryPoint="CreateWindowExW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateWindowEx(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
     [DllImport("user32", EntryPoint="CreateWindowExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -577,7 +625,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int IsZoomed(cpointer hWnd);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateDialogParamA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        cpointer CreateDialogParamA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateDialogParamA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport("user32", EntryPoint="CreateDialogParamW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateDialogParam(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport("user32", EntryPoint="CreateDialogParamW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -593,7 +643,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateDialogIndirectParamW(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCDLGTEMPLATEW_lpTemplate, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer DialogBoxParamA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        cpointer DialogBoxParamA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer DialogBoxParamA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport("user32", EntryPoint="DialogBoxParamW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer DialogBoxParam(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport("user32", EntryPoint="DialogBoxParamW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -617,7 +669,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         uint GetDlgItemInt(cpointer hDlg, int nIDDlgItem, cpointer unfoundType_BOOLlpTranslatedlpTranslated_unnamed_2, int bSigned);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetDlgItemTextA(cpointer hDlg, int nIDDlgItem, cpointer unfoundType_LPCSTR_lpString);
+        int SetDlgItemTextA(cpointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetDlgItemTextA(cpointer hDlg, int nIDDlgItem, byte* lpString);
     [DllImport("user32", EntryPoint="SetDlgItemTextW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetDlgItemText(cpointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("user32", EntryPoint="SetDlgItemTextW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -701,7 +755,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetClipboardMetadata(uint format, cpointer unfoundType_PGETCLIPBMETADATA_metadata);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint RegisterClipboardFormatA(cpointer unfoundType_LPCSTR_lpszFormat);
+        uint RegisterClipboardFormatA([MarshalAs(UnmanagedType.LPStr)] string lpszFormat);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint RegisterClipboardFormatA(byte* lpszFormat);
     [DllImport("user32", EntryPoint="RegisterClipboardFormatW", SetLastError=true, ExactSpelling=true)] public static extern
         uint RegisterClipboardFormat([MarshalAs(UnmanagedType.LPWStr)] string lpszFormat);
     [DllImport("user32", EntryPoint="RegisterClipboardFormatW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -743,11 +799,17 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetUpdatedClipboardFormats(cpointer unfoundType_PUINT_lpuiFormats, uint cFormats, cpointer unfoundType_PUINT_pcFormatsOut);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CharToOemA(cpointer unfoundType_LPCSTR_pSrc, [MarshalAs(UnmanagedType.LPStr)] string pDst);
+        int CharToOemA([MarshalAs(UnmanagedType.LPStr)] string pSrc, [MarshalAs(UnmanagedType.LPStr)] string pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CharToOemA(cpointer unfoundType_LPCSTR_pSrc, ReadOnlySpan<byte> pDst);
+        int CharToOemA([MarshalAs(UnmanagedType.LPStr)] string pSrc, ReadOnlySpan<byte> pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CharToOemA(cpointer unfoundType_LPCSTR_pSrc, byte* pDst);
+        int CharToOemA([MarshalAs(UnmanagedType.LPStr)] string pSrc, byte* pDst);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CharToOemA(byte* pSrc, [MarshalAs(UnmanagedType.LPStr)] string pDst);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CharToOemA(byte* pSrc, ReadOnlySpan<byte> pDst);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CharToOemA(byte* pSrc, byte* pDst);
     [DllImport("user32", EntryPoint="CharToOemW", SetLastError=true, ExactSpelling=true)] public static extern
         int CharToOem([MarshalAs(UnmanagedType.LPWStr)] string pSrc, [MarshalAs(UnmanagedType.LPStr)] string pDst);
     [DllImport("user32", EntryPoint="CharToOemW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -773,25 +835,45 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int CharToOemW(char* pSrc, byte* pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharA(cpointer unfoundType_LPCSTR_pSrc, [MarshalAs(UnmanagedType.LPStr)] string pDst);
+        int OemToCharA([MarshalAs(UnmanagedType.LPStr)] string pSrc, [MarshalAs(UnmanagedType.LPStr)] string pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharA(cpointer unfoundType_LPCSTR_pSrc, ReadOnlySpan<byte> pDst);
+        int OemToCharA([MarshalAs(UnmanagedType.LPStr)] string pSrc, ReadOnlySpan<byte> pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharA(cpointer unfoundType_LPCSTR_pSrc, byte* pDst);
+        int OemToCharA([MarshalAs(UnmanagedType.LPStr)] string pSrc, byte* pDst);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharA(byte* pSrc, [MarshalAs(UnmanagedType.LPStr)] string pDst);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharA(byte* pSrc, ReadOnlySpan<byte> pDst);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharA(byte* pSrc, byte* pDst);
     [DllImport("user32", EntryPoint="OemToCharW", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToChar(cpointer unfoundType_LPCSTR_pSrc, string pDst);
+        int OemToChar([MarshalAs(UnmanagedType.LPStr)] string pSrc, string pDst);
     [DllImport("user32", EntryPoint="OemToCharW", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToChar(cpointer unfoundType_LPCSTR_pSrc, char* pDst);
+        int OemToChar([MarshalAs(UnmanagedType.LPStr)] string pSrc, char* pDst);
+    [DllImport("user32", EntryPoint="OemToCharW", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToChar(byte* pSrc, string pDst);
+    [DllImport("user32", EntryPoint="OemToCharW", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToChar(byte* pSrc, char* pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharW(cpointer unfoundType_LPCSTR_pSrc, string pDst);
+        int OemToCharW([MarshalAs(UnmanagedType.LPStr)] string pSrc, string pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharW(cpointer unfoundType_LPCSTR_pSrc, char* pDst);
+        int OemToCharW([MarshalAs(UnmanagedType.LPStr)] string pSrc, char* pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CharToOemBuffA(cpointer unfoundType_LPCSTR_lpszSrc, [MarshalAs(UnmanagedType.LPStr)] string lpszDst, int cchDstLength);
+        int OemToCharW(byte* pSrc, string pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CharToOemBuffA(cpointer unfoundType_LPCSTR_lpszSrc, ReadOnlySpan<byte> lpszDst, int cchDstLength);
+        int OemToCharW(byte* pSrc, char* pDst);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int CharToOemBuffA(cpointer unfoundType_LPCSTR_lpszSrc, byte* lpszDst, int cchDstLength);
+        int CharToOemBuffA([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, [MarshalAs(UnmanagedType.LPStr)] string lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CharToOemBuffA([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, ReadOnlySpan<byte> lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CharToOemBuffA([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, byte* lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CharToOemBuffA(byte* lpszSrc, [MarshalAs(UnmanagedType.LPStr)] string lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CharToOemBuffA(byte* lpszSrc, ReadOnlySpan<byte> lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int CharToOemBuffA(byte* lpszSrc, byte* lpszDst, int cchDstLength);
     [DllImport("user32", EntryPoint="CharToOemBuffW", SetLastError=true, ExactSpelling=true)] public static extern
         int CharToOemBuff([MarshalAs(UnmanagedType.LPWStr)] string lpszSrc, [MarshalAs(UnmanagedType.LPStr)] string lpszDst, int cchDstLength);
     [DllImport("user32", EntryPoint="CharToOemBuffW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -817,19 +899,33 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int CharToOemBuffW(char* lpszSrc, byte* lpszDst, int cchDstLength);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharBuffA(cpointer unfoundType_LPCSTR_lpszSrc, [MarshalAs(UnmanagedType.LPStr)] string lpszDst, int cchDstLength);
+        int OemToCharBuffA([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, [MarshalAs(UnmanagedType.LPStr)] string lpszDst, int cchDstLength);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharBuffA(cpointer unfoundType_LPCSTR_lpszSrc, ReadOnlySpan<byte> lpszDst, int cchDstLength);
+        int OemToCharBuffA([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, ReadOnlySpan<byte> lpszDst, int cchDstLength);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharBuffA(cpointer unfoundType_LPCSTR_lpszSrc, byte* lpszDst, int cchDstLength);
+        int OemToCharBuffA([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, byte* lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharBuffA(byte* lpszSrc, [MarshalAs(UnmanagedType.LPStr)] string lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharBuffA(byte* lpszSrc, ReadOnlySpan<byte> lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharBuffA(byte* lpszSrc, byte* lpszDst, int cchDstLength);
     [DllImport("user32", EntryPoint="OemToCharBuffW", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharBuff(cpointer unfoundType_LPCSTR_lpszSrc, string lpszDst, int cchDstLength);
+        int OemToCharBuff([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, string lpszDst, int cchDstLength);
     [DllImport("user32", EntryPoint="OemToCharBuffW", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharBuff(cpointer unfoundType_LPCSTR_lpszSrc, char* lpszDst, int cchDstLength);
+        int OemToCharBuff([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, char* lpszDst, int cchDstLength);
+    [DllImport("user32", EntryPoint="OemToCharBuffW", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharBuff(byte* lpszSrc, string lpszDst, int cchDstLength);
+    [DllImport("user32", EntryPoint="OemToCharBuffW", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharBuff(byte* lpszSrc, char* lpszDst, int cchDstLength);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharBuffW(cpointer unfoundType_LPCSTR_lpszSrc, string lpszDst, int cchDstLength);
+        int OemToCharBuffW([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, string lpszDst, int cchDstLength);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int OemToCharBuffW(cpointer unfoundType_LPCSTR_lpszSrc, char* lpszDst, int cchDstLength);
+        int OemToCharBuffW([MarshalAs(UnmanagedType.LPStr)] string lpszSrc, char* lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharBuffW(byte* lpszSrc, string lpszDst, int cchDstLength);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int OemToCharBuffW(byte* lpszSrc, char* lpszDst, int cchDstLength);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         byte* CharUpperA_([MarshalAs(UnmanagedType.LPStr)] string lpsz);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
@@ -915,9 +1011,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int CharLowerBuffW(char* lpsz, int cchLength);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* CharNextA_(cpointer unfoundType_LPCSTR_lpsz);
+        byte* CharNextA_([MarshalAs(UnmanagedType.LPStr)] string lpsz);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> CharNextA(cpointer unfoundType_LPCSTR_lpsz);
+        byte* CharNextA_(byte* lpsz);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharNextA([MarshalAs(UnmanagedType.LPStr)] string lpsz);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharNextA(byte* lpsz);
     [DllImport("user32", EntryPoint="CharNextW", SetLastError=true, ExactSpelling=true)] public static extern
         char* CharNext_([MarshalAs(UnmanagedType.LPWStr)] string lpsz);
     [DllImport("user32", EntryPoint="CharNextW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -935,9 +1035,21 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         string CharNextW(char* lpsz);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* CharPrevA_(cpointer unfoundType_LPCSTR_lpszStart, cpointer unfoundType_LPCSTR_lpszCurrent);
+        byte* CharPrevA_([MarshalAs(UnmanagedType.LPStr)] string lpszStart, [MarshalAs(UnmanagedType.LPStr)] string lpszCurrent);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> CharPrevA(cpointer unfoundType_LPCSTR_lpszStart, cpointer unfoundType_LPCSTR_lpszCurrent);
+        byte* CharPrevA_([MarshalAs(UnmanagedType.LPStr)] string lpszStart, byte* lpszCurrent);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        byte* CharPrevA_(byte* lpszStart, [MarshalAs(UnmanagedType.LPStr)] string lpszCurrent);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        byte* CharPrevA_(byte* lpszStart, byte* lpszCurrent);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharPrevA([MarshalAs(UnmanagedType.LPStr)] string lpszStart, [MarshalAs(UnmanagedType.LPStr)] string lpszCurrent);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharPrevA([MarshalAs(UnmanagedType.LPStr)] string lpszStart, byte* lpszCurrent);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharPrevA(byte* lpszStart, [MarshalAs(UnmanagedType.LPStr)] string lpszCurrent);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharPrevA(byte* lpszStart, byte* lpszCurrent);
     [DllImport("user32", EntryPoint="CharPrevW", SetLastError=true, ExactSpelling=true)] public static extern
         char* CharPrev_([MarshalAs(UnmanagedType.LPWStr)] string lpszStart, [MarshalAs(UnmanagedType.LPWStr)] string lpszCurrent);
     [DllImport("user32", EntryPoint="CharPrevW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -971,13 +1083,29 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         string CharPrevW(char* lpszStart, char* lpszCurrent);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* CharNextExA_(short CodePage, cpointer unfoundType_LPCSTR_lpCurrentChar, int dwFlags);
+        byte* CharNextExA_(short CodePage, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentChar, int dwFlags);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> CharNextExA(short CodePage, cpointer unfoundType_LPCSTR_lpCurrentChar, int dwFlags);
+        byte* CharNextExA_(short CodePage, byte* lpCurrentChar, int dwFlags);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        byte* CharPrevExA_(short CodePage, cpointer unfoundType_LPCSTR_lpStart, cpointer unfoundType_LPCSTR_lpCurrentChar, int dwFlags);
+        ReadOnlySpan<byte> CharNextExA(short CodePage, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentChar, int dwFlags);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        ReadOnlySpan<byte> CharPrevExA(short CodePage, cpointer unfoundType_LPCSTR_lpStart, cpointer unfoundType_LPCSTR_lpCurrentChar, int dwFlags);
+        ReadOnlySpan<byte> CharNextExA(short CodePage, byte* lpCurrentChar, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        byte* CharPrevExA_(short CodePage, [MarshalAs(UnmanagedType.LPStr)] string lpStart, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentChar, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        byte* CharPrevExA_(short CodePage, [MarshalAs(UnmanagedType.LPStr)] string lpStart, byte* lpCurrentChar, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        byte* CharPrevExA_(short CodePage, byte* lpStart, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentChar, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        byte* CharPrevExA_(short CodePage, byte* lpStart, byte* lpCurrentChar, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharPrevExA(short CodePage, [MarshalAs(UnmanagedType.LPStr)] string lpStart, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentChar, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharPrevExA(short CodePage, [MarshalAs(UnmanagedType.LPStr)] string lpStart, byte* lpCurrentChar, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharPrevExA(short CodePage, byte* lpStart, [MarshalAs(UnmanagedType.LPStr)] string lpCurrentChar, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        ReadOnlySpan<byte> CharPrevExA(short CodePage, byte* lpStart, byte* lpCurrentChar, int dwFlags);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int IsCharAlphaA(byte ch);
     [DllImport("user32", EntryPoint="IsCharAlphaW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1179,7 +1307,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int IsWindowEnabled(cpointer hWnd);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadAcceleratorsA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpTableName);
+        cpointer LoadAcceleratorsA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTableName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadAcceleratorsA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpTableName);
     [DllImport("user32", EntryPoint="LoadAcceleratorsW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadAccelerators(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTableName);
     [DllImport("user32", EntryPoint="LoadAcceleratorsW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1213,7 +1343,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetSystemMetricsForDpi(int nIndex, uint dpi);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadMenuA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpMenuName);
+        cpointer LoadMenuA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpMenuName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadMenuA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpMenuName);
     [DllImport("user32", EntryPoint="LoadMenuW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadMenu(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpMenuName);
     [DllImport("user32", EntryPoint="LoadMenuW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1233,7 +1365,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetMenu(cpointer hWnd, cpointer hMenu);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ChangeMenuA(cpointer hMenu, uint cmd, cpointer unfoundType_LPCSTR_lpszNewItem, uint cmdInsert, uint flags);
+        int ChangeMenuA(cpointer hMenu, uint cmd, [MarshalAs(UnmanagedType.LPStr)] string lpszNewItem, uint cmdInsert, uint flags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ChangeMenuA(cpointer hMenu, uint cmd, byte* lpszNewItem, uint cmdInsert, uint flags);
     [DllImport("user32", EntryPoint="ChangeMenuW", SetLastError=true, ExactSpelling=true)] public static extern
         int ChangeMenu(cpointer hMenu, uint cmd, [MarshalAs(UnmanagedType.LPWStr)] string lpszNewItem, uint cmdInsert, uint flags);
     [DllImport("user32", EntryPoint="ChangeMenuW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1281,7 +1415,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetMenuItemCount(cpointer hMenu);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int InsertMenuA(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, cpointer unfoundType_LPCSTR_lpNewItem);
+        int InsertMenuA(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int InsertMenuA(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
     [DllImport("user32", EntryPoint="InsertMenuW", SetLastError=true, ExactSpelling=true)] public static extern
         int InsertMenu(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport("user32", EntryPoint="InsertMenuW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1291,7 +1427,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int InsertMenuW(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int AppendMenuA(cpointer hMenu, uint uFlags, ulong uIDNewItem, cpointer unfoundType_LPCSTR_lpNewItem);
+        int AppendMenuA(cpointer hMenu, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int AppendMenuA(cpointer hMenu, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
     [DllImport("user32", EntryPoint="AppendMenuW", SetLastError=true, ExactSpelling=true)] public static extern
         int AppendMenu(cpointer hMenu, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport("user32", EntryPoint="AppendMenuW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1301,7 +1439,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int AppendMenuW(cpointer hMenu, uint uFlags, ulong uIDNewItem, char* lpNewItem);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ModifyMenuA(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, cpointer unfoundType_LPCSTR_lpNewItem);
+        int ModifyMenuA(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ModifyMenuA(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
     [DllImport("user32", EntryPoint="ModifyMenuW", SetLastError=true, ExactSpelling=true)] public static extern
         int ModifyMenu(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport("user32", EntryPoint="ModifyMenuW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1361,7 +1501,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int DrawIcon(cpointer hDC, int X, int Y, cpointer hIcon);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int DrawTextA(cpointer hdc, cpointer unfoundType_LPCSTR_lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
+        int DrawTextA(cpointer hdc, [MarshalAs(UnmanagedType.LPStr)] string lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int DrawTextA(cpointer hdc, byte* lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
     [DllImport("user32", EntryPoint="DrawTextW", SetLastError=true, ExactSpelling=true)] public static extern
         int DrawText(cpointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
     [DllImport("user32", EntryPoint="DrawTextW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1397,7 +1539,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int DrawStateW(cpointer hdc, cpointer hbrFore, cpointer unfoundType_DRAWSTATEPROC_qfnCallBack, long lData, ulong wData, int x, int y, int cx, int cy, uint uFlags);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int TabbedTextOutA(cpointer hdc, int x, int y, cpointer unfoundType_LPCSTR_lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
+        int TabbedTextOutA(cpointer hdc, int x, int y, [MarshalAs(UnmanagedType.LPStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int TabbedTextOutA(cpointer hdc, int x, int y, byte* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport("user32", EntryPoint="TabbedTextOutW", SetLastError=true, ExactSpelling=true)] public static extern
         int TabbedTextOut(cpointer hdc, int x, int y, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport("user32", EntryPoint="TabbedTextOutW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1407,7 +1551,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int TabbedTextOutW(cpointer hdc, int x, int y, char* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int GetTabbedTextExtentA(cpointer hdc, cpointer unfoundType_LPCSTR_lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
+        int GetTabbedTextExtentA(cpointer hdc, [MarshalAs(UnmanagedType.LPStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int GetTabbedTextExtentA(cpointer hdc, byte* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
     [DllImport("user32", EntryPoint="GetTabbedTextExtentW", SetLastError=true, ExactSpelling=true)] public static extern
         int GetTabbedTextExtent(cpointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
     [DllImport("user32", EntryPoint="GetTabbedTextExtentW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1489,7 +1635,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnableScrollBar(cpointer hWnd, uint wSBflags, uint wArrows);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetPropA(cpointer hWnd, cpointer unfoundType_LPCSTR_lpString, cpointer hData);
+        int SetPropA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString, cpointer hData);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetPropA(cpointer hWnd, byte* lpString, cpointer hData);
     [DllImport("user32", EntryPoint="SetPropW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetProp(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString, cpointer hData);
     [DllImport("user32", EntryPoint="SetPropW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1499,7 +1647,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetPropW(cpointer hWnd, char* lpString, cpointer hData);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer GetPropA(cpointer hWnd, cpointer unfoundType_LPCSTR_lpString);
+        cpointer GetPropA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer GetPropA(cpointer hWnd, byte* lpString);
     [DllImport("user32", EntryPoint="GetPropW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GetProp(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("user32", EntryPoint="GetPropW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1509,7 +1659,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer GetPropW(cpointer hWnd, char* lpString);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer RemovePropA(cpointer hWnd, cpointer unfoundType_LPCSTR_lpString);
+        cpointer RemovePropA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer RemovePropA(cpointer hWnd, byte* lpString);
     [DllImport("user32", EntryPoint="RemovePropW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer RemoveProp(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("user32", EntryPoint="RemovePropW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1531,7 +1683,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumPropsW(cpointer hWnd, cpointer unfoundType_PROPENUMPROCW_lpEnumFunc);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int SetWindowTextA(cpointer hWnd, cpointer unfoundType_LPCSTR_lpString);
+        int SetWindowTextA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int SetWindowTextA(cpointer hWnd, byte* lpString);
     [DllImport("user32", EntryPoint="SetWindowTextW", SetLastError=true, ExactSpelling=true)] public static extern
         int SetWindowText(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport("user32", EntryPoint="SetWindowTextW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1579,7 +1733,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int GetMenuContextHelpId(cpointer unnamed_0);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int MessageBoxA(cpointer hWnd, cpointer unfoundType_LPCSTR_lpText, cpointer unfoundType_LPCSTR_lpCaption, uint uType);
+        int MessageBoxA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MessageBoxA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, byte* lpCaption, uint uType);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MessageBoxA(cpointer hWnd, byte* lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MessageBoxA(cpointer hWnd, byte* lpText, byte* lpCaption, uint uType);
     [DllImport("user32", EntryPoint="MessageBoxW", SetLastError=true, ExactSpelling=true)] public static extern
         int MessageBox(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
     [DllImport("user32", EntryPoint="MessageBoxW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1597,7 +1757,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int MessageBoxW(cpointer hWnd, char* lpText, char* lpCaption, uint uType);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int MessageBoxExA(cpointer hWnd, cpointer unfoundType_LPCSTR_lpText, cpointer unfoundType_LPCSTR_lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType, short wLanguageId);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MessageBoxExA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, byte* lpCaption, uint uType, short wLanguageId);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MessageBoxExA(cpointer hWnd, byte* lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType, short wLanguageId);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int MessageBoxExA(cpointer hWnd, byte* lpText, byte* lpCaption, uint uType, short wLanguageId);
     [DllImport("user32", EntryPoint="MessageBoxExW", SetLastError=true, ExactSpelling=true)] public static extern
         int MessageBoxEx(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
     [DllImport("user32", EntryPoint="MessageBoxExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1783,7 +1949,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumChildWindows(cpointer hWndParent, cpointer unfoundType_WNDENUMPROC_lpEnumFunc, long lParam);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindWindowA(cpointer unfoundType_LPCSTR_lpClassName, cpointer unfoundType_LPCSTR_lpWindowName);
+        cpointer FindWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindWindowA(byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindWindowA(byte* lpClassName, byte* lpWindowName);
     [DllImport("user32", EntryPoint="FindWindowW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
     [DllImport("user32", EntryPoint="FindWindowW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1801,7 +1973,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindWindowW(char* lpClassName, char* lpWindowName);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, cpointer unfoundType_LPCSTR_lpszClass, cpointer unfoundType_LPCSTR_lpszWindow);
+        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, [MarshalAs(UnmanagedType.LPStr)] string lpszWindow);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, byte* lpszWindow);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, byte* lpszClass, [MarshalAs(UnmanagedType.LPStr)] string lpszWindow);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, byte* lpszClass, byte* lpszWindow);
     [DllImport("user32", EntryPoint="FindWindowExW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer FindWindowEx(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
     [DllImport("user32", EntryPoint="FindWindowExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1873,7 +2051,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int CheckMenuRadioItem(cpointer hmenu, uint first, uint last, uint check, uint flags);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadBitmapA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpBitmapName);
+        cpointer LoadBitmapA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpBitmapName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadBitmapA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpBitmapName);
     [DllImport("user32", EntryPoint="LoadBitmapW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadBitmap(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpBitmapName);
     [DllImport("user32", EntryPoint="LoadBitmapW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1883,7 +2063,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadBitmapW(cpointer unfoundType_HINSTANCE_hInstance, char* lpBitmapName);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadCursorA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpCursorName);
+        cpointer LoadCursorA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpCursorName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadCursorA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpCursorName);
     [DllImport("user32", EntryPoint="LoadCursorW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadCursor(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpCursorName);
     [DllImport("user32", EntryPoint="LoadCursorW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1893,7 +2075,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadCursorW(cpointer unfoundType_HINSTANCE_hInstance, char* lpCursorName);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadCursorFromFileA(cpointer unfoundType_LPCSTR_lpFileName);
+        cpointer LoadCursorFromFileA([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadCursorFromFileA(byte* lpFileName);
     [DllImport("user32", EntryPoint="LoadCursorFromFileW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadCursorFromFile([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport("user32", EntryPoint="LoadCursorFromFileW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1909,7 +2093,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int SetSystemCursor(cpointer unfoundType_HCURSOR_hcur, int id);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadIconA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCSTR_lpIconName);
+        cpointer LoadIconA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpIconName);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadIconA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpIconName);
     [DllImport("user32", EntryPoint="LoadIconW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadIcon(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpIconName);
     [DllImport("user32", EntryPoint="LoadIconW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1919,7 +2105,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadIconW(cpointer unfoundType_HINSTANCE_hInstance, char* lpIconName);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        uint PrivateExtractIconsA(cpointer unfoundType_LPCSTR_szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
+        uint PrivateExtractIconsA([MarshalAs(UnmanagedType.LPStr)] string szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        uint PrivateExtractIconsA(byte* szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
     [DllImport("user32", EntryPoint="PrivateExtractIconsW", SetLastError=true, ExactSpelling=true)] public static extern
         uint PrivateExtractIcons([MarshalAs(UnmanagedType.LPWStr)] string szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
     [DllImport("user32", EntryPoint="PrivateExtractIconsW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -1943,7 +2131,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         uint SetThreadCursorCreationScaling(uint cursorDpi);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer LoadImageA(cpointer unfoundType_HINSTANCE_hInst, cpointer unfoundType_LPCSTR_name, uint type, int cx, int cy, uint fuLoad);
+        cpointer LoadImageA(cpointer unfoundType_HINSTANCE_hInst, [MarshalAs(UnmanagedType.LPStr)] string name, uint type, int cx, int cy, uint fuLoad);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer LoadImageA(cpointer unfoundType_HINSTANCE_hInst, byte* name, uint type, int cx, int cy, uint fuLoad);
     [DllImport("user32", EntryPoint="LoadImageW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer LoadImage(cpointer unfoundType_HINSTANCE_hInst, [MarshalAs(UnmanagedType.LPWStr)] string name, uint type, int cx, int cy, uint fuLoad);
     [DllImport("user32", EntryPoint="LoadImageW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2051,7 +2241,13 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         uint ArrangeIconicWindows(cpointer hWnd);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        cpointer CreateMDIWindowA(cpointer unfoundType_LPCSTR_lpClassName, cpointer unfoundType_LPCSTR_lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
+        cpointer CreateMDIWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMDIWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMDIWindowA(byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        cpointer CreateMDIWindowA(byte* lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
     [DllImport("user32", EntryPoint="CreateMDIWindowW", SetLastError=true, ExactSpelling=true)] public static extern
         cpointer CreateMDIWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
     [DllImport("user32", EntryPoint="CreateMDIWindowW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2071,7 +2267,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         short TileWindows(cpointer hwndParent, uint wHow, cpointer unfoundType_RECT_lpRect, uint cKids, cpointer lpKids);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int WinHelpA(cpointer hWndMain, cpointer unfoundType_LPCSTR_lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
+        int WinHelpA(cpointer hWndMain, [MarshalAs(UnmanagedType.LPStr)] string lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int WinHelpA(cpointer hWndMain, byte* lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
     [DllImport("user32", EntryPoint="WinHelpW", SetLastError=true, ExactSpelling=true)] public static extern
         int WinHelp(cpointer hWndMain, [MarshalAs(UnmanagedType.LPWStr)] string lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
     [DllImport("user32", EntryPoint="WinHelpW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2089,7 +2287,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int ChangeDisplaySettingsW(cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int ChangeDisplaySettingsExA(cpointer unfoundType_LPCSTR_lpszDeviceName, cpointer unfoundType_DEVMODEA_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
+        int ChangeDisplaySettingsExA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, cpointer unfoundType_DEVMODEA_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int ChangeDisplaySettingsExA(byte* lpszDeviceName, cpointer unfoundType_DEVMODEA_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
     [DllImport("user32", EntryPoint="ChangeDisplaySettingsExW", SetLastError=true, ExactSpelling=true)] public static extern
         int ChangeDisplaySettingsEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, cpointer unfoundType_DEVMODEW_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
     [DllImport("user32", EntryPoint="ChangeDisplaySettingsExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2099,7 +2299,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int ChangeDisplaySettingsExW(char* lpszDeviceName, cpointer unfoundType_DEVMODEW_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int EnumDisplaySettingsA(cpointer unfoundType_LPCSTR_lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode);
+        int EnumDisplaySettingsA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumDisplaySettingsA(byte* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode);
     [DllImport("user32", EntryPoint="EnumDisplaySettingsW", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumDisplaySettings([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode);
     [DllImport("user32", EntryPoint="EnumDisplaySettingsW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2109,7 +2311,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumDisplaySettingsW(char* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int EnumDisplaySettingsExA(cpointer unfoundType_LPCSTR_lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
+        int EnumDisplaySettingsExA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumDisplaySettingsExA(byte* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
     [DllImport("user32", EntryPoint="EnumDisplaySettingsExW", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumDisplaySettingsEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport("user32", EntryPoint="EnumDisplaySettingsExW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2119,7 +2323,9 @@ public unsafe class user32
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumDisplaySettingsExW(char* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
-        int EnumDisplayDevicesA(cpointer unfoundType_LPCSTR_lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEA_lpDisplayDevice, int dwFlags);
+        int EnumDisplayDevicesA([MarshalAs(UnmanagedType.LPStr)] string lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEA_lpDisplayDevice, int dwFlags);
+    [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
+        int EnumDisplayDevicesA(byte* lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEA_lpDisplayDevice, int dwFlags);
     [DllImport("user32", EntryPoint="EnumDisplayDevicesW", SetLastError=true, ExactSpelling=true)] public static extern
         int EnumDisplayDevices([MarshalAs(UnmanagedType.LPWStr)] string lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
     [DllImport("user32", EntryPoint="EnumDisplayDevicesW", SetLastError=true, ExactSpelling=true)] public static extern
@@ -2362,4 +2568,5 @@ public unsafe class user32
         int SetAdditionalForegroundBoostProcesses(cpointer topLevelWindow, int processHandleCount, cpointer unfoundType_HANDLEprocessHandleArrayprocessHandleArray_unnamed_2);
     [DllImport("user32", SetLastError=true, ExactSpelling=true)] public static extern
         int RegisterForTooltipDismissNotification(cpointer hWnd, cpointer unfoundType_TOOLTIP_DISMISS_FLAGS_tdFlags);
+
 }
