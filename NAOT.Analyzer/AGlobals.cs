@@ -28,6 +28,8 @@ public static class AGlobals
 
     public static TypeSig TypeType;
     public static TypeSig TypeArrayType;
+    public static TypeDef ValueTypeType;
+    public static TypeDef NAOTDefinesType;
     public static TypeDef NAOTKernel32InteropType;
     public static TypeDef NAOTUser32InteropType;
     public static TypeDef UnmanagedCallersOnlyAttribute;

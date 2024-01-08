@@ -24,7 +24,7 @@ public unsafe class Program
     [EntryPoint]
     static void Main()
     {
-
+        new HexTest().hextest();
     }
     #endregion
 
@@ -38,23 +38,4 @@ public unsafe class Program
     [NativeFunc<__stdcall>]
     static void TestNative3() { }
     #endregion
-
-    void hextest()
-    {
-        var _ = new object();
-        
-        _ = hex(); // byte[0]
-        _ = hex(0); // 00 00 00 00
-        _ = hex(1d); // 00 00 00 00 00 00 F0 3F
-        _ = hex(""); // byte[0]
-        _ = hex("00"); // 00
-        _ = hex("00FFED0D"); // 00 FF ED 0D
-        _ = hex("00 FF ED 0D"); // 00 FF ED 0D
-        _ = hex("0 FF ED D"); // 00 FF ED 0D
-        _ = hex("0 FF 0xED 0xD"); // 00 FF ED 0D
-        _ = hex("0 FF 0xED D"); // 00 FF ED 0D
-        _ = hex("0 FF 0xED D", (byte)0x30, "FF FE"); // 00 FF ED 0D  30  FF FE
-        _ = hex("0 FF 0xED D", (byte[])[0x30, 0, 0, 0xFF], "FF FE"); // 00 FF ED 0D  30 0 0 FF  FF FE
-
-    }
 }

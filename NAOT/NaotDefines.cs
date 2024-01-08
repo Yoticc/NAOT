@@ -69,6 +69,5 @@ public unsafe static class NaotDefines
 
     #region hex
     public static byte[] hex(params object[] args) => throw new NotImplementedException(ExceptionMessage);
-    public static List<byte> hexl(params object[] args) => throw new NotImplementedException(ExceptionMessage);
     #endregion
 }

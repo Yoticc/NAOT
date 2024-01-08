@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using dnlib.DotNet.Emit;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +59,15 @@ public static class DnExtensions
                 return ret;
             })
             .Where(m => m != null)
-            .Select(m => ((MethodDef, CustomAttribute))m)
+            .Select(m => ((MethodDef, CustomAttribute))m!)
             .ToList();
     }
+
+    public static IMethodDefOrRef? GetOperandMethod(this Instruction inst) => 
+        inst.Operand is IMethodDefOrRef 
+        ? (inst.Operand as IMethodDefOrRef) 
+        : (inst.Operand is MethodSpec 
+            ? ((inst.Operand as MethodSpec)!.Method)
+            : null
+          );
 }

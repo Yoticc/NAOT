@@ -89,7 +89,8 @@ public class HandleLdftnILTask : ILActualTask
                         var ldftnMeth = (IMethodDefOrRef)ldftnInst.Operand;
 
                         if (!ldftnMeth.ContainsAttribute(AGlobals.NativeMethodAttributes))
-                            usedUnnativedMethods.Add(ldftnMeth);
+                            if (usedUnnativedMethods.Find(m => m.FullName == ldftnMeth.FullName) == null)
+                                usedUnnativedMethods.Add(ldftnMeth);
 
                         instr.RemoveAt(start);
                         instr.RemoveAt(start);
