@@ -21,8 +21,11 @@ public class RemoveUnusedInteropCallsILTask : PrepareNativeTask
         var referenceMehodsNames = referenceTypes.Select(t => t.Methods).SelectMany(m => m).Select(m => m.FullName.ToString()).ToList();
 
         var usedMethods = new List<string>();
-        foreach (var module in Globals.Dn.DnModules.Input)
+        foreach (var module in (ModuleDefMD[])[..Globals.Dn.DnModules.Input, Globals.Dn.DnModules.Main])
         {
+            if (module.Name == "NAOT.dll")
+                continue;
+
             foreach (var type in module.GetTypes())
             {
                 foreach (var method in type.Methods)
@@ -50,6 +53,7 @@ public class RemoveUnusedInteropCallsILTask : PrepareNativeTask
 
                         var callMethod = operand as IMethodDefOrRef;
                         var declaringType = callMethod.DeclaringType;
+
                         if (!referenceTypesNames.Contains(declaringType.Name))
                             continue;
 

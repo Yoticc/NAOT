@@ -4,10 +4,16 @@ using System.Runtime.InteropServices;
 
 public unsafe static class NaotDefines
 {
+    #region Literals
+    const string ExceptionMessage = "This method shouldn't be called directly. There is something wrong with the NAOT.Analyzer. Perhaps you haven’t divided it up or are using it without naot publication";
+    #endregion
+
+    #region DllImports
     [DllImport("kernel32", CharSet = CharSet.Auto)] static extern 
         uint CreateThread(uint* threadAttributes, uint stackSize, ThreadStart startAddress, uint* parameter, uint creationFlags, out uint threadId);
+    #endregion
 
-    const string ExceptionMessage = "This method shouldn't be called directly. There is something wrong with the NAOT.Analyzer. Perhaps you haven’t divided it up or are using it without naot publication";
+    #region ldftn
     public static delegate* unmanaged<void> ldftn(Delegate meth) => throw new NotImplementedException(ExceptionMessage);
     public static delegate* unmanaged<T, void> ldftn<T>(Action<T> meth) => throw new NotImplementedException(ExceptionMessage);
     public static delegate* unmanaged<T> ldftn<T>(Func<T> meth) => throw new NotImplementedException(ExceptionMessage);
@@ -39,7 +45,9 @@ public unsafe static class NaotDefines
     public static delegate* unmanaged<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> ldftn<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Func<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> meth) => throw new NotImplementedException(ExceptionMessage);
     public static delegate* unmanaged<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, void> ldftn<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> meth) => throw new NotImplementedException(ExceptionMessage);
     public static delegate* unmanaged<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> ldftn<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Func<T, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> meth) => throw new NotImplementedException(ExceptionMessage);
+    #endregion
 
+    #region thread
     public static uint thread(ThreadStart entryPoint)
     {
         uint parameter = 0;
@@ -57,4 +65,10 @@ public unsafe static class NaotDefines
         do { }
         while (shouldReturnFalseWhenEndWhile());
     });
+    #endregion
+
+    #region hex
+    public static byte[] hex(params object[] args) => throw new NotImplementedException(ExceptionMessage);
+    public static List<byte> hexl(params object[] args) => throw new NotImplementedException(ExceptionMessage);
+    #endregion
 }

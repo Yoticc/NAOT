@@ -6,7 +6,8 @@ using System.Runtime.InteropServices;
 namespace Test;
 
 public unsafe class Program
-{    
+{
+    #region ldftn
     static void Meth(int t)
     {
         delegate* unmanaged<int, void> ptr = ldftn<int>(Meth);
@@ -17,19 +18,17 @@ public unsafe class Program
     static void Meth_() { }
 
     static void A(void* a, object b, void* c) { }
+    #endregion
 
-    [DllImport("user32", SetLastError = true, CharSet = CharSet.Auto)]
-    public static extern int MessageBox(nint hWnd, string text, string caption, uint type);
-
+    #region EntryPoint
     [EntryPoint]
     static void Main()
-    {        
-        void* a = null;
-        //kernel32.LeaveCriticalSection(a);
-        //void* ptr1 = ldftn(kernel32.LeaveCriticalSectionWhenCallbackReturns);
-        MessageBox(0, "hoba", "", 0);
-    }
+    {
 
+    }
+    #endregion
+
+    #region NativeFunc
     [NativeFunc]
     static void TestNative() { }
 
@@ -37,5 +36,25 @@ public unsafe class Program
     static void TestNative2() { }
 
     [NativeFunc<__stdcall>]
-    static void TestNative3() { }  
+    static void TestNative3() { }
+    #endregion
+
+    void hextest()
+    {
+        var _ = new object();
+        
+        _ = hex(); // byte[0]
+        _ = hex(0); // 00 00 00 00
+        _ = hex(1d); // 00 00 00 00 00 00 F0 3F
+        _ = hex(""); // byte[0]
+        _ = hex("00"); // 00
+        _ = hex("00FFED0D"); // 00 FF ED 0D
+        _ = hex("00 FF ED 0D"); // 00 FF ED 0D
+        _ = hex("0 FF ED D"); // 00 FF ED 0D
+        _ = hex("0 FF 0xED 0xD"); // 00 FF ED 0D
+        _ = hex("0 FF 0xED D"); // 00 FF ED 0D
+        _ = hex("0 FF 0xED D", (byte)0x30, "FF FE"); // 00 FF ED 0D  30  FF FE
+        _ = hex("0 FF 0xED D", (byte[])[0x30, 0, 0, 0xFF], "FF FE"); // 00 FF ED 0D  30 0 0 FF  FF FE
+
+    }
 }
