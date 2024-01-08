@@ -4,6 +4,7 @@ using NAOT.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ public class InitializeTask : InitTask
         AGlobals.TypeArrayType = new SZArraySig(AGlobals.TypeType);
 
         AGlobals.ValueTypeType = SystemPrivateCoreLib.FindType("ValueType");
+        AGlobals.ByteArray = new SZArraySig(Main.CorLibTypes.Byte);
 
         AGlobals.NativeFuncAttribute = DnModules.NAOT.FindType("NativeFuncAttribute");
         AGlobals.NativeFuncAttribute_1 = DnModules.NAOT.FindType("NativeFuncAttribute`1");

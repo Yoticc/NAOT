@@ -8,6 +8,16 @@ using static NaotDefines;
 namespace Test;
 class HexTest
 {
+    static HexTest()
+    {
+        f = new byte[16];
+        f[0] = 0;
+        f[1] = 1;
+        f[2] = 60;
+    }
+
+    static byte[] f;
+
     byte value;
     TestHexStruct structVariable;
     byte[] variable;
@@ -26,7 +36,9 @@ class HexTest
         { } { } { }
         _ = hex(new string[0]); // byte[0]
         { } { } { }
-        _ = hex(new string[0], 0x40); // byte[0]
+        _ = hex(new string[0], 0x40);
+        { } { } { }
+        _ = hex(new object[] { new object[2] { 40, 30}, "FE00", 50 }, 90, 100);
         { } { } { }
         _ = hex(0); // 00 00 00 00
         { } { } { }

@@ -70,4 +70,26 @@ public static class DnExtensions
             ? ((inst.Operand as MethodSpec)!.Method)
             : null
           );
+
+    public static int GetLdlocValue(this Instruction inst) => inst.OpCode.Code switch
+    {
+        Code.Ldloc_0 => 0,
+        Code.Ldloc_1 => 1,
+        Code.Ldloc_2 => 2,
+        Code.Ldloc_3 => 3,
+        Code.Ldloc_S => (int)inst.Operand,
+        Code.Ldloc => (int)inst.Operand,
+        _ => 0
+    };
+
+    public static int GetStlocValue(this Instruction inst) => inst.OpCode.Code switch
+    {
+        Code.Stloc_0 => 0,
+        Code.Stloc_1 => 1,
+        Code.Stloc_2 => 2,
+        Code.Stloc_3 => 3,
+        Code.Stloc_S => (int)inst.Operand,
+        Code.Stloc => (int)inst.Operand,
+        _ => 0
+    };
 }

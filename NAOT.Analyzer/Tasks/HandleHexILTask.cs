@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 namespace NAOT.Analyzer.Tasks;
 public class HandleHexILTask : ILActualTask
 {
-    static ModuleDefMD a;
     public override void Execute(ModuleDefMD module)
     {
-        a = module;
-
         Handler[] handlers = [
-            EmptyArrayHandler
+            EmptyArrayHandler,
+            LocalArrayHandler
         ];
+
+        var sam = new StaticArraysManager(module);
 
         var naotDefinesMethods = AGlobals.NAOTDefinesType.Methods.ToList();
 
@@ -38,7 +38,7 @@ public class HandleHexILTask : ILActualTask
             if (!body.HasInstructions)
                 return;
 
-            var insts = body.Instructions.ToList();
+            var insts = body.Instructions;
             for (int i = 0; i < insts.Count; i++)
             {
                 var inst = insts[i];
@@ -62,7 +62,7 @@ public class HandleHexILTask : ILActualTask
                 {
                     try
                     {
-                        if (handler(insts, i))
+                        if (handler(module, sam, insts, i))
                             break;
                     }
                     catch (Exception ex)
@@ -74,24 +74,99 @@ public class HandleHexILTask : ILActualTask
         }
     }
 
-    delegate bool Handler(List<Instruction> insts, int index);
+    delegate bool Handler(ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, int index);
 
-    Handler EmptyArrayHandler = (insts, i) =>
+    Handler EmptyArrayHandler = (module, sam, insts, i) =>
     {
+        var prevInstIndex = i - 1;
         var prevInst = insts[i - 1];
-        if (prevInst.OpCode.Code == Code.Call)
+        var prevInstCode = prevInst.OpCode.Code;
+        /*
+         *  [i-1]  call  System.Array::Empty<?>()
+         *  [i]    call  uint8[] NaotDefines::hex(object[]) 
+        */
+        if (prevInstCode == Code.Call)
         {
             var callMethod = prevInst.GetOperandMethod()!;
             if (callMethod.FullName.Contains("System.Array::Empty"))
             {
-                insts.RemoveRange(i - 1, 2);
-
-                var sam = new StaticArraysManager(a);
-                sam.CreateByteArray(new byte[20]);
-
+                insts[i - 1] = new(OpCodes.Ldc_I4_0);
+                insts[i] = new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte));
+                /*
+                 *  [i-1]  ldc.i4.0
+                 *  [i]    newarr   uint8
+                */
                 return true;
             }
         }
+        /*
+         *  [i-2]  ldc.i4.0
+         *  [i-1]  newarr    ?
+         *  [i]    call      uint8[] NaotDefines::hex(object[]) 
+        */
+        else if (prevInstCode == Code.Newarr)
+        {
+            if (insts[i - 2].OpCode.Code == Code.Ldc_I4_0)
+            {
+                insts[i] = new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte));
+                insts.RemoveAt(i - 1);
+                /*
+                 *  [i-2]  ldc.i4.0
+                 *  [i]    newarr    uint8
+                */
+                return true;
+            }    
+        }
         return false;
     };
+
+    Handler LocalArrayHandler = (module, sam, insts, i) =>
+    {
+        var prevInstIndex = i - 1;
+        var prevInst = insts[i - 1];
+        var prevInstCode = prevInst.OpCode.Code;
+
+        /*
+         * [p-1]  ldc.i4?
+         * [p]    newarr
+         * ...
+         * [o]    stloc
+         * ...
+         * [i-1]  ldloc?
+         * [i]    uint8[] NaotDefines::hex(object[])
+        */
+        if (prevInst.IsLdloc())
+        {
+            int value = prevInst.GetLdlocValue();
+
+            for (int o = i - 1; o > 0; o--)
+            {
+                if (insts[o].IsStloc())
+                {
+                    if (insts[o].GetStlocValue() == value)
+                    {
+                        for (int p = o - 1; p > 0; p--)
+                        {
+                            if (insts[p].OpCode.Code == Code.Newarr)
+                            {
+                                if (insts[p - 1].GetLdcI4Value() == 0)
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    };
+
+    List<byte> CompileToByteArray()
+    {
+        var result = new List<byte>();
+
+        return result;
+    }
 }
