@@ -28,17 +28,50 @@ class HexTest
     {
         var _ = new object();
         { } { } { }
+        
         _ = hex(); // byte[0]
         { } { } { }
         _ = hex(new byte[0]); // byte[0]
         { } { } { }
         _ = hex(new long[0]); // byte[0]
         { } { } { }
+        _ = hex(new string[1] { "F0 "}); // byte[0]
+        { } { } { }
         _ = hex(new string[0]); // byte[0]
+        { } { } { }
+        _ = hex(new object[2] { new string[0], new string[0] }); // byte[0]
         { } { } { }
         _ = hex(new string[0], 0x40);
         { } { } { }
-        _ = hex(new object[] { new object[2] { 40, 30}, "FE00", 50 }, 90, 100);
+        
+        _ = hex(
+            2d,
+            new object[2]
+            {
+                80,
+                "00DD"
+            },
+            (ushort)70,
+            new object[] 
+            {
+                new object[4]
+                { 
+                    40, 
+                    30, 
+                    new object[0],
+                    new object[2]
+                    { 
+                        20,
+                        10
+                    } 
+                }, 
+                "FE00",
+                50 
+            }, 
+            90, 
+            100
+        );
+        
         { } { } { }
         _ = hex(0); // 00 00 00 00
         { } { } { }
@@ -58,6 +91,8 @@ class HexTest
         { } { } { }
         _ = hex("0 FF ED D"); // 00 FF ED 0D
         { } { } { }
+        _ = hex("0, FF ED, D"); // 00 FF ED 0D
+        { } { } { }
         _ = hex("0 FF 0xED 0xD"); // 00 FF ED 0D
         { } { } { }
         _ = hex("0 FF 0xED D"); // 00 FF ED 0D
@@ -74,6 +109,7 @@ class HexTest
         { } { } { }
         variable_3 = new(hex("00FFED0D", 50));
 
+        /*
         { } { } { }
         { } { } { }
         { } { } { }
@@ -105,6 +141,7 @@ class HexTest
         { } { } { }
         _ = new byte[20] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
         { } { } { }
+        */
     }
 }
 
