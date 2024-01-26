@@ -92,4 +92,7 @@ public static class DnExtensions
         Code.Stloc => (int)inst.Operand,
         _ => 0
     };
+
+    static Code[] stelemCodes = [Code.Stelem, Code.Stelem_I, Code.Stelem_I1, Code.Stelem_I2, Code.Stelem_I4, Code.Stelem_I8, Code.Stelem_R4, Code.Stelem_R8];
+    public static bool IsStelem(this Code code) => stelemCodes.Contains(code);
 }

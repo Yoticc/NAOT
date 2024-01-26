@@ -35,7 +35,7 @@ class HexTest
         { } { } { }
         _ = hex(new long[0]); // byte[0]
         { } { } { }
-        _ = hex(new string[1] { "F0 "}); // byte[0]
+        _ = hex(new string[1] { "F0 "}); // F0
         { } { } { }
         _ = hex(new string[0]); // byte[0]
         { } { } { }
