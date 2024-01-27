@@ -257,6 +257,7 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
         Dn.Modules.NAOT = Find("NAOT");
         Dn.Modules.SystemRuntimeInteropServices = Find("System.Runtime.InteropServices");
         Dn.Modules.SystemPrivateCoreLib = Find("System.Private.CoreLib");
+        Dn.Modules.SystemLinq = Find("System.Linq");
         Dn.Modules.Mscorelib = Find("mscorlib");
 
         DnModule Find(string name)

@@ -39,6 +39,10 @@ public static class AGlobals
     public static TypeDef NativeFuncAttribute;
     public static TypeDef NativeFuncAttribute_1;
     public static TypeDef DllImportAttribute;
+    public static TypeDef RuntimeHelpersType;
+    public static MethodDef InitializeArrayMethod;
+    public static TypeDef EnumerableType;
+    public static MethodDef EnumerableToArrayMethod;
 
     public static TypeDef[] NativeMethodAttributes;
 }

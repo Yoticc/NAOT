@@ -16,7 +16,7 @@ public class StaticArraysManager
     {
         Module = module;
 
-        pid = module.FindType(PID_TYPE_NAME)!;
+        pid = module.FindType(PID_TYPE_NAME, true)!;
         isInited = pid != null;
     }
 
@@ -55,7 +55,7 @@ public class StaticArraysManager
     {
         foreach (var field in pid.Fields)
         {
-            if (field.FieldType.IsSame(type))
+            if (type != null && field.FieldType.IsSame(type))
             {
                 if (field.HasFieldRVA)
                 {
@@ -97,7 +97,7 @@ public class StaticArraysManager
         var length = array.Length;
         var structType = GetExistingStructType(length);
         var name = GetArrayHash(array);
-        var field = structType == null ? null : GetExistingField(structType, name, array);
+        var field = GetExistingField(structType, name, array);
         if (field == null)
         {
             field = new FieldDefUser(name, new FieldSig(AGlobals.ByteArray), FieldAttributes.Static);
@@ -109,13 +109,19 @@ public class StaticArraysManager
                 new(OpCodes.Newarr, new TypeSpecUser(Module.CorLibTypes.Byte)),
                 new(OpCodes.Stsfld, field),
                 ..
-                Enumerable.Range(0, length).Select(i => (Instruction[])[
+                Enumerable.Range(0, length)
+                .Where(i => array[i] != 0)
+                .Select(i => (Instruction[])[
                     new(OpCodes.Ldsfld, field),
                     Instruction.CreateLdcI4(i),
                     Instruction.CreateLdcI4(array[i]),
                     new(OpCodes.Stelem_I1)
-                ]).SelectMany(i => i)
-            ]).Reverse().ToList().ForEach(i => cctor.Body.Instructions.Insert(0, i));
+                ])
+                .SelectMany(i => i)
+            ])
+            .Reverse()
+            .ToList()
+            .ForEach(i => cctor.Body.Instructions.Insert(0, i));
         }
 
         return field;

@@ -62,7 +62,7 @@ public class HandleHexILTask : ILActualTask
                 {
                     try
                     {
-                        if (target(module, sam, insts, i))
+                        if (target(module, sam, insts, ref i))
                             goto NEXT;
                     }
                     catch (Exception ex)
@@ -80,9 +80,9 @@ public class HandleHexILTask : ILActualTask
     }
 
     #region Handlers
-    delegate bool Handler(ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, int index);
+    delegate bool Handler(ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, ref int index);
 
-    Handler EmptyArrayHandler = (module, sam, insts, i) =>
+    Handler EmptyArrayHandler = (ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, ref int i) =>
     {
         var prevInstIndex = i - 1;
         var prevInst = insts[i - 1];
@@ -116,6 +116,7 @@ public class HandleHexILTask : ILActualTask
             {
                 insts[i] = new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte));
                 insts.RemoveAt(i - 1);
+                i -= 1;
                 /*
                  *  [i-2]  ldc.i4.0
                  *  [i]    newarr    uint8
@@ -126,7 +127,7 @@ public class HandleHexILTask : ILActualTask
         return false;
     };
 
-    Handler LocalArrayHandler = (module, sam, insts, i) =>
+    Handler LocalArrayHandler = (ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, ref int i) =>
     {
         var prevInstIndex = i - 1;
         var prevInst = insts[i - 1];
@@ -150,7 +151,9 @@ public class HandleHexILTask : ILActualTask
                     {
                         var innerIsnts = insts.ToList().GetRange(0, o);
                         var bytes = CompileToByteArray(innerIsnts, out int affectedInstructions);
-                        ReplaceInstructionsByByteArray(insts, o - affectedInstructions, i, bytes);
+                        ReplaceInstructionsByByteArray(module, insts, o - affectedInstructions, i, bytes, sam, out int affectedInstructions2);
+                        i -= affectedInstructions2;
+
                         return true;
                     }
                 }
@@ -160,7 +163,7 @@ public class HandleHexILTask : ILActualTask
         return false;
     };
 
-    Handler ArrayHandler = (module, sam, insts, i) =>
+    Handler ArrayHandler = (ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, ref int i) =>
     {
         var prevInstIndex = i - 1;
         var prevInst = insts[i - 1];
@@ -172,19 +175,50 @@ public class HandleHexILTask : ILActualTask
         if (prevInstCode == Code.Stelem_Ref)
         {
             var bytes = CompileToByteArray(insts.ToList().GetRange(0, i), out int affectedInstructions);
-            ReplaceInstructionsByByteArray(insts, i - affectedInstructions, i, bytes);
+            ReplaceInstructionsByByteArray(module, insts, i - affectedInstructions, i, bytes, sam, out int affectedInstructions2);
+            i -= affectedInstructions2;
             return true;
         }
         return false;
     };
     #endregion
 
-    static void ReplaceInstructionsByByteArray(IList<Instruction> insts, int startPos, int endPos, List<byte> bytes)
+    static void ReplaceInstructionsByByteArray(ModuleDefMD module, IList<Instruction> insts, int startPos, int endPos, List<byte> bytes, StaticArraysManager sam, out int affectedInstructions)
     {
         if (bytes == null)
             Console.WriteLine($"HandleHexILTask->ReplaceInstructionsByByteArray: bytes is null");
 
-        Console.WriteLine($"{string.Join(' ', bytes.Select(b => $"{b:X2}"))}");
+        Console.WriteLine($"To Replace: {string.Join(' ', bytes.Select(b => $"{b:X2}"))}");
+
+        Console.WriteLine($"Removing {endPos - startPos} insts");
+        affectedInstructions = endPos - startPos;
+        for (int i = 0; i <= endPos - startPos; i++)
+            insts.RemoveAt(startPos);
+
+        /*
+        insts.Insert(startPos, new(OpCodes.Ldc_I4_0));
+        insts.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte)));
+        affectedInstructions -= 2;
+        */
+        
+        if (bytes.Count == 0)
+        {
+            insts.Insert(startPos, new(OpCodes.Ldc_I4_0));
+            insts.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte)));
+            affectedInstructions -= 2;
+        }
+        else
+        {
+            var arrField = sam.CreateByteArray(bytes.ToArray());
+
+            insts.Insert(startPos, new(OpCodes.Ldsfld, arrField));
+
+            var toArrayMethRef = module.Import(AGlobals.EnumerableToArrayMethod);
+            var toArrayMethSpec = new MethodSpecUser(toArrayMethRef, new GenericInstMethodSig(module.CorLibTypes.Byte));
+            insts.Insert(startPos + 1, new(OpCodes.Call, toArrayMethSpec));
+
+            affectedInstructions -= 2;
+        }
     }
 
     static List<byte>? ParseString(string input)
@@ -247,6 +281,7 @@ public class HandleHexILTask : ILActualTask
             return null;
 
         var arrayInsts = arrayInstsNullable.Value;
+        affectedInstructions = arrayInsts.totalLength;
 
         foreach (var insts in arrayInsts.instructions)
         {

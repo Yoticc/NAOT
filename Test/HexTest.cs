@@ -14,6 +14,13 @@ class HexTest
         f[0] = 0;
         f[1] = 1;
         f[2] = 60;
+
+        byte[] bytes = [2,23,3,3,3,3,3,3,3];
+        Console.WriteLine(bytes);
+        
+        Console.WriteLine(f.ToArray());
+
+        byte[] b = bytes.ToArray();
     }
 
     static byte[] f;
@@ -28,6 +35,7 @@ class HexTest
     {
         var _ = new object();
         { } { } { }
+        
         
         _ = hex(); // byte[0]
         { } { } { }
@@ -72,6 +80,7 @@ class HexTest
             100
         );
         
+
         { } { } { }
         _ = hex(0); // 00 00 00 00
         { } { } { }
@@ -83,6 +92,7 @@ class HexTest
         { } { } { }
         _ = hex("00FFED0D"); // 00 FF ED 0D
         { } { } { }
+        
         _ = hex("00 FF ED 0D"); // 00 FF ED 0D
         { } { } { }
         _ = hex("0x30 FF ED 0D"); // 30 FF ED 0D
@@ -106,6 +116,7 @@ class HexTest
         variable = hex("00FFED0D", 50);
         { } { } { }
         variable_2 = [[0x30, 0x40], hex("00FFED0D", 50)];
+        
         { } { } { }
         variable_3 = new(hex("00FFED0D", 50));
 

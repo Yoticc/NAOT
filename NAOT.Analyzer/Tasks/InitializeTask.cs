@@ -17,17 +17,11 @@ public class InitializeTask : InitTask
     public override void Execute()
     {
         AGlobals.UnmanagedCallersOnlyAttribute = SystemPrivateCoreLib.FindType("System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
-        if (AGlobals.UnmanagedCallersOnlyAttribute == null)
-            Console.WriteLine($"Unable find type System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute in System.Private.CoreLib");
-
         AGlobals.UnmanagedCallersOnlyAttributeCtor = AGlobals.UnmanagedCallersOnlyAttribute.FindConstructors().First();
-        if (AGlobals.UnmanagedCallersOnlyAttributeCtor == null)
-            Console.WriteLine($"Unable get constructor from System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
 
         AGlobals.TypeType = SystemPrivateCoreLib.FindType("System.Type").ToTypeSig();
         AGlobals.TypeArrayType = new SZArraySig(AGlobals.TypeType);
 
-        AGlobals.ValueTypeType = SystemPrivateCoreLib.FindType("ValueType");
         AGlobals.ByteArray = new SZArraySig(Main.CorLibTypes.Byte);
 
         AGlobals.NativeFuncAttribute = DnModules.NAOT.FindType("NativeFuncAttribute");
@@ -39,5 +33,10 @@ public class InitializeTask : InitTask
         AGlobals.NAOTUser32InteropType = DnModules.NAOT.FindType("user32");
 
         AGlobals.NativeMethodAttributes = [AGlobals.NativeFuncAttribute, AGlobals.NativeFuncAttribute_1, AGlobals.EntryPointAttribute, AGlobals.DllImportAttribute];
+
+        AGlobals.RuntimeHelpersType = SystemPrivateCoreLib.FindType("System.Runtime.CompilerServices.RuntimeHelpers");
+        AGlobals.InitializeArrayMethod = AGlobals.RuntimeHelpersType.Methods.First(m => m.Name == "InitializeArray");
+        AGlobals.EnumerableType = SystemLinq.FindType("System.Linq.Enumerable");
+        AGlobals.EnumerableToArrayMethod = AGlobals.EnumerableType.Methods.First(m => m.Name == "ToArray");
     }
 }

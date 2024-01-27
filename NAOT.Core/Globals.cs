@@ -91,6 +91,7 @@ public static class Globals
             public static DnModule Mscorelib;
             public static DnModule SystemPrivateCoreLib;
             public static DnModule SystemRuntimeInteropServices;
+            public static DnModule SystemLinq;
         }
 
         public static class DnModules
@@ -99,12 +100,13 @@ public static class Globals
             public static List<ModuleDefMD> Input;
             public static List<ModuleDefMD> References;
 
-            public static ModuleDefMD Main => Modules.Main.Module;
+            public static ModuleDefMD Main => Modules.Main;
 
-            public static ModuleDefMD NAOT => Modules.NAOT.Module;
-            public static ModuleDefMD Mscorelib => Modules.Mscorelib.Module;
-            public static ModuleDefMD SystemPrivateCoreLib => Modules.SystemPrivateCoreLib.Module;
-            public static ModuleDefMD SystemRuntimeInteropServices => Modules.SystemRuntimeInteropServices.Module;
+            public static ModuleDefMD NAOT => Modules.NAOT;
+            public static ModuleDefMD Mscorelib => Modules.Mscorelib;
+            public static ModuleDefMD SystemPrivateCoreLib => Modules.SystemPrivateCoreLib;
+            public static ModuleDefMD SystemRuntimeInteropServices => Modules.SystemRuntimeInteropServices;
+            public static ModuleDefMD SystemLinq => Modules.SystemLinq;
         }
     }
 

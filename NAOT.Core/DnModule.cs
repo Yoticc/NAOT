@@ -23,4 +23,6 @@ public class DnModule
     public Assembly Assembly;
     public Module ReflectionModule;
     public ModuleDefMD Module;
+
+    public static implicit operator ModuleDefMD(DnModule instance) => instance.Module;
 }
