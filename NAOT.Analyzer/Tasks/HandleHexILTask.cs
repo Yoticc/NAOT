@@ -88,6 +88,7 @@ public class HandleHexILTask : ILActualTask
         var prevInstIndex = i - 1;
         var prevInst = insts[i - 1];
         var prevInstCode = prevInst.OpCode.Code;
+
         /*
          *  [i-1]  call  System.Array::Empty<?>()
          *  [i]    call  uint8[] NaotDefines::hex(object[]) 
@@ -169,6 +170,7 @@ public class HandleHexILTask : ILActualTask
         var prevInstIndex = i - 1;
         var prevInst = insts[i - 1];
         var prevInstCode = prevInst.OpCode.Code;
+
         /*
          *  [i-1]  stelem.ref
          *  [i]    call  uint8[] NaotDefines::hex(object[]) 
