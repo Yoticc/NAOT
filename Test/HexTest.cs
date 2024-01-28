@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static NaotDefines;
+using static korn;
 
 namespace Test;
 class HexTest

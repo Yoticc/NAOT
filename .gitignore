@@ -367,3 +367,4 @@ FodyWeavers.xsd
 /NAOT/nuget/storage/build/NAOT.Analyzer.dll
 
 **/naot/analyzers
+**/korn/analyzers

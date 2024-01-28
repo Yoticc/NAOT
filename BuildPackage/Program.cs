@@ -1,21 +1,24 @@
 ﻿var user = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-var package = Path.Combine(user, @".nuget\packages\naot");
+var packageId = "korn";
+var packageName = "Korn";
+
+var package = Path.Combine(user, $@".nuget\packages\{packageId}");
 if (Directory.Exists(package))
     Directory.Delete(package, true);
 
-var storage = Path.Combine(user, @"source\repos\NAOT\NAOT\nuget\storage");
+var storage = Path.Combine(user, $@"source\repos\{packageName}\{packageName}\nuget\storage");
 
 var lib = Path.Combine(storage, "lib");
 var lib_bin = Path.Combine(lib, "net8.0");
 
 var build = Path.Combine(storage, "build");
 
-var project = Path.Combine(user, @"source\repos\NAOT");
-var naot_bin = Path.Combine(project, @"NAOT\bin\Release\net8.0");
-var core_bin = Path.Combine(project, @"NAOT.Core\bin\Release\net8.0");
-var tasks_bin = Path.Combine(project, @"NAOT.Tasks\bin\Release\net8.0");
-var analyzer_bin = Path.Combine(project, @"NAOT.Analyzer\bin\Release\net8.0");
+var project = Path.Combine(user, $@"source\repos\{packageName}");
+var korn_bin = Path.Combine(project, $@"{packageName}\bin\Release\net8.0");
+var core_bin = Path.Combine(project, $@"{packageName}.Core\bin\Release\net8.0");
+var tasks_bin = Path.Combine(project, $@"{packageName}.Tasks\bin\Release\net8.0");
+var analyzer_bin = Path.Combine(project, $@"{packageName}.Analyzer\bin\Release\net8.0");
 
 var folders = new[] {
     storage,
@@ -24,12 +27,12 @@ var folders = new[] {
 };
 
 ((string dir, string path) from, (string dir, string path) to)[] files = [
-    ((naot_bin, "NAOT.dll"), (lib_bin, "NAOT.dll")),
-    ((naot_bin, "NAOT.pdb"), (lib_bin, "NAOT.pdb")),
-    ((core_bin, "NAOT.Core.dll"), (build, "NAOT.Core.dll")),
+    ((korn_bin, $"{packageName}.dll"), (lib_bin, $"{packageName}.dll")),
+    ((korn_bin, $"{packageName}.pdb"), (lib_bin, $"{packageName}.pdb")),
+    ((core_bin, $"{packageName}.Core.dll"), (build, $"{packageName}.Core.dll")),
     ((Path.Combine(user, @".nuget\packages\dnlib\4.3.0\lib\net6.0"), "dnlib.dll"), (build, "dnlib.dll")),
-    ((tasks_bin, "NAOT.Tasks.dll"), (build, "NAOT.Tasks.dll")),
-    ((analyzer_bin, "NAOT.Analyzer.dll"), (build, "NAOT.Analyzer.dll")),
+    ((tasks_bin, $"{packageName}.Tasks.dll"), (build, $"{packageName}.Tasks.dll")),
+    ((analyzer_bin, $"{packageName}.Analyzer.dll"), (build, $"{packageName}.Analyzer.dll")),
 ];
 
 folders.ToList().ForEach(d => Directory.CreateDirectory(d));

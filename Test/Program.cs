@@ -1,5 +1,4 @@
-﻿using NAOT;
-using static NaotDefines;
+﻿using static korn;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
