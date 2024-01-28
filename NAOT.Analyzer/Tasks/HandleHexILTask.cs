@@ -5,6 +5,7 @@ using NAOT.Core.Tasks;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 
 namespace NAOT.Analyzer.Tasks;
 public class HandleHexILTask : ILActualTask
@@ -150,7 +151,7 @@ public class HandleHexILTask : ILActualTask
                     if (insts[o].GetStlocValue() == value)
                     {
                         var innerIsnts = insts.ToList().GetRange(0, o);
-                        var bytes = CompileToByteArray(innerIsnts, out int affectedInstructions);
+                        var bytes = CompileToByteArray(module, innerIsnts, out int affectedInstructions);
                         ReplaceInstructionsByByteArray(module, insts, o - affectedInstructions, i, bytes, sam, out int affectedInstructions2);
                         i -= affectedInstructions2;
 
@@ -174,7 +175,7 @@ public class HandleHexILTask : ILActualTask
         */
         if (prevInstCode == Code.Stelem_Ref)
         {
-            var bytes = CompileToByteArray(insts.ToList().GetRange(0, i), out int affectedInstructions);
+            var bytes = CompileToByteArray(module, insts.ToList().GetRange(0, i), out int affectedInstructions);
             ReplaceInstructionsByByteArray(module, insts, i - affectedInstructions, i, bytes, sam, out int affectedInstructions2);
             i -= affectedInstructions2;
             return true;
@@ -188,18 +189,9 @@ public class HandleHexILTask : ILActualTask
         if (bytes == null)
             Console.WriteLine($"HandleHexILTask->ReplaceInstructionsByByteArray: bytes is null");
 
-        Console.WriteLine($"To Replace: {string.Join(' ', bytes.Select(b => $"{b:X2}"))}");
-
-        Console.WriteLine($"Removing {endPos - startPos} insts");
         affectedInstructions = endPos - startPos;
         for (int i = 0; i <= endPos - startPos; i++)
             insts.RemoveAt(startPos);
-
-        /*
-        insts.Insert(startPos, new(OpCodes.Ldc_I4_0));
-        insts.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte)));
-        affectedInstructions -= 2;
-        */
         
         if (bytes.Count == 0)
         {
@@ -209,43 +201,58 @@ public class HandleHexILTask : ILActualTask
         }
         else
         {
-            var arrField = sam.CreateByteArray(bytes.ToArray());
+            var field = sam.CreateByteArray(bytes.ToArray());
+            var isArray = field.FieldType.IsArray;
 
-            insts.Insert(startPos, new(OpCodes.Ldsfld, arrField));
+            if (isArray)
+            {
+                insts.Insert(startPos, new(OpCodes.Ldsfld, field));
 
-            var toArrayMethRef = module.Import(AGlobals.EnumerableToArrayMethod);
-            var toArrayMethSpec = new MethodSpecUser(toArrayMethRef, new GenericInstMethodSig(module.CorLibTypes.Byte));
-            insts.Insert(startPos + 1, new(OpCodes.Call, toArrayMethSpec));
+                var toArrayMethRef = module.Import(AGlobals.EnumerableToArrayMethod);
+                var toArrayMethSpec = new MethodSpecUser(toArrayMethRef, new GenericInstMethodSig(module.CorLibTypes.Byte));
+                insts.Insert(startPos + 1, new(OpCodes.Call, toArrayMethSpec));
 
-            affectedInstructions -= 2;
+                affectedInstructions -= 2;
+            }
+            else
+            {
+                insts.Insert(startPos, Instruction.CreateLdcI4(bytes.Count));
+                insts.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte.ToTypeDefOrRefSig())));
+                insts.Insert(startPos + 2, new(OpCodes.Dup));
+                insts.Insert(startPos + 3, new(OpCodes.Ldtoken, field));
+                insts.Insert(startPos + 4, new(OpCodes.Call, module.Import(AGlobals.InitializeArrayMethod)));
+
+                affectedInstructions -= 5;
+            }
         }
     }
 
     static List<byte>? ParseString(string input)
     {
+        var whitelistChars = "0123456789abcdef_ ";
+        var lastParsingPart = "UNKNOWN";
         try
         {
+            input = input.ToLower();
             input = input.Replace("0x", "").Replace(",", " ");
+            input = new string(
+                input
+                .Where(whitelistChars.Contains)
+                .ToArray()  
+            );
 
             var result = new List<byte>();
 
-            var splitted = input.Split(' ').ToList();
-            for (var i = 0; i < splitted.Count;)
+            var splitted = input.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+            for (var i = 0; i < splitted.Count; i++)
             {
-                if (splitted[i].Length == 0)
-                {
-                    splitted.RemoveAt(i);
-                    continue;
-                }
-
                 if (splitted[i].Length % 2 == 1)
                     splitted[i] = '0' + splitted[i];
-
-                i++;
             }
 
             foreach (var part in splitted)
             {
+                lastParsingPart = part;
                 if (part.StartsWith("_"))
                     result.AddRange(BigInteger.Parse(part.Substring(1, part.Length - 1)).ToByteArray().Reverse());
                 else result.AddRange(BigInteger.Parse(part, NumberStyles.HexNumber).ToByteArray().Reverse());
@@ -255,7 +262,7 @@ public class HandleHexILTask : ILActualTask
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"HandleHexILTask->CompileToByteArray->ParseString: Unable parse string \'{input}\': {ex}");
+            Console.WriteLine($"HandleHexILTask->CompileToByteArray->ParseString: Unable parse string \'{input}\'('{lastParsingPart}'): {ex}");
             return null;
         }
     }
@@ -270,13 +277,13 @@ public class HandleHexILTask : ILActualTask
         return null;
     }
 
-    static List<byte>? CompileToByteArray(List<Instruction> instructions, out int affectedInstructions)
+    static List<byte>? CompileToByteArray(ModuleDefMD module, List<Instruction> instructions, out int affectedInstructions)
     {
         affectedInstructions = -1;
 
         var result = new List<byte>();
 
-        var arrayInstsNullable = GetArrayInstructions(instructions);
+        var arrayInstsNullable = GetArrayInstructions(module, instructions);
         if (arrayInstsNullable == null)
             return null;
 
@@ -301,6 +308,15 @@ public class HandleHexILTask : ILActualTask
                     {
                         var parsed = ParseString((string)instOperand);
                         result.AddRange(parsed);
+                    }
+                    else if (instCode == Code.Ldtoken)
+                    {
+                        var field = instOperand as FieldDef;
+                        var name = field.FieldType.FullName;
+                        var byteLength = int.Parse(name.Split("=")[1]);
+                        var reader = module.Metadata.PEImage.CreateReader(field.RVA);
+                        var bytes = reader.ReadBytes(byteLength);
+                        result.AddRange(bytes);
                     }
                     else PrintError();
                 }
@@ -356,7 +372,7 @@ public class HandleHexILTask : ILActualTask
     };
 
     #region Get Instructions
-    static (List<List<Instruction>> instructions, int totalLength)? GetArrayInstructions(List<Instruction> insts)
+    static (List<List<Instruction>> instructions, int totalLength)? GetArrayInstructions(ModuleDefMD module, List<Instruction> insts)
     {
         var instructions = new List<List<Instruction>>();
         var foundElements = 0;
@@ -420,7 +436,17 @@ public class HandleHexILTask : ILActualTask
             {
                 isLastStelem = false;
 
-                if (inst.IsLdcI4() && i > 0 && insts[i - 1].OpCode.Code == Code.Dup)
+                if (code == Code.Call && operand != null && (operand as IMethodDefOrRef).Name == "InitializeArray")
+                {
+                    var prevInst = insts[i - 1];
+                    if (prevInst.OpCode.Code == Code.Ldtoken)
+                    {
+                        AddToCurrentNode(prevInst);
+                        i -= 6;
+                    }
+                    else Console.WriteLine("HandleHexILTask->GetArrayInstructions: Unexpected call instruction in hex's method arguments");
+                }
+                else if (inst.IsLdcI4() && i > 0 && insts[i - 1].OpCode.Code == Code.Dup)
                     i--;
                 else if (inst.OpCode.Code.ToString().StartsWith("Conv")) { }
                 else AddToCurrentNode(inst);

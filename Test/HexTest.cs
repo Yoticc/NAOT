@@ -36,7 +36,8 @@ class HexTest
         var _ = new object();
         { } { } { }
         
-        
+        _ = hex((double[])[1, 0, 1, 0, 0, 1]);
+        { } { } { }
         _ = hex(); // byte[0]
         { } { } { }
         _ = hex(new byte[0]); // byte[0]

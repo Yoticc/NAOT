@@ -27,7 +27,7 @@ public class InitializeTask : InitTask
         AGlobals.NativeFuncAttribute = DnModules.NAOT.FindType("NativeFuncAttribute");
         AGlobals.NativeFuncAttribute_1 = DnModules.NAOT.FindType("NativeFuncAttribute`1");
         AGlobals.EntryPointAttribute = DnModules.NAOT.FindType("NAOT.EntryPointAttribute");
-        AGlobals.DllImportAttribute = SystemRuntimeInteropServices.FindType("System.Runtime.InteropServices.DllImportAttribute");
+        AGlobals.DllImportAttribute = SystemPrivateCoreLib.FindType("System.Runtime.InteropServices.DllImportAttribute");
         AGlobals.NAOTDefinesType = DnModules.NAOT.FindType("NaotDefines");
         AGlobals.NAOTKernel32InteropType = DnModules.NAOT.FindType("kernel32");
         AGlobals.NAOTUser32InteropType = DnModules.NAOT.FindType("user32");
