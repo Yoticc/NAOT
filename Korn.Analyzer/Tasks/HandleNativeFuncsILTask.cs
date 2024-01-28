@@ -2,7 +2,7 @@
 using Korn.Core.Tasks;
 
 namespace Korn.Analyzer.Tasks;
-public class HandleNativeFuncsILTask : ILActualTask
+public class HandleNativeFuncsILTask : ILInputTask
 {
     public override void Execute(ModuleDefMD module)
     {

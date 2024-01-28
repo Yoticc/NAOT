@@ -3,7 +3,7 @@ using Korn.Core;
 using Korn.Core.Tasks;
 
 namespace Korn.Analyzer.Tasks;
-public class RemoveUnusedInteropCallsILTask : PrepareNativeTask
+public class RemoveUnusedInteropCallsILTask : PreIlcTask
 {
     public override void Execute()
     {

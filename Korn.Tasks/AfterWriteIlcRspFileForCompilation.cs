@@ -174,9 +174,9 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
         Globals.TaskManager = new(
             typeof(InitTask),
             typeof(ILTask),
-            typeof(ILActualTask),
+            typeof(ILInputTask),
             typeof(ILMainTask),
-            typeof(PrepareNativeTask),
+            typeof(PreIlcTask),
             typeof(ASMTask)
         );
     }
@@ -290,7 +290,7 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
         Globals.TaskManager.Invoke<InitTask>([]);
         Globals.TaskManager.Invoke<ILMainTask>([Dn.DnModules.Main]);
         Globals.TaskManager.InvokeFor<ILTask>(Dn.DnModules.All.Select(m => (object?[]?)[m]).ToList());
-        Globals.TaskManager.InvokeFor<ILActualTask>([.. Dn.DnModules.Input.Select(m => (object?[]?)[m]), [Dn.DnModules.Main]]);
+        Globals.TaskManager.InvokeFor<ILInputTask>([.. Dn.DnModules.Input.Select(m => (object?[]?)[m]), [Dn.DnModules.Main]]);
     }
 
     void SaveLibraries()
@@ -313,7 +313,7 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
 
     void ExecutePrepareNativeTasks()
     {
-        Globals.TaskManager.Invoke<PrepareNativeTask>([]);
+        Globals.TaskManager.Invoke<PreIlcTask>([]);
     }
 
     void PushRspArguments()

@@ -5,7 +5,7 @@ using Korn.Core.Utils;
 using System.Runtime.CompilerServices;
 
 namespace Korn.Analyzer.Tasks;
-public class HandleLdftnILTask : ILActualTask
+public class HandleLdftnILTask : ILInputTask
 {
     public override void Execute(ModuleDefMD module)
     {
