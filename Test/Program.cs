@@ -1,6 +1,5 @@
-﻿using static korn;
-using System.Numerics;
-using System.Runtime.InteropServices;
+﻿using System.Numerics;
+using static korn;
 
 namespace Test;
 

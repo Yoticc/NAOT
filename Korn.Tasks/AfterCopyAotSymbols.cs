@@ -1,6 +1,5 @@
 ﻿using Korn.Core;
 using Korn.Core.Tasks;
-using System.Security;
 
 public class AfterCopyAotSymbols : Microsoft.Build.Utilities.Task
 {

@@ -1,18 +1,7 @@
-﻿using dnlib.DotNet;
-using dnlib.PE;
-using Korn.Analyzer;
-using Korn.Analyzer.Utils;
+﻿using Korn.Analyzer.Utils;
 using Korn.Analyzer.Utils.Sugar;
 using Korn.Core.Tasks;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Korn.Analyzer.Tasks;
 public class HandleEntryPointTaskIL : ILMainTask

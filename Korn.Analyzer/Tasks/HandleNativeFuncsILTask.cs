@@ -1,14 +1,5 @@
-﻿using dnlib.DotNet;
-using dnlib.DotNet.Emit;
-using Korn.Analyzer;
-using Korn.Analyzer.Utils.Sugar;
+﻿using Korn.Analyzer.Utils.Sugar;
 using Korn.Core.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Korn.Analyzer.Tasks;
 public class HandleNativeFuncsILTask : ILActualTask

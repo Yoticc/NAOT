@@ -1,11 +1,6 @@
 ﻿using dnlib.DotNet.Emit;
 using Korn.Core;
 using Korn.Core.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Korn.Analyzer.Tasks;
 public class RemoveUnusedInteropCallsILTask : PrepareNativeTask

@@ -1,15 +1,8 @@
 ﻿using dnlib.DotNet.Emit;
-using Korn.Analyzer;
 using Korn.Analyzer.Utils.Sugar;
 using Korn.Core.Tasks;
 using Korn.Core.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static Korn.Core.Globals;
 
 namespace Korn.Analyzer.Tasks;
 public class HandleLdftnILTask : ILActualTask

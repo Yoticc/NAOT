@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-class GenLdftnMethods
+﻿class GenLdftnMethods
 {
     public static string Gen()
         => string.Join('\n',

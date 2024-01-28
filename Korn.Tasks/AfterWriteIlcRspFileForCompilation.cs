@@ -1,19 +1,12 @@
 ﻿using dnlib.DotNet;
+using Korn.Core;
+using Korn.Core.Tasks;
+using Korn.Core.Utils;
 using Newtonsoft.Json;
-using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 using static Korn.Core.Globals;
 using KornPaths = Korn.Core.Globals.Paths.Korn;
 using ObjKornPaths = Korn.Core.Globals.Paths.ObjKorn;
-using System.Runtime.CompilerServices;
-using System;
-using System.Xml.Linq;
-using dnlib.DotNet.Pdb;
-using Korn.Core.Tasks;
-using Korn.Core;
-using Korn.Core.Utils;
 
 public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
 {
@@ -74,7 +67,7 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
                 KornPaths.ConfigFile = Path.Combine(KornPaths.Dir, "config.json");
                 KornPaths.AnalyzersDir = Path.Combine(KornPaths.Dir, "analyzers");
             }
-            
+
             void SetupObjKornPaths()
             {
                 ObjKornPaths.Dir = Path.Combine(Paths.TargetObjDir, "korn");
@@ -145,15 +138,15 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
             foreach (var lib in Libs.References)
             {
                 var libName = Path.GetFileName(lib);
-                
+
                 if (libName.Contains("microsoft.netcore.app.runtime") && libName.Contains("WindowsBase.dll"))
                     continue;
-                
+
                 var newInPath = Path.Combine(ObjKornPaths.InDir, libName);
                 var newOutPath = Path.Combine(ObjKornPaths.OutDir, libName);
 
                 inLibrariesPath.Add((lib, newInPath));
-                Libs.CopiedIn.All.Add(newInPath);                
+                Libs.CopiedIn.All.Add(newInPath);
                 Libs.CopiedOut.All.Add(newOutPath);
                 if (lib.Contains("runtime.win-x64.microsoft.dotnet.ilcompiler") || lib.Contains("microsoft.netcore.app.runtime"))
                 {
@@ -192,7 +185,8 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
     {
         Analyzers = new();
 
-        AppDomain.CurrentDomain.AssemblyResolve += (s, e) => {
+        AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>
+        {
             var name = e.Name.Split(", ")[0].Replace(".resources", "");
             var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Concat([typeof(ModuleDef).Assembly]).ToList();
 
@@ -276,8 +270,8 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
 
             var moduleCount = modules.Count();
             if (moduleCount == 0)
-                Console.WriteLine($"Assembly {name} skipped because has no modules");            
-            else if (moduleCount > 1)            
+                Console.WriteLine($"Assembly {name} skipped because has no modules");
+            else if (moduleCount > 1)
                 Console.WriteLine($"Assembly {name} skipped because has more than one module");
             else
             {
@@ -314,7 +308,7 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
         Ilc.RspArguments.Inputs.AddRange(Libs.CopiedOut.Input);
 
         Ilc.RspArguments.References.Clear();
-        Ilc.RspArguments.References.AddRange(Libs.CopiedOut.References);    
+        Ilc.RspArguments.References.AddRange(Libs.CopiedOut.References);
     }
 
     void ExecutePrepareNativeTasks()

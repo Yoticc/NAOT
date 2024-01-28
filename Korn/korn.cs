@@ -1,5 +1,4 @@
-﻿global using static korn;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 public unsafe static class korn
 {
@@ -8,7 +7,8 @@ public unsafe static class korn
     #endregion
 
     #region DllImports
-    [DllImport("kernel32", CharSet = CharSet.Auto)] static extern 
+    [DllImport("kernel32", CharSet = CharSet.Auto)]
+    static extern
         uint CreateThread(uint* threadAttributes, uint stackSize, ThreadStart startAddress, uint* parameter, uint creationFlags, out uint threadId);
     #endregion
 
@@ -55,12 +55,14 @@ public unsafe static class korn
         return handle;
     }
 
-    public static uint threadwhile(Action action) => thread(() =>{
+    public static uint threadwhile(Action action) => thread(() =>
+    {
         while (true)
             action();
     });
 
-    public static uint threadwhile(Func<bool> shouldReturnFalseWhenEndWhile) => thread(() => {
+    public static uint threadwhile(Func<bool> shouldReturnFalseWhenEndWhile) => thread(() =>
+    {
         do { }
         while (shouldReturnFalseWhenEndWhile());
     });

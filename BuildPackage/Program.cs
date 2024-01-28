@@ -40,7 +40,8 @@ folders.ToList().ForEach(d => Directory.CreateDirectory(d));
 files
 .Select(f => (from: Path.Combine(f.from.dir, f.from.path), to: Path.Combine(f.to.dir, f.to.path)))
 .ToList()
-.ForEach(a => {
+.ForEach(a =>
+{
     var (from, to) = a;
 
     if (File.Exists(to))

@@ -1,12 +1,9 @@
 ﻿using dnlib.DotNet.Emit;
-using Korn.Analyzer;
 using Korn.Analyzer.Utils.Dn;
 using Korn.Analyzer.Utils.Sugar;
 using Korn.Core.Tasks;
 using System.Globalization;
-using System.Linq;
 using System.Numerics;
-using System.Reflection;
 
 namespace Korn.Analyzer.Tasks;
 public class HandleHexILTask : ILActualTask

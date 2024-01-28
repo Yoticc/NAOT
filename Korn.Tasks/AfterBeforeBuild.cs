@@ -1,7 +1,4 @@
-﻿using dnlib.DotNet;
-using Korn.Core.Utils;
-using Newtonsoft.Json;
-using System.Reflection;
+﻿using Korn.Core.Utils;
 
 public class AfterBeforeBuild : Microsoft.Build.Utilities.Task
 {
@@ -39,4 +36,4 @@ public class AfterBeforeBuild : Microsoft.Build.Utilities.Task
             if (!lines.Contains(ignoreLine))
                 File.AppendAllText(gitIgnorePath, '\n' + ignoreLine);
     }
-}                                                           
+}
