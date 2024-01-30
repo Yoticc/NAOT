@@ -90,4 +90,26 @@ public static class DnExtensions
 
     static Code[] stelemCodes = [Code.Stelem, Code.Stelem_I, Code.Stelem_I1, Code.Stelem_I2, Code.Stelem_I4, Code.Stelem_I8, Code.Stelem_R4, Code.Stelem_R8];
     public static bool IsStelem(this Code code) => stelemCodes.Contains(code);
+
+    public static MemberRef AsImported(this MethodDef meth, ModuleDefMD module)
+    {
+        var refs = module.GetMemberRefs();
+        foreach (var refas in refs)
+        {
+            if (!refas.IsMethodRef)
+                continue;
+
+            if (meth.Name != refas.Name)
+                continue;
+
+            if (!meth.DeclaringType.IsSame(refas.DeclaringType))
+                continue;
+
+            return refas;
+        }
+
+        return module.Import(meth);
+    }
+
+    public static bool ExIsArray(this TypeSig sig) => sig.GetType().Name.EndsWith("ArraySig");
 }

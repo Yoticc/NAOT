@@ -184,7 +184,7 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
     void LoadAnalyzers()
     {
         Analyzers = new();
-
+        
         AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>
         {
             var name = e.Name.Split(", ")[0].Replace(".resources", "");

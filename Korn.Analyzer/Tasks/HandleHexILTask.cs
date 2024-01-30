@@ -202,13 +202,13 @@ public class HandleHexILTask : ILInputTask
         else
         {
             var field = sam.CreateByteArray(bytes.ToArray());
-            var isArray = field.FieldType.IsArray;
+            var isArray = field.FieldType.ExIsArray();
 
             if (isArray)
             {
                 insts.Insert(startPos, new(OpCodes.Ldsfld, field));
 
-                var toArrayMethRef = module.Import(AGlobals.EnumerableToArrayMethod);
+                var toArrayMethRef = AGlobals.EnumerableToArrayMethod.AsImported(module);
                 var toArrayMethSpec = new MethodSpecUser(toArrayMethRef, new GenericInstMethodSig(module.CorLibTypes.Byte));
                 insts.Insert(startPos + 1, new(OpCodes.Call, toArrayMethSpec));
 
@@ -220,7 +220,7 @@ public class HandleHexILTask : ILInputTask
                 insts.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte.ToTypeDefOrRefSig())));
                 insts.Insert(startPos + 2, new(OpCodes.Dup));
                 insts.Insert(startPos + 3, new(OpCodes.Ldtoken, field));
-                insts.Insert(startPos + 4, new(OpCodes.Call, module.Import(AGlobals.InitializeArrayMethod)));
+                insts.Insert(startPos + 4, new(OpCodes.Call, AGlobals.InitializeArrayMethod.AsImported(module)));
 
                 affectedInstructions -= 5;
             }
