@@ -19,7 +19,6 @@ public unsafe class Program
     #endregion
 
     #region EntryPoint
-    [EntryPoint]
     static void Main()
     {
         new HexTest().hextest();

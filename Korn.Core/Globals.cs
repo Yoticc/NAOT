@@ -10,6 +10,8 @@ public static class Globals
     public static List<Assembly> Analyzers;
     public static TaskManager TaskManager;
 
+    public static Config Config;
+
     public static class Vars
     {
         public static string PackageVersion = "1.0.0";

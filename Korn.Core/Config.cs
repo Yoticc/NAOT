@@ -20,8 +20,8 @@ public class Config
             public bool Use = false;
 
             public string Path = @"out\KornExample.dll";
-            public bool ExportDbgFile = true;
-            public bool AutoRenameDbgFileToDllName = true;
+            public bool ExportPdbFile = true;
+            public bool AutoRenamePdbFileToDllName = true;
         }
     }
 }

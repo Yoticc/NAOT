@@ -4,6 +4,7 @@ using Korn.Core.Tasks;
 using Korn.Core.Utils;
 using Newtonsoft.Json;
 using System.Reflection;
+using System.Xml.Linq;
 using static Korn.Core.Globals;
 using KornPaths = Korn.Core.Globals.Paths.Korn;
 using ObjKornPaths = Korn.Core.Globals.Paths.ObjKorn;
@@ -16,11 +17,13 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
         {
             SetupGlobals();
             SetupKorn();
+
             SetupIlc();
             SetupObjKorn();
             SetupLibs();
             CopyLibraries();
 
+            LoadConfig();
             InitTaskManager();
 
             LoadAnalyzers();
@@ -84,7 +87,7 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
             Directory.CreateDirectory(KornPaths.Dir);
 
             File.Create(KornPaths.ConfigFile).Dispose();
-            File.WriteAllText(KornPaths.ConfigFile, JsonConvert.SerializeObject(new Config()));
+            File.WriteAllText(KornPaths.ConfigFile, Json.Serial(new Config()));
 
             Directory.CreateDirectory(KornPaths.AnalyzersDir);
             File.CreateSymbolicLink(Path.Combine(KornPaths.AnalyzersDir, "Korn.Analyzer.dll"), Path.Combine(Paths.PackageBuildDir, "Korn.Analyzer.dll"));
@@ -162,11 +165,23 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
         }
     }
 
-
     void CopyLibraries()
     {
         foreach ((var oldPath, var newPath) in inLibrariesPath)
             File.Copy(oldPath, newPath);
+    }
+
+    void LoadConfig()
+    {
+        try
+        {
+            Globals.Config = Json.FileDeserial<Config>(KornPaths.ConfigFile);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"AfterWriteIlcRspFileForCompilation->LoadConfig: Couldn't deserialize config. Will be used default: {ex}");
+            Globals.Config = new();
+        }
     }
 
     void InitTaskManager()

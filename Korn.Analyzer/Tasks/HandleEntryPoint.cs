@@ -1,5 +1,6 @@
 ﻿using Korn.Analyzer.Utils;
 using Korn.Analyzer.Utils.Sugar;
+using Korn.Core;
 using Korn.Core.Tasks;
 using System.Runtime.CompilerServices;
 
@@ -8,7 +9,21 @@ public class HandleEntryPointTaskIL : ILMainTask
 {
     public override void Execute(ModuleDefMD module)
     {
-        var meths =
+        var config = Globals.Config.CustomEntryPointPath;
+        if (config.Use)
+        {
+            var meth = module.GetMethod(config.Path);
+            if (meth == null)
+            {
+                Console.WriteLine($"HandleEntryPointTaskIL: Unable find method with path \'{config.Path}\'");
+                return;
+            }
+                        
+            HandleEntryPoint(module, meth);
+        }
+        else
+        {
+            var meths =
             module
             .GetMethodsByAttribute(AGlobals.EntryPointAttribute)
             .Where(m =>
@@ -34,24 +49,27 @@ public class HandleEntryPointTaskIL : ILMainTask
                 return true;
             }).ToList();
 
-        if (meths.Count == 0)
-        {
-            Console.WriteLine("Unable find EntryPoint method");
-            return;
-        }
+            if (meths.Count == 0)
+            {
+                Console.WriteLine("HandleEntryPointTaskIL: Unable find EntryPoint method");
+                return;
+            }
 
-        if (meths.Count > 1)
-            Console.WriteLine($"Found more than one EntryPoint methods. Handled first, other skipped (methods: {string.Join(", ", meths.Select(m => m.FullName))})");
+            if (meths.Count > 1)
+                Console.WriteLine($"HandleEntryPointTaskIL: Found more than one EntryPoint methods. Handled first, other skipped (methods: {string.Join(", ", meths.Select(m => m.FullName))})");
 
-        var meth = meths[0];
-        HandleEntryPoint(module, meth);
+            var meth = meths[0];
+            HandleEntryPoint(module, meth);
+        }        
     }
 
     void HandleEntryPoint(ModuleDefMD module, MethodDef meth)
     {
         var attbr = meth.CustomAttributes;
 
-        attbr.RemoveAt(attbr.ToList().FindIndex(a => a.AttributeType.IsSameByName(AGlobals.EntryPointAttribute)));
+        var attbrIndex = attbr.ToList().FindIndex(a => a.AttributeType.IsSameByName(AGlobals.EntryPointAttribute));
+        if (attbrIndex != -1)
+            attbr.RemoveAt(attbrIndex);
         attbr.Add(Helper.GetUnmanagedCallersOnlyAttribute(module, "Korn.Analyzer.EntryPoint", typeof(CallConvStdcall)));
     }
 }
@@ -107,105 +125,13 @@ public unsafe class HandleEntryPointTaskASM : ASMTask
         // return true;
 
         byte[] newBytes = [
-            0x4C,
-            0x89,
-            0x44,
-            0x24,
-            0x18,
-            0x89,
-            0x54,
-            0x24,
-            0x10,
-            0x48,
-            0x89,
-            0x4C,
-            0x24,
-            0x08,
-            0x55,
-            0x57,
-            0x48,
-            0x81,
-            0xEC,
-            0xE8,
-            0x00,
-            0x00,
-            0x00,
-            0x48,
-            0x8D,
-            0x6C,
-            0x24,
-            0x20,
-            0x48,
-            0x8B,
-            0x85,
-            0xE0,
-            0x00,
-            0x00,
-            0x00,
-            0x48,
-            0x05,
-            0xAD,
-            0xDE,
-            0x00,
-            0x00,
-            0x4C,
-            0x8B,
-            0x85,
-            0xF0,
-            0x00,
-            0x00,
-            0x00,
-            0x8B,
-            0x95,
-            0xE8,
-            0x00,
-            0x00,
-            0x00,
-            0x48,
-            0x8B,
-            0x8D,
-            0xE0,
-            0x00,
-            0x00,
-            0x00,
-            0xFF,
-            0xD0,
-            0x83,
-            0xBD,
-            0xE8,
-            0x00,
-            0x00,
-            0x00,
-            0x01,
-            0x75,
-            0x0F,
-            0x48,
-            0x8B,
-            0x85,
-            0xE0,
-            0x00,
-            0x00,
-            0x00,
-            0x48,
-            0x05,
-            0xEF,
-            0xBE,
-            0x00,
-            0x00,
-            0xFF,
-            0xD0,
-            0xB0,
-            0x01,
-            0x48,
-            0x8D,
-            0xA5,
-            0xC8,
-            0x00,
-            0x00,
-            0x00,
-            0x5F,
-            0x5D,
-            0xC3
+            0x4C, 0x89, 0x44, 0x24, 0x18, 0x89, 0x54, 0x24, 0x10, 0x48, 0x89, 0x4C, 0x24, 0x08, 0x55, 0x57, 
+            0x48, 0x81, 0xEC, 0xE8, 0x00, 0x00, 0x00, 0x48, 0x8D, 0x6C, 0x24, 0x20, 0x48, 0x8B, 0x85, 0xE0, 
+            0x00, 0x00, 0x00, 0x48, 0x05, 0xAD, 0xDE, 0x00, 0x00, 0x4C, 0x8B, 0x85, 0xF0, 0x00, 0x00, 0x00, 
+            0x8B, 0x95, 0xE8, 0x00, 0x00, 0x00, 0x48, 0x8B, 0x8D, 0xE0, 0x00, 0x00, 0x00, 0xFF, 0xD0, 0x83, 
+            0xBD, 0xE8, 0x00, 0x00, 0x00, 0x01, 0x75, 0x0F, 0x48, 0x8B, 0x85, 0xE0, 0x00, 0x00, 0x00, 0x48, 
+            0x05, 0xEF, 0xBE, 0x00, 0x00, 0xFF, 0xD0, 0xB0, 0x01, 0x48, 0x8D, 0xA5, 0xC8, 0x00, 0x00, 0x00, 
+            0x5F, 0x5D, 0xC3
         ];
         // (module + 0xDEAD)(module, reason, reserved);
         // if (reason == 1)

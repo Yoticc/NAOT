@@ -23,13 +23,37 @@ public static class DnExtensions
             .Find(a => attributesList.Find(al => al.IsSameByName(a.AttributeType)) != null) != null;
     }
 
+    public static List<MethodDef> GetMethods(this ModuleDefMD module) =>
+        module
+        .GetTypes()
+        .SelectMany(t => t.Methods)
+        .ToList();
+
+    public static MethodDef? GetMethod(this ModuleDefMD module, string fullPath)
+    {
+        var meths = module.GetMethods();
+        var splitted = fullPath.Split('.');
+        if (splitted.Length == 2)
+        {
+            Console.WriteLine($"{meths[0].DeclaringType.Name}.{meths[0].Name} == {fullPath}");
+            return meths.Find(m => $"{m.DeclaringType.Name}.{m.Name}" == fullPath);
+        }
+        else
+        {
+            var @namespace = string.Join('.', splitted.SkipLast(2));
+            var name = string.Join('.', splitted.TakeLast(2));
+            Console.WriteLine($"1. {meths[0].DeclaringType.Name}.{meths[0].Name} == {fullPath}");
+            Console.WriteLine($"2. {meths[0].DeclaringType.Namespace} == {@namespace}  {meths[0].DeclaringType.Name}.{meths[0].Name} == {name}");
+            return meths.Find(m => m.DeclaringType.Namespace == @namespace && $"{m.DeclaringType.Name}.{m.Name}" == name);
+        }
+    }
+
     public static List<MethodDef> GetMethodsByAttribute(this ModuleDefMD module, params ITypeDefOrRef[] attributes)
     {
         var attributesList = attributes.ToList();
         return
             module
-            .GetTypes()
-            .SelectMany(t => t.Methods)
+            .GetMethods()
             .Where(m => m.HasCustomAttributes &&
                 m.CustomAttributes
                 .ToList()
@@ -42,8 +66,7 @@ public static class DnExtensions
         var attributesList = attributes.ToList();
         return
             module
-            .GetTypes()
-            .SelectMany(t => t.Methods)
+            .GetMethods()
             .Select(m =>
             {
                 var foundAttribute =

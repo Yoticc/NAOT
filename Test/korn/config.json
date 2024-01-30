@@ -1,0 +1,14 @@
+{
+  "CustomEntryPointPath": {
+    "Use": true,
+    "Path": "Test.Program.Main",
+    "desc": "Instead of using the EntryPointAttribute. Here can be written path to EntryPoint method without the EntryPointAttrbute"
+  },
+  "CustomNativeOut": {
+    "Use": true,
+    "Path": "out\\Module.dll",
+    "ExportPdbFile": true,
+    "AutoRenamePdbFileToDllName": true,
+    "desc": "Copy output native file to the path. Base path is the project dir"
+  }
+}
