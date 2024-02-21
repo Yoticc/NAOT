@@ -35,15 +35,12 @@ public static class DnExtensions
         var splitted = fullPath.Split('.');
         if (splitted.Length == 2)
         {
-            Console.WriteLine($"{meths[0].DeclaringType.Name}.{meths[0].Name} == {fullPath}");
             return meths.Find(m => $"{m.DeclaringType.Name}.{m.Name}" == fullPath);
         }
         else
         {
             var @namespace = string.Join('.', splitted.SkipLast(2));
             var name = string.Join('.', splitted.TakeLast(2));
-            Console.WriteLine($"1. {meths[0].DeclaringType.Name}.{meths[0].Name} == {fullPath}");
-            Console.WriteLine($"2. {meths[0].DeclaringType.Namespace} == {@namespace}  {meths[0].DeclaringType.Name}.{meths[0].Name} == {name}");
             return meths.Find(m => m.DeclaringType.Namespace == @namespace && $"{m.DeclaringType.Name}.{m.Name}" == name);
         }
     }

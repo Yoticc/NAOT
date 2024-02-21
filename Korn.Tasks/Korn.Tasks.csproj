@@ -16,4 +16,11 @@
     <ProjectReference Include="..\Korn.Core\Korn.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Microsoft.Build.Utilities.Task">
+      <Alias>MsBuildTask</Alias>
+    </Using>
+    <Using Include="System.Reflection" />
+  </ItemGroup>
+
 </Project>

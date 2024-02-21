@@ -2,43 +2,34 @@
 using Korn.Core;
 using Korn.Core.Tasks;
 using Korn.Core.Utils;
-using Newtonsoft.Json;
-using System.Reflection;
-using System.Xml.Linq;
 using static Korn.Core.Globals;
 using KornPaths = Korn.Core.Globals.Paths.Korn;
 using ObjKornPaths = Korn.Core.Globals.Paths.ObjKorn;
 
-public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
+public class PreNative : KornTask
 {
-    public override bool Execute()
+    public override void Execute()
     {
-        try
-        {
-            SetupGlobals();
-            SetupKorn();
+        SetupGlobals();
+        SetupKorn();
 
-            SetupIlc();
-            SetupObjKorn();
-            SetupLibs();
-            CopyLibraries();
+        SetupIlc();
+        SetupObjKorn();
+        SetupLibs();
+        CopyLibraries();
 
-            LoadConfig();
-            InitTaskManager();
+        LoadConfig();
+        InitTaskManager();
 
-            LoadAnalyzers();
-            LogAnalyzers();
+        LoadAnalyzers();
+        LogAnalyzers();
 
-            LoadLibraries();
-            ExecuteILTasks();
-            AddInputsInRsp();
-            ExecutePrepareNativeTasks();
-            SaveLibraries();
-            PushRspArguments();
-        }
-        catch (Exception ex) { Console.WriteLine($"Exception in AfterWriteIlcRspFileForCompilation: " + ex); }
-
-        return true;
+        LoadLibraries();
+        ExecuteILTasks();
+        AddInputsInRsp();
+        ExecutePrepareNativeTasks();
+        SaveLibraries();
+        PushRspArguments();
     }
 
     void SetupGlobals()
@@ -48,10 +39,10 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
 
         void SetupVars()
         {
-            Vars.Configuration = BuildEngine.GetEnvVar("Configuration") == "Debug" ? "Debug" : "Release";
-            Vars.TargetBinDir = BuildEngine.GetEnvVar("TargetDir");
-            Vars.AssemblyName = BuildEngine.GetEnvVar("AssemblyName");
-            Vars.ProjectDir = BuildEngine.GetEnvVar("ProjectDir");
+            Vars.Configuration = this["Configuration"] == "Debug" ? "Debug" : "Release";
+            Vars.TargetBinDir = this["TargetDir"];
+            Vars.AssemblyName = this["AssemblyName"];
+            Vars.ProjectDir = this["ProjectDir"];
         }
 
         void SetupPaths()
@@ -199,7 +190,7 @@ public class AfterWriteIlcRspFileForCompilation : Microsoft.Build.Utilities.Task
     void LoadAnalyzers()
     {
         Analyzers = new();
-        
+
         AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>
         {
             var name = e.Name.Split(", ")[0].Replace(".resources", "");

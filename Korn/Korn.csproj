@@ -13,14 +13,18 @@
 
   <ItemGroup>
     <Compile Remove="nuget\packages\**" />
-    <Compile Remove="nuget\storage\build\**" />
     <Compile Remove="nuget\storage\lib\**" />
     <EmbeddedResource Remove="nuget\packages\**" />
-    <EmbeddedResource Remove="nuget\storage\build\**" />
     <EmbeddedResource Remove="nuget\storage\lib\**" />
     <None Remove="nuget\packages\**" />
-    <None Remove="nuget\storage\build\**" />
     <None Remove="nuget\storage\lib\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="nuget\storage\build\dnlib.dll" />
+    <None Remove="nuget\storage\build\Korn.Analyzer.dll" />
+    <None Remove="nuget\storage\build\Korn.Core.dll" />
+    <None Remove="nuget\storage\build\Korn.Tasks.dll" />
   </ItemGroup>
 
   <ItemGroup>

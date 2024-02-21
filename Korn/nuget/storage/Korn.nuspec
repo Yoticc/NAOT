@@ -6,7 +6,7 @@
 		<title>Library-Analyzer for additional functionality of NativeAOT</title>
 		<authors>Yotic</authors>
 		<description>Library-Analyzer for additional functionality of NativeAOT</description>
-		<repository type="git" />
+		<repository type="git" url="https://github.com/Yoticc/Korn"/>
 		<serviceable>true</serviceable>
 		<dependencies>
 			<group targetFramework="net8.0">
