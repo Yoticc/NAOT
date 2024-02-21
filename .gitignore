@@ -368,3 +368,5 @@ FodyWeavers.xsd
 
 **/naot/analyzers
 **/korn/analyzers
+/Korn/nuget/storage/build/Korn.Analyzer.dll
+/Korn/nuget/storage/build/Korn.Tasks.dll
