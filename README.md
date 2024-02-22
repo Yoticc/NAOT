@@ -26,7 +26,7 @@ Usage
 First you need to write in any .cs file of the project `global using static korn;` or add it via global usings. \
 \
 For build project to native:\
-Execute command `korn-build` or just `korn`(сonvenient abbreviation)
+Execute command `korn-build` or just `korn`(сonvenient abbreviation), or execute `dotnet publish` with args, example: `dotnet publish -r win-x64 -c Release`
 
 
 Contributing / Setup for build
