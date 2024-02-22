@@ -18,7 +18,7 @@ Installation
 2. Restart Visual Studio (This is necessary because after installing the nuget, part of the package’s functionality doesn't work)
 
 \
-If you install this packges in first time, you also need execute "dotnet publish" in terminal (This will trigger events. In which there is an update of Poweshell commands)
+If you install this packges in first time, you also need execute `dotnet build` in terminal (This will trigger events. In which there is an update of Poweshell commands)
 
 
 Usage
