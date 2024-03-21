@@ -9,6 +9,7 @@
 	<Company />
     <PackageOutputPath>bin\</PackageOutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,9 @@
   <ItemGroup>
     <None Remove="nuget\storage\build\dnlib.dll" />
     <None Remove="nuget\storage\build\Korn.Analyzer.dll" />
+    <None Remove="nuget\storage\build\Korn.Commands.dll" />
+    <None Remove="nuget\storage\build\Korn.Commands.exe" />
+    <None Remove="nuget\storage\build\Korn.Commands.runtimeconfig.json" />
     <None Remove="nuget\storage\build\Korn.Core.dll" />
     <None Remove="nuget\storage\build\Korn.Tasks.dll" />
   </ItemGroup>

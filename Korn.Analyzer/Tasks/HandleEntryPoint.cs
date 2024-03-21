@@ -5,7 +5,7 @@ using Korn.Core.Tasks;
 using System.Runtime.CompilerServices;
 
 namespace Korn.Analyzer.Tasks;
-public class HandleEntryPointTaskIL : ILMainTask
+public class HandleEntryPointTaskIL() : ILMainTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {

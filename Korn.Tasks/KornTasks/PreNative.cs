@@ -59,6 +59,7 @@ public class PreNative : KornTask
             {
                 KornPaths.Dir = Path.Combine(Vars.ProjectDir, "korn");
                 KornPaths.ConfigFile = Path.Combine(KornPaths.Dir, "config.json");
+                KornPaths.ConfigBuildCommandFile = Path.Combine(KornPaths.Dir, "korn-build command.txt");
                 KornPaths.AnalyzersDir = Path.Combine(KornPaths.Dir, "analyzers");
             }
 
@@ -73,12 +74,15 @@ public class PreNative : KornTask
 
     void SetupKorn()
     {
+        const string DEFAULT_BUILD_COMMAND = "dotnet publish -r win-x64 -c Release";
+
         if (!Directory.Exists(KornPaths.Dir))
         {
             Directory.CreateDirectory(KornPaths.Dir);
 
-            File.Create(KornPaths.ConfigFile).Dispose();
             File.WriteAllText(KornPaths.ConfigFile, Json.Serial(new Config()));
+
+            File.WriteAllText(KornPaths.ConfigBuildCommandFile, DEFAULT_BUILD_COMMAND);
 
             Directory.CreateDirectory(KornPaths.AnalyzersDir);
             File.CreateSymbolicLink(Path.Combine(KornPaths.AnalyzersDir, "Korn.Analyzer.dll"), Path.Combine(Paths.PackageBuildDir, "Korn.Analyzer.dll"));

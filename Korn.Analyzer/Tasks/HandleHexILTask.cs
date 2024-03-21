@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Numerics;
 
 namespace Korn.Analyzer.Tasks;
-public class HandleHexILTask : ILInputTask
+public class HandleHexILTask() : ILInputTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {

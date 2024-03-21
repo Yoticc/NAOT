@@ -2,7 +2,7 @@
 using Korn.Core.Tasks;
 
 namespace Korn.Analyzer.Tasks;
-public unsafe class RemoveDNRDHExportASMTask : ASMTask
+public unsafe class RemoveDNRDHExportASMTask() : ASMTask(-10)
 {
     public override void Execute(string module)
     {

@@ -29,6 +29,7 @@ public static class Globals
         public static string PackagesDir = Path.Combine(UserDir, @".nuget\packages");
         public static string PackageDir = Path.Combine(PackagesDir, "korn", Vars.PackageVersion);
         public static string PackageBuildDir = Path.Combine(PackageDir, "build");
+        public static string PackageToolsDir = Path.Combine(PackageDir, "tools");
 
         public static string TargetObjDir;
         public static string RspFile;
@@ -39,6 +40,7 @@ public static class Globals
         {
             public static string Dir;
             public static string ConfigFile;
+            public static string ConfigBuildCommandFile;
             public static string AnalyzersDir;
         }
 

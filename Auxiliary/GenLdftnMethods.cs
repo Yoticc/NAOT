@@ -4,7 +4,7 @@
         => string.Join('\n',
             Enumerable.Range(0, 16)
             .Select(i =>
-            new string[] {
+            (string[])[
                 $"public static delegate* unmanaged<{
                     string.Concat(
                         Enumerable.Range(0, i)
@@ -41,7 +41,7 @@
                         )
                     }> meth) => throw new NotImplementedException(ExceptionMessage);"
                 ) : ""
-            })
+            ])
             .SelectMany(z => z)
             .Where(z => !string.IsNullOrEmpty(z))
             .Select(z => z.Replace("<>", ""))

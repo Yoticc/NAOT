@@ -10,6 +10,7 @@
     <PublishAot>true</PublishAot>
     <StripSymbols>true</StripSymbols>
     <AssemblyName>Test</AssemblyName>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -38,3 +39,4 @@
   </ItemGroup>
 
 </Project>
+    
