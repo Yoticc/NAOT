@@ -11,10 +11,6 @@
 		<AfterBeforeBuild></AfterBeforeBuild>
 	</Target>
 
-	<Target Name="BeforeBuildTargetNet472" AfterTargets="BeforeBuild" Condition="'$(MicrosoftNETBuildTasksTFM)' == 'net472'">
-		<Exec Command="PowerShell -Command &quot;echo 'alo'&#xD;&#xA;Import-Module '$env:USERPROFILE\.nuget\packages\korn\1.0.0\tools\Korn.psm1'&#xD;&#xA;echo 'blyat'&quot;" />
-	</Target>
-
 	<UsingTask TaskName="AfterWriteIlcRspFileForCompilation" AssemblyFile="Korn.Tasks.dll" />
 	<UsingTask TaskName="AfterCopyAotSymbols" AssemblyFile="Korn.Tasks.dll" />
 	<UsingTask TaskName="AfterBeforeBuild" AssemblyFile="Korn.Tasks.dll" />

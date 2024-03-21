@@ -23,7 +23,7 @@ public class PreBuild : KornTask
 
         var cmdletsPath = Path.Combine(Globals.Paths.PackageToolsDir, "Cmdlets.psm1");
         var cmdletsFileText = File.ReadAllText(cmdletsPath).Replace("CURRENT_PACKAGE_VERSION", Globals.Vars.PackageVersion);
-        
+
         if (profileFileText.Contains(KORN_FUNCTIONS_START_SIGN) && profileFileText.Contains(KORN_FUNCTIONS_END_SIGN))
         {
             var startSigIndex = profileFileText.IndexOf(KORN_FUNCTIONS_START_SIGN);
@@ -35,23 +35,23 @@ public class PreBuild : KornTask
 
             if (content != cmdletsFileText)
                 File.WriteAllText(
-                    profileFileText,
+                    profilePath,
                     string.Join(LINE_SPLITTER,
                         GetStartTextOfProfile(profileFileText.Substring(0, startSigIndex)),
                         cmdletsFileText,
                         KORN_FUNCTIONS_END_SIGN,
-                        profileFileText.Substring(endSigIndex + KORN_FUNCTIONS_START_SIGN.Length + LINE_SPLITTER.Length)
+                        profileFileText.Substring(endSigIndex + KORN_FUNCTIONS_END_SIGN.Length + LINE_SPLITTER.Length) + '\n'
                     )
                 );
         }
-        else 
+        else
             File.WriteAllText(
                profilePath,
                string.Join(LINE_SPLITTER,
                    GetStartTextOfProfile(profileFileText),
                    cmdletsFileText,
                    KORN_FUNCTIONS_END_SIGN
-               )
+               ) + '\n'
             );
 
         string GetStartTextOfProfile(string startProfileText) =>
