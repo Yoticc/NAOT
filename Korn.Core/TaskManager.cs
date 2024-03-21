@@ -22,7 +22,7 @@ public class TaskManager
         foreach (var type in assembly.GetTypes())
         {
             var typeBaseType = type.BaseType;
-            if (typeBaseType == null)
+            if (typeBaseType is null)
                 continue;
 
             foreach (var task in Tasks)

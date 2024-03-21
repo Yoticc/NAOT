@@ -13,7 +13,7 @@ public class StaticArraysManager
         Module = module;
 
         pid = module.FindType(PID_TYPE_NAME, true)!;
-        isInited = pid != null;
+        isInited = pid is not null;
     }
 
     public readonly ModuleDefMD Module;
@@ -51,7 +51,7 @@ public class StaticArraysManager
     {
         foreach (var field in pid.Fields)
         {
-            if (type != null && field.FieldType.IsSame(type))
+            if (type is not null && field.FieldType.IsSame(type))
             {
                 if (field.HasFieldRVA)
                 {
@@ -75,7 +75,7 @@ public class StaticArraysManager
     MethodDef GetOrCreateCCtor()
     {
         var method = pid.Methods.ToList().Find(m => m.Name == ".cctor");
-        if (method == null)
+        if (method is null)
         {
             method = new MethodDefUser(".cctor", new MethodSig(CallingConvention.Default, 0, Module.CorLibTypes.Void), MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
             var body = method.Body = new();
@@ -94,7 +94,7 @@ public class StaticArraysManager
         var structType = GetExistingStructType(length);
         var name = GetArrayHash(array);
         var field = GetExistingField(structType, name, array);
-        if (field == null)
+        if (field is null)
         {
             field = new FieldDefUser(name, new FieldSig(AGlobals.ByteArray), FieldAttributes.Static);
             pid.Fields.Add(field);

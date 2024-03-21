@@ -13,7 +13,7 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
         if (config.Use)
         {
             var meth = module.GetMethod(config.Path);
-            if (meth == null)
+            if (meth is null)
             {
                 Console.WriteLine($"HandleEntryPointTaskIL: Unable find method with path \'{config.Path}\'");
                 return;

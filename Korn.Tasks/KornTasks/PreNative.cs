@@ -200,8 +200,8 @@ public class PreNative : KornTask
             var name = e.Name.Split(", ")[0].Replace(".resources", "");
             var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Concat([typeof(ModuleDef).Assembly]).ToList();
 
-            var assembly = loadedAssemblies.Find(a => a.FullName != null && a.FullName.Split(", ")[0] == name);
-            if (assembly == null)
+            var assembly = loadedAssemblies.Find(a => a.FullName is not null && a.FullName.Split(", ")[0] == name);
+            if (assembly is null)
                 Console.WriteLine("AppDomain.CurrentDomain.AssemblyResolve: Cannot find loaded assembly for " + e.Name);
             return assembly;
         };
@@ -237,7 +237,7 @@ public class PreNative : KornTask
         foreach (var lib in Libs.CopiedIn.Input)
         {
             var module = LoadModule(lib);
-            if (module == null)
+            if (module is null)
                 continue;
             Dn.Modules.All.Add(module);
             Dn.Modules.Input.Add(module);
@@ -248,7 +248,7 @@ public class PreNative : KornTask
         foreach (var lib in Libs.CopiedIn.References)
         {
             var module = LoadModule(lib);
-            if (module == null)
+            if (module is null)
                 continue;
             Dn.Modules.All.Add(module);
             Dn.Modules.References.Add(module);
@@ -267,7 +267,7 @@ public class PreNative : KornTask
         DnModule Find(string name)
         {
             var found = Dn.Modules.All.Find(m => m.Name == name);
-            if (found == null)
+            if (found is null)
                 Console.WriteLine($"AfterWriteIlcRspFileForCompilation->LoadLibs: Couldn't find module {name}");
             return found;
         }

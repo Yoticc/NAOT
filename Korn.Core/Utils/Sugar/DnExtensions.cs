@@ -13,7 +13,7 @@ public static partial class SugarExtensions
     {
         var type = module.FindType(name, true);
 
-        if (type == null)
+        if (type is null)
             Console.WriteLine($"SugarExtensions->FindType: Unable to find type {name}");
 
         return type!;

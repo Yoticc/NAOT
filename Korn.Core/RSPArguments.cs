@@ -20,9 +20,9 @@ public class RSPArguments
         get
         {
             var found = OtherArguments.Find(a => a.Tag == tag);
-            if (found != null)
+            if (found is not null)
                 if (found is RSPValueArgument)
-                    return (found as RSPValueArgument).Value;
+                    return (found as RSPValueArgument)!.Value;
 
             return null;
         }

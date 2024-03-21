@@ -49,7 +49,7 @@ public class HandleHexILTask() : ILInputTask(-10)
 
                 var operand = inst.Operand;
                 var callMethod = operand as IMethodDefOrRef;
-                if (callMethod == null)
+                if (callMethod is null)
                     continue;
 
                 var callMethodFullName = callMethod.FullName;
@@ -186,7 +186,7 @@ public class HandleHexILTask() : ILInputTask(-10)
 
     static void ReplaceInstructionsByByteArray(ModuleDefMD module, IList<Instruction> insts, int startPos, int endPos, List<byte> bytes, StaticArraysManager sam, out int affectedInstructions)
     {
-        if (bytes == null)
+        if (bytes is null)
             Console.WriteLine($"HandleHexILTask->ReplaceInstructionsByByteArray: bytes is null");
 
         affectedInstructions = endPos - startPos;
@@ -284,7 +284,7 @@ public class HandleHexILTask() : ILInputTask(-10)
         var result = new List<byte>();
 
         var arrayInstsNullable = GetArrayInstructions(module, instructions);
-        if (arrayInstsNullable == null)
+        if (arrayInstsNullable is null)
             return null;
 
         var arrayInsts = arrayInstsNullable.Value;
@@ -333,11 +333,11 @@ public class HandleHexILTask() : ILInputTask(-10)
                         {
                             var typeName = ((TypeRef)nextInstOperand).FullName;
                             var boxType = ParseKind(typeName);
-                            if (boxType != null)
+                            if (boxType is not null)
                             {
                                 byte[] parsed;
 
-                                if (instOperand == null)
+                                if (instOperand is null)
                                     parsed = ParseInteger(GetLdcInteger(inst), (TypeKind)boxType);
                                 else
                                     parsed = ParseInteger(instOperand, (TypeKind)boxType);
@@ -413,7 +413,7 @@ public class HandleHexILTask() : ILInputTask(-10)
                 var typeName = ((ITypeDefOrRef)operand).FullName;
                 var isUnmanaged = UnmanagedTypesNames.Contains(typeName);
 
-                if (currentNode != null && currentNode.Count != 0)
+                if (currentNode is not null && currentNode.Count != 0)
                 {
                     if (isUnmanaged)
                     {
@@ -436,7 +436,7 @@ public class HandleHexILTask() : ILInputTask(-10)
             {
                 isLastStelem = false;
 
-                if (code == Code.Call && operand != null && (operand as IMethodDefOrRef).Name == "InitializeArray")
+                if (code == Code.Call && operand is not null && (operand as IMethodDefOrRef).Name == "InitializeArray")
                 {
                     var prevInst = insts[i - 1];
                     if (prevInst.OpCode.Code == Code.Ldtoken)
@@ -458,7 +458,7 @@ public class HandleHexILTask() : ILInputTask(-10)
 
         void AddToResult()
         {
-            if (currentNode != null)
+            if (currentNode is not null)
                 if (currentNode.Count > 0)
                     instructions?.Insert(0, currentNode);
             currentNode = new();
@@ -477,7 +477,7 @@ public class HandleHexILTask() : ILInputTask(-10)
                     index = indexInstruction.GetLdcI4Value();
                 }
 
-            if (currentNode != null)
+            if (currentNode is not null)
                 if (currentNode.Count > 0)
                     unmanagedArrayInstructions?.Insert(0, (index, currentNode));
             currentNode = new();

@@ -23,7 +23,7 @@ public unsafe class CopyNativeOutASMTask() : ASMTask(-8)
         {
             var moduleDir = Path.GetDirectoryName(module)!;
             var modulePdbFile = Directory.GetFiles(moduleDir, "*.pdb").FirstOrDefault();
-            if (modulePdbFile != null)
+            if (modulePdbFile is not null)
             {
                 var outPdbPath = Path.Combine(outDir, Path.GetFileNameWithoutExtension(config.AutoRenamePdbFileToDllName ? outPath : module) + ".pdb");
 

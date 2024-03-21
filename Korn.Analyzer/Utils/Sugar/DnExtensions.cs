@@ -20,7 +20,7 @@ public static class DnExtensions
             method
             .CustomAttributes
             .ToList()
-            .Find(a => attributesList.Find(al => al.IsSameByName(a.AttributeType)) != null) != null;
+            .Find(a => attributesList.Find(al => al.IsSameByName(a.AttributeType)) is not null) is not null;
     }
 
     public static List<MethodDef> GetMethods(this ModuleDefMD module) =>
@@ -54,7 +54,7 @@ public static class DnExtensions
             .Where(m => m.HasCustomAttributes &&
                 m.CustomAttributes
                 .ToList()
-                .Find(a => attributesList.Find(al => al.IsSameByName(a.AttributeType)) != null) != null
+                .Find(a => attributesList.Find(al => al.IsSameByName(a.AttributeType)) is not null) is not null
             ).ToList();
     }
 
@@ -69,11 +69,11 @@ public static class DnExtensions
                 var foundAttribute =
                     m.CustomAttributes
                     .ToList()
-                    .Find(a => attributesList.Find(al => al.IsSameByName(a.AttributeType)) != null);
-                (MethodDef, CustomAttribute)? ret = m.HasCustomAttributes && foundAttribute != null ? (m, foundAttribute) : null;
+                    .Find(a => attributesList.Find(al => al.IsSameByName(a.AttributeType)) is not null);
+                (MethodDef, CustomAttribute)? ret = m.HasCustomAttributes && foundAttribute is not null ? (m, foundAttribute) : null;
                 return ret;
             })
-            .Where(m => m != null)
+            .Where(m => m is not null)
             .Select(m => ((MethodDef, CustomAttribute))m!)
             .ToList();
     }

@@ -5,7 +5,7 @@ public static class Helper
     {
         var attbr = new CustomAttribute(module.Import(AGlobals.UnmanagedCallersOnlyAttributeCtor));
 
-        if (entryPoint != null)
+        if (entryPoint is not null)
             attbr.NamedArguments.Add(new(true, module.CorLibTypes.String, "EntryPoint", new(module.CorLibTypes.String, entryPoint)));
         attbr.NamedArguments.Add(new(true, AGlobals.TypeArrayType, "CallConvs", new(AGlobals.TypeArrayType, types.Select(t => new CAArgument(AGlobals.TypeType, module.ImportAsTypeSig(t))).ToList())));
 
