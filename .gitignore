@@ -370,3 +370,5 @@ FodyWeavers.xsd
 **/korn/analyzers
 /Korn/nuget/storage/build/Korn.Analyzer.dll
 /Korn/nuget/storage/build/Korn.Tasks.dll
+/Korn/nuget/storage/build/Korn.Commands.dll
+/Korn/nuget/storage/build/Korn.Commands.exe
