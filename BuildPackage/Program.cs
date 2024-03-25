@@ -1,4 +1,10 @@
-﻿using static System.IO.Path;
+﻿using System.Diagnostics;
+using static System.IO.Path;
+
+var dotnetProcesses = Process.GetProcessesByName("dotnet").ToList();
+dotnetProcesses.ForEach(p => p.Kill());
+if (dotnetProcesses.Count > 0)
+    Thread.Sleep(250); // Wait when all handles will be free
 
 var user = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
