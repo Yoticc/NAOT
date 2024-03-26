@@ -1,8 +1,8 @@
 ﻿using Korn.Core;
 using Korn.Core.Tasks;
 
-namespace Korn.Analyzer.Tasks;
-public unsafe class CopyNativeOutASMTask() : ASMTask(-8)
+namespace Korn.Analyzer.Tasks.ASM;
+public unsafe class CopyNativeOutTask() : ASMTask(-8)
 {
     public override void Execute(string module)
     {
@@ -32,5 +32,7 @@ public unsafe class CopyNativeOutASMTask() : ASMTask(-8)
                 File.Copy(modulePdbFile, outPdbPath);
             }
         }
+
+        KornLogger.WriteLine("Finished Korn.Analyzer");
     }
 }

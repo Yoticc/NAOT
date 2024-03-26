@@ -1,9 +1,15 @@
 ﻿using Korn.Core;
 
-public class PreBuild : KornTask
+class PreBuild : KornTask
 {
+    static bool executed;
+
     public override void Execute()
     {
+        if (executed)
+            return;
+        executed = true;
+
         SetupPowershell();
         ClearObj();
         TryAddExceptionsInGitIgnoreFile();

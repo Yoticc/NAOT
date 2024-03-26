@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Korn.Core.Utils;
 public static class Json
 {
-    public static JsonSerializerSettings Settings = new()
+    public static readonly JsonSerializerSettings Settings = new()
     {
         NullValueHandling = NullValueHandling.Ignore,
         Formatting = Formatting.Indented,

@@ -4,13 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <IncludeSymbolsInSingleFile>true</IncludeSymbolsInSingleFile>
-    <PublishAot>true</PublishAot>
-    <StripSymbols>true</StripSymbols>
     <AssemblyName>Test</AssemblyName>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

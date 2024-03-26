@@ -1,14 +1,16 @@
-﻿using Korn.Core.Tasks;
+﻿using Korn.Core;
+using Korn.Core.Tasks;
 using Korn.Core.Utils;
 using System.Diagnostics;
 using static Korn.Core.Globals.Dn;
 using static Korn.Core.Globals.Dn.DnModules;
 
-namespace Korn.Analyzer.Tasks;
+namespace Korn.Analyzer.Tasks.Init;
 public class InitializeTask() : InitTask(-10)
 {
     public override void Execute()
     {
+        KornLogger.WriteLine("Started Korn.Analyzer");
         AGlobals.UnmanagedCallersOnlyAttribute = SystemPrivateCoreLib.FindType("System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
         AGlobals.UnmanagedCallersOnlyAttributeCtor = AGlobals.UnmanagedCallersOnlyAttribute.FindConstructors().First();
 
@@ -17,13 +19,13 @@ public class InitializeTask() : InitTask(-10)
 
         AGlobals.ByteArray = new SZArraySig(Main.CorLibTypes.Byte);
 
-        AGlobals.NativeFuncAttribute = DnModules.This.FindType("NativeFuncAttribute");
-        AGlobals.NativeFuncAttribute_1 = DnModules.This.FindType("NativeFuncAttribute`1");
-        AGlobals.EntryPointAttribute = DnModules.This.FindType("EntryPointAttribute");
+        AGlobals.NativeFuncAttribute = This.FindType("NativeFuncAttribute");
+        AGlobals.NativeFuncAttribute_1 = This.FindType("NativeFuncAttribute`1");
+        AGlobals.EntryPointAttribute = This.FindType("EntryPointAttribute");
         AGlobals.DllImportAttribute = SystemPrivateCoreLib.FindType("System.Runtime.InteropServices.DllImportAttribute");
-        AGlobals.DefinesType = DnModules.This.FindType("korn");
-        AGlobals.Kernel32InteropType = DnModules.This.FindType("kernel32");
-        AGlobals.User32InteropType = DnModules.This.FindType("user32");
+        AGlobals.DefinesType = This.FindType("korn");
+        AGlobals.Kernel32InteropType = This.FindType("kernel32");
+        AGlobals.User32InteropType = This.FindType("user32");
 
         AGlobals.NativeMethodAttributes = [AGlobals.NativeFuncAttribute, AGlobals.NativeFuncAttribute_1, AGlobals.EntryPointAttribute, AGlobals.DllImportAttribute];
 

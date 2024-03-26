@@ -1,7 +1,7 @@
 ﻿using Korn.Core.Tasks;
 using Korn.Core;
 
-public class PostNative : KornTask
+class PostNative : KornTask
 {
     public override void Execute()
     {
@@ -10,6 +10,6 @@ public class PostNative : KornTask
 
     void ExecuteASMTasks()
     {
-        Globals.TaskManager.Invoke<ASMTask>([Globals.Paths.OutputNativeTargetFile]);
+        Globals.TaskManager.Invoke<ASMTask>(msBuildTask, [Globals.Paths.OutputNativeTargetFile]);
     }
 }

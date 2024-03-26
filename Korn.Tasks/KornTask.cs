@@ -2,7 +2,7 @@
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
-public abstract class KornTask
+abstract class KornTask
 {
     public abstract void Execute();
 

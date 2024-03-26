@@ -1,8 +1,8 @@
 ﻿using Korn.Analyzer.Utils;
 using Korn.Core.Tasks;
 
-namespace Korn.Analyzer.Tasks;
-public unsafe class RemoveDNRDHExportASMTask() : ASMTask(-10)
+namespace Korn.Analyzer.Tasks.ASM;
+public class RemoveDNRDHExportTask() : ASMTask(-10)
 {
     public override void Execute(string module)
     {

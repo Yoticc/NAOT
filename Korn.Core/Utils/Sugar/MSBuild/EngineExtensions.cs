@@ -59,6 +59,6 @@ public static partial class SugarExtensions
         if (projectInstanceField is null)
             throw new Exception("Could not extract projectInstance from " + targetCallbackType.FullName);
 
-        return (ProjectInstance)projectInstanceField.GetValue(targetBuilderCallback);
+        return (projectInstanceField.GetValue(targetBuilderCallback) as ProjectInstance)!;
     }
 }

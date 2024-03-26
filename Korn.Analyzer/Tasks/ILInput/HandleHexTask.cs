@@ -2,18 +2,19 @@
 using Korn.Analyzer.Utils.Dn;
 using Korn.Analyzer.Utils.Sugar;
 using Korn.Core.Tasks;
+using Korn.Core.Utils;
 using System.Globalization;
 using System.Numerics;
 
-namespace Korn.Analyzer.Tasks;
-public class HandleHexILTask() : ILInputTask(-10)
+namespace Korn.Analyzer.Tasks.ILInput;
+public class HandleHexTask() : ILInputTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {
         (string name, Handler target)[] handlers = [
             ("EmptyArray", EmptyArrayHandler),
             ("LocalArray", LocalArrayHandler),
-            ("Array", ArrayHandler)
+            ("Array", ArrayHandler1)
         ];
 
         var sam = new StaticArraysManager(module);
@@ -37,17 +38,17 @@ public class HandleHexILTask() : ILInputTask(-10)
                 return;
 
             var counter = 0;
-            var insts = body.Instructions;
-            for (int i = 0; i < insts.Count; i++)
+            var instructions = body.Instructions;
+            for (int i = 0; i < instructions.Count; i++)
             {
-                var inst = insts[i];
-                var opcode = inst.OpCode;
+                var instruction = instructions[i];
+                var opcode = instruction.OpCode;
                 var code = opcode.Code;
 
                 if (code != Code.Call)
                     continue;
 
-                var operand = inst.Operand;
+                var operand = instruction.Operand;
                 var callMethod = operand as IMethodDefOrRef;
                 if (callMethod is null)
                     continue;
@@ -61,16 +62,16 @@ public class HandleHexILTask() : ILInputTask(-10)
                 {
                     try
                     {
-                        if (target(module, sam, insts, ref i))
+                        if (target(this, module, sam, instructions, ref i))
                             goto NEXT;
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Exception in HandleHexILTask->handler->{name}: {ex}");
+                        Log.Error($"Exception in HandleHexILTask->handler->{name}: {ex}");
                     }
                 }
 
-                Console.WriteLine($"HandleHexILTask: Unable convert hex-type method in method \'{method.FullName}\'[{counter}]");
+                Log.Error($"HandleHexILTask: Unable convert hex-type method in method \'{method.FullName}\'[{counter}]");
 
             NEXT:
                 counter++;
@@ -79,25 +80,24 @@ public class HandleHexILTask() : ILInputTask(-10)
     }
 
     #region Handlers
-    delegate bool Handler(ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, ref int index);
+    delegate bool Handler(HandleHexTask self, ModuleDefMD module, StaticArraysManager sam, IList<Instruction> instructions, ref int index);
 
-    Handler EmptyArrayHandler = (ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, ref int i) =>
+    Handler EmptyArrayHandler = (HandleHexTask self, ModuleDefMD module, StaticArraysManager sam, IList<Instruction> instructions, ref int i) =>
     {
-        var prevInstIndex = i - 1;
-        var prevInst = insts[i - 1];
-        var prevInstCode = prevInst.OpCode.Code;
+        var prevInstruction = instructions[i - 1];
+        var prevInstructionCode = prevInstruction.OpCode.Code;
 
         /*
          *  [i-1]  call  System.Array::Empty<?>()
          *  [i]    call  uint8[] hex(object[]) 
         */
-        if (prevInstCode == Code.Call)
+        if (prevInstructionCode == Code.Call)
         {
-            var callMethod = prevInst.GetOperandMethod()!;
+            var callMethod = prevInstruction.GetOperandMethod()!;
             if (callMethod.FullName.Contains("System.Array::Empty"))
             {
-                insts[i - 1] = new(OpCodes.Ldc_I4_0);
-                insts[i] = new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte));
+                instructions[i - 1] = new(OpCodes.Ldc_I4_0);
+                instructions[i] = new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte));
                 /*
                  *  [i-1]  ldc.i4.0
                  *  [i]    newarr   uint8
@@ -110,12 +110,12 @@ public class HandleHexILTask() : ILInputTask(-10)
          *  [i-1]  newarr    ?
          *  [i]    call      uint8[] hex(object[]) 
         */
-        else if (prevInstCode == Code.Newarr)
+        else if (prevInstructionCode == Code.Newarr)
         {
-            if (insts[i - 2].OpCode.Code == Code.Ldc_I4_0)
+            if (instructions[i - 2].OpCode.Code == Code.Ldc_I4_0)
             {
-                insts[i] = new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte));
-                insts.RemoveAt(i - 1);
+                instructions[i] = new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte));
+                instructions.RemoveAt(i - 1);
                 i -= 1;
                 /*
                  *  [i-2]  ldc.i4.0
@@ -127,11 +127,10 @@ public class HandleHexILTask() : ILInputTask(-10)
         return false;
     };
 
-    Handler LocalArrayHandler = (ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, ref int i) =>
+    Handler LocalArrayHandler = (HandleHexTask self, ModuleDefMD module, StaticArraysManager sam, IList<Instruction> instructions, ref int i) =>
     {
-        var prevInstIndex = i - 1;
-        var prevInst = insts[i - 1];
-        var prevInstCode = prevInst.OpCode.Code;
+        var prevInstruction = instructions[i - 1];
+        var prevInstructionCode = prevInstruction.OpCode.Code;
 
         /*
          * [o]    stloc
@@ -139,19 +138,19 @@ public class HandleHexILTask() : ILInputTask(-10)
          * [i-1]  ldloc?
          * [i]    uint8[] hex(object[])
         */
-        if (prevInst.IsLdloc())
+        if (prevInstruction.IsLdloc())
         {
-            int value = prevInst.GetLdlocValue();
+            int value = prevInstruction.GetLdlocValue();
 
             for (int o = i - 1; o > 0; o--)
             {
-                if (insts[o].IsStloc())
+                if (instructions[o].IsStloc())
                 {
-                    if (insts[o].GetStlocValue() == value)
+                    if (instructions[o].GetStlocValue() == value)
                     {
-                        var innerIsnts = insts.ToList().GetRange(0, o);
-                        var bytes = CompileToByteArray(module, innerIsnts, out int affectedInstructions);
-                        ReplaceInstructionsByByteArray(module, insts, o - affectedInstructions, i, bytes, sam, out int affectedInstructions2);
+                        var innerInstructions = instructions.ToList().GetRange(0, o);
+                        var bytes = self.CompileToByteArray(module, innerInstructions, out int affectedInstructions)!;
+                        self.ReplaceInstructionsByByteArray(module, instructions, o - affectedInstructions, i, bytes, sam, out int affectedInstructions2);
                         i -= affectedInstructions2;
 
                         return true;
@@ -163,20 +162,19 @@ public class HandleHexILTask() : ILInputTask(-10)
         return false;
     };
 
-    Handler ArrayHandler = (ModuleDefMD module, StaticArraysManager sam, IList<Instruction> insts, ref int i) =>
+    Handler ArrayHandler = (HandleHexTask self, ModuleDefMD module, StaticArraysManager sam, IList<Instruction> instructions, ref int i) =>
     {
-        var prevInstIndex = i - 1;
-        var prevInst = insts[i - 1];
-        var prevInstCode = prevInst.OpCode.Code;
+        var prevInstruction = instructions[i - 1];
+        var prevInstructionCode = prevInstruction.OpCode.Code;
 
         /*
          *  [i-1]  stelem.ref
          *  [i]    call  uint8[] hex(object[]) 
         */
-        if (prevInstCode == Code.Stelem_Ref)
+        if (prevInstructionCode == Code.Stelem_Ref)
         {
-            var bytes = CompileToByteArray(module, insts.ToList().GetRange(0, i), out int affectedInstructions);
-            ReplaceInstructionsByByteArray(module, insts, i - affectedInstructions, i, bytes, sam, out int affectedInstructions2);
+            var bytes = self.CompileToByteArray(module, instructions.ToList().GetRange(0, i), out int affectedInstructions)!;
+            self.ReplaceInstructionsByByteArray(module, instructions, i - affectedInstructions, i, bytes, sam, out int affectedInstructions2);
             i -= affectedInstructions2;
             return true;
         }
@@ -184,19 +182,23 @@ public class HandleHexILTask() : ILInputTask(-10)
     };
     #endregion
 
-    static void ReplaceInstructionsByByteArray(ModuleDefMD module, IList<Instruction> insts, int startPos, int endPos, List<byte> bytes, StaticArraysManager sam, out int affectedInstructions)
+    void ReplaceInstructionsByByteArray(ModuleDefMD module, IList<Instruction> instructions, int startPos, int endPos, List<byte> bytes, StaticArraysManager sam, out int affectedInstructions)
     {
-        if (bytes is null)
-            Console.WriteLine($"HandleHexILTask->ReplaceInstructionsByByteArray: bytes is null");
-
         affectedInstructions = endPos - startPos;
+
+        if (bytes is null)
+        {
+            Log.Error($"HandleHexILTask->ReplaceInstructionsByByteArray: bytes is null");
+            return;
+        }
+
         for (int i = 0; i <= endPos - startPos; i++)
-            insts.RemoveAt(startPos);
+            instructions.RemoveAt(startPos);
 
         if (bytes.Count == 0)
         {
-            insts.Insert(startPos, new(OpCodes.Ldc_I4_0));
-            insts.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte)));
+            instructions.Insert(startPos, new(OpCodes.Ldc_I4_0));
+            instructions.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte)));
             affectedInstructions -= 2;
         }
         else
@@ -206,28 +208,28 @@ public class HandleHexILTask() : ILInputTask(-10)
 
             if (isArray)
             {
-                insts.Insert(startPos, new(OpCodes.Ldsfld, field));
+                instructions.Insert(startPos, new(OpCodes.Ldsfld, field));
 
                 var toArrayMethRef = AGlobals.EnumerableToArrayMethod.AsImported(module);
                 var toArrayMethSpec = new MethodSpecUser(toArrayMethRef, new GenericInstMethodSig(module.CorLibTypes.Byte));
-                insts.Insert(startPos + 1, new(OpCodes.Call, toArrayMethSpec));
+                instructions.Insert(startPos + 1, new(OpCodes.Call, toArrayMethSpec));
 
                 affectedInstructions -= 2;
             }
             else
             {
-                insts.Insert(startPos, Instruction.CreateLdcI4(bytes.Count));
-                insts.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte.ToTypeDefOrRefSig())));
-                insts.Insert(startPos + 2, new(OpCodes.Dup));
-                insts.Insert(startPos + 3, new(OpCodes.Ldtoken, field));
-                insts.Insert(startPos + 4, new(OpCodes.Call, AGlobals.InitializeArrayMethod.AsImported(module)));
+                instructions.Insert(startPos, Instruction.CreateLdcI4(bytes.Count));
+                instructions.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte.ToTypeDefOrRefSig())));
+                instructions.Insert(startPos + 2, new(OpCodes.Dup));
+                instructions.Insert(startPos + 3, new(OpCodes.Ldtoken, field));
+                instructions.Insert(startPos + 4, new(OpCodes.Call, AGlobals.InitializeArrayMethod.AsImported(module)));
 
                 affectedInstructions -= 5;
             }
         }
     }
 
-    static List<byte>? ParseString(string input)
+    List<byte>? ParseString(string input)
     {
         var whitelistChars = "0123456789abcdef_ ";
         var lastParsingPart = "UNKNOWN";
@@ -262,14 +264,14 @@ public class HandleHexILTask() : ILInputTask(-10)
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"HandleHexILTask->CompileToByteArray->ParseString: Unable parse string \'{input}\'('{lastParsingPart}'): {ex}");
+            Log.Error($"HandleHexILTask->CompileToByteArray->ParseString: Unable parse string \'{input}\'('{lastParsingPart}'): {ex}");
             return null;
         }
     }
 
-    static byte[] ParseInteger(object integer, TypeKind kind) => integer.UnboxInArray(1 << (int)kind);
+    byte[] ParseInteger(object integer, TypeKind kind) => integer.UnboxInBytes(1 << (int)kind);
 
-    static TypeKind? ParseKind(string name)
+    TypeKind? ParseKind(string name)
     {
         if (TypeNameToTypeKind.ContainsKey(name))
             return TypeNameToTypeKind[name];
@@ -277,7 +279,7 @@ public class HandleHexILTask() : ILInputTask(-10)
         return null;
     }
 
-    static List<byte>? CompileToByteArray(ModuleDefMD module, List<Instruction> instructions, out int affectedInstructions)
+    List<byte>? CompileToByteArray(ModuleDefMD module, List<Instruction> instructions, out int affectedInstructions)
     {
         affectedInstructions = -1;
 
@@ -294,7 +296,7 @@ public class HandleHexILTask() : ILInputTask(-10)
         {
             var count = insts.Count;
             if (count == 0)
-                Console.WriteLine($"HandleHexILTask->CompileToByteArray: Input 0 Instructions to parse.");
+                Log.Error($"HandleHexILTask->CompileToByteArray: Input 0 Instructions to parse.");
             else
             {
                 var inst = insts[0];
@@ -306,12 +308,12 @@ public class HandleHexILTask() : ILInputTask(-10)
                 {
                     if (instCode == Code.Ldstr)
                     {
-                        var parsed = ParseString((string)instOperand);
+                        var parsed = ParseString((string)instOperand)!;
                         result.AddRange(parsed);
                     }
                     else if (instCode == Code.Ldtoken)
                     {
-                        var field = instOperand as FieldDef;
+                        var field = (instOperand as FieldDef)!;
                         var name = field.FieldType.FullName;
                         var byteLength = int.Parse(name.Split("=")[1]);
                         var reader = module.Metadata.PEImage.CreateReader(field.RVA);
@@ -343,7 +345,7 @@ public class HandleHexILTask() : ILInputTask(-10)
                                     parsed = ParseInteger(instOperand, (TypeKind)boxType);
                                 result.AddRange(parsed);
                             }
-                            else Console.WriteLine($"HandleHexILTask->CompileToByteArray: Unable parse TypeKind for type \'{typeName}\'");
+                            else Log.Error($"HandleHexILTask->CompileToByteArray: Unable parse TypeKind for type \'{typeName}\'");
                         }
                         else PrintError();
                     }
@@ -351,13 +353,13 @@ public class HandleHexILTask() : ILInputTask(-10)
                 else PrintError();
             }
 
-            void PrintError() => Console.WriteLine($"HandleHexILTask->CompileToByteArray: Unable parse instructions: [{string.Join(", ", insts.Select(i => $"{i.OpCode.Code} {i.Operand}"))}]");
+            void PrintError() => Log.Error($"HandleHexILTask->CompileToByteArray: Unable parse instructions: [{string.Join(", ", insts.Select(i => $"{i.OpCode.Code} {i.Operand}"))}]");
         }
 
         return result;
     }
 
-    static object GetLdcInteger(Instruction inst) => inst.OpCode.Code switch
+    object GetLdcInteger(Instruction instruction) => instruction.OpCode.Code switch
     {
         Code.Ldc_I4_0 => 0,
         Code.Ldc_I4_1 => 1,
@@ -368,22 +370,23 @@ public class HandleHexILTask() : ILInputTask(-10)
         Code.Ldc_I4_6 => 6,
         Code.Ldc_I4_7 => 7,
         Code.Ldc_I4_8 => 8,
-        Code.Ldc_I4_M1 => -1
+        Code.Ldc_I4_M1 => -1,
+        _ => throw new NotImplementedException()
     };
 
     #region Get Instructions
-    static (List<List<Instruction>> instructions, int totalLength)? GetArrayInstructions(ModuleDefMD module, List<Instruction> insts)
+    (List<List<Instruction>> instructions, int totalLength)? GetArrayInstructions(ModuleDefMD module, List<Instruction> instructions)
     {
-        var instructions = new List<List<Instruction>>();
+        var resultInstructions = new List<List<Instruction>>();
         var foundElements = 0;
         var predicateElements = 0;
         var isLastStelem = false;
         var unmanagedArrayInstructions = new List<(int index, List<Instruction> instructions)>();
         List<Instruction>? currentNode = null;
 
-        for (int i = insts.Count - 1; i >= 0; i--)
+        for (int i = instructions.Count - 1; i >= 0; i--)
         {
-            var inst = insts[i];
+            var inst = instructions[i];
             var opcode = inst.OpCode;
             var code = opcode.Code;
             var operand = inst.Operand;
@@ -409,7 +412,7 @@ public class HandleHexILTask() : ILInputTask(-10)
                 isLastStelem = false;
 
                 i--;
-                var arrayLength = insts[i].GetLdcI4Value();
+                var arrayLength = instructions[i].GetLdcI4Value();
                 var typeName = ((ITypeDefOrRef)operand).FullName;
                 var isUnmanaged = UnmanagedTypesNames.Contains(typeName);
 
@@ -430,49 +433,49 @@ public class HandleHexILTask() : ILInputTask(-10)
                     predicateElements += arrayLength;
 
                 if (!isUnmanaged && predicateElements == foundElements)
-                    return (instructions, insts.Count - i);
+                    return (resultInstructions, instructions.Count - i);
             }
             else
             {
                 isLastStelem = false;
 
-                if (code == Code.Call && operand is not null && (operand as IMethodDefOrRef).Name == "InitializeArray")
+                if (code == Code.Call && operand is not null && (operand as IMethodDefOrRef)!.Name == "InitializeArray")
                 {
-                    var prevInst = insts[i - 1];
+                    var prevInst = instructions[i - 1];
                     if (prevInst.OpCode.Code == Code.Ldtoken)
                     {
                         AddToCurrentNode(prevInst);
                         i -= 6;
                     }
-                    else Console.WriteLine("HandleHexILTask->GetArrayInstructions: Unexpected call instruction in hex's method arguments");
+                    else Log.Error("HandleHexILTask->GetArrayInstructions: Unexpected call instruction in hex's method arguments");
                 }
-                else if (inst.IsLdcI4() && i > 0 && insts[i - 1].OpCode.Code == Code.Dup)
+                else if (inst.IsLdcI4() && i > 0 && instructions[i - 1].OpCode.Code == Code.Dup)
                     i--;
                 else if (inst.OpCode.Code.ToString().StartsWith("Conv")) { }
                 else AddToCurrentNode(inst);
             }
         }
 
-        Console.WriteLine($"HandleHexILTask->GetArrayInstructions: Unable parse IL code. Vars: foundElements: {foundElements}, predicateElements: {predicateElements}"); //  Code:\n{string.Join('\n', insts.Select(i => $"{i.OpCode.Code} {i.Operand}"))}
+        Log.Error($"HandleHexILTask->GetArrayInstructions: Unable parse IL code. Vars: foundElements: {foundElements}, predicateElements: {predicateElements}"); //  Code:\n{string.Join('\n', insts.Select(i => $"{i.OpCode.Code} {i.Operand}"))}
         return null;
 
         void AddToResult()
         {
             if (currentNode is not null)
                 if (currentNode.Count > 0)
-                    instructions?.Insert(0, currentNode);
+                    resultInstructions?.Insert(0, currentNode);
             currentNode = new();
         }
         void AddToUnmanagedList(int cursorIndex)
         {
             var index = -1;
 
-            for (var o = cursorIndex; o < insts.Count; o++)
-                if (insts[o].OpCode.Code == Code.Dup)
+            for (var o = cursorIndex; o < instructions.Count; o++)
+                if (instructions[o].OpCode.Code == Code.Dup)
                 {
-                    var indexInstruction = insts[o + 1];
+                    var indexInstruction = instructions[o + 1];
                     if (!indexInstruction.IsLdcI4())
-                        Console.WriteLine($"HandleHexILTask->GetArrayInstructions->AddToUnmanagedList: Wrong instruction under Dup instruction.");
+                        Log.Error($"HandleHexILTask->GetArrayInstructions->AddToUnmanagedList: Wrong instruction under Dup instruction.");
 
                     index = indexInstruction.GetLdcI4Value();
                 }
@@ -539,7 +542,9 @@ public class HandleHexILTask() : ILInputTask(-10)
         typeof(nint)
     ];
 
-    static List<string> UnmanagedTypesNames = UnmanagedTypes.Select(t => t.FullName).ToList();
+    static List<string> UnmanagedTypesNames = UnmanagedTypes.Select(t => t.FullName!).ToList();
 
     static Dictionary<string, TypeKind> TypeNameToTypeKind = TypeKindToTypes.SelectMany(z => z.types.Select(t => (z.kind, t))).ToDictionary(z => z.t.FullName!, z => z.kind);
+
+    private Handler ArrayHandler1 { get => ArrayHandler; set => ArrayHandler = value; }
 }

@@ -21,8 +21,7 @@ public unsafe class Program
     #region EntryPoint
     static void Main()
     {
-
-
+        var ldftnTest = ldftn(TestNative4);
 
         new HexTest().hextest();
     }
@@ -37,5 +36,7 @@ public unsafe class Program
 
     [NativeFunc<__stdcall>]
     static void TestNative3() { }
+
+    static void TestNative4() { }
     #endregion
 }

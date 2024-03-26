@@ -3,7 +3,7 @@
 namespace Korn.Analyzer.Utils.Sugar;
 public unsafe static class UnsafeExtensions
 {
-    public static byte[] UnboxInArray(this object boxed, int size)
+    public static byte[] UnboxInBytes(this object boxed, int size)
     {
         var handle = GCHandle.Alloc(boxed, GCHandleType.Pinned);
         var ptr = (byte*)handle.AddrOfPinnedObject();

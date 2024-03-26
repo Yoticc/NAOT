@@ -13,8 +13,8 @@ public unsafe class PEEditor : IDisposable
 
     public PEEditor(string path) : this(File.ReadAllBytes(path)) { }
 
-    public PEImage* Image;
-    int Length;
+    public readonly PEImage* Image;
+    readonly int Length;
 
     public uint EntryPoint { get => Image->optionalHeader->AddressOfEntryPoint; set => Image->optionalHeader->AddressOfEntryPoint = value; }
 

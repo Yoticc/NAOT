@@ -1,12 +1,11 @@
-﻿using System.Reflection;
+﻿using Korn.Core.Utils;
+using Microsoft.Build.Utilities;
+using System.Reflection;
 
 namespace Korn.Core;
 public class TaskManager
 {
-    public TaskManager(params TaskData[] tasks)
-    {
-        Tasks = tasks;
-    }
+    public TaskManager(params TaskData[] tasks) => Tasks = tasks;
 
     public TaskManager(params Type[] types)
     {
@@ -35,23 +34,23 @@ public class TaskManager
         }
     }
 
-    public void Invoke<T>(object?[]? args)
+    public void Invoke<T>(Microsoft.Build.Utilities.Task msBuildTask, object?[]? args)
     {
         var type = typeof(T);
         foreach (var task in Tasks)
         {
             if (!task.Type.IsEquivalentTo(type))
                 continue;
-
-            task.InvokeAll(args);
+                        
+            task.InvokeAll(msBuildTask, args);
 
             return;
         }
 
-        Console.WriteLine($"Unable find task data in TaskManager for task {typeof(T).Name}");
+        msBuildTask.Log.Error($"Unable find task data in TaskManager for task {typeof(T).Name}");
     }
 
-    public void InvokeFor<T>(List<object?[]?> listOfArgs)
+    public void InvokeFor<T>(Microsoft.Build.Utilities.Task msBuildTask, List<object?[]?> listOfArgs)
     {
         var type = typeof(T);
         foreach (var task in Tasks)
@@ -60,11 +59,11 @@ public class TaskManager
                 continue;
 
             foreach (var args in listOfArgs)
-                task.InvokeAll(args);
+                task.InvokeAll(msBuildTask, args);
 
             return;
         }
 
-        Console.WriteLine($"Unable find task data in TaskManager for task {typeof(T).Name}");
+        msBuildTask.Log.Error($"Unable find task data in TaskManager for task {typeof(T).Name}");
     }
 }

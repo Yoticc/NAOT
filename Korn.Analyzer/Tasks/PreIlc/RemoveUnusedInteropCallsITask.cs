@@ -2,8 +2,8 @@
 using Korn.Core;
 using Korn.Core.Tasks;
 
-namespace Korn.Analyzer.Tasks;
-public class RemoveUnusedInteropCallsILTask() : PreIlcTask(-10)
+namespace Korn.Analyzer.Tasks.PreIlc;
+public class RemoveUnusedInteropCallsITask() : PreIlcTask(-10)
 {
     public override void Execute()
     {
@@ -33,9 +33,9 @@ public class RemoveUnusedInteropCallsILTask() : PreIlcTask(-10)
                     if (!body.HasInstructions)
                         continue;
 
-                    var insts = body.Instructions;
+                    var instructions = body.Instructions;
 
-                    foreach (var inst in insts)
+                    foreach (var inst in instructions)
                     {
                         var opcode = inst.OpCode;
                         var code = opcode.Code;
@@ -47,7 +47,7 @@ public class RemoveUnusedInteropCallsILTask() : PreIlcTask(-10)
                             continue;
 
                         var callMethod = operand as IMethodDefOrRef;
-                        var declaringType = callMethod.DeclaringType;
+                        var declaringType = callMethod!.DeclaringType;
 
                         if (!referenceTypesNames.Contains(declaringType.Name))
                             continue;

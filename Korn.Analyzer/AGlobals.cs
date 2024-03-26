@@ -37,6 +37,6 @@ public static class AGlobals
     public static MethodDef InitializeArrayMethod;
     public static TypeDef EnumerableType;
     public static MethodDef EnumerableToArrayMethod;
-
+                  
     public static TypeDef[] NativeMethodAttributes;
 }

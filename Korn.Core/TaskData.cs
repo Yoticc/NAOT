@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using Korn.Core.Tasks;
+using Korn.Core.Utils;
+using Microsoft.Build.Utilities;
+using System.Reflection;
 
 namespace Korn.Core;
 public class TaskData
@@ -16,17 +19,23 @@ public class TaskData
 
     public void Add(Type type) => Instances.Add(new(type));
 
-    public void InvokeAll(object?[]? args)
+    public void InvokeAll(Microsoft.Build.Utilities.Task msBuildTask, object?[]? args)
     {
-        foreach (var instace in Instances.OrderBy(i => i.Order))
+        foreach (var instance in Instances.OrderBy(i => i.Order))
         {
             try
             {
-                ExecuteMethod.Invoke(instace.Instance, args);
+                (instance.Instance as BaseTask)!.Log = msBuildTask.Log;
+
+                var startedTime = DateTime.Now;
+                ExecuteMethod.Invoke(instance.Instance, args);
+                var endTime = DateTime.Now;
+                var timeElapse = endTime - startedTime;
+                KornLogger.FileLogger.WriteLine($"Task {Type.Name}->{instance.Instance.GetType().Name}[{instance.Order}] finished for {Math.Round(timeElapse.TotalMilliseconds, 2)}ms");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception in TaskData.InvokeAll->{Type.Name}->{instace.GetType().Name}: " + ex);
+                msBuildTask.Log.Error($"Exception in TaskData.InvokeAll->{Type.Name}->{instance.GetType().Name}: " + ex);
             }
         }
     }
@@ -39,12 +48,9 @@ public class TaskInstance
     public TaskInstance(Type type)
     {
         Instance = Activator.CreateInstance(type)!;
-        Order = GetOrderFromILBytes(type.GetConstructors()[0].GetMethodBody().GetILAsByteArray());
+        Order = GetOrderFromILBytes(type.GetConstructors()[0].GetMethodBody()!.GetILAsByteArray()!);
 
-        double GetOrderFromILBytes(byte[] il)
-        {
-            return BitConverter.ToDouble(il, il.Length - 14);
-        }
+        double GetOrderFromILBytes(byte[] il) => BitConverter.ToDouble(il, il.Length - 14);
     }
 
     public object Instance;

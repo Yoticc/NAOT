@@ -1,4 +1,17 @@
-﻿/*
+﻿using Microsoft.Build.Utilities;
+using System.Diagnostics.CodeAnalysis;
+
+namespace Korn.Core.Tasks;
+
+public class BaseTask
+{
+    [AllowNull] TaskLoggingHelper log;
+    public TaskLoggingHelper Log { get => log; set => LogInstance = log = value; }
+
+    public static TaskLoggingHelper? LogInstance;
+}
+
+/*
  * Scheme:
  * -InitTask                called after build has started
  * -ILTask                  uses for all IL dll's

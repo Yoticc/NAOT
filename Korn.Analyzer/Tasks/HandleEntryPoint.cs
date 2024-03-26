@@ -2,7 +2,9 @@
 using Korn.Analyzer.Utils.Sugar;
 using Korn.Core;
 using Korn.Core.Tasks;
+using Korn.Core.Utils;
 using System.Runtime.CompilerServices;
+using static Korn.Core.Utils.SugarExtensions;
 
 namespace Korn.Analyzer.Tasks;
 public class HandleEntryPointTaskIL() : ILMainTask(-10)
@@ -12,69 +14,80 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
         var config = Globals.Config.CustomEntryPointPath;
         if (config.Use)
         {
-            var meth = module.GetMethod(config.Path);
-            if (meth is null)
+            var method = module.GetMethod(config.Path);
+            if (method is null)
             {
-                Console.WriteLine($"HandleEntryPointTaskIL: Unable find method with path \'{config.Path}\'");
+                Log.Error($"HandleEntryPointTaskIL: Unable find method with path \'{config.Path}\'");
                 return;
             }
                         
-            HandleEntryPoint(module, meth);
+            HandleEntryPoint(module, method);
         }
         else
         {
-            var meths =
+            var methods =
             module
             .GetMethodsByAttribute(AGlobals.EntryPointAttribute)
-            .Where(m =>
+            .Where(method =>
             {
-                if (m.HasReturnType)
+                if (method.HasReturnType)
                 {
-                    Console.WriteLine($"EntryPoint {m.FullName} skipped because it's has return type");
+                    Log.Error($"EntryPoint {method.FullName} skipped because it's has return type");
                     return false;
                 }
 
-                if (!m.IsStatic)
+                if (!method.IsStatic || Globals.Config.BypassNonStaticNativeMethods)
                 {
-                    Console.WriteLine($"EntryPoint {m.FullName} skipped because it's not static");
+                    Log.Error($"EntryPoint {method.FullName} skipped because it's not static");
                     return false;
                 }
 
-                if (m.Parameters.Count > 0)
+                if (method.Parameters.Count > 0)
                 {
-                    Console.WriteLine($"EntryPoint {m.FullName} skipped because it's has parameters");
+                    Log.Error($"EntryPoint {method.FullName} skipped because it's has parameters");
                     return false;
                 }
 
                 return true;
             }).ToList();
 
-            if (meths.Count == 0)
+            if (methods.Count == 0)
             {
-                Console.WriteLine("HandleEntryPointTaskIL: Unable find EntryPoint method");
+                Log.Error("HandleEntryPointTaskIL: Unable find EntryPoint method");
                 return;
             }
 
-            if (meths.Count > 1)
-                Console.WriteLine($"HandleEntryPointTaskIL: Found more than one EntryPoint methods. Handled first, other skipped (methods: {string.Join(", ", meths.Select(m => m.FullName))})");
+            if (methods.Count > 1)
+                Log.Error($"HandleEntryPointTaskIL: Found more than one EntryPoint methods. Handled first, other skipped (methods: {string.Join(", ", methods.Select(m => m.FullName))})");
 
-            var meth = meths[0];
-            HandleEntryPoint(module, meth);
+            var method = methods[0];
+            HandleEntryPoint(module, method);
         }        
     }
 
-    void HandleEntryPoint(ModuleDefMD module, MethodDef meth)
+    void HandleEntryPoint(ModuleDefMD module, MethodDef method)
     {
-        var attbr = meth.CustomAttributes;
+        if (!method.IsStatic)
+        {
+            if (!Globals.Config.BypassNonStaticNativeMethods)
+            {
+                Log.Error("Cannot to use a non-static EntryPoint method. Make it static or set BypassNonStaticNativeMethods to \'true\'");
+                return;
+            }
 
-        var attbrIndex = attbr.ToList().FindIndex(a => a.AttributeType.IsSameByName(AGlobals.EntryPointAttribute));
-        if (attbrIndex != -1)
-            attbr.RemoveAt(attbrIndex);
-        attbr.Add(Helper.GetUnmanagedCallersOnlyAttribute(module, "Korn.Analyzer.EntryPoint", typeof(CallConvStdcall)));
+            method.ModifyToStatic();
+        }
+
+        var customAttributes = method.CustomAttributes;
+
+        var customAttributeIndex = customAttributes.ToList().FindIndex(a => a.AttributeType.IsSameByName(AGlobals.EntryPointAttribute));
+        if (customAttributeIndex != -1)
+            customAttributes.RemoveAt(customAttributeIndex);
+        customAttributes.Add(Helper.GetUnmanagedCallersOnlyAttribute(module, "Korn.Analyzer.EntryPoint", typeof(CallConvStdcall)));
     }
 }
 
-public unsafe class HandleEntryPointTaskASM : ASMTask
+public unsafe class HandleEntryPointTaskASM() : ASMTask(-10)
 {
     public override void Execute(string module)
     {
@@ -101,7 +114,7 @@ public unsafe class HandleEntryPointTaskASM : ASMTask
         var internalDllMainFuncSize = pe.CalculateFunctionSize((nint)internalDllMainFuncPtr, [0x90, 0x90, 0x90, 0x90]);
 
         if (internalDllMainFuncSize == -1)
-            Console.WriteLine("Unable calculate size of Korn.Internal.DllMain function");
+            Log.Error("Unable calculate size of Korn.Internal.DllMain function");
 
         var foundFirstOffset = false;
         var foundSecondOffset = false;
@@ -160,9 +173,9 @@ public unsafe class HandleEntryPointTaskASM : ASMTask
         }
 
         if (!foundFirstOffset)
-            Console.WriteLine("Unable found first offset in Korn.Internal.DllMain function");
+            Log.Error("Unable found first offset in Korn.Internal.DllMain function");
         if (!foundSecondOffset)
-            Console.WriteLine("Unable found second offset in Korn.Internal.DllMain function");
+            Log.Error("Unable found second offset in Korn.Internal.DllMain function");
 
         pe.Save(module);
     }

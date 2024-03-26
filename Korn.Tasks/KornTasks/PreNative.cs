@@ -6,7 +6,7 @@ using static Korn.Core.Globals;
 using KornPaths = Korn.Core.Globals.Paths.Korn;
 using ObjKornPaths = Korn.Core.Globals.Paths.ObjKorn;
 
-public class PreNative : KornTask
+class PreNative : KornTask
 {
     public override void Execute()
     {
@@ -74,9 +74,16 @@ public class PreNative : KornTask
 
     void SetupKorn()
     {
-        const string DEFAULT_BUILD_COMMAND = "dotnet publish -r win-x64 -c Release";
+        string DEFAULT_BUILD_COMMAND = string.Join(' ', [
+            "dotnet", 
+            "publish", 
+            "-r win-x64",
+            "-c Release",
+            "-p:PublishAot=true",
+            "-p:IncludeNativeLibrariesForSelfExtract=true"
+            ]);
 
-        if (!Directory.Exists(KornPaths.Dir))
+        if (!Directory.Exists(KornPaths.Dir) || (Directory.GetFiles(KornPaths.Dir).Length == 0 && Directory.GetDirectories(KornPaths.Dir).Length == 0))
         {
             Directory.CreateDirectory(KornPaths.Dir);
 
@@ -174,7 +181,7 @@ public class PreNative : KornTask
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"AfterWriteIlcRspFileForCompilation->LoadConfig: Couldn't deserialize config. Will be used default: {ex}");
+            Log.Error($"AfterWriteIlcRspFileForCompilation->LoadConfig: Couldn't deserialize config. Will be used default: {ex}");
             Globals.Config = new();
         }
     }
@@ -202,7 +209,7 @@ public class PreNative : KornTask
 
             var assembly = loadedAssemblies.Find(a => a.FullName is not null && a.FullName.Split(", ")[0] == name);
             if (assembly is null)
-                Console.WriteLine("AppDomain.CurrentDomain.AssemblyResolve: Cannot find loaded assembly for " + e.Name);
+                Log.Warning("AppDomain.CurrentDomain.AssemblyResolve: Cannot find loaded assembly for " + e.Name);
             return assembly;
         };
 
@@ -216,7 +223,7 @@ public class PreNative : KornTask
 
     void LogAnalyzers()
     {
-        Console.WriteLine($"  Uses {Analyzers.Count} analyzers"); // This prints from time to time, related to project, idk what wrong. 
+        Log.Message($"  Uses {Analyzers.Count} analyzers"); // This prints from time to time, related to project, idk what wrong. 
     }
 
     void LoadLibraries()
@@ -268,7 +275,7 @@ public class PreNative : KornTask
         {
             var found = Dn.Modules.All.Find(m => m.Name == name);
             if (found is null)
-                Console.WriteLine($"AfterWriteIlcRspFileForCompilation->LoadLibs: Couldn't find module {name}");
+                Log.Error($"AfterWriteIlcRspFileForCompilation->LoadLibs: Couldn't find module {name}");
             return found;
         }
 
@@ -280,9 +287,9 @@ public class PreNative : KornTask
 
             var moduleCount = modules.Count();
             if (moduleCount == 0)
-                Console.WriteLine($"Assembly {name} skipped because has no modules");
+                Log.Warning($"Assembly {name} skipped because has no modules");
             else if (moduleCount > 1)
-                Console.WriteLine($"Assembly {name} skipped because has more than one module");
+                Log.Warning($"Assembly {name} skipped because has more than one module");
             else
             {
                 var reflectionModule = modules.First();
@@ -297,10 +304,10 @@ public class PreNative : KornTask
 
     void ExecuteILTasks()
     {
-        Globals.TaskManager.Invoke<InitTask>([]);
-        Globals.TaskManager.Invoke<ILMainTask>([Dn.DnModules.Main]);
-        Globals.TaskManager.InvokeFor<ILTask>(Dn.DnModules.All.Select(m => (object?[]?)[m]).ToList());
-        Globals.TaskManager.InvokeFor<ILInputTask>([.. Dn.DnModules.Input.Select(m => (object?[]?)[m]), [Dn.DnModules.Main]]);
+        Globals.TaskManager.Invoke<InitTask>(msBuildTask, []);
+        Globals.TaskManager.Invoke<ILMainTask>(msBuildTask, [Dn.DnModules.Main]);
+        Globals.TaskManager.InvokeFor<ILTask>(msBuildTask, Dn.DnModules.All.Select(m => (object?[]?)[m]).ToList());
+        Globals.TaskManager.InvokeFor<ILInputTask>(msBuildTask, [.. Dn.DnModules.Input.Select(m => (object?[]?)[m]), [Dn.DnModules.Main]]);
     }
 
     void SaveLibraries()
@@ -323,7 +330,7 @@ public class PreNative : KornTask
 
     void ExecutePrepareNativeTasks()
     {
-        Globals.TaskManager.Invoke<PreIlcTask>([]);
+        Globals.TaskManager.Invoke<PreIlcTask>(msBuildTask, []);
     }
 
     void PushRspArguments()

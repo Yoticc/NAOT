@@ -1,12 +1,13 @@
 ﻿using Korn.Analyzer.Utils.Sugar;
 using Korn.Core.Tasks;
+using Korn.Core.Utils;
 
-namespace Korn.Analyzer.Tasks;
-public class HandleNativeFuncsILTask() : ILInputTask(-10)
+namespace Korn.Analyzer.Tasks.ILInput;
+public class HandleNativeFuncsTask() : ILInputTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {
-        foreach ((var meth, var attribute) in module.GetMethodsByAttributeAndFoundAttribute(AGlobals.NativeFuncAttribute, AGlobals.NativeFuncAttribute_1))
+        foreach ((var method, var attribute) in module.GetMethodsByAttributeAndFoundAttribute(AGlobals.NativeFuncAttribute, AGlobals.NativeFuncAttribute_1))
         {
             string? entryPoint = null;
             var callConvType = CallConvType.cdelc;
@@ -25,10 +26,10 @@ public class HandleNativeFuncsILTask() : ILInputTask(-10)
                 entryPoint = string.IsNullOrEmpty(entryPoint) ? null : entryPoint;
             }
 
-            var attbrs = meth.CustomAttributes;
+            var attributes = method.CustomAttributes;
 
-            attbrs.Remove(attribute);
-            attbrs.Add(Helper.GetUnmanagedCallersOnlyAttribute(module, entryPoint, AGlobals.CallConvToNativeCallConvDic[callConvType]));
+            attributes.Remove(attribute);
+            attributes.Add(Helper.GetUnmanagedCallersOnlyAttribute(module, entryPoint, AGlobals.CallConvToNativeCallConvDic[callConvType]));
         }
     }
 }

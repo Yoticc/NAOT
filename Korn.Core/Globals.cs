@@ -1,10 +1,15 @@
 ﻿using dnlib.DotNet;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Korn.Core;
 public static class Globals
 {
+    static Globals()
+    {
+    }
+
     public static Random Rnd = new();
 
     public static List<Assembly> Analyzers;
