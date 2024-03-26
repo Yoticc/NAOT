@@ -76,17 +76,24 @@ public static partial class SugarExtensions
         var field = fields.Find(f => f.Name == "parameters")!;
         var value = field.GetValue(method.Parameters);
         var valueCasted = (field.GetValue(method.Parameters) as List<Parameter>)!;
-        valueCasted.RemoveAt(0);
 
-        for (var p = 0; p < valueCasted.Count; p++)
+        var thisIndex = valueCasted.FindIndex(v => v.IsHiddenThisParameter);
+        valueCasted.RemoveAt(thisIndex);
+
+        var parameters = valueCasted.OrderBy(v => v.Index).ToList();
+        valueCasted.Clear();
+
+        for (var p = 0; p < parameters.Count; p++)
         {
-            var param = valueCasted[p];
-            valueCasted.RemoveAt(p);
-            valueCasted.Add(new Parameter(p, param.Type));
+            var param = parameters[p];
+
+            valueCasted.Add(new Parameter(param.Index - 1, param.Type));
         }
 
         method.IsStatic = true;
         method.Signature.HasThis = false;
+
+        KornLogger.FileLogger.WriteLine(string.Join(", ", valueCasted.Select(v => $"{v.Type.GetName()} {v.Name}: {v.Index}")));
     }
 
     public static void ModifyToStatic(this MethodDef method)
@@ -131,8 +138,9 @@ public static partial class SugarExtensions
                         }
                         else
                         {
-                            instruction.Operand = method.Parameters[(instruction.Operand as Parameter)!.Index - 1];
+                            instruction.Operand = method.Parameters[index - 1];
                         }
+
                         break;
                 }
             }
