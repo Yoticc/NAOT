@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.Json;
 
 if (args.Length < 2)
 {
@@ -51,12 +52,28 @@ if (kornProject is null)
 if (kornProject is null)
     Crash($"Unable find .sln or .csproj file in directory \"{directory}\"");
 
-var kornBuildCommandFile = Path.Combine(kornProject!, "korn", "korn-build command.txt");
-string kornBuildCommand;
+var kornFolder = Path.Combine(kornProject!, "korn");
 
-if (File.Exists(kornBuildCommandFile))
-    kornBuildCommand = File.ReadAllText(kornBuildCommandFile);
-else kornBuildCommand = "dotnet publish -r win-x64 -c Release -p:PublishAot=true -p:IncludeNativeLibrariesForSelfExtract=true";
+var kornBuildCommandFile = Path.Combine(kornFolder, "korn-build command.txt");
+var kornBuildCommand = File.Exists(kornBuildCommandFile) ? File.ReadAllText(kornBuildCommandFile) : "dotnet publish -r win-x64 -c Release -p:PublishAot=true -p:IncludeNativeLibrariesForSelfExtract=true -p:StripSymbols=true";
+
+var kornConfigFile = Path.Combine(kornFolder, "config.json");
+var kornConfigText = File.Exists(kornConfigFile) ? File.ReadAllText(kornConfigFile) : "null";
+var config = JsonSerializer.Deserialize<ConfigPresentation>(kornConfigText);
+
+if (config is not null)
+{
+    var arguments = config.AddictionalBuildArguments;
+    if (arguments is not null)
+    {
+        if (arguments.InvariantGlobalization is not null)
+            kornBuildCommand += $" -p:InvariantGlobalization={arguments.InvariantGlobalization}";
+        if (arguments.StackTraceSupport is not null)
+            kornBuildCommand += $" -p:StackTraceSupport={arguments.StackTraceSupport}";
+        if (arguments.UseSystemResourceKeys is not null)
+            kornBuildCommand += $" -p:UseSystemResourceKeys={arguments.UseSystemResourceKeys}";
+    }
+} 
 
 Console.WriteLine("OK");
 Console.WriteLine($"cd {kornProject}");

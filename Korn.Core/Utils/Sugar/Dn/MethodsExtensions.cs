@@ -50,7 +50,7 @@ public static partial class SugarExtensions
         return module.Import(method);
     }
 
-    public static bool CanBeNative(this MethodDef method) => method.IsStatic;
+    public static bool CanBeNative(this MethodDef meth) => meth.IsStatic;
 
     public static bool CanBeModifiedToStatic(this MethodDef method)
     {
@@ -126,8 +126,8 @@ public static partial class SugarExtensions
                         var index = (instruction.Operand as Parameter)!.Index;
                         if (index == 4)
                         {
-                            instruction.OpCode = OpCodes.Ldarg_3;
-                            instruction.Operand = null;
+                            instructions.RemoveAt(i);
+                            instructions.Insert(i, OpCodes.Ldarg_3.ToInstruction());
                         }
                         else
                         {

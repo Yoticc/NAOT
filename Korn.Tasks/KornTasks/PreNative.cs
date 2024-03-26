@@ -80,7 +80,8 @@ class PreNative : KornTask
             "-r win-x64",
             "-c Release",
             "-p:PublishAot=true",
-            "-p:IncludeNativeLibrariesForSelfExtract=true"
+            "-p:IncludeNativeLibrariesForSelfExtract=true",
+            "-p:StripSymbols=true"
             ]);
 
         if (!Directory.Exists(KornPaths.Dir) || (Directory.GetFiles(KornPaths.Dir).Length == 0 && Directory.GetDirectories(KornPaths.Dir).Length == 0))
