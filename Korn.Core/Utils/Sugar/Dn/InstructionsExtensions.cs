@@ -61,4 +61,13 @@ public static partial class SugarExtensions
 
     static readonly Code[] stelemCodes = [Code.Stelem, Code.Stelem_I, Code.Stelem_I1, Code.Stelem_I2, Code.Stelem_I4, Code.Stelem_I8, Code.Stelem_R4, Code.Stelem_R8];
     public static bool IsStelem(this Code code) => stelemCodes.Contains(code);
+
+    public static Instruction CreateLdarg(this MethodDef method, Parameter parameter) => parameter.Index switch
+    {
+        0 => OpCodes.Ldarg_0.ToInstruction(),
+        1 => OpCodes.Ldarg_1.ToInstruction(),
+        2 => OpCodes.Ldarg_2.ToInstruction(),
+        3 => OpCodes.Ldarg_3.ToInstruction(),
+        _ => Instruction.Create(OpCodes.Ldarg, parameter),
+    };
 }

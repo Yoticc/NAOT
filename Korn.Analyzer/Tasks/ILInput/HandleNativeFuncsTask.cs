@@ -1,9 +1,9 @@
-﻿using Korn.Analyzer.Utils.Sugar;
+﻿using Korn.Analyzer;
+using Korn.Analyzer.Utils.Sugar;
 using Korn.Core.Tasks;
 using Korn.Core.Utils;
 
-namespace Korn.Analyzer.Tasks.ILInput;
-public class HandleNativeFuncsTask() : ILInputTask(-10)
+class HandleNativeFuncsTask() : ILInputTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {

@@ -1,8 +1,7 @@
 ﻿using Korn.Core;
 using Korn.Core.Tasks;
 
-namespace Korn.Analyzer.Tasks.ASM;
-public unsafe class CopyNativeOutTask() : ASMTask(-8)
+unsafe class CopyNativeOutTask() : ASMTask(-8)
 {
     public override void Execute(string module)
     {

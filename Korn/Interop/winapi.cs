@@ -13,7 +13,7 @@ public unsafe struct cpointer
     public static implicit operator cpointer(void*** ptr) => new((nint)ptr);
 
     public static implicit operator nint(cpointer pointer) => pointer.Address;
-    public static implicit operator void*(cpointer pointer) => (void*)pointer;
-    public static implicit operator void**(cpointer pointer) => (void**)pointer;
-    public static implicit operator void***(cpointer Sudden_Reference_To_Bocchi_The_Rock) => (void***)Sudden_Reference_To_Bocchi_The_Rock;
+    public static implicit operator void*(cpointer pointer) => (void*)pointer.Address;
+    public static implicit operator void**(cpointer pointer) => (void**)pointer.Address;
+    public static implicit operator void***(cpointer Sudden_Reference_To_Bocchi_The_Rock) => (void***)Sudden_Reference_To_Bocchi_The_Rock.Address;
 }

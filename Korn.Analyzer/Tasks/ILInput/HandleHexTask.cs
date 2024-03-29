@@ -1,4 +1,5 @@
 ﻿using dnlib.DotNet.Emit;
+using Korn.Analyzer;
 using Korn.Analyzer.Utils.Dn;
 using Korn.Analyzer.Utils.Sugar;
 using Korn.Core.Tasks;
@@ -6,8 +7,7 @@ using Korn.Core.Utils;
 using System.Globalization;
 using System.Numerics;
 
-namespace Korn.Analyzer.Tasks.ILInput;
-public class HandleHexTask() : ILInputTask(-10)
+class HandleHexTask() : ILInputTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {
@@ -197,8 +197,11 @@ public class HandleHexTask() : ILInputTask(-10)
 
         if (bytes.Count == 0)
         {
-            instructions.Insert(startPos, new(OpCodes.Ldc_I4_0));
-            instructions.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte)));
+            instructions.Insert(
+                startPos, 
+                new(OpCodes.Ldc_I4_0), 
+                new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte))
+            );
             affectedInstructions -= 2;
         }
         else
@@ -218,11 +221,14 @@ public class HandleHexTask() : ILInputTask(-10)
             }
             else
             {
-                instructions.Insert(startPos, Instruction.CreateLdcI4(bytes.Count));
-                instructions.Insert(startPos + 1, new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte.ToTypeDefOrRefSig())));
-                instructions.Insert(startPos + 2, new(OpCodes.Dup));
-                instructions.Insert(startPos + 3, new(OpCodes.Ldtoken, field));
-                instructions.Insert(startPos + 4, new(OpCodes.Call, AGlobals.InitializeArrayMethod.AsImported(module)));
+                instructions.Insert(
+                    startPos, 
+                    Instruction.CreateLdcI4(bytes.Count), 
+                    new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte.ToTypeDefOrRefSig())),
+                    new(OpCodes.Dup),
+                    new(OpCodes.Ldtoken, field),
+                    new(OpCodes.Call, AGlobals.InitializeArrayMethod.AsImported(module))
+                );
 
                 affectedInstructions -= 5;
             }
@@ -456,7 +462,7 @@ public class HandleHexTask() : ILInputTask(-10)
             }
         }
 
-        Log.Error($"HandleHexILTask->GetArrayInstructions: Unable parse IL code. Vars: foundElements: {foundElements}, predicateElements: {predicateElements}"); //  Code:\n{string.Join('\n', insts.Select(i => $"{i.OpCode.Code} {i.Operand}"))}
+        Log.Error($"HandleHexILTask->GetArrayInstructions: Unable parse IL code. Vars: foundElements: {foundElements}, predicateElements: {predicateElements}"); 
         return null;
 
         void AddToResult()
@@ -503,8 +509,10 @@ public class HandleHexTask() : ILInputTask(-10)
                 else
                 {
                     var element = array[i] = new List<Instruction>();
-                    element.Add(Instruction.CreateLdcI4(0));
-                    element.Add(new Instruction(OpCodes.Box, type));
+                    element.Add(
+                        Instruction.CreateLdcI4(0),
+                        new Instruction(OpCodes.Box, type)
+                    );
                 }
             }
 

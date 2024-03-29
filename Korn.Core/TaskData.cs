@@ -35,7 +35,7 @@ public class TaskData
             }
             catch (Exception ex)
             {
-                msBuildTask.Log.Error($"Exception in TaskData.InvokeAll->{Type.Name}->{instance.GetType().Name}: " + ex);
+                msBuildTask.Log.Error($"Exception in TaskData.InvokeAll->{Type.Name}->{instance.Instance.GetType().Name}: " + ex);
             }
         }
     }

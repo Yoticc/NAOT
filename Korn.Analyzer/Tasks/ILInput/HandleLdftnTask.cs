@@ -1,5 +1,6 @@
 ﻿using dnlib.DotNet;
 using dnlib.DotNet.Emit;
+using Korn.Analyzer;
 using Korn.Analyzer.Utils.Sugar;
 using Korn.Core;
 using Korn.Core.Tasks;
@@ -10,8 +11,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Korn.Analyzer.Tasks.ILInput;
-public class HandleLdftnTask() : ILInputTask(-10)
+class HandleLdftnTask() : ILInputTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {
@@ -45,126 +45,113 @@ public class HandleLdftnTask() : ILInputTask(-10)
             Code.Call
         ];
 
-        try
+        foreach (var type in module.GetTypes())
         {
-            foreach (var type in module.GetTypes())
+            foreach (var method in type.Methods)
             {
-                foreach (var method in type.Methods)
+                if (!method.HasBody)
+                    continue;
+
+                var body = method.Body;
+                var instructions = body.Instructions;
+
+                for (int i = 0; i < instructions.Count; i++)
                 {
-                    if (!method.HasBody)
-                        continue;
+                    var instruction = instructions[i];
+                    var opcode = instruction.OpCode;
+                    var code = opcode.Code;
 
-                    var body = method.Body;
-                    var instructions = body.Instructions;
+                    if (!CheckStaticMethods())
+                        CheckNonStaticMethod();
 
-                    for (int i = 0; i < instructions.Count; i++)
+                    bool CheckStaticMethods()
                     {
-                        var instruction = instructions[i];
-                        var opcode = instruction.OpCode;
-                        var code = opcode.Code;
+                        if (code != Code.Call)
+                            return false;
 
-                        if (!CheckStaticMethods())
-                            CheckNonStaticMethod();
+                        var callInstruction = instruction;
+                        var callMethod = (IMethod)instruction.Operand;
 
-                        bool CheckStaticMethods()
+                        if (!callMethod.FullName.Contains("korn::ldftn"))
+                            return false;
+
+                        if (i < 9)
+                            return false;
+
+                        var broken = false;
+                        var start = i - 9;
+                        for (int o = start; o < i; o++)
                         {
-                            if (code != Code.Call)
-                                return false;
-
-                            var callInstruction = instruction;
-                            var callMethod = (IMethod)instruction.Operand;
-
-                            if (!callMethod.FullName.Contains("korn::ldftn"))
-                                return false;
-
-                            if (i < 9)
-                                return false;
-
-                            var broken = false;
-                            var start = i - 9;
-                            for (int o = start; o < i; o++)
+                            if (!staticMethodCodeSequence[o - start].Contains(instructions[o].OpCode.Code))
                             {
-                                if (!staticMethodCodeSequence[o - start].Contains(instructions[o].OpCode.Code))
-                                {
-                                    broken = true;
-                                    break;
-                                }
+                                broken = true;
+                                break;
                             }
-
-                            if (broken)
-                                return false;
-
-                            var ldsfldInstruction = instructions[start];
-                            var ldsfldField = (FieldDef)ldsfldInstruction.Operand;
-                            if (!compilerGeneratedFields.Contains(ldsfldField))
-                                compilerGeneratedFields.Add(ldsfldField);
-
-                            var ldftnInstruction = instructions[start + 5];
-                            var ldftnMethod = (IMethodDefOrRef)ldftnInstruction.Operand;
-
-                            if (!ldftnMethod.ContainsAttribute(AGlobals.NativeMethodAttributes))
-                                if (usedUnnativedMethods.Find(m => m.FullName == ldftnMethod.FullName) is null)
-                                    usedUnnativedMethods.Add(ldftnMethod);
-
-                            instructions.RemoveAt(start);
-                            instructions.RemoveAt(start);
-                            instructions.RemoveAt(start);
-                            instructions.RemoveAt(start);
-                            instructions.RemoveAt(start);
-                            instructions.RemoveAt(start + 1);
-                            instructions.RemoveAt(start + 1);
-                            instructions.RemoveAt(start + 1);
-                            instructions.RemoveAt(start + 1);
-
-                            i -= 9;
-
-                            return true;
                         }
 
-                        void CheckNonStaticMethod()
-                        {
-                            if (code != Code.Ldarg_0)
+                        if (broken)
+                            return false;
+
+                        var ldsfldInstruction = instructions[start];
+                        var ldsfldField = (FieldDef)ldsfldInstruction.Operand;
+                        if (!compilerGeneratedFields.Contains(ldsfldField))
+                            compilerGeneratedFields.Add(ldsfldField);
+
+                        var ldftnInstruction = instructions[start + 5];
+                        var ldftnMethod = (IMethodDefOrRef)ldftnInstruction.Operand;
+
+                        if (!ldftnMethod.ContainsAttribute(AGlobals.NativeMethodAttributes))
+                            if (usedUnnativedMethods.Find(m => m.FullName == ldftnMethod.FullName) is null)
+                                usedUnnativedMethods.Add(ldftnMethod);
+
+
+                        instructions.RemoveAt(start, 5);
+                        instructions.RemoveAt(start + 1, 4);
+
+                        i -= 9;
+
+                        return true;
+                    }
+
+                    void CheckNonStaticMethod()
+                    {
+                        if (code != Code.Ldarg_0)
+                            return;
+
+                        if (i >= instructions.Count - 4)
+                            return;
+
+                        var lastInst = instructions[i + 3];
+                        var lastInstOpcode = lastInst.OpCode;
+                        if (lastInstOpcode.Code != Code.Call)
+                            return;
+
+                        var callMeth = (IMethod)lastInst.Operand;
+                        if (!callMeth.FullName.Contains("korn::ldftn"))
+                            return;
+
+                        var nextInst = instructions[i + 1];
+                        var nextInstOpcode = nextInst.OpCode;
+                        if (nextInstOpcode.Code != Code.Ldftn)
+                            return;
+
+                        for (var o = 0; o < nonStaticMethoCodeSequence.Length; o++)
+                            if (instructions[i + o + 1].OpCode.Code != nonStaticMethoCodeSequence[o])
                                 return;
 
-                            if (i >= instructions.Count - 4)
-                                return;
+                        var ldftnMeth = (MethodDef)nextInst.Operand;
+                        if (!ldftnMeth.ContainsAttribute(AGlobals.NativeMethodAttributes))
+                            if (usedUnnativedMethods.Find(m => m.FullName == ldftnMeth.FullName) is null)
+                                usedUnnativedMethods.Add(ldftnMeth);
 
-                            var lastInst = instructions[i + 3];
-                            var lastInstOpcode = lastInst.OpCode;
-                            if (lastInstOpcode.Code != Code.Call)
-                                return;
+                        instructions.RemoveAt(i + 3);
+                        instructions.RemoveAt(i + 2);
+                        instructions.RemoveAt(i);
 
-                            var callMeth = (IMethod)lastInst.Operand;
-                            if (!callMeth.FullName.Contains("korn::ldftn"))
-                                return;
-
-                            var nextInst = instructions[i + 1];
-                            var nextInstOpcode = nextInst.OpCode;
-                            if (nextInstOpcode.Code != Code.Ldftn)
-                                return;
-
-                            for (var o = 0; o < nonStaticMethoCodeSequence.Length; o++)
-                                if (instructions[i + o + 1].OpCode.Code != nonStaticMethoCodeSequence[o])
-                                    return;
-
-                            var ldftnMeth = (MethodDef)nextInst.Operand;
-                            if (!ldftnMeth.ContainsAttribute(AGlobals.NativeMethodAttributes))
-                                if (usedUnnativedMethods.Find(m => m.FullName == ldftnMeth.FullName) is null)
-                                    usedUnnativedMethods.Add(ldftnMeth);
-
-                            instructions.RemoveAt(i + 3);
-                            instructions.RemoveAt(i + 2);
-                            instructions.RemoveAt(i);
-
-                            i -= 3;
-                        }
+                        i -= 3;
                     }
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            File.AppendAllText(@"C:\a.txt", $"{ex.Message} {ex.StackTrace}\n");
         }
     }
 
@@ -202,7 +189,7 @@ public class HandleLdftnTask() : ILInputTask(-10)
                     {
                         Log.Error($"Detected native non static method {method.FullName}. It skipped because it's not static");
                         continue;
-                    }
+                    }   
 
                     methodDefMD.ModifyToStatic();
                 }

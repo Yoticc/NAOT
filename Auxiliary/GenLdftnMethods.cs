@@ -21,7 +21,7 @@
                         Enumerable.Range(0, i)
                         .Select(i => i == 0 ? "T" : $"T{i + 1}")
                     )
-                }> meth) => throw new NotImplementedException(ExceptionMessage);",
+                }> method) => throw new NotImplementedException(ExceptionMessage);",
 
                 i > 0 ? (
                     $"public static delegate* unmanaged<{
@@ -39,11 +39,12 @@
                             Enumerable.Range(0, i)
                             .Select(i => i == 0 ? "T" : $"T{i + 1}")
                         )
-                    }> meth) => throw new NotImplementedException(ExceptionMessage);"
+                    }> method) => throw new NotImplementedException(ExceptionMessage);"
                 ) : ""
             ])
             .SelectMany(z => z)
             .Where(z => !string.IsNullOrEmpty(z))
-            .Select(z => z.Replace("<>", ""))
+            .Select(z => z.Replace("<>", "").Replace("Action ", "Delegate "))
+            .OrderBy(s => s.Length)
             );
 }

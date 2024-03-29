@@ -1,12 +1,12 @@
-﻿using Korn.Core;
+﻿using Korn.Analyzer;
+using Korn.Core;
 using Korn.Core.Tasks;
 using Korn.Core.Utils;
 using System.Diagnostics;
 using static Korn.Core.Globals.Dn;
 using static Korn.Core.Globals.Dn.DnModules;
 
-namespace Korn.Analyzer.Tasks.Init;
-public class InitializeTask() : InitTask(-10)
+class InitializeTask() : InitTask(-10)
 {
     public override void Execute()
     {
