@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Korn.Analyzer.Utils.Sugar;
+﻿namespace Korn.Analyzer.Utils.Sugar;
 public unsafe static class UnsafeExtensions
 {
     public static byte[] UnboxInBytes(this object boxed, int size)

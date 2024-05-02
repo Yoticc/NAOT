@@ -8,15 +8,15 @@ public class RemoveUnusedInteropCallsITask() : PreIlcTask(-10)
     public override void Execute()
     {
         var referenceTypes = new TypeDef[] {
-            AGlobals.Kernel32InteropType,
-            AGlobals.User32InteropType
+            Env.Kernel32InteropType,
+            Env.User32InteropType
         };
         var referenceTypesNames = referenceTypes.Select(t => t.Name);
 
         var referenceMehodsNames = referenceTypes.Select(t => t.Methods).SelectMany(m => m).Select(m => m.FullName.ToString()).ToList();
 
         var usedMethods = new List<string>();
-        foreach (var module in (ModuleDefMD[])[.. Globals.Dn.DnModules.Input, Globals.Dn.DnModules.Main])
+        foreach (var module in (ModuleDefMD[])[.. CoreEnv.Dn.DnModules.Input, CoreEnv.Dn.DnModules.Main])
         {
             if (module.Name == "Korn.dll")
                 continue;

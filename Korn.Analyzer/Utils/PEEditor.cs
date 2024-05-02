@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Korn.Analyzer.Utils;
+﻿namespace Korn.Analyzer.Utils;
 public unsafe class PEEditor : IDisposable
 {
     public PEEditor(byte[] bytes)

@@ -1,8 +1,4 @@
-﻿using Microsoft.Build.Utilities;
-using System.Diagnostics.CodeAnalysis;
-
-namespace Korn.Core.Tasks;
-
+﻿namespace Korn.Core.Tasks;
 public class BaseTask
 {
     [AllowNull] TaskLoggingHelper log;

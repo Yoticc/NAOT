@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +12,20 @@
     <PackageReference Include="Microsoft.Build" Version="17.8.3" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="dnlib.DotNet" />
+    <Using Include="dnlib.DotNet.Emit" />
+    <Using Include="Korn.Core.Tasks" />
+    <Using Include="Korn.Core.Utils" />
+    <Using Include="Microsoft.Build.Execution" />
+    <Using Include="Microsoft.Build.Framework" />
+    <Using Include="Microsoft.Build.Utilities" />
+    <Using Include="Newtonsoft.Json" />
+    <Using Include="System.Diagnostics.CodeAnalysis" />
+    <Using Include="System.Reflection" />
+    <Using Include="System.Text" />
   </ItemGroup>
 
 </Project>

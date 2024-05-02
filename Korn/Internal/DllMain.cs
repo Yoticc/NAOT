@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-
-namespace Korn.Internal;
+﻿namespace Korn.Internal;
 internal unsafe static class DllMain
 {
     [UnmanagedCallersOnly(EntryPoint = "Korn.Internal.DllMain", CallConvs = [typeof(CallConvStdcall)])]

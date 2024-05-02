@@ -1,49 +1,49 @@
 ﻿class GenLdftnMethods
 {
     public static string Gen()
-        => string.Join('\n',
-            Enumerable.Range(0, 16)
+        => Join('\n',
+            Range(0, 16)
             .Select(i =>
             (string[])[
                 $"public static delegate* unmanaged<{
-                    string.Concat(
-                        Enumerable.Range(0, i)
+                    Concat(
+                        Range(0, i)
                         .Select(i => i == 0 ? "T" : $"T{i + 1}")
                         .Select(s => $"{s}, ")
                     )
                 }void> ldftn<{
-                    string.Join(", ",
-                        Enumerable.Range(0, i)
+                    Join(", ",
+                        Range(0, i)
                         .Select(i => i == 0 ? "T" : $"T{i + 1}")
                     )
                 }>(Action<{
-                    string.Join(", ",
-                        Enumerable.Range(0, i)
+                    Join(", ",
+                        Range(0, i)
                         .Select(i => i == 0 ? "T" : $"T{i + 1}")
                     )
                 }> method) => throw new NotImplementedException(ExceptionMessage);",
 
                 i > 0 ? (
                     $"public static delegate* unmanaged<{
-                        string.Join(", ",
-                            Enumerable.Range(0, i)
+                        Join(", ",
+                            Range(0, i)
                             .Select(i => i == 0 ? "T" : $"T{i + 1}")
                         )
                     }> ldftn<{
-                        string.Join(", ",
-                            Enumerable.Range(0, i)
+                        Join(", ",
+                            Range(0, i)
                             .Select(i => i == 0 ? "T" : $"T{i + 1}")
                         )
                     }>(Func<{
-                        string.Join(", ",
-                            Enumerable.Range(0, i)
+                        Join(", ",
+                            Range(0, i)
                             .Select(i => i == 0 ? "T" : $"T{i + 1}")
                         )
                     }> method) => throw new NotImplementedException(ExceptionMessage);"
                 ) : ""
             ])
             .SelectMany(z => z)
-            .Where(z => !string.IsNullOrEmpty(z))
+            .Where(z => !IsNullOrEmpty(z))
             .Select(z => z.Replace("<>", "").Replace("Action ", "Delegate "))
             .OrderBy(s => s.Length)
             );

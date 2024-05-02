@@ -1,12 +1,4 @@
-﻿using dnlib.DotNet;
-using Korn.Core;
-using Korn.Core.Tasks;
-using Korn.Core.Utils;
-using static Korn.Core.Globals;
-using KornPaths = Korn.Core.Globals.Paths.Korn;
-using ObjKornPaths = Korn.Core.Globals.Paths.ObjKorn;
-
-class PreNative : KornTask
+﻿class PreNative : KornTask
 {
     public override void Execute()
     {
@@ -178,18 +170,18 @@ class PreNative : KornTask
     {
         try
         {
-            Globals.Config = Json.FileDeserial<Config>(KornPaths.ConfigFile);
+            CoreEnv.Config = Json.FileDeserial<Config>(KornPaths.ConfigFile);
         }
         catch (Exception ex)
         {
             Log.Error($"AfterWriteIlcRspFileForCompilation->LoadConfig: Couldn't deserialize config. Will be used default: {ex}");
-            Globals.Config = new();
+            CoreEnv.Config = new();
         }
     }
 
     void InitTaskManager()
     {
-        Globals.TaskManager = new(
+        CoreEnv.TaskManager = new(
             typeof(InitTask),
             typeof(ILTask),
             typeof(ILInputTask),
@@ -218,7 +210,7 @@ class PreNative : KornTask
         {
             var assembly = Assembly.LoadFrom(file);
             Analyzers.Add(assembly);
-            Globals.TaskManager.AddExtractedTasks(assembly);
+            CoreEnv.TaskManager.AddExtractedTasks(assembly);
         }
     }
 
@@ -305,10 +297,10 @@ class PreNative : KornTask
 
     void ExecuteILTasks()
     {
-        Globals.TaskManager.Invoke<InitTask>(msBuildTask, []);
-        Globals.TaskManager.Invoke<ILMainTask>(msBuildTask, [Dn.DnModules.Main]);
-        Globals.TaskManager.InvokeFor<ILTask>(msBuildTask, Dn.DnModules.All.Select(m => (object?[]?)[m]).ToList());
-        Globals.TaskManager.InvokeFor<ILInputTask>(msBuildTask, [.. Dn.DnModules.Input.Select(m => (object?[]?)[m]), [Dn.DnModules.Main]]);
+        CoreEnv.TaskManager.Invoke<InitTask>(msBuildTask, []);
+        CoreEnv.TaskManager.Invoke<ILMainTask>(msBuildTask, [Dn.DnModules.Main]);
+        CoreEnv.TaskManager.InvokeFor<ILTask>(msBuildTask, Dn.DnModules.All.Select(m => (object?[]?)[m]).ToList());
+        CoreEnv.TaskManager.InvokeFor<ILInputTask>(msBuildTask, [.. Dn.DnModules.Input.Select(m => (object?[]?)[m]), [Dn.DnModules.Main]]);
     }
 
     void SaveLibraries()
@@ -331,7 +323,7 @@ class PreNative : KornTask
 
     void ExecutePrepareNativeTasks()
     {
-        Globals.TaskManager.Invoke<PreIlcTask>(msBuildTask, []);
+        CoreEnv.TaskManager.Invoke<PreIlcTask>(msBuildTask, []);
     }
 
     void PushRspArguments()

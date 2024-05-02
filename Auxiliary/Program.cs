@@ -1,3 +1,3 @@
-﻿//Console.WriteLine(GenLdftnMethods.Gen());
-Console.WriteLine(GenCalliMethods.Gen());
-Console.ReadLine();
+﻿//WriteLine(GenLdftnMethods.Gen());
+WriteLine(GenCalliMethods.Gen());
+ReadLine();

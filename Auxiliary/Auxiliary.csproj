@@ -7,6 +7,19 @@
     <Nullable>enable</Nullable>
     <PublishAot>true</PublishAot>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System.Console">
+      <Static>True</Static>
+    </Using>
+    <Using Include="System.Linq.Enumerable">
+      <Static>True</Static>
+    </Using>
+    <Using Include="System.String">
+      <Static>True</Static>
+    </Using>
+  </ItemGroup>
 
 </Project>

@@ -1,17 +1,4 @@
-﻿using dnlib.DotNet;
-using dnlib.DotNet.Emit;
-using Korn.Analyzer;
-using Korn.Analyzer.Utils.Sugar;
-using Korn.Core;
-using Korn.Core.Tasks;
-using Korn.Core.Utils;
-using Microsoft.Build.Utilities;
-using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-class HandleLdftnTask() : ILInputTask(-10)
+﻿class HandleLdftnTask() : ILInputTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {
@@ -100,7 +87,7 @@ class HandleLdftnTask() : ILInputTask(-10)
                         var ldftnInstruction = instructions[start + 5];
                         var ldftnMethod = (IMethodDefOrRef)ldftnInstruction.Operand;
 
-                        if (!ldftnMethod.ContainsAttribute(AGlobals.NativeMethodAttributes))
+                        if (!ldftnMethod.ContainsAttribute(Env.NativeMethodAttributes))
                             if (usedUnnativedMethods.Find(m => m.FullName == ldftnMethod.FullName) is null)
                                 usedUnnativedMethods.Add(ldftnMethod);
 
@@ -140,7 +127,7 @@ class HandleLdftnTask() : ILInputTask(-10)
                                 return;
 
                         var ldftnMeth = (MethodDef)nextInst.Operand;
-                        if (!ldftnMeth.ContainsAttribute(AGlobals.NativeMethodAttributes))
+                        if (!ldftnMeth.ContainsAttribute(Env.NativeMethodAttributes))
                             if (usedUnnativedMethods.Find(m => m.FullName == ldftnMeth.FullName) is null)
                                 usedUnnativedMethods.Add(ldftnMeth);
 
@@ -185,7 +172,7 @@ class HandleLdftnTask() : ILInputTask(-10)
             {
                 if (!methodDefMD.IsStatic)
                 {
-                    if (!Globals.Config.BypassNonStaticNativeMethods)
+                    if (!CoreEnv.Config.BypassNonStaticNativeMethods)
                     {
                         Log.Error($"Detected native non static method {method.FullName}. It skipped because it's not static");
                         continue;

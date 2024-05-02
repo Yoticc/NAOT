@@ -10,6 +10,7 @@
     <PackageOutputPath>bin\</PackageOutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +34,15 @@
 
   <ItemGroup>
     <Folder Include="Interop\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotnetNativeBase" Version="1.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System.Runtime.CompilerServices" />
+    <Using Include="System.Runtime.InteropServices" />
   </ItemGroup>
 
 </Project>

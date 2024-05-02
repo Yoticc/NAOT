@@ -1,13 +1,4 @@
-﻿using dnlib.DotNet.Emit;
-using Korn.Analyzer;
-using Korn.Analyzer.Utils.Dn;
-using Korn.Analyzer.Utils.Sugar;
-using Korn.Core.Tasks;
-using Korn.Core.Utils;
-using System.Globalization;
-using System.Numerics;
-
-class HandleHexTask() : ILInputTask(-10)
+﻿class HandleHexTask() : ILInputTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {
@@ -19,7 +10,7 @@ class HandleHexTask() : ILInputTask(-10)
 
         var sam = new StaticArraysManager(module);
 
-        var definesMethods = AGlobals.DefinesType.Methods.ToList();
+        var definesMethods = Env.DefinesType.Methods.ToList();
 
         var hexMethod = definesMethods.Find(m => m.Name == "hex")!;
         var hexMethodFullName = hexMethod.FullName;
@@ -213,7 +204,7 @@ class HandleHexTask() : ILInputTask(-10)
             {
                 instructions.Insert(startPos, new(OpCodes.Ldsfld, field));
 
-                var toArrayMethRef = AGlobals.EnumerableToArrayMethod.AsImported(module);
+                var toArrayMethRef = Env.EnumerableToArrayMethod.AsImported(module);
                 var toArrayMethSpec = new MethodSpecUser(toArrayMethRef, new GenericInstMethodSig(module.CorLibTypes.Byte));
                 instructions.Insert(startPos + 1, new(OpCodes.Call, toArrayMethSpec));
 
@@ -227,7 +218,7 @@ class HandleHexTask() : ILInputTask(-10)
                     new(OpCodes.Newarr, new TypeSpecUser(module.CorLibTypes.Byte.ToTypeDefOrRefSig())),
                     new(OpCodes.Dup),
                     new(OpCodes.Ldtoken, field),
-                    new(OpCodes.Call, AGlobals.InitializeArrayMethod.AsImported(module))
+                    new(OpCodes.Call, Env.InitializeArrayMethod.AsImported(module))
                 );
 
                 affectedInstructions -= 5;

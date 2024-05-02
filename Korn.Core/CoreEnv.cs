@@ -4,9 +4,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Korn.Core;
-public static class Globals
+public static class CoreEnv
 {
-    static Globals()
+    static CoreEnv()
     {
     }
 

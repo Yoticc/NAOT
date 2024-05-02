@@ -1,9 +1,4 @@
-﻿using dnlib.DotNet.Emit;
-using Korn.Analyzer.Utils.Sugar;
-using Korn.Core.Utils;
-using System.Security.Cryptography;
-
-namespace Korn.Analyzer.Utils.Dn;
+﻿namespace Korn.Analyzer.Utils.Dn;
 public class StaticArraysManager
 {
     const string PID_TYPE_NAME = "<PrivateImplementationDetails>";
@@ -63,7 +58,7 @@ public class StaticArraysManager
             }
             else
             {
-                if (field.FieldType.IsSame(AGlobals.ByteArray))
+                if (field.FieldType.IsSame(Env.ByteArray))
                     if (field.Name == name)
                         return field;
             }
@@ -77,7 +72,7 @@ public class StaticArraysManager
         var method = pid.Methods.ToList().Find(m => m.Name == ".cctor");
         if (method is null)
         {
-            method = new MethodDefUser(".cctor", new MethodSig(CallingConvention.Default, 0, Module.CorLibTypes.Void), MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
+            method = new MethodDefUser(".cctor", new MethodSig(dnlib.DotNet.CallingConvention.Default, 0, Module.CorLibTypes.Void), MethodAttributes.Static | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
             var body = method.Body = new();
             body.Instructions.Add(new(OpCodes.Ret));
             pid.Methods.Add(method);
@@ -96,7 +91,7 @@ public class StaticArraysManager
         var field = GetExistingField(structType, name, array);
         if (field is null)
         {
-            field = new FieldDefUser(name, new FieldSig(AGlobals.ByteArray), FieldAttributes.Static);
+            field = new FieldDefUser(name, new FieldSig(Env.ByteArray), FieldAttributes.Static);
             pid.Fields.Add(field);
 
             var cctor = GetOrCreateCCtor();

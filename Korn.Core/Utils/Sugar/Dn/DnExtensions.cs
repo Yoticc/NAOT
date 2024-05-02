@@ -1,8 +1,4 @@
-﻿using dnlib.DotNet;
-using dnlib.DotNet.Emit;
-using Korn.Core.Tasks;
-
-namespace Korn.Core.Utils;
+﻿namespace Korn.Core.Utils;
 public static partial class SugarExtensions
 {
     public static TypeDef? FindType(this ModuleDefMD module, string name, bool unused) =>

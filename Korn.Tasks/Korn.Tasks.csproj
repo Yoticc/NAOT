@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,9 +18,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="dnlib.DotNet" />
+    <Using Include="Korn.Core" />
+    <Using Include="Korn.Core.CoreEnv">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Korn.Core.CoreEnv.Paths.Korn">
+      <Alias>KornPaths</Alias>
+    </Using>
+    <Using Include="Korn.Core.CoreEnv.Paths.ObjKorn">
+      <Alias>ObjKornPaths</Alias>
+    </Using>
+    <Using Include="Korn.Core.Tasks" />
+    <Using Include="Korn.Core.Utils" />
+    <Using Include="Microsoft.Build.Framework" />
+    <Using Include="Microsoft.Build.Utilities" />
     <Using Include="Microsoft.Build.Utilities.Task">
       <Alias>MsBuildTask</Alias>
     </Using>
+    <Using Include="System.Diagnostics" />
     <Using Include="System.Reflection" />
   </ItemGroup>
 

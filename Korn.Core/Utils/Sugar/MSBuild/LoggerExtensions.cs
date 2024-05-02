@@ -1,11 +1,4 @@
-﻿using Microsoft.Build.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Korn.Core.Utils;
+﻿namespace Korn.Core.Utils;
 public static partial class SugarExtensions
 {
     public static void Error(this TaskLoggingHelper log, string text)

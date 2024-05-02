@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-
-namespace Korn.Core;
+﻿namespace Korn.Core;
 public class Config
 {
     public Models.CustomEntryPointPath CustomEntryPointPath = new();
     public Models.CustomNativeOut CustomNativeOut = new();
     public Models.AddictionalBuildArguments AddictionalBuildArguments = new();
     public bool BypassNonStaticNativeMethods = true;
+    public bool AutoCloseDotnetProcesses = true;
 
     public class Models 
     {
@@ -31,11 +30,12 @@ public class Config
         public class AddictionalBuildArguments
         {
             [JsonProperty] string desc => "Adds an additional argument to the build command. Set null if you don't want to consider the argument";
-            [JsonProperty] string desc_ => "For best file size use: [InvariantGlobalization = true, StackTraceSupport = false, UseSystemResourceKeys = true]";
+            [JsonProperty] string desc_ => "For best file size use: [InvariantGlobalization = true, StackTraceSupport = false, UseSystemResourceKeys = true, GenerateLogFile = false]";
 
             public bool? InvariantGlobalization = true;
             public bool? StackTraceSupport = true;
             public bool? UseSystemResourceKeys = true;
+            public bool? GenerateLogFile = false;
         }
     }
 }

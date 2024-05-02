@@ -1,8 +1,4 @@
-﻿using Korn.Core.Utils;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
-
-abstract class KornTask
+﻿abstract class KornTask
 {
     public abstract void Execute();
 

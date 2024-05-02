@@ -1,287 +1,285 @@
-using System.Runtime.InteropServices;
-
 public unsafe class user32
 {
     const string lib = "user32";
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LoadStringA(cpointer unfoundType_HINSTANCE_hInstance, uint uID, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, int cchBufferMax);
+        int LoadStringA(pointer unfoundType_HINSTANCE_hInstance, uint uID, [MarshalAs(UnmanagedType.LPStr)] string lpBuffer, int cchBufferMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LoadStringA(cpointer unfoundType_HINSTANCE_hInstance, uint uID, ReadOnlySpan<byte> lpBuffer, int cchBufferMax);
+        int LoadStringA(pointer unfoundType_HINSTANCE_hInstance, uint uID, ReadOnlySpan<byte> lpBuffer, int cchBufferMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LoadStringA(cpointer unfoundType_HINSTANCE_hInstance, uint uID, byte* lpBuffer, int cchBufferMax);
+        int LoadStringA(pointer unfoundType_HINSTANCE_hInstance, uint uID, byte* lpBuffer, int cchBufferMax);
     [DllImport(lib, EntryPoint = "LoadStringW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LoadString(cpointer unfoundType_HINSTANCE_hInstance, uint uID, string lpBuffer, int cchBufferMax);
+        int LoadString(pointer unfoundType_HINSTANCE_hInstance, uint uID, string lpBuffer, int cchBufferMax);
     [DllImport(lib, EntryPoint = "LoadStringW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LoadString(cpointer unfoundType_HINSTANCE_hInstance, uint uID, char* lpBuffer, int cchBufferMax);
+        int LoadString(pointer unfoundType_HINSTANCE_hInstance, uint uID, char* lpBuffer, int cchBufferMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LoadStringW(cpointer unfoundType_HINSTANCE_hInstance, uint uID, string lpBuffer, int cchBufferMax);
+        int LoadStringW(pointer unfoundType_HINSTANCE_hInstance, uint uID, string lpBuffer, int cchBufferMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LoadStringW(cpointer unfoundType_HINSTANCE_hInstance, uint uID, char* lpBuffer, int cchBufferMax);
+        int LoadStringW(pointer unfoundType_HINSTANCE_hInstance, uint uID, char* lpBuffer, int cchBufferMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeSetQualityOfService(cpointer hwndClient, cpointer unfoundType_SECURITY_QUALITY_OF_SERVICEpqosNewpqosNew_unnamed_1, cpointer unfoundType_PSECURITY_QUALITY_OF_SERVICE_pqosPrev);
+        bool DdeSetQualityOfService(pointer hwndClient, pointer unfoundType_SECURITY_QUALITY_OF_SERVICEpqosNewpqosNew_unnamed_1, pointer unfoundType_PSECURITY_QUALITY_OF_SERVICE_pqosPrev);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ImpersonateDdeClientWindow(cpointer hWndClient, cpointer hWndServer);
+        bool ImpersonateDdeClientWindow(pointer hWndClient, pointer hWndServer);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint DdeInitializeA(cpointer unfoundType_LPDWORD_pidInst, cpointer unfoundType_PFNCALLBACK_pfnCallback, int afCmd, int ulRes);
+        uint DdeInitializeA(pointer unfoundType_LPDWORD_pidInst, pointer unfoundType_PFNCALLBACK_pfnCallback, int afCmd, int ulRes);
     [DllImport(lib, EntryPoint = "DdeInitializeW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint DdeInitialize(cpointer unfoundType_LPDWORD_pidInst, cpointer unfoundType_PFNCALLBACK_pfnCallback, int afCmd, int ulRes);
+        uint DdeInitialize(pointer unfoundType_LPDWORD_pidInst, pointer unfoundType_PFNCALLBACK_pfnCallback, int afCmd, int ulRes);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint DdeInitializeW(cpointer unfoundType_LPDWORD_pidInst, cpointer unfoundType_PFNCALLBACK_pfnCallback, int afCmd, int ulRes);
+        uint DdeInitializeW(pointer unfoundType_LPDWORD_pidInst, pointer unfoundType_PFNCALLBACK_pfnCallback, int afCmd, int ulRes);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
         bool DdeUninitialize(int idInst);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeConnectList(int idInst, cpointer unfoundType_HSZ_hszService, cpointer unfoundType_HSZ_hszTopic, cpointer unfoundType_HCONVLIST_hConvList, cpointer unfoundType_PCONVCONTEXT_pCC);
+        pointer DdeConnectList(int idInst, pointer unfoundType_HSZ_hszService, pointer unfoundType_HSZ_hszTopic, pointer unfoundType_HCONVLIST_hConvList, pointer unfoundType_PCONVCONTEXT_pCC);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeQueryNextServer(cpointer unfoundType_HCONVLIST_hConvList, cpointer unfoundType_HCONV_hConvPrev);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool DdeDisconnectList(cpointer unfoundType_HCONVLIST_hConvList);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer DdeConnect(int idInst, cpointer unfoundType_HSZ_hszService, cpointer unfoundType_HSZ_hszTopic, cpointer unfoundType_PCONVCONTEXT_pCC);
+        pointer DdeQueryNextServer(pointer unfoundType_HCONVLIST_hConvList, pointer unfoundType_HCONV_hConvPrev);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeDisconnect(cpointer unfoundType_HCONV_hConv);
+        bool DdeDisconnectList(pointer unfoundType_HCONVLIST_hConvList);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeReconnect(cpointer unfoundType_HCONV_hConv);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        uint DdeQueryConvInfo(cpointer unfoundType_HCONV_hConv, int idTransaction, cpointer unfoundType_PCONVINFO_pConvInfo);
+        pointer DdeConnect(int idInst, pointer unfoundType_HSZ_hszService, pointer unfoundType_HSZ_hszTopic, pointer unfoundType_PCONVCONTEXT_pCC);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeSetUserHandle(cpointer unfoundType_HCONV_hConv, int id, cpointer unfoundType_DWORD_PTR_hUser);
+        bool DdeDisconnect(pointer unfoundType_HCONV_hConv);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer DdeReconnect(pointer unfoundType_HCONV_hConv);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        uint DdeQueryConvInfo(pointer unfoundType_HCONV_hConv, int idTransaction, pointer unfoundType_PCONVINFO_pConvInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeAbandonTransaction(int idInst, cpointer unfoundType_HCONV_hConv, int idTransaction);
+        bool DdeSetUserHandle(pointer unfoundType_HCONV_hConv, int id, pointer unfoundType_DWORD_PTR_hUser);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdePostAdvise(int idInst, cpointer unfoundType_HSZ_hszTopic, cpointer unfoundType_HSZ_hszItem);
+        bool DdeAbandonTransaction(int idInst, pointer unfoundType_HCONV_hConv, int idTransaction);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeEnableCallback(int idInst, cpointer unfoundType_HCONV_hConv, uint wCmd);
+        bool DdePostAdvise(int idInst, pointer unfoundType_HSZ_hszTopic, pointer unfoundType_HSZ_hszItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeImpersonateClient(cpointer unfoundType_HCONV_hConv);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer DdeNameService(int idInst, cpointer unfoundType_HSZ_hsz1, cpointer unfoundType_HSZ_hsz2, uint afCmd);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer DdeClientTransaction(cpointer unfoundType_LPBYTE_pData, int cbData, cpointer unfoundType_HCONV_hConv, cpointer unfoundType_HSZ_hszItem, uint wFmt, uint wType, int dwTimeout, cpointer unfoundType_LPDWORD_pdwResult);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer DdeCreateDataHandle(int idInst, cpointer unfoundType_LPBYTE_pSrc, int cb, int cbOff, cpointer unfoundType_HSZ_hszItem, uint wFmt, uint afCmd);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer DdeAddData(cpointer unfoundType_HDDEDATA_hData, cpointer unfoundType_LPBYTE_pSrc, int cb, int cbOff);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int DdeGetData(cpointer unfoundType_HDDEDATA_hData, cpointer unfoundType_LPBYTE_pDst, int cbMax, int cbOff);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer DdeAccessData(cpointer unfoundType_HDDEDATA_hData, cpointer unfoundType_LPDWORD_pcbDataSize);
+        bool DdeEnableCallback(int idInst, pointer unfoundType_HCONV_hConv, uint wCmd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeUnaccessData(cpointer unfoundType_HDDEDATA_hData);
+        bool DdeImpersonateClient(pointer unfoundType_HCONV_hConv);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer DdeNameService(int idInst, pointer unfoundType_HSZ_hsz1, pointer unfoundType_HSZ_hsz2, uint afCmd);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer DdeClientTransaction(pointer unfoundType_LPBYTE_pData, int cbData, pointer unfoundType_HCONV_hConv, pointer unfoundType_HSZ_hszItem, uint wFmt, uint wType, int dwTimeout, pointer unfoundType_LPDWORD_pdwResult);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer DdeCreateDataHandle(int idInst, pointer unfoundType_LPBYTE_pSrc, int cb, int cbOff, pointer unfoundType_HSZ_hszItem, uint wFmt, uint afCmd);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer DdeAddData(pointer unfoundType_HDDEDATA_hData, pointer unfoundType_LPBYTE_pSrc, int cb, int cbOff);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int DdeGetData(pointer unfoundType_HDDEDATA_hData, pointer unfoundType_LPBYTE_pDst, int cbMax, int cbOff);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer DdeAccessData(pointer unfoundType_HDDEDATA_hData, pointer unfoundType_LPDWORD_pcbDataSize);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeFreeDataHandle(cpointer unfoundType_HDDEDATA_hData);
+        bool DdeUnaccessData(pointer unfoundType_HDDEDATA_hData);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool DdeFreeDataHandle(pointer unfoundType_HDDEDATA_hData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         uint DdeGetLastError(int idInst);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeCreateStringHandleA(int idInst, [MarshalAs(UnmanagedType.LPStr)] string psz, int iCodePage);
+        pointer DdeCreateStringHandleA(int idInst, [MarshalAs(UnmanagedType.LPStr)] string psz, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeCreateStringHandleA(int idInst, byte* psz, int iCodePage);
+        pointer DdeCreateStringHandleA(int idInst, byte* psz, int iCodePage);
     [DllImport(lib, EntryPoint = "DdeCreateStringHandleW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeCreateStringHandle(int idInst, [MarshalAs(UnmanagedType.LPWStr)] string psz, int iCodePage);
+        pointer DdeCreateStringHandle(int idInst, [MarshalAs(UnmanagedType.LPWStr)] string psz, int iCodePage);
     [DllImport(lib, EntryPoint = "DdeCreateStringHandleW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeCreateStringHandle(int idInst, char* psz, int iCodePage);
+        pointer DdeCreateStringHandle(int idInst, char* psz, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeCreateStringHandleW(int idInst, [MarshalAs(UnmanagedType.LPWStr)] string psz, int iCodePage);
+        pointer DdeCreateStringHandleW(int idInst, [MarshalAs(UnmanagedType.LPWStr)] string psz, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DdeCreateStringHandleW(int idInst, char* psz, int iCodePage);
+        pointer DdeCreateStringHandleW(int idInst, char* psz, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DdeQueryStringA(int idInst, cpointer unfoundType_HSZ_hsz, [MarshalAs(UnmanagedType.LPStr)] string psz, int cchMax, int iCodePage);
+        int DdeQueryStringA(int idInst, pointer unfoundType_HSZ_hsz, [MarshalAs(UnmanagedType.LPStr)] string psz, int cchMax, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DdeQueryStringA(int idInst, cpointer unfoundType_HSZ_hsz, ReadOnlySpan<byte> psz, int cchMax, int iCodePage);
+        int DdeQueryStringA(int idInst, pointer unfoundType_HSZ_hsz, ReadOnlySpan<byte> psz, int cchMax, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DdeQueryStringA(int idInst, cpointer unfoundType_HSZ_hsz, byte* psz, int cchMax, int iCodePage);
+        int DdeQueryStringA(int idInst, pointer unfoundType_HSZ_hsz, byte* psz, int cchMax, int iCodePage);
     [DllImport(lib, EntryPoint = "DdeQueryStringW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DdeQueryString(int idInst, cpointer unfoundType_HSZ_hsz, string psz, int cchMax, int iCodePage);
+        int DdeQueryString(int idInst, pointer unfoundType_HSZ_hsz, string psz, int cchMax, int iCodePage);
     [DllImport(lib, EntryPoint = "DdeQueryStringW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DdeQueryString(int idInst, cpointer unfoundType_HSZ_hsz, char* psz, int cchMax, int iCodePage);
+        int DdeQueryString(int idInst, pointer unfoundType_HSZ_hsz, char* psz, int cchMax, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DdeQueryStringW(int idInst, cpointer unfoundType_HSZ_hsz, string psz, int cchMax, int iCodePage);
+        int DdeQueryStringW(int idInst, pointer unfoundType_HSZ_hsz, string psz, int cchMax, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DdeQueryStringW(int idInst, cpointer unfoundType_HSZ_hsz, char* psz, int cchMax, int iCodePage);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool DdeFreeStringHandle(int idInst, cpointer unfoundType_HSZ_hsz);
+        int DdeQueryStringW(int idInst, pointer unfoundType_HSZ_hsz, char* psz, int cchMax, int iCodePage);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DdeKeepStringHandle(int idInst, cpointer unfoundType_HSZ_hsz);
+        bool DdeFreeStringHandle(int idInst, pointer unfoundType_HSZ_hsz);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool DdeKeepStringHandle(int idInst, pointer unfoundType_HSZ_hsz);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DdeCmpStringHandles(cpointer unfoundType_HSZ_hsz1, cpointer unfoundType_HSZ_hsz2);
+        int DdeCmpStringHandles(pointer unfoundType_HSZ_hsz1, pointer unfoundType_HSZ_hsz2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer arglist);
+        int wvsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, byte* unnamed_1, cpointer arglist);
+        int wvsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, byte* unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfA(ReadOnlySpan<byte> unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer arglist);
+        int wvsprintfA(ReadOnlySpan<byte> unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfA(ReadOnlySpan<byte> unnamed_0, byte* unnamed_1, cpointer arglist);
+        int wvsprintfA(ReadOnlySpan<byte> unnamed_0, byte* unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfA(byte* unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer arglist);
+        int wvsprintfA(byte* unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfA(byte* unnamed_0, byte* unnamed_1, cpointer arglist);
+        int wvsprintfA(byte* unnamed_0, byte* unnamed_1, pointer arglist);
     [DllImport(lib, EntryPoint = "wvsprintfW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintf(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer arglist);
+        int wvsprintf(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, pointer arglist);
     [DllImport(lib, EntryPoint = "wvsprintfW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintf(string unnamed_0, char* unnamed_1, cpointer arglist);
+        int wvsprintf(string unnamed_0, char* unnamed_1, pointer arglist);
     [DllImport(lib, EntryPoint = "wvsprintfW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintf(char* unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer arglist);
+        int wvsprintf(char* unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, pointer arglist);
     [DllImport(lib, EntryPoint = "wvsprintfW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintf(char* unnamed_0, char* unnamed_1, cpointer arglist);
+        int wvsprintf(char* unnamed_0, char* unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfW(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer arglist);
+        int wvsprintfW(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfW(string unnamed_0, char* unnamed_1, cpointer arglist);
+        int wvsprintfW(string unnamed_0, char* unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfW(char* unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer arglist);
+        int wvsprintfW(char* unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int wvsprintfW(char* unnamed_0, char* unnamed_1, cpointer arglist);
+        int wvsprintfW(char* unnamed_0, char* unnamed_1, pointer arglist);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer unnamed_2);
+        int wsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, byte* unnamed_1, cpointer unnamed_2);
+        int wsprintfA([MarshalAs(UnmanagedType.LPStr)] string unnamed_0, byte* unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfA(ReadOnlySpan<byte> unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer unnamed_2);
+        int wsprintfA(ReadOnlySpan<byte> unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfA(ReadOnlySpan<byte> unnamed_0, byte* unnamed_1, cpointer unnamed_2);
+        int wsprintfA(ReadOnlySpan<byte> unnamed_0, byte* unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfA(byte* unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, cpointer unnamed_2);
+        int wsprintfA(byte* unnamed_0, [MarshalAs(UnmanagedType.LPStr)] string unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfA(byte* unnamed_0, byte* unnamed_1, cpointer unnamed_2);
+        int wsprintfA(byte* unnamed_0, byte* unnamed_1, pointer unnamed_2);
     [DllImport(lib, EntryPoint = "wsprintfW", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintf(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer unnamed_2);
+        int wsprintf(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, pointer unnamed_2);
     [DllImport(lib, EntryPoint = "wsprintfW", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintf(string unnamed_0, char* unnamed_1, cpointer unnamed_2);
+        int wsprintf(string unnamed_0, char* unnamed_1, pointer unnamed_2);
     [DllImport(lib, EntryPoint = "wsprintfW", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintf(char* unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer unnamed_2);
+        int wsprintf(char* unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, pointer unnamed_2);
     [DllImport(lib, EntryPoint = "wsprintfW", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintf(char* unnamed_0, char* unnamed_1, cpointer unnamed_2);
+        int wsprintf(char* unnamed_0, char* unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfW(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer unnamed_2);
+        int wsprintfW(string unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfW(string unnamed_0, char* unnamed_1, cpointer unnamed_2);
+        int wsprintfW(string unnamed_0, char* unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfW(char* unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, cpointer unnamed_2);
+        int wsprintfW(char* unnamed_0, [MarshalAs(UnmanagedType.LPWStr)] string unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
     public static extern
-        int wsprintfW(char* unnamed_0, char* unnamed_1, cpointer unnamed_2);
+        int wsprintfW(char* unnamed_0, char* unnamed_1, pointer unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadKeyboardLayoutA([MarshalAs(UnmanagedType.LPStr)] string pwszKLID, uint Flags);
+        pointer LoadKeyboardLayoutA([MarshalAs(UnmanagedType.LPStr)] string pwszKLID, uint Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadKeyboardLayoutA(byte* pwszKLID, uint Flags);
+        pointer LoadKeyboardLayoutA(byte* pwszKLID, uint Flags);
     [DllImport(lib, EntryPoint = "LoadKeyboardLayoutW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadKeyboardLayout([MarshalAs(UnmanagedType.LPWStr)] string pwszKLID, uint Flags);
+        pointer LoadKeyboardLayout([MarshalAs(UnmanagedType.LPWStr)] string pwszKLID, uint Flags);
     [DllImport(lib, EntryPoint = "LoadKeyboardLayoutW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadKeyboardLayout(char* pwszKLID, uint Flags);
+        pointer LoadKeyboardLayout(char* pwszKLID, uint Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadKeyboardLayoutW([MarshalAs(UnmanagedType.LPWStr)] string pwszKLID, uint Flags);
+        pointer LoadKeyboardLayoutW([MarshalAs(UnmanagedType.LPWStr)] string pwszKLID, uint Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadKeyboardLayoutW(char* pwszKLID, uint Flags);
+        pointer LoadKeyboardLayoutW(char* pwszKLID, uint Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer ActivateKeyboardLayout(cpointer unfoundType_HKL_hkl, uint Flags);
+        pointer ActivateKeyboardLayout(pointer unfoundType_HKL_hkl, uint Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ToUnicodeEx(uint wVirtKey, uint wScanCode, cpointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, string pwszBuff, int cchBuff, uint wFlags, cpointer unfoundType_HKL_dwhkl);
+        int ToUnicodeEx(uint wVirtKey, uint wScanCode, pointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, string pwszBuff, int cchBuff, uint wFlags, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ToUnicodeEx(uint wVirtKey, uint wScanCode, cpointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, char* pwszBuff, int cchBuff, uint wFlags, cpointer unfoundType_HKL_dwhkl);
+        int ToUnicodeEx(uint wVirtKey, uint wScanCode, pointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, char* pwszBuff, int cchBuff, uint wFlags, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnloadKeyboardLayout(cpointer unfoundType_HKL_hkl);
+        bool UnloadKeyboardLayout(pointer unfoundType_HKL_hkl);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -312,232 +310,232 @@ public unsafe class user32
         bool GetKeyboardLayoutNameW(char* pwszKLID);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetKeyboardLayoutList(int nBuff, cpointer unfoundType_HKLlpListlpList_unnamed_1);
+        int GetKeyboardLayoutList(int nBuff, pointer unfoundType_HKLlpListlpList_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetKeyboardLayout(int idThread);
+        pointer GetKeyboardLayout(int idThread);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMouseMovePointsEx(uint cbSize, cpointer unfoundType_LPMOUSEMOVEPOINT_lppt, cpointer unfoundType_LPMOUSEMOVEPOINT_lpptBuf, int nBufPoints, int resolution);
+        int GetMouseMovePointsEx(uint cbSize, pointer unfoundType_LPMOUSEMOVEPOINT_lppt, pointer unfoundType_LPMOUSEMOVEPOINT_lpptBuf, int nBufPoints, int resolution);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, pointer unfoundType_DEVMODEA_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, byte* lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, byte* lpszDevice, pointer unfoundType_DEVMODEA_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopA(byte* lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktopA(byte* lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, pointer unfoundType_DEVMODEA_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopA(byte* lpszDesktop, byte* lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktopA(byte* lpszDesktop, byte* lpszDevice, pointer unfoundType_DEVMODEA_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, EntryPoint = "CreateDesktopW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktop([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktop([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, EntryPoint = "CreateDesktopW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktop([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktop([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, char* lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, EntryPoint = "CreateDesktopW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktop(char* lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktop(char* lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, EntryPoint = "CreateDesktopW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktop(char* lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktop(char* lpszDesktop, char* lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktopW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktopW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, char* lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopW(char* lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktopW(char* lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopW(char* lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateDesktopW(char* lpszDesktop, char* lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopExA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopExA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, pointer unfoundType_DEVMODEA_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopExA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, byte* lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopExA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, byte* lpszDevice, pointer unfoundType_DEVMODEA_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopExA(byte* lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopExA(byte* lpszDesktop, [MarshalAs(UnmanagedType.LPStr)] string lpszDevice, pointer unfoundType_DEVMODEA_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopExA(byte* lpszDesktop, byte* lpszDevice, cpointer unfoundType_DEVMODEA_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopExA(byte* lpszDesktop, byte* lpszDevice, pointer unfoundType_DEVMODEA_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, EntryPoint = "CreateDesktopExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, EntryPoint = "CreateDesktopExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, char* lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, EntryPoint = "CreateDesktopExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopEx(char* lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopEx(char* lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, EntryPoint = "CreateDesktopExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopEx(char* lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopEx(char* lpszDesktop, char* lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopExW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopExW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopExW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopExW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, char* lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopExW(char* lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopExW(char* lpszDesktop, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDesktopExW(char* lpszDesktop, char* lpszDevice, cpointer unfoundType_DEVMODEW_pDevmode, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, cpointer pvoid);
+        pointer CreateDesktopExW(char* lpszDesktop, char* lpszDevice, pointer unfoundType_DEVMODEW_pDevmode, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa, uint ulHeapSize, pointer pvoid);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, int dwFlags, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenDesktopA([MarshalAs(UnmanagedType.LPStr)] string lpszDesktop, int dwFlags, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenDesktopA(byte* lpszDesktop, int dwFlags, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenDesktopA(byte* lpszDesktop, int dwFlags, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, EntryPoint = "OpenDesktopW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenDesktop([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, int dwFlags, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenDesktop([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, int dwFlags, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, EntryPoint = "OpenDesktopW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenDesktop(char* lpszDesktop, int dwFlags, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenDesktop(char* lpszDesktop, int dwFlags, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenDesktopW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, int dwFlags, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenDesktopW([MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop, int dwFlags, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenDesktopW(char* lpszDesktop, int dwFlags, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenDesktopW(char* lpszDesktop, int dwFlags, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenInputDesktop(int dwFlags, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenInputDesktop(int dwFlags, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDesktopsA(cpointer unfoundType_HWINSTA_hwinsta, cpointer unfoundType_DESKTOPENUMPROCA_lpEnumFunc, long lParam);
+        bool EnumDesktopsA(pointer unfoundType_HWINSTA_hwinsta, pointer unfoundType_DESKTOPENUMPROCA_lpEnumFunc, long lParam);
     [DllImport(lib, EntryPoint = "EnumDesktopsW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDesktops(cpointer unfoundType_HWINSTA_hwinsta, cpointer unfoundType_DESKTOPENUMPROCW_lpEnumFunc, long lParam);
+        bool EnumDesktops(pointer unfoundType_HWINSTA_hwinsta, pointer unfoundType_DESKTOPENUMPROCW_lpEnumFunc, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDesktopsW(cpointer unfoundType_HWINSTA_hwinsta, cpointer unfoundType_DESKTOPENUMPROCW_lpEnumFunc, long lParam);
+        bool EnumDesktopsW(pointer unfoundType_HWINSTA_hwinsta, pointer unfoundType_DESKTOPENUMPROCW_lpEnumFunc, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDesktopWindows(cpointer unfoundType_HDESK_hDesktop, cpointer unfoundType_WNDENUMPROC_lpfn, long lParam);
+        bool EnumDesktopWindows(pointer unfoundType_HDESK_hDesktop, pointer unfoundType_WNDENUMPROC_lpfn, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SwitchDesktop(cpointer unfoundType_HDESK_hDesktop);
+        bool SwitchDesktop(pointer unfoundType_HDESK_hDesktop);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetThreadDesktop(cpointer unfoundType_HDESK_hDesktop);
+        bool SetThreadDesktop(pointer unfoundType_HDESK_hDesktop);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CloseDesktop(cpointer unfoundType_HDESK_hDesktop);
+        bool CloseDesktop(pointer unfoundType_HDESK_hDesktop);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetThreadDesktop(int dwThreadId);
+        pointer GetThreadDesktop(int dwThreadId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowStationA([MarshalAs(UnmanagedType.LPStr)] string lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateWindowStationA([MarshalAs(UnmanagedType.LPStr)] string lpwinsta, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowStationA(byte* lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateWindowStationA(byte* lpwinsta, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, EntryPoint = "CreateWindowStationW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)] string lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)] string lpwinsta, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, EntryPoint = "CreateWindowStationW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowStation(char* lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateWindowStation(char* lpwinsta, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowStationW([MarshalAs(UnmanagedType.LPWStr)] string lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateWindowStationW([MarshalAs(UnmanagedType.LPWStr)] string lpwinsta, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowStationW(char* lpwinsta, int dwFlags, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess, cpointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
+        pointer CreateWindowStationW(char* lpwinsta, int dwFlags, pointer unfoundType_ACCESS_MASK_dwDesiredAccess, pointer unfoundType_LPSECURITY_ATTRIBUTES_lpsa);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenWindowStationA([MarshalAs(UnmanagedType.LPStr)] string lpszWinSta, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenWindowStationA([MarshalAs(UnmanagedType.LPStr)] string lpszWinSta, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenWindowStationA(byte* lpszWinSta, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenWindowStationA(byte* lpszWinSta, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, EntryPoint = "OpenWindowStationW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenWindowStation([MarshalAs(UnmanagedType.LPWStr)] string lpszWinSta, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenWindowStation([MarshalAs(UnmanagedType.LPWStr)] string lpszWinSta, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, EntryPoint = "OpenWindowStationW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenWindowStation(char* lpszWinSta, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenWindowStation(char* lpszWinSta, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenWindowStationW([MarshalAs(UnmanagedType.LPWStr)] string lpszWinSta, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenWindowStationW([MarshalAs(UnmanagedType.LPWStr)] string lpszWinSta, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer OpenWindowStationW(char* lpszWinSta, bool fInherit, cpointer unfoundType_ACCESS_MASK_dwDesiredAccess);
+        pointer OpenWindowStationW(char* lpszWinSta, bool fInherit, pointer unfoundType_ACCESS_MASK_dwDesiredAccess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumWindowStationsA(cpointer unfoundType_WINSTAENUMPROCA_lpEnumFunc, long lParam);
+        bool EnumWindowStationsA(pointer unfoundType_WINSTAENUMPROCA_lpEnumFunc, long lParam);
     [DllImport(lib, EntryPoint = "EnumWindowStationsW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumWindowStations(cpointer unfoundType_WINSTAENUMPROCW_lpEnumFunc, long lParam);
+        bool EnumWindowStations(pointer unfoundType_WINSTAENUMPROCW_lpEnumFunc, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumWindowStationsW(cpointer unfoundType_WINSTAENUMPROCW_lpEnumFunc, long lParam);
+        bool EnumWindowStationsW(pointer unfoundType_WINSTAENUMPROCW_lpEnumFunc, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CloseWindowStation(cpointer unfoundType_HWINSTA_hWinSta);
+        bool CloseWindowStation(pointer unfoundType_HWINSTA_hWinSta);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetProcessWindowStation(cpointer unfoundType_HWINSTA_hWinSta);
+        bool SetProcessWindowStation(pointer unfoundType_HWINSTA_hWinSta);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetProcessWindowStation();
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool SetUserObjectSecurity(cpointer hObj, cpointer unfoundType_PSECURITY_INFORMATION_pSIRequested, cpointer unfoundType_PSECURITY_DESCRIPTOR_pSID);
+        pointer GetProcessWindowStation();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetUserObjectSecurity(cpointer hObj, cpointer unfoundType_PSECURITY_INFORMATION_pSIRequested, cpointer unfoundType_PSECURITY_DESCRIPTOR_pSID, int nLength, cpointer unfoundType_LPDWORD_lpnLengthNeeded);
+        bool SetUserObjectSecurity(pointer hObj, pointer unfoundType_PSECURITY_INFORMATION_pSIRequested, pointer unfoundType_PSECURITY_DESCRIPTOR_pSID);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetUserObjectInformationA(cpointer hObj, int nIndex, cpointer pvInfo, int nLength, cpointer unfoundType_LPDWORD_lpnLengthNeeded);
+        bool GetUserObjectSecurity(pointer hObj, pointer unfoundType_PSECURITY_INFORMATION_pSIRequested, pointer unfoundType_PSECURITY_DESCRIPTOR_pSID, int nLength, pointer unfoundType_LPDWORD_lpnLengthNeeded);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool GetUserObjectInformationA(pointer hObj, int nIndex, pointer pvInfo, int nLength, pointer unfoundType_LPDWORD_lpnLengthNeeded);
     [DllImport(lib, EntryPoint = "GetUserObjectInformationW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetUserObjectInformation(cpointer hObj, int nIndex, cpointer pvInfo, int nLength, cpointer unfoundType_LPDWORD_lpnLengthNeeded);
+        bool GetUserObjectInformation(pointer hObj, int nIndex, pointer pvInfo, int nLength, pointer unfoundType_LPDWORD_lpnLengthNeeded);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetUserObjectInformationW(cpointer hObj, int nIndex, cpointer pvInfo, int nLength, cpointer unfoundType_LPDWORD_lpnLengthNeeded);
+        bool GetUserObjectInformationW(pointer hObj, int nIndex, pointer pvInfo, int nLength, pointer unfoundType_LPDWORD_lpnLengthNeeded);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetUserObjectInformationA(cpointer hObj, int nIndex, cpointer pvInfo, int nLength);
+        bool SetUserObjectInformationA(pointer hObj, int nIndex, pointer pvInfo, int nLength);
     [DllImport(lib, EntryPoint = "SetUserObjectInformationW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetUserObjectInformation(cpointer hObj, int nIndex, cpointer pvInfo, int nLength);
+        bool SetUserObjectInformation(pointer hObj, int nIndex, pointer pvInfo, int nLength);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetUserObjectInformationW(cpointer hObj, int nIndex, cpointer pvInfo, int nLength);
+        bool SetUserObjectInformationW(pointer hObj, int nIndex, pointer pvInfo, int nLength);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsHungAppWindow(cpointer hwnd);
+        bool IsHungAppWindow(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         void DisableProcessWindowsGhosting();
@@ -562,48 +560,48 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool TrackMouseEvent(cpointer unfoundType_LPTRACKMOUSEEVENT_lpEventTrack);
+        bool TrackMouseEvent(pointer unfoundType_LPTRACKMOUSEEVENT_lpEventTrack);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawEdge(cpointer hdc, cpointer unfoundType_LPRECT_qrc, uint edge, uint grfFlags);
+        bool DrawEdge(pointer hdc, pointer unfoundType_LPRECT_qrc, uint edge, uint grfFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawFrameControl(cpointer unnamed_0, cpointer unfoundType_LPRECT_unnamed_1, uint unnamed_2, uint unnamed_3);
+        bool DrawFrameControl(pointer unnamed_0, pointer unfoundType_LPRECT_unnamed_1, uint unnamed_2, uint unnamed_3);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawCaption(cpointer hwnd, cpointer hdc, cpointer unfoundType_RECT_lprect, uint flags);
+        bool DrawCaption(pointer hwnd, pointer hdc, pointer unfoundType_RECT_lprect, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawAnimatedRects(cpointer hwnd, int idAni, cpointer unfoundType_RECTlprcFromlprcFrom_unnamed_2, cpointer unfoundType_RECTlprcTolprcTo_unnamed_3);
+        bool DrawAnimatedRects(pointer hwnd, int idAni, pointer unfoundType_RECTlprcFromlprcFrom_unnamed_2, pointer unfoundType_RECTlprcTolprcTo_unnamed_3);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMessageA(cpointer unfoundType_LPMSG_lpMsg, cpointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+        bool GetMessageA(pointer unfoundType_LPMSG_lpMsg, pointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
     [DllImport(lib, EntryPoint = "GetMessageW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMessage(cpointer unfoundType_LPMSG_lpMsg, cpointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+        bool GetMessage(pointer unfoundType_LPMSG_lpMsg, pointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMessageW(cpointer unfoundType_LPMSG_lpMsg, cpointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+        bool GetMessageW(pointer unfoundType_LPMSG_lpMsg, pointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool TranslateMessage(cpointer unfoundType_MSGlpMsglpMsg_unnamed_0);
+        bool TranslateMessage(pointer unfoundType_MSGlpMsglpMsg_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long DispatchMessageA(cpointer unfoundType_MSGlpMsglpMsg_unnamed_0);
+        long DispatchMessageA(pointer unfoundType_MSGlpMsglpMsg_unnamed_0);
     [DllImport(lib, EntryPoint = "DispatchMessageW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        long DispatchMessage(cpointer unfoundType_MSGlpMsglpMsg_unnamed_0);
+        long DispatchMessage(pointer unfoundType_MSGlpMsglpMsg_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long DispatchMessageW(cpointer unfoundType_MSGlpMsglpMsg_unnamed_0);
+        long DispatchMessageW(pointer unfoundType_MSGlpMsglpMsg_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -611,23 +609,23 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PeekMessageA(cpointer unfoundType_LPMSG_lpMsg, cpointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
+        bool PeekMessageA(pointer unfoundType_LPMSG_lpMsg, pointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
     [DllImport(lib, EntryPoint = "PeekMessageW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PeekMessage(cpointer unfoundType_LPMSG_lpMsg, cpointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
+        bool PeekMessage(pointer unfoundType_LPMSG_lpMsg, pointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PeekMessageW(cpointer unfoundType_LPMSG_lpMsg, cpointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
+        bool PeekMessageW(pointer unfoundType_LPMSG_lpMsg, pointer hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RegisterHotKey(cpointer hWnd, int id, uint fsModifiers, uint vk);
+        bool RegisterHotKey(pointer hWnd, int id, uint fsModifiers, uint vk);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterHotKey(cpointer hWnd, int id);
+        bool UnregisterHotKey(pointer hWnd, int id);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -657,103 +655,103 @@ public unsafe class user32
         long SetMessageExtraInfo(long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendMessageA(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        long SendMessageA(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "SendMessageW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendMessage(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        long SendMessage(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendMessageW(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        long SendMessageW(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendMessageTimeoutA(cpointer hWnd, uint Msg, ulong wParam, long lParam, uint fuFlags, uint uTimeout, cpointer unfoundType_PDWORD_PTR_lpdwResult);
+        long SendMessageTimeoutA(pointer hWnd, uint Msg, ulong wParam, long lParam, uint fuFlags, uint uTimeout, pointer unfoundType_PDWORD_PTR_lpdwResult);
     [DllImport(lib, EntryPoint = "SendMessageTimeoutW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendMessageTimeout(cpointer hWnd, uint Msg, ulong wParam, long lParam, uint fuFlags, uint uTimeout, cpointer unfoundType_PDWORD_PTR_lpdwResult);
+        long SendMessageTimeout(pointer hWnd, uint Msg, ulong wParam, long lParam, uint fuFlags, uint uTimeout, pointer unfoundType_PDWORD_PTR_lpdwResult);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendMessageTimeoutW(cpointer hWnd, uint Msg, ulong wParam, long lParam, uint fuFlags, uint uTimeout, cpointer unfoundType_PDWORD_PTR_lpdwResult);
+        long SendMessageTimeoutW(pointer hWnd, uint Msg, ulong wParam, long lParam, uint fuFlags, uint uTimeout, pointer unfoundType_PDWORD_PTR_lpdwResult);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SendNotifyMessageA(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        bool SendNotifyMessageA(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "SendNotifyMessageW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SendNotifyMessage(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        bool SendNotifyMessage(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SendNotifyMessageW(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        bool SendNotifyMessageW(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SendMessageCallbackA(cpointer hWnd, uint Msg, ulong wParam, long lParam, cpointer unfoundType_SENDASYNCPROC_lpResultCallBack, cpointer unfoundType_ULONG_PTR_dwData);
+        bool SendMessageCallbackA(pointer hWnd, uint Msg, ulong wParam, long lParam, pointer unfoundType_SENDASYNCPROC_lpResultCallBack, pointer unfoundType_ULONG_PTR_dwData);
     [DllImport(lib, EntryPoint = "SendMessageCallbackW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SendMessageCallback(cpointer hWnd, uint Msg, ulong wParam, long lParam, cpointer unfoundType_SENDASYNCPROC_lpResultCallBack, cpointer unfoundType_ULONG_PTR_dwData);
+        bool SendMessageCallback(pointer hWnd, uint Msg, ulong wParam, long lParam, pointer unfoundType_SENDASYNCPROC_lpResultCallBack, pointer unfoundType_ULONG_PTR_dwData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SendMessageCallbackW(cpointer hWnd, uint Msg, ulong wParam, long lParam, cpointer unfoundType_SENDASYNCPROC_lpResultCallBack, cpointer unfoundType_ULONG_PTR_dwData);
+        bool SendMessageCallbackW(pointer hWnd, uint Msg, ulong wParam, long lParam, pointer unfoundType_SENDASYNCPROC_lpResultCallBack, pointer unfoundType_ULONG_PTR_dwData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int BroadcastSystemMessageExA(int flags, cpointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam, cpointer unfoundType_PBSMINFO_pbsmInfo);
+        int BroadcastSystemMessageExA(int flags, pointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam, pointer unfoundType_PBSMINFO_pbsmInfo);
     [DllImport(lib, EntryPoint = "BroadcastSystemMessageExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int BroadcastSystemMessageEx(int flags, cpointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam, cpointer unfoundType_PBSMINFO_pbsmInfo);
+        int BroadcastSystemMessageEx(int flags, pointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam, pointer unfoundType_PBSMINFO_pbsmInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int BroadcastSystemMessageExW(int flags, cpointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam, cpointer unfoundType_PBSMINFO_pbsmInfo);
+        int BroadcastSystemMessageExW(int flags, pointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam, pointer unfoundType_PBSMINFO_pbsmInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int BroadcastSystemMessageA(int flags, cpointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam);
+        int BroadcastSystemMessageA(int flags, pointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int BroadcastSystemMessageW(int flags, cpointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam);
+        int BroadcastSystemMessageW(int flags, pointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int BroadcastSystemMessage(int flags, cpointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam);
+        int BroadcastSystemMessage(int flags, pointer unfoundType_LPDWORD_lpInfo, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RegisterDeviceNotificationA(cpointer hRecipient, cpointer NotificationFilter, int Flags);
+        pointer RegisterDeviceNotificationA(pointer hRecipient, pointer NotificationFilter, int Flags);
     [DllImport(lib, EntryPoint = "RegisterDeviceNotificationW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RegisterDeviceNotification(cpointer hRecipient, cpointer NotificationFilter, int Flags);
+        pointer RegisterDeviceNotification(pointer hRecipient, pointer NotificationFilter, int Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RegisterDeviceNotificationW(cpointer hRecipient, cpointer NotificationFilter, int Flags);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool UnregisterDeviceNotification(cpointer unfoundType_HDEVNOTIFY_Handle);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer RegisterPowerSettingNotification(cpointer hRecipient, cpointer unfoundType_LPCGUID_PowerSettingGuid, int Flags);
+        pointer RegisterDeviceNotificationW(pointer hRecipient, pointer NotificationFilter, int Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterPowerSettingNotification(cpointer unfoundType_HPOWERNOTIFY_Handle);
+        bool UnregisterDeviceNotification(pointer unfoundType_HDEVNOTIFY_Handle);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RegisterSuspendResumeNotification(cpointer hRecipient, int Flags);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool UnregisterSuspendResumeNotification(cpointer unfoundType_HPOWERNOTIFY_Handle);
+        pointer RegisterPowerSettingNotification(pointer hRecipient, pointer unfoundType_LPCGUID_PowerSettingGuid, int Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PostMessageA(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        bool UnregisterPowerSettingNotification(pointer unfoundType_HPOWERNOTIFY_Handle);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer RegisterSuspendResumeNotification(pointer hRecipient, int Flags);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool UnregisterSuspendResumeNotification(pointer unfoundType_HPOWERNOTIFY_Handle);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool PostMessageA(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "PostMessageW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PostMessage(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        bool PostMessage(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PostMessageW(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        bool PostMessageW(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -780,35 +778,35 @@ public unsafe class user32
         bool WaitMessage();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int WaitForInputIdle(cpointer hProcess, int dwMilliseconds);
+        int WaitForInputIdle(pointer hProcess, int dwMilliseconds);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefWindowProcA(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        pointer DefWindowProcA(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "DefWindowProcW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefWindowProc(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        pointer DefWindowProc(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefWindowProcW(cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        pointer DefWindowProcW(pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         void PostQuitMessage(int nExitCode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long CallWindowProcA(cpointer unfoundType_WNDPROC_lpPrevWndFunc, cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        long CallWindowProcA(pointer unfoundType_WNDPROC_lpPrevWndFunc, pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "CallWindowProcW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        long CallWindowProc(cpointer unfoundType_WNDPROC_lpPrevWndFunc, cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        long CallWindowProc(pointer unfoundType_WNDPROC_lpPrevWndFunc, pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long CallWindowProcW(cpointer unfoundType_WNDPROC_lpPrevWndFunc, cpointer hWnd, uint Msg, ulong wParam, long lParam);
+        long CallWindowProcW(pointer unfoundType_WNDPROC_lpPrevWndFunc, pointer hWnd, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
         bool InSendMessage();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int InSendMessageEx(cpointer lpReserved);
+        int InSendMessageEx(pointer lpReserved);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         uint GetDoubleClickTime();
@@ -818,240 +816,240 @@ public unsafe class user32
         bool SetDoubleClickTime(uint unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short RegisterClassA(cpointer unfoundType_WNDCLASSAlpWndClasslpWndClass_unnamed_0);
+        short RegisterClassA(pointer unfoundType_WNDCLASSAlpWndClasslpWndClass_unnamed_0);
     [DllImport(lib, EntryPoint = "RegisterClassW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        short RegisterClass(cpointer unfoundType_WNDCLASSWlpWndClasslpWndClass_unnamed_0);
+        short RegisterClass(pointer unfoundType_WNDCLASSWlpWndClasslpWndClass_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short RegisterClassW(cpointer unfoundType_WNDCLASSWlpWndClasslpWndClass_unnamed_0);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool UnregisterClassA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
+        short RegisterClassW(pointer unfoundType_WNDCLASSWlpWndClasslpWndClass_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterClassA(byte* lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
+        bool UnregisterClassA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, pointer unfoundType_HINSTANCE_hInstance);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool UnregisterClassA(byte* lpClassName, pointer unfoundType_HINSTANCE_hInstance);
     [DllImport(lib, EntryPoint = "UnregisterClassW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterClass([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
+        bool UnregisterClass([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, pointer unfoundType_HINSTANCE_hInstance);
     [DllImport(lib, EntryPoint = "UnregisterClassW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterClass(char* lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
+        bool UnregisterClass(char* lpClassName, pointer unfoundType_HINSTANCE_hInstance);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterClassW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
+        bool UnregisterClassW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, pointer unfoundType_HINSTANCE_hInstance);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterClassW(char* lpClassName, cpointer unfoundType_HINSTANCE_hInstance);
+        bool UnregisterClassW(char* lpClassName, pointer unfoundType_HINSTANCE_hInstance);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, cpointer unfoundType_LPWNDCLASSA_lpWndClass);
+        bool GetClassInfoA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, pointer unfoundType_LPWNDCLASSA_lpWndClass);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpClassName, cpointer unfoundType_LPWNDCLASSA_lpWndClass);
+        bool GetClassInfoA(pointer unfoundType_HINSTANCE_hInstance, byte* lpClassName, pointer unfoundType_LPWNDCLASSA_lpWndClass);
     [DllImport(lib, EntryPoint = "GetClassInfoW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfo(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, cpointer unfoundType_LPWNDCLASSW_lpWndClass);
+        bool GetClassInfo(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, pointer unfoundType_LPWNDCLASSW_lpWndClass);
     [DllImport(lib, EntryPoint = "GetClassInfoW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfo(cpointer unfoundType_HINSTANCE_hInstance, char* lpClassName, cpointer unfoundType_LPWNDCLASSW_lpWndClass);
+        bool GetClassInfo(pointer unfoundType_HINSTANCE_hInstance, char* lpClassName, pointer unfoundType_LPWNDCLASSW_lpWndClass);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, cpointer unfoundType_LPWNDCLASSW_lpWndClass);
+        bool GetClassInfoW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, pointer unfoundType_LPWNDCLASSW_lpWndClass);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoW(cpointer unfoundType_HINSTANCE_hInstance, char* lpClassName, cpointer unfoundType_LPWNDCLASSW_lpWndClass);
+        bool GetClassInfoW(pointer unfoundType_HINSTANCE_hInstance, char* lpClassName, pointer unfoundType_LPWNDCLASSW_lpWndClass);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short RegisterClassExA(cpointer unfoundType_WNDCLASSEXA_unnamed_0);
+        short RegisterClassExA(pointer unfoundType_WNDCLASSEXA_unnamed_0);
     [DllImport(lib, EntryPoint = "RegisterClassExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        short RegisterClassEx(cpointer unfoundType_WNDCLASSEXW_unnamed_0);
+        short RegisterClassEx(pointer unfoundType_WNDCLASSEXW_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short RegisterClassExW(cpointer unfoundType_WNDCLASSEXW_unnamed_0);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool GetClassInfoExA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, cpointer unfoundType_LPWNDCLASSEXA_lpwcx);
+        short RegisterClassExW(pointer unfoundType_WNDCLASSEXW_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoExA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpszClass, cpointer unfoundType_LPWNDCLASSEXA_lpwcx);
+        bool GetClassInfoExA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, pointer unfoundType_LPWNDCLASSEXA_lpwcx);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool GetClassInfoExA(pointer unfoundType_HINSTANCE_hInstance, byte* lpszClass, pointer unfoundType_LPWNDCLASSEXA_lpwcx);
     [DllImport(lib, EntryPoint = "GetClassInfoExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoEx(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, cpointer unfoundType_LPWNDCLASSEXW_lpwcx);
+        bool GetClassInfoEx(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, pointer unfoundType_LPWNDCLASSEXW_lpwcx);
     [DllImport(lib, EntryPoint = "GetClassInfoExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoEx(cpointer unfoundType_HINSTANCE_hInstance, char* lpszClass, cpointer unfoundType_LPWNDCLASSEXW_lpwcx);
+        bool GetClassInfoEx(pointer unfoundType_HINSTANCE_hInstance, char* lpszClass, pointer unfoundType_LPWNDCLASSEXW_lpwcx);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoExW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, cpointer unfoundType_LPWNDCLASSEXW_lpwcx);
+        bool GetClassInfoExW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, pointer unfoundType_LPWNDCLASSEXW_lpwcx);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClassInfoExW(cpointer unfoundType_HINSTANCE_hInstance, char* lpszClass, cpointer unfoundType_LPWNDCLASSEXW_lpwcx);
+        bool GetClassInfoExW(pointer unfoundType_HINSTANCE_hInstance, char* lpszClass, pointer unfoundType_LPWNDCLASSEXW_lpwcx);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowExA(int dwExStyle, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowExA(int dwExStyle, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowExA(int dwExStyle, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowExA(int dwExStyle, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowExA(int dwExStyle, byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowExA(int dwExStyle, byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowExA(int dwExStyle, byte* lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowExA(int dwExStyle, byte* lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, EntryPoint = "CreateWindowExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowEx(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowEx(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, EntryPoint = "CreateWindowExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowEx(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowEx(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, EntryPoint = "CreateWindowExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowEx(int dwExStyle, char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowEx(int dwExStyle, char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, EntryPoint = "CreateWindowExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowEx(int dwExStyle, char* lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowEx(int dwExStyle, char* lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowExW(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowExW(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowExW(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowExW(int dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowExW(int dwExStyle, char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
+        pointer CreateWindowExW(int dwExStyle, char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateWindowExW(int dwExStyle, char* lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer hMenu, cpointer unfoundType_HINSTANCE_hInstance, cpointer lpParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool IsWindow(cpointer hWnd);
+        pointer CreateWindowExW(int dwExStyle, char* lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer hMenu, pointer unfoundType_HINSTANCE_hInstance, pointer lpParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsMenu(cpointer hMenu);
+        bool IsWindow(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsChild(cpointer hWndParent, cpointer hWnd);
+        bool IsMenu(pointer hMenu);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DestroyWindow(cpointer hWnd);
+        bool IsChild(pointer hWndParent, pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShowWindow(cpointer hWnd, int nCmdShow);
+        bool DestroyWindow(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AnimateWindow(cpointer hWnd, int dwTime, int dwFlags);
+        bool ShowWindow(pointer hWnd, int nCmdShow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UpdateLayeredWindow(cpointer hWnd, cpointer hdcDst, cpointer unfoundType_POINT_pptDst, cpointer unfoundType_SIZE_psize, cpointer hdcSrc, cpointer unfoundType_POINT_pptSrc, cpointer unfoundType_COLORREF_crKey, cpointer unfoundType_BLENDFUNCTION_pblend, int dwFlags);
+        bool AnimateWindow(pointer hWnd, int dwTime, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UpdateLayeredWindowIndirect(cpointer hWnd, cpointer unfoundType_UPDATELAYEREDWINDOWINFO_pULWInfo);
+        bool UpdateLayeredWindow(pointer hWnd, pointer hdcDst, pointer unfoundType_POINT_pptDst, pointer unfoundType_SIZE_psize, pointer hdcSrc, pointer unfoundType_POINT_pptSrc, pointer unfoundType_COLORREF_crKey, pointer unfoundType_BLENDFUNCTION_pblend, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetLayeredWindowAttributes(cpointer hwnd, cpointer unfoundType_COLORREF_pcrKey, cpointer pbAlpha, cpointer pdwFlags);
+        bool UpdateLayeredWindowIndirect(pointer hWnd, pointer unfoundType_UPDATELAYEREDWINDOWINFO_pULWInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PrintWindow(cpointer hwnd, cpointer hdcBlt, uint nFlags);
+        bool GetLayeredWindowAttributes(pointer hwnd, pointer unfoundType_COLORREF_pcrKey, pointer pbAlpha, pointer pdwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetLayeredWindowAttributes(cpointer hwnd, cpointer unfoundType_COLORREF_crKey, byte bAlpha, int dwFlags);
+        bool PrintWindow(pointer hwnd, pointer hdcBlt, uint nFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShowWindowAsync(cpointer hWnd, int nCmdShow);
+        bool SetLayeredWindowAttributes(pointer hwnd, pointer unfoundType_COLORREF_crKey, byte bAlpha, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool FlashWindow(cpointer hWnd, bool bInvert);
+        bool ShowWindowAsync(pointer hWnd, int nCmdShow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool FlashWindowEx(cpointer unfoundType_PFLASHWINFO_pfwi);
+        bool FlashWindow(pointer hWnd, bool bInvert);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShowOwnedPopups(cpointer hWnd, bool fShow);
+        bool FlashWindowEx(pointer unfoundType_PFLASHWINFO_pfwi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool OpenIcon(cpointer hWnd);
+        bool ShowOwnedPopups(pointer hWnd, bool fShow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CloseWindow(cpointer hWnd);
+        bool OpenIcon(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool MoveWindow(cpointer hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+        bool CloseWindow(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowPos(cpointer hWnd, cpointer hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        bool MoveWindow(pointer hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetWindowPlacement(cpointer hWnd, cpointer unfoundType_WINDOWPLACEMENTlpwndpllpwndpl_unnamed_1);
+        bool SetWindowPos(pointer hWnd, pointer hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowPlacement(cpointer hWnd, cpointer unfoundType_WINDOWPLACEMENTlpwndpllpwndpl_unnamed_1);
+        bool GetWindowPlacement(pointer hWnd, pointer unfoundType_WINDOWPLACEMENTlpwndpllpwndpl_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetWindowDisplayAffinity(cpointer hWnd, cpointer pdwAffinity);
+        bool SetWindowPlacement(pointer hWnd, pointer unfoundType_WINDOWPLACEMENTlpwndpllpwndpl_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowDisplayAffinity(cpointer hWnd, int dwAffinity);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer BeginDeferWindowPos(int nNumWindows);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer DeferWindowPos(cpointer unfoundType_HDWP_hWinPosInfo, cpointer hWnd, cpointer hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+        bool GetWindowDisplayAffinity(pointer hWnd, pointer pdwAffinity);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EndDeferWindowPos(cpointer unfoundType_HDWP_hWinPosInfo);
+        bool SetWindowDisplayAffinity(pointer hWnd, int dwAffinity);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer BeginDeferWindowPos(int nNumWindows);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer DeferWindowPos(pointer unfoundType_HDWP_hWinPosInfo, pointer hWnd, pointer hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsWindowVisible(cpointer hWnd);
+        bool EndDeferWindowPos(pointer unfoundType_HDWP_hWinPosInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsIconic(cpointer hWnd);
+        bool IsWindowVisible(pointer hWnd);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool IsIconic(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -1059,195 +1057,195 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool BringWindowToTop(cpointer hWnd);
+        bool BringWindowToTop(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsZoomed(cpointer hWnd);
+        bool IsZoomed(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogParamA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogParamA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogParamA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogParamA(pointer unfoundType_HINSTANCE_hInstance, byte* lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, EntryPoint = "CreateDialogParamW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogParam(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogParam(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, EntryPoint = "CreateDialogParamW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogParam(cpointer unfoundType_HINSTANCE_hInstance, char* lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogParam(pointer unfoundType_HINSTANCE_hInstance, char* lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogParamW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogParamW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogParamW(cpointer unfoundType_HINSTANCE_hInstance, char* lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogParamW(pointer unfoundType_HINSTANCE_hInstance, char* lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogIndirectParamA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCDLGTEMPLATEA_lpTemplate, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogIndirectParamA(pointer unfoundType_HINSTANCE_hInstance, pointer unfoundType_LPCDLGTEMPLATEA_lpTemplate, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, EntryPoint = "CreateDialogIndirectParamW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogIndirectParam(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCDLGTEMPLATEW_lpTemplate, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogIndirectParam(pointer unfoundType_HINSTANCE_hInstance, pointer unfoundType_LPCDLGTEMPLATEW_lpTemplate, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateDialogIndirectParamW(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCDLGTEMPLATEW_lpTemplate, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer CreateDialogIndirectParamW(pointer unfoundType_HINSTANCE_hInstance, pointer unfoundType_LPCDLGTEMPLATEW_lpTemplate, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxParamA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer DialogBoxParamA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxParamA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer DialogBoxParamA(pointer unfoundType_HINSTANCE_hInstance, byte* lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, EntryPoint = "DialogBoxParamW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxParam(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer DialogBoxParam(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, EntryPoint = "DialogBoxParamW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxParam(cpointer unfoundType_HINSTANCE_hInstance, char* lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer DialogBoxParam(pointer unfoundType_HINSTANCE_hInstance, char* lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxParamW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer DialogBoxParamW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxParamW(cpointer unfoundType_HINSTANCE_hInstance, char* lpTemplateName, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer DialogBoxParamW(pointer unfoundType_HINSTANCE_hInstance, char* lpTemplateName, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxIndirectParamA(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCDLGTEMPLATEA_hDialogTemplate, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer DialogBoxIndirectParamA(pointer unfoundType_HINSTANCE_hInstance, pointer unfoundType_LPCDLGTEMPLATEA_hDialogTemplate, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, EntryPoint = "DialogBoxIndirectParamW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxIndirectParam(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCDLGTEMPLATEW_hDialogTemplate, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
+        pointer DialogBoxIndirectParam(pointer unfoundType_HINSTANCE_hInstance, pointer unfoundType_LPCDLGTEMPLATEW_hDialogTemplate, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DialogBoxIndirectParamW(cpointer unfoundType_HINSTANCE_hInstance, cpointer unfoundType_LPCDLGTEMPLATEW_hDialogTemplate, cpointer hWndParent, cpointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool EndDialog(cpointer hDlg, cpointer unfoundType_INT_PTR_nResult);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer GetDlgItem(cpointer hDlg, int nIDDlgItem);
+        pointer DialogBoxIndirectParamW(pointer unfoundType_HINSTANCE_hInstance, pointer unfoundType_LPCDLGTEMPLATEW_hDialogTemplate, pointer hWndParent, pointer unfoundType_DLGPROC_lpDialogFunc, long dwInitParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetDlgItemInt(cpointer hDlg, int nIDDlgItem, uint uValue, bool bSigned);
+        bool EndDialog(pointer hDlg, pointer unfoundType_INT_PTR_nResult);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDlgItemInt(cpointer hDlg, int nIDDlgItem, cpointer unfoundType_BOOLlpTranslatedlpTranslated_unnamed_2, bool bSigned);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool SetDlgItemTextA(cpointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+        pointer GetDlgItem(pointer hDlg, int nIDDlgItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetDlgItemTextA(cpointer hDlg, int nIDDlgItem, byte* lpString);
+        bool SetDlgItemInt(pointer hDlg, int nIDDlgItem, uint uValue, bool bSigned);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        uint GetDlgItemInt(pointer hDlg, int nIDDlgItem, pointer unfoundType_BOOLlpTranslatedlpTranslated_unnamed_2, bool bSigned);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool SetDlgItemTextA(pointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool SetDlgItemTextA(pointer hDlg, int nIDDlgItem, byte* lpString);
     [DllImport(lib, EntryPoint = "SetDlgItemTextW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetDlgItemText(cpointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
+        bool SetDlgItemText(pointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport(lib, EntryPoint = "SetDlgItemTextW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetDlgItemText(cpointer hDlg, int nIDDlgItem, char* lpString);
+        bool SetDlgItemText(pointer hDlg, int nIDDlgItem, char* lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetDlgItemTextW(cpointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
+        bool SetDlgItemTextW(pointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetDlgItemTextW(cpointer hDlg, int nIDDlgItem, char* lpString);
+        bool SetDlgItemTextW(pointer hDlg, int nIDDlgItem, char* lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDlgItemTextA(cpointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPStr)] string lpString, int cchMax);
+        uint GetDlgItemTextA(pointer hDlg, int nIDDlgItem, [MarshalAs(UnmanagedType.LPStr)] string lpString, int cchMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDlgItemTextA(cpointer hDlg, int nIDDlgItem, ReadOnlySpan<byte> lpString, int cchMax);
+        uint GetDlgItemTextA(pointer hDlg, int nIDDlgItem, ReadOnlySpan<byte> lpString, int cchMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDlgItemTextA(cpointer hDlg, int nIDDlgItem, byte* lpString, int cchMax);
+        uint GetDlgItemTextA(pointer hDlg, int nIDDlgItem, byte* lpString, int cchMax);
     [DllImport(lib, EntryPoint = "GetDlgItemTextW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDlgItemText(cpointer hDlg, int nIDDlgItem, string lpString, int cchMax);
+        uint GetDlgItemText(pointer hDlg, int nIDDlgItem, string lpString, int cchMax);
     [DllImport(lib, EntryPoint = "GetDlgItemTextW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDlgItemText(cpointer hDlg, int nIDDlgItem, char* lpString, int cchMax);
+        uint GetDlgItemText(pointer hDlg, int nIDDlgItem, char* lpString, int cchMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDlgItemTextW(cpointer hDlg, int nIDDlgItem, string lpString, int cchMax);
+        uint GetDlgItemTextW(pointer hDlg, int nIDDlgItem, string lpString, int cchMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDlgItemTextW(cpointer hDlg, int nIDDlgItem, char* lpString, int cchMax);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool CheckDlgButton(cpointer hDlg, int nIDButton, uint uCheck);
+        uint GetDlgItemTextW(pointer hDlg, int nIDDlgItem, char* lpString, int cchMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CheckRadioButton(cpointer hDlg, int nIDFirstButton, int nIDLastButton, int nIDCheckButton);
+        bool CheckDlgButton(pointer hDlg, int nIDButton, uint uCheck);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool CheckRadioButton(pointer hDlg, int nIDFirstButton, int nIDLastButton, int nIDCheckButton);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint IsDlgButtonChecked(cpointer hDlg, int nIDButton);
+        uint IsDlgButtonChecked(pointer hDlg, int nIDButton);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendDlgItemMessageA(cpointer hDlg, int nIDDlgItem, uint Msg, ulong wParam, long lParam);
+        long SendDlgItemMessageA(pointer hDlg, int nIDDlgItem, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "SendDlgItemMessageW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendDlgItemMessage(cpointer hDlg, int nIDDlgItem, uint Msg, ulong wParam, long lParam);
+        long SendDlgItemMessage(pointer hDlg, int nIDDlgItem, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SendDlgItemMessageW(cpointer hDlg, int nIDDlgItem, uint Msg, ulong wParam, long lParam);
+        long SendDlgItemMessageW(pointer hDlg, int nIDDlgItem, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetNextDlgGroupItem(cpointer hDlg, cpointer hCtl, bool bPrevious);
+        pointer GetNextDlgGroupItem(pointer hDlg, pointer hCtl, bool bPrevious);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetNextDlgTabItem(cpointer hDlg, cpointer hCtl, bool bPrevious);
+        pointer GetNextDlgTabItem(pointer hDlg, pointer hCtl, bool bPrevious);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetDlgCtrlID(cpointer hWnd);
+        int GetDlgCtrlID(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         int GetDialogBaseUnits();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefDlgProcA(cpointer hDlg, uint Msg, ulong wParam, long lParam);
+        pointer DefDlgProcA(pointer hDlg, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "DefDlgProcW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefDlgProc(cpointer hDlg, uint Msg, ulong wParam, long lParam);
+        pointer DefDlgProc(pointer hDlg, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefDlgProcW(cpointer hDlg, uint Msg, ulong wParam, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool SetDialogControlDpiChangeBehavior(cpointer hWnd, cpointer unfoundType_DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS_mask, cpointer unfoundType_DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS_values);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer GetDialogControlDpiChangeBehavior(cpointer hWnd);
+        pointer DefDlgProcW(pointer hDlg, uint Msg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetDialogDpiChangeBehavior(cpointer hDlg, cpointer unfoundType_DIALOG_DPI_CHANGE_BEHAVIORS_mask, cpointer unfoundType_DIALOG_DPI_CHANGE_BEHAVIORS_values);
+        bool SetDialogControlDpiChangeBehavior(pointer hWnd, pointer unfoundType_DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS_mask, pointer unfoundType_DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS_values);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetDialogDpiChangeBehavior(cpointer hDlg);
+        pointer GetDialogControlDpiChangeBehavior(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CallMsgFilterA(cpointer unfoundType_LPMSG_lpMsg, int nCode);
+        bool SetDialogDpiChangeBehavior(pointer hDlg, pointer unfoundType_DIALOG_DPI_CHANGE_BEHAVIORS_mask, pointer unfoundType_DIALOG_DPI_CHANGE_BEHAVIORS_values);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer GetDialogDpiChangeBehavior(pointer hDlg);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool CallMsgFilterA(pointer unfoundType_LPMSG_lpMsg, int nCode);
     [DllImport(lib, EntryPoint = "CallMsgFilterW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CallMsgFilter(cpointer unfoundType_LPMSG_lpMsg, int nCode);
+        bool CallMsgFilter(pointer unfoundType_LPMSG_lpMsg, int nCode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CallMsgFilterW(cpointer unfoundType_LPMSG_lpMsg, int nCode);
+        bool CallMsgFilterW(pointer unfoundType_LPMSG_lpMsg, int nCode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool OpenClipboard(cpointer hWndNewOwner);
+        bool OpenClipboard(pointer hWndNewOwner);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -1257,27 +1255,27 @@ public unsafe class user32
         int GetClipboardSequenceNumber();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetClipboardOwner();
+        pointer GetClipboardOwner();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetClipboardViewer(cpointer hWndNewViewer);
+        pointer SetClipboardViewer(pointer hWndNewViewer);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetClipboardViewer();
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool ChangeClipboardChain(cpointer hWndRemove, cpointer hWndNewNext);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer SetClipboardData(uint uFormat, cpointer hMem);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer GetClipboardData(uint uFormat);
+        pointer GetClipboardViewer();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClipboardMetadata(uint format, cpointer unfoundType_PGETCLIPBMETADATA_metadata);
+        bool ChangeClipboardChain(pointer hWndRemove, pointer hWndNewNext);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer SetClipboardData(uint uFormat, pointer hMem);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer GetClipboardData(uint uFormat);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool GetClipboardMetadata(uint format, pointer unfoundType_PGETCLIPBMETADATA_metadata);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         uint RegisterClipboardFormatA([MarshalAs(UnmanagedType.LPStr)] string lpszFormat);
@@ -1333,22 +1331,22 @@ public unsafe class user32
         bool IsClipboardFormatAvailable(uint format);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetPriorityClipboardFormat(cpointer unfoundType_UINTpaFormatPriorityListpaFormatPriorityList_unnamed_0, int cFormats);
+        int GetPriorityClipboardFormat(pointer unfoundType_UINTpaFormatPriorityListpaFormatPriorityList_unnamed_0, int cFormats);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetOpenClipboardWindow();
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool AddClipboardFormatListener(cpointer hwnd);
+        pointer GetOpenClipboardWindow();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RemoveClipboardFormatListener(cpointer hwnd);
+        bool AddClipboardFormatListener(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetUpdatedClipboardFormats(cpointer unfoundType_PUINT_lpuiFormats, uint cFormats, cpointer unfoundType_PUINT_pcFormatsOut);
+        bool RemoveClipboardFormatListener(pointer hwnd);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool GetUpdatedClipboardFormats(pointer unfoundType_PUINT_lpuiFormats, uint cFormats, pointer unfoundType_PUINT_pcFormatsOut);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -1925,13 +1923,13 @@ public unsafe class user32
         bool IsCharLowerW(char ch);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetFocus(cpointer hWnd);
+        pointer SetFocus(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetActiveWindow();
+        pointer GetActiveWindow();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetFocus();
+        pointer GetFocus();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         uint GetKBCodePage();
@@ -1944,11 +1942,11 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetKeyboardState(cpointer unfoundType_PBYTE_lpKeyState);
+        bool GetKeyboardState(pointer unfoundType_PBYTE_lpKeyState);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetKeyboardState(cpointer unfoundType_LPBYTE_lpKeyState);
+        bool SetKeyboardState(pointer unfoundType_LPBYTE_lpKeyState);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         int GetKeyNameTextA(int lParam, [MarshalAs(UnmanagedType.LPStr)] string lpString, int cchSize);
@@ -1975,16 +1973,16 @@ public unsafe class user32
         int GetKeyboardType(int nTypeFlag);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ToAscii(uint uVirtKey, uint uScanCode, cpointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, cpointer unfoundType_LPWORD_lpChar, uint uFlags);
+        int ToAscii(uint uVirtKey, uint uScanCode, pointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, pointer unfoundType_LPWORD_lpChar, uint uFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ToAsciiEx(uint uVirtKey, uint uScanCode, cpointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, cpointer unfoundType_LPWORD_lpChar, uint uFlags, cpointer unfoundType_HKL_dwhkl);
+        int ToAsciiEx(uint uVirtKey, uint uScanCode, pointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, pointer unfoundType_LPWORD_lpChar, uint uFlags, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ToUnicode(uint wVirtKey, uint wScanCode, cpointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, string pwszBuff, int cchBuff, uint wFlags);
+        int ToUnicode(uint wVirtKey, uint wScanCode, pointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, string pwszBuff, int cchBuff, uint wFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ToUnicode(uint wVirtKey, uint wScanCode, cpointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, char* pwszBuff, int cchBuff, uint wFlags);
+        int ToUnicode(uint wVirtKey, uint wScanCode, pointer unfoundType_BYTElpKeyStatelpKeyState_unnamed_2, char* pwszBuff, int cchBuff, uint wFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         int OemKeyScan(short wOemChar);
@@ -1999,42 +1997,42 @@ public unsafe class user32
         short VkKeyScanW(char ch);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short VkKeyScanExA(byte ch, cpointer unfoundType_HKL_dwhkl);
+        short VkKeyScanExA(byte ch, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, EntryPoint = "VkKeyScanExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        short VkKeyScanEx(char ch, cpointer unfoundType_HKL_dwhkl);
+        short VkKeyScanEx(char ch, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short VkKeyScanExW(char ch, cpointer unfoundType_HKL_dwhkl);
+        short VkKeyScanExW(char ch, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        void keybd_event(byte bVk, byte bScan, int dwFlags, cpointer unfoundType_ULONG_PTR_dwExtraInfo);
+        void keybd_event(byte bVk, byte bScan, int dwFlags, pointer unfoundType_ULONG_PTR_dwExtraInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        void mouse_event(int dwFlags, int dx, int dy, int dwData, cpointer unfoundType_ULONG_PTR_dwExtraInfo);
+        void mouse_event(int dwFlags, int dx, int dy, int dwData, pointer unfoundType_ULONG_PTR_dwExtraInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint SendInput(uint cInputs, cpointer unfoundType_LPINPUT_pInputs, int cbSize);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool GetTouchInputInfo(cpointer unfoundType_HTOUCHINPUT_hTouchInput);
+        uint SendInput(uint cInputs, pointer unfoundType_LPINPUT_pInputs, int cbSize);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CloseTouchInputHandle(cpointer unfoundType_HTOUCHINPUT_hTouchInput);
+        bool GetTouchInputInfo(pointer unfoundType_HTOUCHINPUT_hTouchInput);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RegisterTouchWindow(cpointer hwnd, uint ulFlags);
+        bool CloseTouchInputHandle(pointer unfoundType_HTOUCHINPUT_hTouchInput);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterTouchWindow(cpointer hwnd);
+        bool RegisterTouchWindow(pointer hwnd, uint ulFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsTouchWindow(cpointer hwnd, cpointer unfoundType_PULONG_pulFlags);
+        bool UnregisterTouchWindow(pointer hwnd);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool IsTouchWindow(pointer hwnd, pointer unfoundType_PULONG_pulFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -2042,63 +2040,63 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InjectTouchInput(uint count, cpointer unfoundType_POINTER_TOUCH_INFOcontactscontacts_unnamed_1);
+        bool InjectTouchInput(uint count, pointer unfoundType_POINTER_TOUCH_INFOcontactscontacts_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerType(uint pointerId, cpointer unfoundType_POINTER_INPUT_TYPEpointerTypepointerType_unnamed_1);
+        bool GetPointerType(uint pointerId, pointer unfoundType_POINTER_INPUT_TYPEpointerTypepointerType_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerCursorId(uint pointerId, cpointer unfoundType_UINT32cursorIdcursorId_unnamed_1);
+        bool GetPointerCursorId(uint pointerId, pointer unfoundType_UINT32cursorIdcursorId_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerInfo(uint pointerId, cpointer unfoundType_POINTER_INFOpointerInfopointerInfo_unnamed_1);
+        bool GetPointerInfo(uint pointerId, pointer unfoundType_POINTER_INFOpointerInfopointerInfo_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerInfoHistory(uint pointerId, cpointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, cpointer unfoundType_POINTER_INFOpointerInfopointerInfo_unnamed_2);
+        bool GetPointerInfoHistory(uint pointerId, pointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, pointer unfoundType_POINTER_INFOpointerInfopointerInfo_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerFrameInfo(uint pointerId, cpointer unfoundType_UINT32pointerCountpointerCount_unnamed_1, cpointer unfoundType_POINTER_INFOpointerInfopointerInfo_unnamed_2);
+        bool GetPointerFrameInfo(uint pointerId, pointer unfoundType_UINT32pointerCountpointerCount_unnamed_1, pointer unfoundType_POINTER_INFOpointerInfopointerInfo_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerFrameInfoHistory(uint pointerId, cpointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, cpointer unfoundType_UINT32pointerCountpointerCount_unnamed_2, cpointer unfoundType_POINTER_INFOpointerInfopointerInfo_unnamed_3);
+        bool GetPointerFrameInfoHistory(uint pointerId, pointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, pointer unfoundType_UINT32pointerCountpointerCount_unnamed_2, pointer unfoundType_POINTER_INFOpointerInfopointerInfo_unnamed_3);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerTouchInfo(uint pointerId, cpointer unfoundType_POINTER_TOUCH_INFOtouchInfotouchInfo_unnamed_1);
+        bool GetPointerTouchInfo(uint pointerId, pointer unfoundType_POINTER_TOUCH_INFOtouchInfotouchInfo_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerTouchInfoHistory(uint pointerId, cpointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, cpointer unfoundType_POINTER_TOUCH_INFOtouchInfotouchInfo_unnamed_2);
+        bool GetPointerTouchInfoHistory(uint pointerId, pointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, pointer unfoundType_POINTER_TOUCH_INFOtouchInfotouchInfo_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerFrameTouchInfo(uint pointerId, cpointer unfoundType_UINT32pointerCountpointerCount_unnamed_1, cpointer unfoundType_POINTER_TOUCH_INFOtouchInfotouchInfo_unnamed_2);
+        bool GetPointerFrameTouchInfo(uint pointerId, pointer unfoundType_UINT32pointerCountpointerCount_unnamed_1, pointer unfoundType_POINTER_TOUCH_INFOtouchInfotouchInfo_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerFrameTouchInfoHistory(uint pointerId, cpointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, cpointer unfoundType_UINT32pointerCountpointerCount_unnamed_2, cpointer unfoundType_POINTER_TOUCH_INFOtouchInfotouchInfo_unnamed_3);
+        bool GetPointerFrameTouchInfoHistory(uint pointerId, pointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, pointer unfoundType_UINT32pointerCountpointerCount_unnamed_2, pointer unfoundType_POINTER_TOUCH_INFOtouchInfotouchInfo_unnamed_3);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerPenInfo(uint pointerId, cpointer unfoundType_POINTER_PEN_INFOpenInfopenInfo_unnamed_1);
+        bool GetPointerPenInfo(uint pointerId, pointer unfoundType_POINTER_PEN_INFOpenInfopenInfo_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerPenInfoHistory(uint pointerId, cpointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, cpointer unfoundType_POINTER_PEN_INFOpenInfopenInfo_unnamed_2);
+        bool GetPointerPenInfoHistory(uint pointerId, pointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, pointer unfoundType_POINTER_PEN_INFOpenInfopenInfo_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerFramePenInfo(uint pointerId, cpointer unfoundType_UINT32pointerCountpointerCount_unnamed_1, cpointer unfoundType_POINTER_PEN_INFOpenInfopenInfo_unnamed_2);
+        bool GetPointerFramePenInfo(uint pointerId, pointer unfoundType_UINT32pointerCountpointerCount_unnamed_1, pointer unfoundType_POINTER_PEN_INFOpenInfopenInfo_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerFramePenInfoHistory(uint pointerId, cpointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, cpointer unfoundType_UINT32pointerCountpointerCount_unnamed_2, cpointer unfoundType_POINTER_PEN_INFOpenInfopenInfo_unnamed_3);
+        bool GetPointerFramePenInfoHistory(uint pointerId, pointer unfoundType_UINT32entriesCountentriesCount_unnamed_1, pointer unfoundType_UINT32pointerCountpointerCount_unnamed_2, pointer unfoundType_POINTER_PEN_INFOpenInfopenInfo_unnamed_3);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -2106,29 +2104,29 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RegisterPointerInputTarget(cpointer hwnd, cpointer unfoundType_POINTER_INPUT_TYPE_pointerType);
+        bool RegisterPointerInputTarget(pointer hwnd, pointer unfoundType_POINTER_INPUT_TYPE_pointerType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterPointerInputTarget(cpointer hwnd, cpointer unfoundType_POINTER_INPUT_TYPE_pointerType);
+        bool UnregisterPointerInputTarget(pointer hwnd, pointer unfoundType_POINTER_INPUT_TYPE_pointerType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RegisterPointerInputTargetEx(cpointer hwnd, cpointer unfoundType_POINTER_INPUT_TYPE_pointerType, bool fObserve);
+        bool RegisterPointerInputTargetEx(pointer hwnd, pointer unfoundType_POINTER_INPUT_TYPE_pointerType, bool fObserve);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnregisterPointerInputTargetEx(cpointer hwnd, cpointer unfoundType_POINTER_INPUT_TYPE_pointerType);
+        bool UnregisterPointerInputTargetEx(pointer hwnd, pointer unfoundType_POINTER_INPUT_TYPE_pointerType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateSyntheticPointerDevice(cpointer unfoundType_POINTER_INPUT_TYPE_pointerType, uint maxCount, cpointer unfoundType_POINTER_FEEDBACK_MODE_mode);
+        pointer CreateSyntheticPointerDevice(pointer unfoundType_POINTER_INPUT_TYPE_pointerType, uint maxCount, pointer unfoundType_POINTER_FEEDBACK_MODE_mode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InjectSyntheticPointerInput(cpointer unfoundType_HSYNTHETICPOINTERDEVICE_device, cpointer unfoundType_POINTER_TYPE_INFO_pointerInfo, uint count);
+        bool InjectSyntheticPointerInput(pointer unfoundType_HSYNTHETICPOINTERDEVICE_device, pointer unfoundType_POINTER_TYPE_INFO_pointerInfo, uint count);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        void DestroySyntheticPointerDevice(cpointer unfoundType_HSYNTHETICPOINTERDEVICE_device);
+        void DestroySyntheticPointerDevice(pointer unfoundType_HSYNTHETICPOINTERDEVICE_device);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -2140,34 +2138,34 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RegisterTouchHitTestingWindow(cpointer hwnd, uint value);
+        bool RegisterTouchHitTestingWindow(pointer hwnd, uint value);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EvaluateProximityToRect(cpointer unfoundType_RECTcontrolBoundingBoxcontrolBoundingBox_unnamed_0, cpointer unfoundType_TOUCH_HIT_TESTING_INPUTpHitTestingInputpHitTestingInput_unnamed_1, cpointer unfoundType_TOUCH_HIT_TESTING_PROXIMITY_EVALUATIONpProximityEvalpProximityEval_unnamed_2);
+        bool EvaluateProximityToRect(pointer unfoundType_RECTcontrolBoundingBoxcontrolBoundingBox_unnamed_0, pointer unfoundType_TOUCH_HIT_TESTING_INPUTpHitTestingInputpHitTestingInput_unnamed_1, pointer unfoundType_TOUCH_HIT_TESTING_PROXIMITY_EVALUATIONpProximityEvalpProximityEval_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EvaluateProximityToPolygon(uint numVertices, cpointer unfoundType_POINTcontrolPolygoncontrolPolygon_unnamed_1, cpointer unfoundType_TOUCH_HIT_TESTING_INPUTpHitTestingInputpHitTestingInput_unnamed_2, cpointer unfoundType_TOUCH_HIT_TESTING_PROXIMITY_EVALUATIONpProximityEvalpProximityEval_unnamed_3);
+        bool EvaluateProximityToPolygon(uint numVertices, pointer unfoundType_POINTcontrolPolygoncontrolPolygon_unnamed_1, pointer unfoundType_TOUCH_HIT_TESTING_INPUTpHitTestingInputpHitTestingInput_unnamed_2, pointer unfoundType_TOUCH_HIT_TESTING_PROXIMITY_EVALUATIONpProximityEvalpProximityEval_unnamed_3);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long PackTouchHitTestingProximityEvaluation(cpointer unfoundType_TOUCH_HIT_TESTING_INPUTpHitTestingInputpHitTestingInput_unnamed_0, cpointer unfoundType_TOUCH_HIT_TESTING_PROXIMITY_EVALUATIONpProximityEvalpProximityEval_unnamed_1);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool GetWindowFeedbackSetting(cpointer hwnd, cpointer unfoundType_FEEDBACK_TYPE_feedback, int dwFlags, cpointer pSize, cpointer config);
+        long PackTouchHitTestingProximityEvaluation(pointer unfoundType_TOUCH_HIT_TESTING_INPUTpHitTestingInputpHitTestingInput_unnamed_0, pointer unfoundType_TOUCH_HIT_TESTING_PROXIMITY_EVALUATIONpProximityEvalpProximityEval_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowFeedbackSetting(cpointer hwnd, cpointer unfoundType_FEEDBACK_TYPE_feedback, int dwFlags, uint size, cpointer configuration);
+        bool GetWindowFeedbackSetting(pointer hwnd, pointer unfoundType_FEEDBACK_TYPE_feedback, int dwFlags, pointer pSize, pointer config);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerInputTransform(uint pointerId, uint historyCount, cpointer unfoundType_INPUT_TRANSFORMinputTransforminputTransform_unnamed_2);
+        bool SetWindowFeedbackSetting(pointer hwnd, pointer unfoundType_FEEDBACK_TYPE_feedback, int dwFlags, uint size, pointer configuration);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetLastInputInfo(cpointer unfoundType_PLASTINPUTINFO_plii);
+        bool GetPointerInputTransform(uint pointerId, uint historyCount, pointer unfoundType_INPUT_TRANSFORMinputTransforminputTransform_unnamed_2);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool GetLastInputInfo(pointer unfoundType_PLASTINPUTINFO_plii);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         uint MapVirtualKeyA(uint uCode, uint uMapType);
@@ -2179,13 +2177,13 @@ public unsafe class user32
         uint MapVirtualKeyW(uint uCode, uint uMapType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint MapVirtualKeyExA(uint uCode, uint uMapType, cpointer unfoundType_HKL_dwhkl);
+        uint MapVirtualKeyExA(uint uCode, uint uMapType, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, EntryPoint = "MapVirtualKeyExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint MapVirtualKeyEx(uint uCode, uint uMapType, cpointer unfoundType_HKL_dwhkl);
+        uint MapVirtualKeyEx(uint uCode, uint uMapType, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint MapVirtualKeyExW(uint uCode, uint uMapType, cpointer unfoundType_HKL_dwhkl);
+        uint MapVirtualKeyExW(uint uCode, uint uMapType, pointer unfoundType_HKL_dwhkl);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -2195,91 +2193,91 @@ public unsafe class user32
         int GetQueueStatus(uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetCapture();
+        pointer GetCapture();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetCapture(cpointer hWnd);
+        pointer SetCapture(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
         bool ReleaseCapture();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MsgWaitForMultipleObjects(int nCount, cpointer unfoundType_HANDLEpHandlespHandles_unnamed_1, bool fWaitAll, int dwMilliseconds, int dwWakeMask);
+        int MsgWaitForMultipleObjects(int nCount, pointer unfoundType_HANDLEpHandlespHandles_unnamed_1, bool fWaitAll, int dwMilliseconds, int dwWakeMask);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MsgWaitForMultipleObjectsEx(int nCount, cpointer unfoundType_HANDLEpHandlespHandles_unnamed_1, int dwMilliseconds, int dwWakeMask, int dwFlags);
+        int MsgWaitForMultipleObjectsEx(int nCount, pointer unfoundType_HANDLEpHandlespHandles_unnamed_1, int dwMilliseconds, int dwWakeMask, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        ulong SetTimer(cpointer hWnd, ulong nIDEvent, uint uElapse, cpointer unfoundType_TIMERPROC_lpTimerFunc);
+        ulong SetTimer(pointer hWnd, ulong nIDEvent, uint uElapse, pointer unfoundType_TIMERPROC_lpTimerFunc);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        ulong SetCoalescableTimer(cpointer hWnd, ulong nIDEvent, uint uElapse, cpointer unfoundType_TIMERPROC_lpTimerFunc, uint uToleranceDelay);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool KillTimer(cpointer hWnd, ulong uIDEvent);
+        ulong SetCoalescableTimer(pointer hWnd, ulong nIDEvent, uint uElapse, pointer unfoundType_TIMERPROC_lpTimerFunc, uint uToleranceDelay);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsWindowUnicode(cpointer hWnd);
+        bool KillTimer(pointer hWnd, ulong uIDEvent);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnableWindow(cpointer hWnd, bool bEnable);
+        bool IsWindowUnicode(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsWindowEnabled(cpointer hWnd);
+        bool EnableWindow(pointer hWnd, bool bEnable);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool IsWindowEnabled(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadAcceleratorsA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTableName);
+        pointer LoadAcceleratorsA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpTableName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadAcceleratorsA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpTableName);
+        pointer LoadAcceleratorsA(pointer unfoundType_HINSTANCE_hInstance, byte* lpTableName);
     [DllImport(lib, EntryPoint = "LoadAcceleratorsW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadAccelerators(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTableName);
+        pointer LoadAccelerators(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTableName);
     [DllImport(lib, EntryPoint = "LoadAcceleratorsW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadAccelerators(cpointer unfoundType_HINSTANCE_hInstance, char* lpTableName);
+        pointer LoadAccelerators(pointer unfoundType_HINSTANCE_hInstance, char* lpTableName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadAcceleratorsW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTableName);
+        pointer LoadAcceleratorsW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpTableName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadAcceleratorsW(cpointer unfoundType_HINSTANCE_hInstance, char* lpTableName);
+        pointer LoadAcceleratorsW(pointer unfoundType_HINSTANCE_hInstance, char* lpTableName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateAcceleratorTableA(cpointer unfoundType_LPACCEL_paccel, int cAccel);
+        pointer CreateAcceleratorTableA(pointer unfoundType_LPACCEL_paccel, int cAccel);
     [DllImport(lib, EntryPoint = "CreateAcceleratorTableW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateAcceleratorTable(cpointer unfoundType_LPACCEL_paccel, int cAccel);
+        pointer CreateAcceleratorTable(pointer unfoundType_LPACCEL_paccel, int cAccel);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateAcceleratorTableW(cpointer unfoundType_LPACCEL_paccel, int cAccel);
+        pointer CreateAcceleratorTableW(pointer unfoundType_LPACCEL_paccel, int cAccel);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DestroyAcceleratorTable(cpointer hAccel);
+        bool DestroyAcceleratorTable(pointer hAccel);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int CopyAcceleratorTableA(cpointer hAccelSrc, cpointer unfoundType_LPACCEL_lpAccelDst, int cAccelEntries);
+        int CopyAcceleratorTableA(pointer hAccelSrc, pointer unfoundType_LPACCEL_lpAccelDst, int cAccelEntries);
     [DllImport(lib, EntryPoint = "CopyAcceleratorTableW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int CopyAcceleratorTable(cpointer hAccelSrc, cpointer unfoundType_LPACCEL_lpAccelDst, int cAccelEntries);
+        int CopyAcceleratorTable(pointer hAccelSrc, pointer unfoundType_LPACCEL_lpAccelDst, int cAccelEntries);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int CopyAcceleratorTableW(cpointer hAccelSrc, cpointer unfoundType_LPACCEL_lpAccelDst, int cAccelEntries);
+        int CopyAcceleratorTableW(pointer hAccelSrc, pointer unfoundType_LPACCEL_lpAccelDst, int cAccelEntries);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TranslateAcceleratorA(cpointer hWnd, cpointer hAccTable, cpointer unfoundType_LPMSG_lpMsg);
+        int TranslateAcceleratorA(pointer hWnd, pointer hAccTable, pointer unfoundType_LPMSG_lpMsg);
     [DllImport(lib, EntryPoint = "TranslateAcceleratorW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TranslateAccelerator(cpointer hWnd, cpointer hAccTable, cpointer unfoundType_LPMSG_lpMsg);
+        int TranslateAccelerator(pointer hWnd, pointer hAccTable, pointer unfoundType_LPMSG_lpMsg);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TranslateAcceleratorW(cpointer hWnd, cpointer hAccTable, cpointer unfoundType_LPMSG_lpMsg);
+        int TranslateAcceleratorW(pointer hWnd, pointer hAccTable, pointer unfoundType_LPMSG_lpMsg);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         int GetSystemMetrics(int nIndex);
@@ -2288,226 +2286,226 @@ public unsafe class user32
         int GetSystemMetricsForDpi(int nIndex, uint dpi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenuA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpMenuName);
+        pointer LoadMenuA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpMenuName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenuA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpMenuName);
+        pointer LoadMenuA(pointer unfoundType_HINSTANCE_hInstance, byte* lpMenuName);
     [DllImport(lib, EntryPoint = "LoadMenuW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenu(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpMenuName);
+        pointer LoadMenu(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpMenuName);
     [DllImport(lib, EntryPoint = "LoadMenuW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenu(cpointer unfoundType_HINSTANCE_hInstance, char* lpMenuName);
+        pointer LoadMenu(pointer unfoundType_HINSTANCE_hInstance, char* lpMenuName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenuW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpMenuName);
+        pointer LoadMenuW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpMenuName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenuW(cpointer unfoundType_HINSTANCE_hInstance, char* lpMenuName);
+        pointer LoadMenuW(pointer unfoundType_HINSTANCE_hInstance, char* lpMenuName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenuIndirectA(cpointer unfoundType_MENUTEMPLATEAlpMenuTemplatelpMenuTemplate_unnamed_0);
+        pointer LoadMenuIndirectA(pointer unfoundType_MENUTEMPLATEAlpMenuTemplatelpMenuTemplate_unnamed_0);
     [DllImport(lib, EntryPoint = "LoadMenuIndirectW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenuIndirect(cpointer unfoundType_MENUTEMPLATEWlpMenuTemplatelpMenuTemplate_unnamed_0);
+        pointer LoadMenuIndirect(pointer unfoundType_MENUTEMPLATEWlpMenuTemplatelpMenuTemplate_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadMenuIndirectW(cpointer unfoundType_MENUTEMPLATEWlpMenuTemplatelpMenuTemplate_unnamed_0);
+        pointer LoadMenuIndirectW(pointer unfoundType_MENUTEMPLATEWlpMenuTemplatelpMenuTemplate_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetMenu(cpointer hWnd);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool SetMenu(cpointer hWnd, cpointer hMenu);
+        pointer GetMenu(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ChangeMenuA(cpointer hMenu, uint cmd, [MarshalAs(UnmanagedType.LPStr)] string lpszNewItem, uint cmdInsert, uint flags);
+        bool SetMenu(pointer hWnd, pointer hMenu);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ChangeMenuA(cpointer hMenu, uint cmd, byte* lpszNewItem, uint cmdInsert, uint flags);
+        bool ChangeMenuA(pointer hMenu, uint cmd, [MarshalAs(UnmanagedType.LPStr)] string lpszNewItem, uint cmdInsert, uint flags);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool ChangeMenuA(pointer hMenu, uint cmd, byte* lpszNewItem, uint cmdInsert, uint flags);
     [DllImport(lib, EntryPoint = "ChangeMenuW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ChangeMenu(cpointer hMenu, uint cmd, [MarshalAs(UnmanagedType.LPWStr)] string lpszNewItem, uint cmdInsert, uint flags);
+        bool ChangeMenu(pointer hMenu, uint cmd, [MarshalAs(UnmanagedType.LPWStr)] string lpszNewItem, uint cmdInsert, uint flags);
     [DllImport(lib, EntryPoint = "ChangeMenuW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ChangeMenu(cpointer hMenu, uint cmd, char* lpszNewItem, uint cmdInsert, uint flags);
+        bool ChangeMenu(pointer hMenu, uint cmd, char* lpszNewItem, uint cmdInsert, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ChangeMenuW(cpointer hMenu, uint cmd, [MarshalAs(UnmanagedType.LPWStr)] string lpszNewItem, uint cmdInsert, uint flags);
+        bool ChangeMenuW(pointer hMenu, uint cmd, [MarshalAs(UnmanagedType.LPWStr)] string lpszNewItem, uint cmdInsert, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ChangeMenuW(cpointer hMenu, uint cmd, char* lpszNewItem, uint cmdInsert, uint flags);
+        bool ChangeMenuW(pointer hMenu, uint cmd, char* lpszNewItem, uint cmdInsert, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool HiliteMenuItem(cpointer hWnd, cpointer hMenu, uint uIDHiliteItem, uint uHilite);
+        bool HiliteMenuItem(pointer hWnd, pointer hMenu, uint uIDHiliteItem, uint uHilite);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMenuStringA(cpointer hMenu, uint uIDItem, [MarshalAs(UnmanagedType.LPStr)] string lpString, int cchMax, uint flags);
+        int GetMenuStringA(pointer hMenu, uint uIDItem, [MarshalAs(UnmanagedType.LPStr)] string lpString, int cchMax, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMenuStringA(cpointer hMenu, uint uIDItem, ReadOnlySpan<byte> lpString, int cchMax, uint flags);
+        int GetMenuStringA(pointer hMenu, uint uIDItem, ReadOnlySpan<byte> lpString, int cchMax, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMenuStringA(cpointer hMenu, uint uIDItem, byte* lpString, int cchMax, uint flags);
+        int GetMenuStringA(pointer hMenu, uint uIDItem, byte* lpString, int cchMax, uint flags);
     [DllImport(lib, EntryPoint = "GetMenuStringW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMenuString(cpointer hMenu, uint uIDItem, string lpString, int cchMax, uint flags);
+        int GetMenuString(pointer hMenu, uint uIDItem, string lpString, int cchMax, uint flags);
     [DllImport(lib, EntryPoint = "GetMenuStringW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMenuString(cpointer hMenu, uint uIDItem, char* lpString, int cchMax, uint flags);
+        int GetMenuString(pointer hMenu, uint uIDItem, char* lpString, int cchMax, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMenuStringW(cpointer hMenu, uint uIDItem, string lpString, int cchMax, uint flags);
+        int GetMenuStringW(pointer hMenu, uint uIDItem, string lpString, int cchMax, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMenuStringW(cpointer hMenu, uint uIDItem, char* lpString, int cchMax, uint flags);
+        int GetMenuStringW(pointer hMenu, uint uIDItem, char* lpString, int cchMax, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetMenuState(cpointer hMenu, uint uId, uint uFlags);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool DrawMenuBar(cpointer hWnd);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer GetSystemMenu(cpointer hWnd, bool bRevert);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMenu();
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreatePopupMenu();
+        uint GetMenuState(pointer hMenu, uint uId, uint uFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DestroyMenu(cpointer hMenu);
+        bool DrawMenuBar(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int CheckMenuItem(cpointer hMenu, uint uIDCheckItem, uint uCheck);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool EnableMenuItem(cpointer hMenu, uint uIDEnableItem, uint uEnable);
+        pointer GetSystemMenu(pointer hWnd, bool bRevert);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetSubMenu(cpointer hMenu, int nPos);
+        pointer CreateMenu();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetMenuItemID(cpointer hMenu, int nPos);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int GetMenuItemCount(cpointer hMenu);
+        pointer CreatePopupMenu();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenuA(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
+        bool DestroyMenu(pointer hMenu);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int CheckMenuItem(pointer hMenu, uint uIDCheckItem, uint uCheck);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenuA(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
+        bool EnableMenuItem(pointer hMenu, uint uIDEnableItem, uint uEnable);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer GetSubMenu(pointer hMenu, int nPos);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        uint GetMenuItemID(pointer hMenu, int nPos);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int GetMenuItemCount(pointer hMenu);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool InsertMenuA(pointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool InsertMenuA(pointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
     [DllImport(lib, EntryPoint = "InsertMenuW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenu(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
+        bool InsertMenu(pointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport(lib, EntryPoint = "InsertMenuW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenu(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
+        bool InsertMenu(pointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenuW(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
+        bool InsertMenuW(pointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenuW(cpointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
+        bool InsertMenuW(pointer hMenu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AppendMenuA(cpointer hMenu, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
+        bool AppendMenuA(pointer hMenu, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AppendMenuA(cpointer hMenu, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
+        bool AppendMenuA(pointer hMenu, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
     [DllImport(lib, EntryPoint = "AppendMenuW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AppendMenu(cpointer hMenu, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
+        bool AppendMenu(pointer hMenu, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport(lib, EntryPoint = "AppendMenuW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AppendMenu(cpointer hMenu, uint uFlags, ulong uIDNewItem, char* lpNewItem);
+        bool AppendMenu(pointer hMenu, uint uFlags, ulong uIDNewItem, char* lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AppendMenuW(cpointer hMenu, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
+        bool AppendMenuW(pointer hMenu, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AppendMenuW(cpointer hMenu, uint uFlags, ulong uIDNewItem, char* lpNewItem);
+        bool AppendMenuW(pointer hMenu, uint uFlags, ulong uIDNewItem, char* lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ModifyMenuA(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
+        bool ModifyMenuA(pointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPStr)] string lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ModifyMenuA(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
+        bool ModifyMenuA(pointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, byte* lpNewItem);
     [DllImport(lib, EntryPoint = "ModifyMenuW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ModifyMenu(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
+        bool ModifyMenu(pointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport(lib, EntryPoint = "ModifyMenuW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ModifyMenu(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
+        bool ModifyMenu(pointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ModifyMenuW(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
+        bool ModifyMenuW(pointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, [MarshalAs(UnmanagedType.LPWStr)] string lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ModifyMenuW(cpointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
+        bool ModifyMenuW(pointer hMnu, uint uPosition, uint uFlags, ulong uIDNewItem, char* lpNewItem);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DeleteMenu(cpointer hMenu, uint uPosition, uint uFlags);
+        bool DeleteMenu(pointer hMenu, uint uPosition, uint uFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetMenuItemBitmaps(cpointer hMenu, uint uPosition, uint uFlags, cpointer unfoundType_HBITMAP_hBitmapUnchecked, cpointer unfoundType_HBITMAP_hBitmapChecked);
+        bool SetMenuItemBitmaps(pointer hMenu, uint uPosition, uint uFlags, pointer unfoundType_HBITMAP_hBitmapUnchecked, pointer unfoundType_HBITMAP_hBitmapChecked);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         int GetMenuCheckMarkDimensions();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool TrackPopupMenu(cpointer hMenu, uint uFlags, int x, int y, int nReserved, cpointer hWnd, cpointer unfoundType_RECTprcRectprcRect_unnamed_6);
+        bool TrackPopupMenu(pointer hMenu, uint uFlags, int x, int y, int nReserved, pointer hWnd, pointer unfoundType_RECTprcRectprcRect_unnamed_6);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool TrackPopupMenuEx(cpointer hMenu, uint uFlags, int x, int y, cpointer hwnd, cpointer unfoundType_LPTPMPARAMS_lptpm);
+        bool TrackPopupMenuEx(pointer hMenu, uint uFlags, int x, int y, pointer hwnd, pointer unfoundType_LPTPMPARAMS_lptpm);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CalculatePopupWindowPosition(cpointer unfoundType_POINTanchorPointanchorPoint_unnamed_0, cpointer unfoundType_SIZEwindowSizewindowSize_unnamed_1, uint flags, cpointer unfoundType_RECTexcludeRectexcludeRect_unnamed_3, cpointer unfoundType_RECTpopupWindowPositionpopupWindowPosition_unnamed_4);
+        bool CalculatePopupWindowPosition(pointer unfoundType_POINTanchorPointanchorPoint_unnamed_0, pointer unfoundType_SIZEwindowSizewindowSize_unnamed_1, uint flags, pointer unfoundType_RECTexcludeRectexcludeRect_unnamed_3, pointer unfoundType_RECTpopupWindowPositionpopupWindowPosition_unnamed_4);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMenuInfo(cpointer unnamed_0, cpointer unfoundType_LPMENUINFO_unnamed_1);
+        bool GetMenuInfo(pointer unnamed_0, pointer unfoundType_LPMENUINFO_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetMenuInfo(cpointer unnamed_0, cpointer unfoundType_LPCMENUINFO_unnamed_1);
+        bool SetMenuInfo(pointer unnamed_0, pointer unfoundType_LPCMENUINFO_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -2515,184 +2513,184 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenuItemA(cpointer hmenu, uint item, bool fByPosition, cpointer unfoundType_LPCMENUITEMINFOA_lpmi);
+        bool InsertMenuItemA(pointer hmenu, uint item, bool fByPosition, pointer unfoundType_LPCMENUITEMINFOA_lpmi);
     [DllImport(lib, EntryPoint = "InsertMenuItemW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenuItem(cpointer hmenu, uint item, bool fByPosition, cpointer unfoundType_LPCMENUITEMINFOW_lpmi);
+        bool InsertMenuItem(pointer hmenu, uint item, bool fByPosition, pointer unfoundType_LPCMENUITEMINFOW_lpmi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InsertMenuItemW(cpointer hmenu, uint item, bool fByPosition, cpointer unfoundType_LPCMENUITEMINFOW_lpmi);
+        bool InsertMenuItemW(pointer hmenu, uint item, bool fByPosition, pointer unfoundType_LPCMENUITEMINFOW_lpmi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMenuItemInfoA(cpointer hmenu, uint item, bool fByPosition, cpointer unfoundType_LPMENUITEMINFOA_lpmii);
+        bool GetMenuItemInfoA(pointer hmenu, uint item, bool fByPosition, pointer unfoundType_LPMENUITEMINFOA_lpmii);
     [DllImport(lib, EntryPoint = "GetMenuItemInfoW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMenuItemInfo(cpointer hmenu, uint item, bool fByPosition, cpointer unfoundType_LPMENUITEMINFOW_lpmii);
+        bool GetMenuItemInfo(pointer hmenu, uint item, bool fByPosition, pointer unfoundType_LPMENUITEMINFOW_lpmii);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMenuItemInfoW(cpointer hmenu, uint item, bool fByPosition, cpointer unfoundType_LPMENUITEMINFOW_lpmii);
+        bool GetMenuItemInfoW(pointer hmenu, uint item, bool fByPosition, pointer unfoundType_LPMENUITEMINFOW_lpmii);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetMenuItemInfoA(cpointer hmenu, uint item, bool fByPositon, cpointer unfoundType_LPCMENUITEMINFOA_lpmii);
+        bool SetMenuItemInfoA(pointer hmenu, uint item, bool fByPositon, pointer unfoundType_LPCMENUITEMINFOA_lpmii);
     [DllImport(lib, EntryPoint = "SetMenuItemInfoW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetMenuItemInfo(cpointer hmenu, uint item, bool fByPositon, cpointer unfoundType_LPCMENUITEMINFOW_lpmii);
+        bool SetMenuItemInfo(pointer hmenu, uint item, bool fByPositon, pointer unfoundType_LPCMENUITEMINFOW_lpmii);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetMenuItemInfoW(cpointer hmenu, uint item, bool fByPositon, cpointer unfoundType_LPCMENUITEMINFOW_lpmii);
+        bool SetMenuItemInfoW(pointer hmenu, uint item, bool fByPositon, pointer unfoundType_LPCMENUITEMINFOW_lpmii);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetMenuDefaultItem(cpointer hMenu, uint fByPos, uint gmdiFlags);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool SetMenuDefaultItem(cpointer hMenu, uint uItem, uint fByPos);
+        uint GetMenuDefaultItem(pointer hMenu, uint fByPos, uint gmdiFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMenuItemRect(cpointer hWnd, cpointer hMenu, uint uItem, cpointer unfoundType_LPRECT_lprcItem);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int MenuItemFromPoint(cpointer hWnd, cpointer hMenu, cpointer unfoundType_POINT_ptScreen);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int DragObject(cpointer hwndParent, cpointer hwndFrom, uint fmt, cpointer unfoundType_ULONG_PTR_data, cpointer unfoundType_HCURSOR_hcur);
+        bool SetMenuDefaultItem(pointer hMenu, uint uItem, uint fByPos);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DragDetect(cpointer hwnd, cpointer unfoundType_POINT_pt);
+        bool GetMenuItemRect(pointer hWnd, pointer hMenu, uint uItem, pointer unfoundType_LPRECT_lprcItem);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int MenuItemFromPoint(pointer hWnd, pointer hMenu, pointer unfoundType_POINT_ptScreen);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int DragObject(pointer hwndParent, pointer hwndFrom, uint fmt, pointer unfoundType_ULONG_PTR_data, pointer unfoundType_HCURSOR_hcur);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawIcon(cpointer hDC, int X, int Y, cpointer hIcon);
+        bool DragDetect(pointer hwnd, pointer unfoundType_POINT_pt);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool DrawIcon(pointer hDC, int X, int Y, pointer hIcon);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextA(cpointer hdc, [MarshalAs(UnmanagedType.LPStr)] string lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
+        int DrawTextA(pointer hdc, [MarshalAs(UnmanagedType.LPStr)] string lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextA(cpointer hdc, byte* lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
+        int DrawTextA(pointer hdc, byte* lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format);
     [DllImport(lib, EntryPoint = "DrawTextW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawText(cpointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
+        int DrawText(pointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format);
     [DllImport(lib, EntryPoint = "DrawTextW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawText(cpointer hdc, char* lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
+        int DrawText(pointer hdc, char* lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextW(cpointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
+        int DrawTextW(pointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextW(cpointer hdc, char* lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format);
+        int DrawTextW(pointer hdc, char* lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextExA(cpointer hdc, [MarshalAs(UnmanagedType.LPStr)] string lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format, cpointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
+        int DrawTextExA(pointer hdc, [MarshalAs(UnmanagedType.LPStr)] string lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format, pointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextExA(cpointer hdc, ReadOnlySpan<byte> lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format, cpointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
+        int DrawTextExA(pointer hdc, ReadOnlySpan<byte> lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format, pointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextExA(cpointer hdc, byte* lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format, cpointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
+        int DrawTextExA(pointer hdc, byte* lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format, pointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
     [DllImport(lib, EntryPoint = "DrawTextExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextEx(cpointer hdc, string lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format, cpointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
+        int DrawTextEx(pointer hdc, string lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format, pointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
     [DllImport(lib, EntryPoint = "DrawTextExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextEx(cpointer hdc, char* lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format, cpointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
+        int DrawTextEx(pointer hdc, char* lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format, pointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextExW(cpointer hdc, string lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format, cpointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
+        int DrawTextExW(pointer hdc, string lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format, pointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DrawTextExW(cpointer hdc, char* lpchText, int cchText, cpointer unfoundType_LPRECT_lprc, uint format, cpointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
+        int DrawTextExW(pointer hdc, char* lpchText, int cchText, pointer unfoundType_LPRECT_lprc, uint format, pointer unfoundType_LPDRAWTEXTPARAMS_lpdtp);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GrayStringA(cpointer hDC, cpointer hBrush, cpointer unfoundType_GRAYSTRINGPROC_lpOutputFunc, long lpData, int nCount, int X, int Y, int nWidth, int nHeight);
+        bool GrayStringA(pointer hDC, pointer hBrush, pointer unfoundType_GRAYSTRINGPROC_lpOutputFunc, long lpData, int nCount, int X, int Y, int nWidth, int nHeight);
     [DllImport(lib, EntryPoint = "GrayStringW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GrayString(cpointer hDC, cpointer hBrush, cpointer unfoundType_GRAYSTRINGPROC_lpOutputFunc, long lpData, int nCount, int X, int Y, int nWidth, int nHeight);
+        bool GrayString(pointer hDC, pointer hBrush, pointer unfoundType_GRAYSTRINGPROC_lpOutputFunc, long lpData, int nCount, int X, int Y, int nWidth, int nHeight);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GrayStringW(cpointer hDC, cpointer hBrush, cpointer unfoundType_GRAYSTRINGPROC_lpOutputFunc, long lpData, int nCount, int X, int Y, int nWidth, int nHeight);
+        bool GrayStringW(pointer hDC, pointer hBrush, pointer unfoundType_GRAYSTRINGPROC_lpOutputFunc, long lpData, int nCount, int X, int Y, int nWidth, int nHeight);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawStateA(cpointer hdc, cpointer hbrFore, cpointer unfoundType_DRAWSTATEPROC_qfnCallBack, long lData, ulong wData, int x, int y, int cx, int cy, uint uFlags);
+        bool DrawStateA(pointer hdc, pointer hbrFore, pointer unfoundType_DRAWSTATEPROC_qfnCallBack, long lData, ulong wData, int x, int y, int cx, int cy, uint uFlags);
     [DllImport(lib, EntryPoint = "DrawStateW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawState(cpointer hdc, cpointer hbrFore, cpointer unfoundType_DRAWSTATEPROC_qfnCallBack, long lData, ulong wData, int x, int y, int cx, int cy, uint uFlags);
+        bool DrawState(pointer hdc, pointer hbrFore, pointer unfoundType_DRAWSTATEPROC_qfnCallBack, long lData, ulong wData, int x, int y, int cx, int cy, uint uFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawStateW(cpointer hdc, cpointer hbrFore, cpointer unfoundType_DRAWSTATEPROC_qfnCallBack, long lData, ulong wData, int x, int y, int cx, int cy, uint uFlags);
+        bool DrawStateW(pointer hdc, pointer hbrFore, pointer unfoundType_DRAWSTATEPROC_qfnCallBack, long lData, ulong wData, int x, int y, int cx, int cy, uint uFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TabbedTextOutA(cpointer hdc, int x, int y, [MarshalAs(UnmanagedType.LPStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
+        int TabbedTextOutA(pointer hdc, int x, int y, [MarshalAs(UnmanagedType.LPStr)] string lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TabbedTextOutA(cpointer hdc, int x, int y, byte* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
+        int TabbedTextOutA(pointer hdc, int x, int y, byte* lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport(lib, EntryPoint = "TabbedTextOutW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TabbedTextOut(cpointer hdc, int x, int y, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
+        int TabbedTextOut(pointer hdc, int x, int y, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport(lib, EntryPoint = "TabbedTextOutW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TabbedTextOut(cpointer hdc, int x, int y, char* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
+        int TabbedTextOut(pointer hdc, int x, int y, char* lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TabbedTextOutW(cpointer hdc, int x, int y, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
+        int TabbedTextOutW(pointer hdc, int x, int y, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int TabbedTextOutW(cpointer hdc, int x, int y, char* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
+        int TabbedTextOutW(pointer hdc, int x, int y, char* lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_6, int nTabOrigin);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetTabbedTextExtentA(cpointer hdc, [MarshalAs(UnmanagedType.LPStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
+        int GetTabbedTextExtentA(pointer hdc, [MarshalAs(UnmanagedType.LPStr)] string lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetTabbedTextExtentA(cpointer hdc, byte* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
+        int GetTabbedTextExtentA(pointer hdc, byte* lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
     [DllImport(lib, EntryPoint = "GetTabbedTextExtentW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetTabbedTextExtent(cpointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
+        int GetTabbedTextExtent(pointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
     [DllImport(lib, EntryPoint = "GetTabbedTextExtentW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetTabbedTextExtent(cpointer hdc, char* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
+        int GetTabbedTextExtent(pointer hdc, char* lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetTabbedTextExtentW(cpointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
+        int GetTabbedTextExtentW(pointer hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetTabbedTextExtentW(cpointer hdc, char* lpString, int chCount, int nTabPositions, cpointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool UpdateWindow(cpointer hWnd);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer SetActiveWindow(cpointer hWnd);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer GetForegroundWindow();
+        int GetTabbedTextExtentW(pointer hdc, char* lpString, int chCount, int nTabPositions, pointer unfoundType_INTlpnTabStopPositionslpnTabStopPositions_unnamed_4);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PaintDesktop(cpointer hdc);
+        bool UpdateWindow(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        void SwitchToThisWindow(cpointer hwnd, bool fUnknown);
+        pointer SetActiveWindow(pointer hWnd);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer GetForegroundWindow();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetForegroundWindow(cpointer hWnd);
+        bool PaintDesktop(pointer hdc);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        void SwitchToThisWindow(pointer hwnd, bool fUnknown);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool SetForegroundWindow(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -2703,349 +2701,349 @@ public unsafe class user32
         bool LockSetForegroundWindow(uint uLockCode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer WindowFromDC(cpointer hDC);
+        pointer WindowFromDC(pointer hDC);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetDC(cpointer hWnd);
+        pointer GetDC(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetDCEx(cpointer hWnd, cpointer hrgnClip, int flags);
+        pointer GetDCEx(pointer hWnd, pointer hrgnClip, int flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetWindowDC(cpointer hWnd);
+        pointer GetWindowDC(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ReleaseDC(cpointer hWnd, cpointer hDC);
+        int ReleaseDC(pointer hWnd, pointer hDC);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer BeginPaint(cpointer hWnd, cpointer unfoundType_LPPAINTSTRUCT_lpPaint);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool EndPaint(cpointer hWnd, cpointer unfoundType_PAINTSTRUCTlpPaintlpPaint_unnamed_1);
+        pointer BeginPaint(pointer hWnd, pointer unfoundType_LPPAINTSTRUCT_lpPaint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetUpdateRect(cpointer hWnd, cpointer unfoundType_LPRECT_lpRect, bool bErase);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int GetUpdateRgn(cpointer hWnd, cpointer hRgn, bool bErase);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int SetWindowRgn(cpointer hWnd, cpointer hRgn, bool bRedraw);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int GetWindowRgn(cpointer hWnd, cpointer hRgn);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int GetWindowRgnBox(cpointer hWnd, cpointer unfoundType_LPRECT_lprc);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int ExcludeUpdateRgn(cpointer hDC, cpointer hWnd);
+        bool EndPaint(pointer hWnd, pointer unfoundType_PAINTSTRUCTlpPaintlpPaint_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InvalidateRect(cpointer hWnd, cpointer unfoundType_RECTlpRectlpRect_unnamed_1, bool bErase);
+        bool GetUpdateRect(pointer hWnd, pointer unfoundType_LPRECT_lpRect, bool bErase);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int GetUpdateRgn(pointer hWnd, pointer hRgn, bool bErase);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int SetWindowRgn(pointer hWnd, pointer hRgn, bool bRedraw);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int GetWindowRgn(pointer hWnd, pointer hRgn);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int GetWindowRgnBox(pointer hWnd, pointer unfoundType_LPRECT_lprc);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int ExcludeUpdateRgn(pointer hDC, pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ValidateRect(cpointer hWnd, cpointer unfoundType_RECTlpRectlpRect_unnamed_1);
+        bool InvalidateRect(pointer hWnd, pointer unfoundType_RECTlpRectlpRect_unnamed_1, bool bErase);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InvalidateRgn(cpointer hWnd, cpointer hRgn, bool bErase);
+        bool ValidateRect(pointer hWnd, pointer unfoundType_RECTlpRectlpRect_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ValidateRgn(cpointer hWnd, cpointer hRgn);
+        bool InvalidateRgn(pointer hWnd, pointer hRgn, bool bErase);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RedrawWindow(cpointer hWnd, cpointer unfoundType_RECTlprcUpdatelprcUpdate_unnamed_1, cpointer hrgnUpdate, uint flags);
+        bool ValidateRgn(pointer hWnd, pointer hRgn);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool LockWindowUpdate(cpointer hWndLock);
+        bool RedrawWindow(pointer hWnd, pointer unfoundType_RECTlprcUpdatelprcUpdate_unnamed_1, pointer hrgnUpdate, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ScrollWindow(cpointer hWnd, int XAmount, int YAmount, cpointer unfoundType_RECTlpRectlpRect_unnamed_3, cpointer unfoundType_RECTlpClipRectlpClipRect_unnamed_4);
+        bool LockWindowUpdate(pointer hWndLock);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ScrollDC(cpointer hDC, int dx, int dy, cpointer unfoundType_RECTlprcScrolllprcScroll_unnamed_3, cpointer unfoundType_RECTlprcCliplprcClip_unnamed_4, cpointer hrgnUpdate, cpointer unfoundType_LPRECT_lprcUpdate);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int ScrollWindowEx(cpointer hWnd, int dx, int dy, cpointer unfoundType_RECTprcScrollprcScroll_unnamed_3, cpointer unfoundType_RECTprcClipprcClip_unnamed_4, cpointer hrgnUpdate, cpointer unfoundType_LPRECT_prcUpdate, uint flags);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int SetScrollPos(cpointer hWnd, int nBar, int nPos, bool bRedraw);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int GetScrollPos(cpointer hWnd, int nBar);
+        bool ScrollWindow(pointer hWnd, int XAmount, int YAmount, pointer unfoundType_RECTlpRectlpRect_unnamed_3, pointer unfoundType_RECTlpClipRectlpClipRect_unnamed_4);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetScrollRange(cpointer hWnd, int nBar, int nMinPos, int nMaxPos, bool bRedraw);
+        bool ScrollDC(pointer hDC, int dx, int dy, pointer unfoundType_RECTlprcScrolllprcScroll_unnamed_3, pointer unfoundType_RECTlprcCliplprcClip_unnamed_4, pointer hrgnUpdate, pointer unfoundType_LPRECT_lprcUpdate);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int ScrollWindowEx(pointer hWnd, int dx, int dy, pointer unfoundType_RECTprcScrollprcScroll_unnamed_3, pointer unfoundType_RECTprcClipprcClip_unnamed_4, pointer hrgnUpdate, pointer unfoundType_LPRECT_prcUpdate, uint flags);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int SetScrollPos(pointer hWnd, int nBar, int nPos, bool bRedraw);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int GetScrollPos(pointer hWnd, int nBar);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetScrollRange(cpointer hWnd, int nBar, cpointer unfoundType_LPINT_lpMinPos, cpointer unfoundType_LPINT_lpMaxPos);
+        bool SetScrollRange(pointer hWnd, int nBar, int nMinPos, int nMaxPos, bool bRedraw);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShowScrollBar(cpointer hWnd, int wBar, bool bShow);
+        bool GetScrollRange(pointer hWnd, int nBar, pointer unfoundType_LPINT_lpMinPos, pointer unfoundType_LPINT_lpMaxPos);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnableScrollBar(cpointer hWnd, uint wSBflags, uint wArrows);
+        bool ShowScrollBar(pointer hWnd, int wBar, bool bShow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetPropA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString, cpointer hData);
+        bool EnableScrollBar(pointer hWnd, uint wSBflags, uint wArrows);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetPropA(cpointer hWnd, byte* lpString, cpointer hData);
+        bool SetPropA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString, pointer hData);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool SetPropA(pointer hWnd, byte* lpString, pointer hData);
     [DllImport(lib, EntryPoint = "SetPropW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetProp(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString, cpointer hData);
+        bool SetProp(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString, pointer hData);
     [DllImport(lib, EntryPoint = "SetPropW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetProp(cpointer hWnd, char* lpString, cpointer hData);
+        bool SetProp(pointer hWnd, char* lpString, pointer hData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetPropW(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString, cpointer hData);
+        bool SetPropW(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString, pointer hData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetPropW(cpointer hWnd, char* lpString, cpointer hData);
+        bool SetPropW(pointer hWnd, char* lpString, pointer hData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetPropA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+        pointer GetPropA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetPropA(cpointer hWnd, byte* lpString);
+        pointer GetPropA(pointer hWnd, byte* lpString);
     [DllImport(lib, EntryPoint = "GetPropW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetProp(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
+        pointer GetProp(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport(lib, EntryPoint = "GetPropW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetProp(cpointer hWnd, char* lpString);
+        pointer GetProp(pointer hWnd, char* lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetPropW(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
+        pointer GetPropW(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetPropW(cpointer hWnd, char* lpString);
+        pointer GetPropW(pointer hWnd, char* lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RemovePropA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+        pointer RemovePropA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RemovePropA(cpointer hWnd, byte* lpString);
+        pointer RemovePropA(pointer hWnd, byte* lpString);
     [DllImport(lib, EntryPoint = "RemovePropW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RemoveProp(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
+        pointer RemoveProp(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport(lib, EntryPoint = "RemovePropW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RemoveProp(cpointer hWnd, char* lpString);
+        pointer RemoveProp(pointer hWnd, char* lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RemovePropW(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
+        pointer RemovePropW(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RemovePropW(cpointer hWnd, char* lpString);
+        pointer RemovePropW(pointer hWnd, char* lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int EnumPropsExA(cpointer hWnd, cpointer unfoundType_PROPENUMPROCEXA_lpEnumFunc, long lParam);
+        int EnumPropsExA(pointer hWnd, pointer unfoundType_PROPENUMPROCEXA_lpEnumFunc, long lParam);
     [DllImport(lib, EntryPoint = "EnumPropsExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int EnumPropsEx(cpointer hWnd, cpointer unfoundType_PROPENUMPROCEXW_lpEnumFunc, long lParam);
+        int EnumPropsEx(pointer hWnd, pointer unfoundType_PROPENUMPROCEXW_lpEnumFunc, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int EnumPropsExW(cpointer hWnd, cpointer unfoundType_PROPENUMPROCEXW_lpEnumFunc, long lParam);
+        int EnumPropsExW(pointer hWnd, pointer unfoundType_PROPENUMPROCEXW_lpEnumFunc, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int EnumPropsA(cpointer hWnd, cpointer unfoundType_PROPENUMPROCA_lpEnumFunc);
+        int EnumPropsA(pointer hWnd, pointer unfoundType_PROPENUMPROCA_lpEnumFunc);
     [DllImport(lib, EntryPoint = "EnumPropsW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int EnumProps(cpointer hWnd, cpointer unfoundType_PROPENUMPROCW_lpEnumFunc);
+        int EnumProps(pointer hWnd, pointer unfoundType_PROPENUMPROCW_lpEnumFunc);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int EnumPropsW(cpointer hWnd, cpointer unfoundType_PROPENUMPROCW_lpEnumFunc);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool SetWindowTextA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+        int EnumPropsW(pointer hWnd, pointer unfoundType_PROPENUMPROCW_lpEnumFunc);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowTextA(cpointer hWnd, byte* lpString);
+        bool SetWindowTextA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool SetWindowTextA(pointer hWnd, byte* lpString);
     [DllImport(lib, EntryPoint = "SetWindowTextW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowText(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
+        bool SetWindowText(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport(lib, EntryPoint = "SetWindowTextW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowText(cpointer hWnd, char* lpString);
+        bool SetWindowText(pointer hWnd, char* lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowTextW(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
+        bool SetWindowTextW(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowTextW(cpointer hWnd, char* lpString);
+        bool SetWindowTextW(pointer hWnd, char* lpString);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowTextA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString, int nMaxCount);
+        int GetWindowTextA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpString, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowTextA(cpointer hWnd, ReadOnlySpan<byte> lpString, int nMaxCount);
+        int GetWindowTextA(pointer hWnd, ReadOnlySpan<byte> lpString, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowTextA(cpointer hWnd, byte* lpString, int nMaxCount);
+        int GetWindowTextA(pointer hWnd, byte* lpString, int nMaxCount);
     [DllImport(lib, EntryPoint = "GetWindowTextW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowText(cpointer hWnd, string lpString, int nMaxCount);
+        int GetWindowText(pointer hWnd, string lpString, int nMaxCount);
     [DllImport(lib, EntryPoint = "GetWindowTextW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowText(cpointer hWnd, char* lpString, int nMaxCount);
+        int GetWindowText(pointer hWnd, char* lpString, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowTextW(cpointer hWnd, string lpString, int nMaxCount);
+        int GetWindowTextW(pointer hWnd, string lpString, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowTextW(cpointer hWnd, char* lpString, int nMaxCount);
+        int GetWindowTextW(pointer hWnd, char* lpString, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowTextLengthA(cpointer hWnd);
+        int GetWindowTextLengthA(pointer hWnd);
     [DllImport(lib, EntryPoint = "GetWindowTextLengthW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowTextLength(cpointer hWnd);
+        int GetWindowTextLength(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowTextLengthW(cpointer hWnd);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool GetClientRect(cpointer hWnd, cpointer unfoundType_LPRECT_lpRect);
+        int GetWindowTextLengthW(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetWindowRect(cpointer hWnd, cpointer unfoundType_LPRECT_lpRect);
+        bool GetClientRect(pointer hWnd, pointer unfoundType_LPRECT_lpRect);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AdjustWindowRect(cpointer unfoundType_LPRECT_lpRect, int dwStyle, bool bMenu);
+        bool GetWindowRect(pointer hWnd, pointer unfoundType_LPRECT_lpRect);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AdjustWindowRectEx(cpointer unfoundType_LPRECT_lpRect, int dwStyle, bool bMenu, int dwExStyle);
+        bool AdjustWindowRect(pointer unfoundType_LPRECT_lpRect, int dwStyle, bool bMenu);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool AdjustWindowRectExForDpi(cpointer unfoundType_LPRECT_lpRect, int dwStyle, bool bMenu, int dwExStyle, uint dpi);
+        bool AdjustWindowRectEx(pointer unfoundType_LPRECT_lpRect, int dwStyle, bool bMenu, int dwExStyle);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetWindowContextHelpId(cpointer unnamed_0, int unnamed_1);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        int GetWindowContextHelpId(cpointer unnamed_0);
+        bool AdjustWindowRectExForDpi(pointer unfoundType_LPRECT_lpRect, int dwStyle, bool bMenu, int dwExStyle, uint dpi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetMenuContextHelpId(cpointer unnamed_0, int unnamed_1);
+        bool SetWindowContextHelpId(pointer unnamed_0, int unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetMenuContextHelpId(cpointer unnamed_0);
+        int GetWindowContextHelpId(pointer unnamed_0);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool SetMenuContextHelpId(pointer unnamed_0, int unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType);
+        int GetMenuContextHelpId(pointer unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, byte* lpCaption, uint uType);
+        int MessageBoxA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxA(cpointer hWnd, byte* lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType);
+        int MessageBoxA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, byte* lpCaption, uint uType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxA(cpointer hWnd, byte* lpText, byte* lpCaption, uint uType);
+        int MessageBoxA(pointer hWnd, byte* lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        int MessageBoxA(pointer hWnd, byte* lpText, byte* lpCaption, uint uType);
     [DllImport(lib, EntryPoint = "MessageBoxW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBox(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
+        int MessageBox(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
     [DllImport(lib, EntryPoint = "MessageBoxW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBox(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, char* lpCaption, uint uType);
+        int MessageBox(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, char* lpCaption, uint uType);
     [DllImport(lib, EntryPoint = "MessageBoxW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBox(cpointer hWnd, char* lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
+        int MessageBox(pointer hWnd, char* lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
     [DllImport(lib, EntryPoint = "MessageBoxW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBox(cpointer hWnd, char* lpText, char* lpCaption, uint uType);
+        int MessageBox(pointer hWnd, char* lpText, char* lpCaption, uint uType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxW(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
+        int MessageBoxW(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxW(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, char* lpCaption, uint uType);
+        int MessageBoxW(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, char* lpCaption, uint uType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxW(cpointer hWnd, char* lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
+        int MessageBoxW(pointer hWnd, char* lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxW(cpointer hWnd, char* lpText, char* lpCaption, uint uType);
+        int MessageBoxW(pointer hWnd, char* lpText, char* lpCaption, uint uType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxExA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxExA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, byte* lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpText, byte* lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxExA(cpointer hWnd, byte* lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExA(pointer hWnd, byte* lpText, [MarshalAs(UnmanagedType.LPStr)] string lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxExA(cpointer hWnd, byte* lpText, byte* lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExA(pointer hWnd, byte* lpText, byte* lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, EntryPoint = "MessageBoxExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxEx(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
+        int MessageBoxEx(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, EntryPoint = "MessageBoxExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxEx(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, char* lpCaption, uint uType, short wLanguageId);
+        int MessageBoxEx(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, char* lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, EntryPoint = "MessageBoxExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxEx(cpointer hWnd, char* lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
+        int MessageBoxEx(pointer hWnd, char* lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, EntryPoint = "MessageBoxExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxEx(cpointer hWnd, char* lpText, char* lpCaption, uint uType, short wLanguageId);
+        int MessageBoxEx(pointer hWnd, char* lpText, char* lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxExW(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExW(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxExW(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, char* lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExW(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpText, char* lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxExW(cpointer hWnd, char* lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExW(pointer hWnd, char* lpText, [MarshalAs(UnmanagedType.LPWStr)] string lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxExW(cpointer hWnd, char* lpText, char* lpCaption, uint uType, short wLanguageId);
+        int MessageBoxExW(pointer hWnd, char* lpText, char* lpCaption, uint uType, short wLanguageId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxIndirectA(cpointer unfoundType_MSGBOXPARAMSA_lpmbp);
+        int MessageBoxIndirectA(pointer unfoundType_MSGBOXPARAMSA_lpmbp);
     [DllImport(lib, EntryPoint = "MessageBoxIndirectW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxIndirect(cpointer unfoundType_MSGBOXPARAMSW_lpmbp);
+        int MessageBoxIndirect(pointer unfoundType_MSGBOXPARAMSW_lpmbp);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MessageBoxIndirectW(cpointer unfoundType_MSGBOXPARAMSW_lpmbp);
+        int MessageBoxIndirectW(pointer unfoundType_MSGBOXPARAMSW_lpmbp);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -3063,26 +3061,26 @@ public unsafe class user32
         bool SetPhysicalCursorPos(int X, int Y);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetCursor(cpointer unfoundType_HCURSOR_hCursor);
+        pointer SetCursor(pointer unfoundType_HCURSOR_hCursor);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetCursorPos(cpointer unfoundType_LPPOINT_lpPoint);
+        bool GetCursorPos(pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPhysicalCursorPos(cpointer unfoundType_LPPOINT_lpPoint);
+        bool GetPhysicalCursorPos(pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetClipCursor(cpointer unfoundType_LPRECT_lpRect);
+        bool GetClipCursor(pointer unfoundType_LPRECT_lpRect);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetCursor();
+        pointer GetCursor();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CreateCaret(cpointer hWnd, cpointer unfoundType_HBITMAP_hBitmap, int nWidth, int nHeight);
+        bool CreateCaret(pointer hWnd, pointer unfoundType_HBITMAP_hBitmap, int nWidth, int nHeight);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         uint GetCaretBlinkTime();
@@ -3097,11 +3095,11 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool HideCaret(cpointer hWnd);
+        bool HideCaret(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShowCaret(cpointer hWnd);
+        bool ShowCaret(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -3109,892 +3107,892 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetCaretPos(cpointer unfoundType_LPPOINT_lpPoint);
+        bool GetCaretPos(pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ClientToScreen(cpointer hWnd, cpointer unfoundType_LPPOINT_lpPoint);
+        bool ClientToScreen(pointer hWnd, pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ScreenToClient(cpointer hWnd, cpointer unfoundType_LPPOINT_lpPoint);
+        bool ScreenToClient(pointer hWnd, pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool LogicalToPhysicalPoint(cpointer hWnd, cpointer unfoundType_LPPOINT_lpPoint);
+        bool LogicalToPhysicalPoint(pointer hWnd, pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PhysicalToLogicalPoint(cpointer hWnd, cpointer unfoundType_LPPOINT_lpPoint);
+        bool PhysicalToLogicalPoint(pointer hWnd, pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool LogicalToPhysicalPointForPerMonitorDPI(cpointer hWnd, cpointer unfoundType_LPPOINT_lpPoint);
+        bool LogicalToPhysicalPointForPerMonitorDPI(pointer hWnd, pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PhysicalToLogicalPointForPerMonitorDPI(cpointer hWnd, cpointer unfoundType_LPPOINT_lpPoint);
+        bool PhysicalToLogicalPointForPerMonitorDPI(pointer hWnd, pointer unfoundType_LPPOINT_lpPoint);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int MapWindowPoints(cpointer hWndFrom, cpointer hWndTo, cpointer unfoundType_LPPOINT_lpPoints, uint cPoints);
+        int MapWindowPoints(pointer hWndFrom, pointer hWndTo, pointer unfoundType_LPPOINT_lpPoints, uint cPoints);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer WindowFromPoint(cpointer unfoundType_POINT_Point);
+        pointer WindowFromPoint(pointer unfoundType_POINT_Point);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer WindowFromPhysicalPoint(cpointer unfoundType_POINT_Point);
+        pointer WindowFromPhysicalPoint(pointer unfoundType_POINT_Point);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer ChildWindowFromPoint(cpointer hWndParent, cpointer unfoundType_POINT_Point);
+        pointer ChildWindowFromPoint(pointer hWndParent, pointer unfoundType_POINT_Point);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ClipCursor(cpointer unfoundType_RECTlpRectlpRect_unnamed_0);
+        bool ClipCursor(pointer unfoundType_RECTlpRectlpRect_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer ChildWindowFromPointEx(cpointer hwnd, cpointer unfoundType_POINT_pt, uint flags);
+        pointer ChildWindowFromPointEx(pointer hwnd, pointer unfoundType_POINT_pt, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         int GetSysColor(int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetSysColorBrush(int nIndex);
+        pointer GetSysColorBrush(int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetSysColors(int cElements, cpointer lpaElements, cpointer unfoundType_COLORREF_lpaRgbValues);
+        bool SetSysColors(int cElements, pointer lpaElements, pointer unfoundType_COLORREF_lpaRgbValues);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DrawFocusRect(cpointer hDC, cpointer unfoundType_RECT_lprc);
+        bool DrawFocusRect(pointer hDC, pointer unfoundType_RECT_lprc);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int FillRect(cpointer hDC, cpointer unfoundType_RECTlprclprc_unnamed_1, cpointer hbr);
+        int FillRect(pointer hDC, pointer unfoundType_RECTlprclprc_unnamed_1, pointer hbr);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int FrameRect(cpointer hDC, cpointer unfoundType_RECTlprclprc_unnamed_1, cpointer hbr);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool InvertRect(cpointer hDC, cpointer unfoundType_RECTlprclprc_unnamed_1);
+        int FrameRect(pointer hDC, pointer unfoundType_RECTlprclprc_unnamed_1, pointer hbr);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetRect(cpointer unfoundType_LPRECT_lprc, int xLeft, int yTop, int xRight, int yBottom);
+        bool InvertRect(pointer hDC, pointer unfoundType_RECTlprclprc_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetRectEmpty(cpointer unfoundType_LPRECT_lprc);
+        bool SetRect(pointer unfoundType_LPRECT_lprc, int xLeft, int yTop, int xRight, int yBottom);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CopyRect(cpointer unfoundType_LPRECT_lprcDst, cpointer unfoundType_RECTlprcSrclprcSrc_unnamed_1);
+        bool SetRectEmpty(pointer unfoundType_LPRECT_lprc);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InflateRect(cpointer unfoundType_LPRECT_lprc, int dx, int dy);
+        bool CopyRect(pointer unfoundType_LPRECT_lprcDst, pointer unfoundType_RECTlprcSrclprcSrc_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IntersectRect(cpointer unfoundType_LPRECT_lprcDst, cpointer unfoundType_RECTlprcSrc1lprcSrc1_unnamed_1, cpointer unfoundType_RECTlprcSrc2lprcSrc2_unnamed_2);
+        bool InflateRect(pointer unfoundType_LPRECT_lprc, int dx, int dy);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnionRect(cpointer unfoundType_LPRECT_lprcDst, cpointer unfoundType_RECTlprcSrc1lprcSrc1_unnamed_1, cpointer unfoundType_RECTlprcSrc2lprcSrc2_unnamed_2);
+        bool IntersectRect(pointer unfoundType_LPRECT_lprcDst, pointer unfoundType_RECTlprcSrc1lprcSrc1_unnamed_1, pointer unfoundType_RECTlprcSrc2lprcSrc2_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SubtractRect(cpointer unfoundType_LPRECT_lprcDst, cpointer unfoundType_RECTlprcSrc1lprcSrc1_unnamed_1, cpointer unfoundType_RECTlprcSrc2lprcSrc2_unnamed_2);
+        bool UnionRect(pointer unfoundType_LPRECT_lprcDst, pointer unfoundType_RECTlprcSrc1lprcSrc1_unnamed_1, pointer unfoundType_RECTlprcSrc2lprcSrc2_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool OffsetRect(cpointer unfoundType_LPRECT_lprc, int dx, int dy);
+        bool SubtractRect(pointer unfoundType_LPRECT_lprcDst, pointer unfoundType_RECTlprcSrc1lprcSrc1_unnamed_1, pointer unfoundType_RECTlprcSrc2lprcSrc2_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsRectEmpty(cpointer unfoundType_RECTlprclprc_unnamed_0);
+        bool OffsetRect(pointer unfoundType_LPRECT_lprc, int dx, int dy);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EqualRect(cpointer unfoundType_RECTlprc1lprc1_unnamed_0, cpointer unfoundType_RECTlprc2lprc2_unnamed_1);
+        bool IsRectEmpty(pointer unfoundType_RECTlprclprc_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool PtInRect(cpointer unfoundType_RECTlprclprc_unnamed_0, cpointer unfoundType_POINT_pt);
+        bool EqualRect(pointer unfoundType_RECTlprc1lprc1_unnamed_0, pointer unfoundType_RECTlprc2lprc2_unnamed_1);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool PtInRect(pointer unfoundType_RECTlprclprc_unnamed_0, pointer unfoundType_POINT_pt);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short GetWindowWord(cpointer hWnd, int nIndex);
+        short GetWindowWord(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short SetWindowWord(cpointer hWnd, int nIndex, short wNewWord);
+        short SetWindowWord(pointer hWnd, int nIndex, short wNewWord);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowLongA(cpointer hWnd, int nIndex);
+        int GetWindowLongA(pointer hWnd, int nIndex);
     [DllImport(lib, EntryPoint = "GetWindowLongW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowLong(cpointer hWnd, int nIndex);
+        int GetWindowLong(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowLongW(cpointer hWnd, int nIndex);
+        int GetWindowLongW(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int SetWindowLongA(cpointer hWnd, int nIndex, int dwNewLong);
+        int SetWindowLongA(pointer hWnd, int nIndex, int dwNewLong);
     [DllImport(lib, EntryPoint = "SetWindowLongW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int SetWindowLong(cpointer hWnd, int nIndex, int dwNewLong);
+        int SetWindowLong(pointer hWnd, int nIndex, int dwNewLong);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int SetWindowLongW(cpointer hWnd, int nIndex, int dwNewLong);
+        int SetWindowLongW(pointer hWnd, int nIndex, int dwNewLong);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long GetWindowLongPtrA(cpointer hWnd, int nIndex);
+        long GetWindowLongPtrA(pointer hWnd, int nIndex);
     [DllImport(lib, EntryPoint = "GetWindowLongPtrW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        long GetWindowLongPtr(cpointer hWnd, int nIndex);
+        long GetWindowLongPtr(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long GetWindowLongPtrW(cpointer hWnd, int nIndex);
+        long GetWindowLongPtrW(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SetWindowLongPtrA(cpointer hWnd, int nIndex, long dwNewLong);
+        long SetWindowLongPtrA(pointer hWnd, int nIndex, long dwNewLong);
     [DllImport(lib, EntryPoint = "SetWindowLongPtrW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SetWindowLongPtr(cpointer hWnd, int nIndex, long dwNewLong);
+        long SetWindowLongPtr(pointer hWnd, int nIndex, long dwNewLong);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long SetWindowLongPtrW(cpointer hWnd, int nIndex, long dwNewLong);
+        long SetWindowLongPtrW(pointer hWnd, int nIndex, long dwNewLong);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short GetClassWord(cpointer hWnd, int nIndex);
+        short GetClassWord(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        short SetClassWord(cpointer hWnd, int nIndex, short wNewWord);
+        short SetClassWord(pointer hWnd, int nIndex, short wNewWord);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassLongA(cpointer hWnd, int nIndex);
+        int GetClassLongA(pointer hWnd, int nIndex);
     [DllImport(lib, EntryPoint = "GetClassLongW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassLong(cpointer hWnd, int nIndex);
+        int GetClassLong(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassLongW(cpointer hWnd, int nIndex);
+        int GetClassLongW(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int SetClassLongA(cpointer hWnd, int nIndex, int dwNewLong);
+        int SetClassLongA(pointer hWnd, int nIndex, int dwNewLong);
     [DllImport(lib, EntryPoint = "SetClassLongW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int SetClassLong(cpointer hWnd, int nIndex, int dwNewLong);
+        int SetClassLong(pointer hWnd, int nIndex, int dwNewLong);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int SetClassLongW(cpointer hWnd, int nIndex, int dwNewLong);
+        int SetClassLongW(pointer hWnd, int nIndex, int dwNewLong);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetClassLongPtrA(cpointer hWnd, int nIndex);
+        pointer GetClassLongPtrA(pointer hWnd, int nIndex);
     [DllImport(lib, EntryPoint = "GetClassLongPtrW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetClassLongPtr(cpointer hWnd, int nIndex);
+        pointer GetClassLongPtr(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetClassLongPtrW(cpointer hWnd, int nIndex);
+        pointer GetClassLongPtrW(pointer hWnd, int nIndex);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetClassLongPtrA(cpointer hWnd, int nIndex, long dwNewLong);
+        pointer SetClassLongPtrA(pointer hWnd, int nIndex, long dwNewLong);
     [DllImport(lib, EntryPoint = "SetClassLongPtrW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetClassLongPtr(cpointer hWnd, int nIndex, long dwNewLong);
+        pointer SetClassLongPtr(pointer hWnd, int nIndex, long dwNewLong);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetClassLongPtrW(cpointer hWnd, int nIndex, long dwNewLong);
+        pointer SetClassLongPtrW(pointer hWnd, int nIndex, long dwNewLong);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetProcessDefaultLayout(cpointer unfoundType_DWORDpdwDefaultLayoutpdwDefaultLayout_unnamed_0);
+        bool GetProcessDefaultLayout(pointer unfoundType_DWORDpdwDefaultLayoutpdwDefaultLayout_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
         bool SetProcessDefaultLayout(int dwDefaultLayout);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetDesktopWindow();
+        pointer GetDesktopWindow();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetParent(cpointer hWnd);
+        pointer GetParent(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetParent(cpointer hWndChild, cpointer hWndNewParent);
+        pointer SetParent(pointer hWndChild, pointer hWndNewParent);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumChildWindows(cpointer hWndParent, cpointer unfoundType_WNDENUMPROC_lpEnumFunc, long lParam);
+        bool EnumChildWindows(pointer hWndParent, pointer unfoundType_WNDENUMPROC_lpEnumFunc, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName);
+        pointer FindWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName);
+        pointer FindWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowA(byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName);
+        pointer FindWindowA(byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowA(byte* lpClassName, byte* lpWindowName);
+        pointer FindWindowA(byte* lpClassName, byte* lpWindowName);
     [DllImport(lib, EntryPoint = "FindWindowW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
+        pointer FindWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
     [DllImport(lib, EntryPoint = "FindWindowW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName);
+        pointer FindWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName);
     [DllImport(lib, EntryPoint = "FindWindowW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindow(char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
+        pointer FindWindow(char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
     [DllImport(lib, EntryPoint = "FindWindowW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindow(char* lpClassName, char* lpWindowName);
+        pointer FindWindow(char* lpClassName, char* lpWindowName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
+        pointer FindWindowW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName);
+        pointer FindWindowW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowW(char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
+        pointer FindWindowW(char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowW(char* lpClassName, char* lpWindowName);
+        pointer FindWindowW(char* lpClassName, char* lpWindowName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, [MarshalAs(UnmanagedType.LPStr)] string lpszWindow);
+        pointer FindWindowExA(pointer hWndParent, pointer hWndChildAfter, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, [MarshalAs(UnmanagedType.LPStr)] string lpszWindow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, byte* lpszWindow);
+        pointer FindWindowExA(pointer hWndParent, pointer hWndChildAfter, [MarshalAs(UnmanagedType.LPStr)] string lpszClass, byte* lpszWindow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, byte* lpszClass, [MarshalAs(UnmanagedType.LPStr)] string lpszWindow);
+        pointer FindWindowExA(pointer hWndParent, pointer hWndChildAfter, byte* lpszClass, [MarshalAs(UnmanagedType.LPStr)] string lpszWindow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowExA(cpointer hWndParent, cpointer hWndChildAfter, byte* lpszClass, byte* lpszWindow);
+        pointer FindWindowExA(pointer hWndParent, pointer hWndChildAfter, byte* lpszClass, byte* lpszWindow);
     [DllImport(lib, EntryPoint = "FindWindowExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowEx(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
+        pointer FindWindowEx(pointer hWndParent, pointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
     [DllImport(lib, EntryPoint = "FindWindowExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowEx(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, char* lpszWindow);
+        pointer FindWindowEx(pointer hWndParent, pointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, char* lpszWindow);
     [DllImport(lib, EntryPoint = "FindWindowExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowEx(cpointer hWndParent, cpointer hWndChildAfter, char* lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
+        pointer FindWindowEx(pointer hWndParent, pointer hWndChildAfter, char* lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
     [DllImport(lib, EntryPoint = "FindWindowExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowEx(cpointer hWndParent, cpointer hWndChildAfter, char* lpszClass, char* lpszWindow);
+        pointer FindWindowEx(pointer hWndParent, pointer hWndChildAfter, char* lpszClass, char* lpszWindow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowExW(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
+        pointer FindWindowExW(pointer hWndParent, pointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowExW(cpointer hWndParent, cpointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, char* lpszWindow);
+        pointer FindWindowExW(pointer hWndParent, pointer hWndChildAfter, [MarshalAs(UnmanagedType.LPWStr)] string lpszClass, char* lpszWindow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowExW(cpointer hWndParent, cpointer hWndChildAfter, char* lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
+        pointer FindWindowExW(pointer hWndParent, pointer hWndChildAfter, char* lpszClass, [MarshalAs(UnmanagedType.LPWStr)] string lpszWindow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer FindWindowExW(cpointer hWndParent, cpointer hWndChildAfter, char* lpszClass, char* lpszWindow);
+        pointer FindWindowExW(pointer hWndParent, pointer hWndChildAfter, char* lpszClass, char* lpszWindow);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetShellWindow();
+        pointer GetShellWindow();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RegisterShellHookWindow(cpointer hwnd);
+        bool RegisterShellHookWindow(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DeregisterShellHookWindow(cpointer hwnd);
+        bool DeregisterShellHookWindow(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumWindows(cpointer unfoundType_WNDENUMPROC_lpEnumFunc, long lParam);
+        bool EnumWindows(pointer unfoundType_WNDENUMPROC_lpEnumFunc, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumThreadWindows(int dwThreadId, cpointer unfoundType_WNDENUMPROC_lpfn, long lParam);
+        bool EnumThreadWindows(int dwThreadId, pointer unfoundType_WNDENUMPROC_lpfn, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassNameA(cpointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, int nMaxCount);
+        int GetClassNameA(pointer hWnd, [MarshalAs(UnmanagedType.LPStr)] string lpClassName, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassNameA(cpointer hWnd, ReadOnlySpan<byte> lpClassName, int nMaxCount);
+        int GetClassNameA(pointer hWnd, ReadOnlySpan<byte> lpClassName, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassNameA(cpointer hWnd, byte* lpClassName, int nMaxCount);
+        int GetClassNameA(pointer hWnd, byte* lpClassName, int nMaxCount);
     [DllImport(lib, EntryPoint = "GetClassNameW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassName(cpointer hWnd, string lpClassName, int nMaxCount);
+        int GetClassName(pointer hWnd, string lpClassName, int nMaxCount);
     [DllImport(lib, EntryPoint = "GetClassNameW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassName(cpointer hWnd, char* lpClassName, int nMaxCount);
+        int GetClassName(pointer hWnd, char* lpClassName, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassNameW(cpointer hWnd, string lpClassName, int nMaxCount);
+        int GetClassNameW(pointer hWnd, string lpClassName, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetClassNameW(cpointer hWnd, char* lpClassName, int nMaxCount);
+        int GetClassNameW(pointer hWnd, char* lpClassName, int nMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetTopWindow(cpointer hWnd);
+        pointer GetTopWindow(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetWindowThreadProcessId(cpointer hWnd, cpointer unfoundType_LPDWORD_lpdwProcessId);
+        int GetWindowThreadProcessId(pointer hWnd, pointer unfoundType_LPDWORD_lpdwProcessId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
         bool IsGUIThread(bool bConvert);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetLastActivePopup(cpointer hWnd);
+        pointer GetLastActivePopup(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetWindow(cpointer hWnd, uint uCmd);
+        pointer GetWindow(pointer hWnd, uint uCmd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetWindowsHookA(int nFilterType, cpointer unfoundType_HOOKPROC_pfnFilterProc);
+        pointer SetWindowsHookA(int nFilterType, pointer unfoundType_HOOKPROC_pfnFilterProc);
     [DllImport(lib, EntryPoint = "SetWindowsHookW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetWindowsHook(int nFilterType, cpointer unfoundType_HOOKPROC_pfnFilterProc);
+        pointer SetWindowsHook(int nFilterType, pointer unfoundType_HOOKPROC_pfnFilterProc);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetWindowsHookW(int nFilterType, cpointer unfoundType_HOOKPROC_pfnFilterProc);
+        pointer SetWindowsHookW(int nFilterType, pointer unfoundType_HOOKPROC_pfnFilterProc);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnhookWindowsHook(int nCode, cpointer unfoundType_HOOKPROC_pfnFilterProc);
+        bool UnhookWindowsHook(int nCode, pointer unfoundType_HOOKPROC_pfnFilterProc);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetWindowsHookExA(int idHook, cpointer unfoundType_HOOKPROC_lpfn, cpointer unfoundType_HINSTANCE_hmod, int dwThreadId);
+        pointer SetWindowsHookExA(int idHook, pointer unfoundType_HOOKPROC_lpfn, pointer unfoundType_HINSTANCE_hmod, int dwThreadId);
     [DllImport(lib, EntryPoint = "SetWindowsHookExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetWindowsHookEx(int idHook, cpointer unfoundType_HOOKPROC_lpfn, cpointer unfoundType_HINSTANCE_hmod, int dwThreadId);
+        pointer SetWindowsHookEx(int idHook, pointer unfoundType_HOOKPROC_lpfn, pointer unfoundType_HINSTANCE_hmod, int dwThreadId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetWindowsHookExW(int idHook, cpointer unfoundType_HOOKPROC_lpfn, cpointer unfoundType_HINSTANCE_hmod, int dwThreadId);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool UnhookWindowsHookEx(cpointer unfoundType_HHOOK_hhk);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        long CallNextHookEx(cpointer unfoundType_HHOOK_hhk, int nCode, ulong wParam, long lParam);
+        pointer SetWindowsHookExW(int idHook, pointer unfoundType_HOOKPROC_lpfn, pointer unfoundType_HINSTANCE_hmod, int dwThreadId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CheckMenuRadioItem(cpointer hmenu, uint first, uint last, uint check, uint flags);
+        bool UnhookWindowsHookEx(pointer unfoundType_HHOOK_hhk);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadBitmapA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpBitmapName);
+        long CallNextHookEx(pointer unfoundType_HHOOK_hhk, int nCode, ulong wParam, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool CheckMenuRadioItem(pointer hmenu, uint first, uint last, uint check, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadBitmapA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpBitmapName);
+        pointer LoadBitmapA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpBitmapName);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer LoadBitmapA(pointer unfoundType_HINSTANCE_hInstance, byte* lpBitmapName);
     [DllImport(lib, EntryPoint = "LoadBitmapW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadBitmap(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpBitmapName);
+        pointer LoadBitmap(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpBitmapName);
     [DllImport(lib, EntryPoint = "LoadBitmapW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadBitmap(cpointer unfoundType_HINSTANCE_hInstance, char* lpBitmapName);
+        pointer LoadBitmap(pointer unfoundType_HINSTANCE_hInstance, char* lpBitmapName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadBitmapW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpBitmapName);
+        pointer LoadBitmapW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpBitmapName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadBitmapW(cpointer unfoundType_HINSTANCE_hInstance, char* lpBitmapName);
+        pointer LoadBitmapW(pointer unfoundType_HINSTANCE_hInstance, char* lpBitmapName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpCursorName);
+        pointer LoadCursorA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpCursorName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpCursorName);
+        pointer LoadCursorA(pointer unfoundType_HINSTANCE_hInstance, byte* lpCursorName);
     [DllImport(lib, EntryPoint = "LoadCursorW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursor(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpCursorName);
+        pointer LoadCursor(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpCursorName);
     [DllImport(lib, EntryPoint = "LoadCursorW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursor(cpointer unfoundType_HINSTANCE_hInstance, char* lpCursorName);
+        pointer LoadCursor(pointer unfoundType_HINSTANCE_hInstance, char* lpCursorName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpCursorName);
+        pointer LoadCursorW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpCursorName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorW(cpointer unfoundType_HINSTANCE_hInstance, char* lpCursorName);
+        pointer LoadCursorW(pointer unfoundType_HINSTANCE_hInstance, char* lpCursorName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorFromFileA([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+        pointer LoadCursorFromFileA([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorFromFileA(byte* lpFileName);
+        pointer LoadCursorFromFileA(byte* lpFileName);
     [DllImport(lib, EntryPoint = "LoadCursorFromFileW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorFromFile([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
+        pointer LoadCursorFromFile([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport(lib, EntryPoint = "LoadCursorFromFileW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorFromFile(char* lpFileName);
+        pointer LoadCursorFromFile(char* lpFileName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorFromFileW([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
+        pointer LoadCursorFromFileW([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadCursorFromFileW(char* lpFileName);
+        pointer LoadCursorFromFileW(char* lpFileName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateCursor(cpointer unfoundType_HINSTANCE_hInst, int xHotSpot, int yHotSpot, int nWidth, int nHeight, cpointer unfoundType_VOIDpvANDPlanepvANDPlane_unnamed_5, cpointer unfoundType_VOIDpvXORPlanepvXORPlane_unnamed_6);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool DestroyCursor(cpointer unfoundType_HCURSOR_hCursor);
+        pointer CreateCursor(pointer unfoundType_HINSTANCE_hInst, int xHotSpot, int yHotSpot, int nWidth, int nHeight, pointer unfoundType_VOIDpvANDPlanepvANDPlane_unnamed_5, pointer unfoundType_VOIDpvXORPlanepvXORPlane_unnamed_6);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetSystemCursor(cpointer unfoundType_HCURSOR_hcur, int id);
+        bool DestroyCursor(pointer unfoundType_HCURSOR_hCursor);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool SetSystemCursor(pointer unfoundType_HCURSOR_hcur, int id);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadIconA(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpIconName);
+        pointer LoadIconA(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPStr)] string lpIconName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadIconA(cpointer unfoundType_HINSTANCE_hInstance, byte* lpIconName);
+        pointer LoadIconA(pointer unfoundType_HINSTANCE_hInstance, byte* lpIconName);
     [DllImport(lib, EntryPoint = "LoadIconW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadIcon(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpIconName);
+        pointer LoadIcon(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpIconName);
     [DllImport(lib, EntryPoint = "LoadIconW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadIcon(cpointer unfoundType_HINSTANCE_hInstance, char* lpIconName);
+        pointer LoadIcon(pointer unfoundType_HINSTANCE_hInstance, char* lpIconName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadIconW(cpointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpIconName);
+        pointer LoadIconW(pointer unfoundType_HINSTANCE_hInstance, [MarshalAs(UnmanagedType.LPWStr)] string lpIconName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadIconW(cpointer unfoundType_HINSTANCE_hInstance, char* lpIconName);
+        pointer LoadIconW(pointer unfoundType_HINSTANCE_hInstance, char* lpIconName);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint PrivateExtractIconsA([MarshalAs(UnmanagedType.LPStr)] string szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
+        uint PrivateExtractIconsA([MarshalAs(UnmanagedType.LPStr)] string szFileName, int nIconIndex, int cxIcon, int cyIcon, pointer unfoundType_HICONphiconphicon_unnamed_4, pointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint PrivateExtractIconsA(byte* szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
+        uint PrivateExtractIconsA(byte* szFileName, int nIconIndex, int cxIcon, int cyIcon, pointer unfoundType_HICONphiconphicon_unnamed_4, pointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
     [DllImport(lib, EntryPoint = "PrivateExtractIconsW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint PrivateExtractIcons([MarshalAs(UnmanagedType.LPWStr)] string szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
+        uint PrivateExtractIcons([MarshalAs(UnmanagedType.LPWStr)] string szFileName, int nIconIndex, int cxIcon, int cyIcon, pointer unfoundType_HICONphiconphicon_unnamed_4, pointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
     [DllImport(lib, EntryPoint = "PrivateExtractIconsW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint PrivateExtractIcons(char* szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
+        uint PrivateExtractIcons(char* szFileName, int nIconIndex, int cxIcon, int cyIcon, pointer unfoundType_HICONphiconphicon_unnamed_4, pointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint PrivateExtractIconsW([MarshalAs(UnmanagedType.LPWStr)] string szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
+        uint PrivateExtractIconsW([MarshalAs(UnmanagedType.LPWStr)] string szFileName, int nIconIndex, int cxIcon, int cyIcon, pointer unfoundType_HICONphiconphicon_unnamed_4, pointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint PrivateExtractIconsW(char* szFileName, int nIconIndex, int cxIcon, int cyIcon, cpointer unfoundType_HICONphiconphicon_unnamed_4, cpointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
+        uint PrivateExtractIconsW(char* szFileName, int nIconIndex, int cxIcon, int cyIcon, pointer unfoundType_HICONphiconphicon_unnamed_4, pointer unfoundType_UINTpiconidpiconid_unnamed_5, uint nIcons, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateIcon(cpointer unfoundType_HINSTANCE_hInstance, int nWidth, int nHeight, byte cPlanes, byte cBitsPixel, cpointer unfoundType_BYTElpbANDbitslpbANDbits_unnamed_5, cpointer unfoundType_BYTElpbXORbitslpbXORbits_unnamed_6);
+        pointer CreateIcon(pointer unfoundType_HINSTANCE_hInstance, int nWidth, int nHeight, byte cPlanes, byte cBitsPixel, pointer unfoundType_BYTElpbANDbitslpbANDbits_unnamed_5, pointer unfoundType_BYTElpbXORbitslpbXORbits_unnamed_6);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DestroyIcon(cpointer hIcon);
+        bool DestroyIcon(pointer hIcon);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LookupIconIdFromDirectory(cpointer unfoundType_PBYTE_presbits, bool fIcon);
+        int LookupIconIdFromDirectory(pointer unfoundType_PBYTE_presbits, bool fIcon);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int LookupIconIdFromDirectoryEx(cpointer unfoundType_PBYTE_presbits, bool fIcon, int cxDesired, int cyDesired, uint Flags);
+        int LookupIconIdFromDirectoryEx(pointer unfoundType_PBYTE_presbits, bool fIcon, int cxDesired, int cyDesired, uint Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateIconFromResource(cpointer unfoundType_PBYTE_presbits, int dwResSize, bool fIcon, int dwVer);
+        pointer CreateIconFromResource(pointer unfoundType_PBYTE_presbits, int dwResSize, bool fIcon, int dwVer);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateIconFromResourceEx(cpointer unfoundType_PBYTE_presbits, int dwResSize, bool fIcon, int dwVer, int cxDesired, int cyDesired, uint Flags);
+        pointer CreateIconFromResourceEx(pointer unfoundType_PBYTE_presbits, int dwResSize, bool fIcon, int dwVer, int cxDesired, int cyDesired, uint Flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         uint SetThreadCursorCreationScaling(uint cursorDpi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadImageA(cpointer unfoundType_HINSTANCE_hInst, [MarshalAs(UnmanagedType.LPStr)] string name, uint type, int cx, int cy, uint fuLoad);
+        pointer LoadImageA(pointer unfoundType_HINSTANCE_hInst, [MarshalAs(UnmanagedType.LPStr)] string name, uint type, int cx, int cy, uint fuLoad);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadImageA(cpointer unfoundType_HINSTANCE_hInst, byte* name, uint type, int cx, int cy, uint fuLoad);
+        pointer LoadImageA(pointer unfoundType_HINSTANCE_hInst, byte* name, uint type, int cx, int cy, uint fuLoad);
     [DllImport(lib, EntryPoint = "LoadImageW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadImage(cpointer unfoundType_HINSTANCE_hInst, [MarshalAs(UnmanagedType.LPWStr)] string name, uint type, int cx, int cy, uint fuLoad);
+        pointer LoadImage(pointer unfoundType_HINSTANCE_hInst, [MarshalAs(UnmanagedType.LPWStr)] string name, uint type, int cx, int cy, uint fuLoad);
     [DllImport(lib, EntryPoint = "LoadImageW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadImage(cpointer unfoundType_HINSTANCE_hInst, char* name, uint type, int cx, int cy, uint fuLoad);
+        pointer LoadImage(pointer unfoundType_HINSTANCE_hInst, char* name, uint type, int cx, int cy, uint fuLoad);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadImageW(cpointer unfoundType_HINSTANCE_hInst, [MarshalAs(UnmanagedType.LPWStr)] string name, uint type, int cx, int cy, uint fuLoad);
+        pointer LoadImageW(pointer unfoundType_HINSTANCE_hInst, [MarshalAs(UnmanagedType.LPWStr)] string name, uint type, int cx, int cy, uint fuLoad);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer LoadImageW(cpointer unfoundType_HINSTANCE_hInst, char* name, uint type, int cx, int cy, uint fuLoad);
+        pointer LoadImageW(pointer unfoundType_HINSTANCE_hInst, char* name, uint type, int cx, int cy, uint fuLoad);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CopyImage(cpointer h, uint type, int cx, int cy, uint flags);
+        pointer CopyImage(pointer h, uint type, int cx, int cy, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CreateIconIndirect(cpointer unfoundType_PICONINFO_piconinfo);
+        pointer CreateIconIndirect(pointer unfoundType_PICONINFO_piconinfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer CopyIcon(cpointer hIcon);
+        pointer CopyIcon(pointer hIcon);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetIconInfo(cpointer hIcon, cpointer unfoundType_PICONINFO_piconinfo);
+        bool GetIconInfo(pointer hIcon, pointer unfoundType_PICONINFO_piconinfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetIconInfoExA(cpointer hicon, cpointer unfoundType_PICONINFOEXA_piconinfo);
+        bool GetIconInfoExA(pointer hicon, pointer unfoundType_PICONINFOEXA_piconinfo);
     [DllImport(lib, EntryPoint = "GetIconInfoExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetIconInfoEx(cpointer hicon, cpointer unfoundType_PICONINFOEXW_piconinfo);
+        bool GetIconInfoEx(pointer hicon, pointer unfoundType_PICONINFOEXW_piconinfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetIconInfoExW(cpointer hicon, cpointer unfoundType_PICONINFOEXW_piconinfo);
+        bool GetIconInfoExW(pointer hicon, pointer unfoundType_PICONINFOEXW_piconinfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsDialogMessageA(cpointer hDlg, cpointer unfoundType_LPMSG_lpMsg);
+        bool IsDialogMessageA(pointer hDlg, pointer unfoundType_LPMSG_lpMsg);
     [DllImport(lib, EntryPoint = "IsDialogMessageW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsDialogMessage(cpointer hDlg, cpointer unfoundType_LPMSG_lpMsg);
+        bool IsDialogMessage(pointer hDlg, pointer unfoundType_LPMSG_lpMsg);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsDialogMessageW(cpointer hDlg, cpointer unfoundType_LPMSG_lpMsg);
+        bool IsDialogMessageW(pointer hDlg, pointer unfoundType_LPMSG_lpMsg);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool MapDialogRect(cpointer hDlg, cpointer unfoundType_LPRECT_lpRect);
+        bool MapDialogRect(pointer hDlg, pointer unfoundType_LPRECT_lpRect);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListA(cpointer hDlg, [MarshalAs(UnmanagedType.LPStr)] string lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
+        int DlgDirListA(pointer hDlg, [MarshalAs(UnmanagedType.LPStr)] string lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListA(cpointer hDlg, ReadOnlySpan<byte> lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
+        int DlgDirListA(pointer hDlg, ReadOnlySpan<byte> lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListA(cpointer hDlg, byte* lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
+        int DlgDirListA(pointer hDlg, byte* lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
     [DllImport(lib, EntryPoint = "DlgDirListW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirList(cpointer hDlg, string lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
+        int DlgDirList(pointer hDlg, string lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
     [DllImport(lib, EntryPoint = "DlgDirListW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirList(cpointer hDlg, char* lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
+        int DlgDirList(pointer hDlg, char* lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListW(cpointer hDlg, string lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
+        int DlgDirListW(pointer hDlg, string lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListW(cpointer hDlg, char* lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool DlgDirSelectExA(cpointer hwndDlg, [MarshalAs(UnmanagedType.LPStr)] string lpString, int chCount, int idListBox);
+        int DlgDirListW(pointer hDlg, char* lpPathSpec, int nIDListBox, int nIDStaticPath, uint uFileType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectExA(cpointer hwndDlg, ReadOnlySpan<byte> lpString, int chCount, int idListBox);
+        bool DlgDirSelectExA(pointer hwndDlg, [MarshalAs(UnmanagedType.LPStr)] string lpString, int chCount, int idListBox);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectExA(cpointer hwndDlg, byte* lpString, int chCount, int idListBox);
+        bool DlgDirSelectExA(pointer hwndDlg, ReadOnlySpan<byte> lpString, int chCount, int idListBox);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool DlgDirSelectExA(pointer hwndDlg, byte* lpString, int chCount, int idListBox);
     [DllImport(lib, EntryPoint = "DlgDirSelectExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectEx(cpointer hwndDlg, string lpString, int chCount, int idListBox);
+        bool DlgDirSelectEx(pointer hwndDlg, string lpString, int chCount, int idListBox);
     [DllImport(lib, EntryPoint = "DlgDirSelectExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectEx(cpointer hwndDlg, char* lpString, int chCount, int idListBox);
+        bool DlgDirSelectEx(pointer hwndDlg, char* lpString, int chCount, int idListBox);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectExW(cpointer hwndDlg, string lpString, int chCount, int idListBox);
+        bool DlgDirSelectExW(pointer hwndDlg, string lpString, int chCount, int idListBox);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectExW(cpointer hwndDlg, char* lpString, int chCount, int idListBox);
+        bool DlgDirSelectExW(pointer hwndDlg, char* lpString, int chCount, int idListBox);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListComboBoxA(cpointer hDlg, [MarshalAs(UnmanagedType.LPStr)] string lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
+        int DlgDirListComboBoxA(pointer hDlg, [MarshalAs(UnmanagedType.LPStr)] string lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListComboBoxA(cpointer hDlg, ReadOnlySpan<byte> lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
+        int DlgDirListComboBoxA(pointer hDlg, ReadOnlySpan<byte> lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListComboBoxA(cpointer hDlg, byte* lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
+        int DlgDirListComboBoxA(pointer hDlg, byte* lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
     [DllImport(lib, EntryPoint = "DlgDirListComboBoxW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListComboBox(cpointer hDlg, string lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
+        int DlgDirListComboBox(pointer hDlg, string lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
     [DllImport(lib, EntryPoint = "DlgDirListComboBoxW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListComboBox(cpointer hDlg, char* lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
+        int DlgDirListComboBox(pointer hDlg, char* lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListComboBoxW(cpointer hDlg, string lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
+        int DlgDirListComboBoxW(pointer hDlg, string lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DlgDirListComboBoxW(cpointer hDlg, char* lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool DlgDirSelectComboBoxExA(cpointer hwndDlg, [MarshalAs(UnmanagedType.LPStr)] string lpString, int cchOut, int idComboBox);
+        int DlgDirListComboBoxW(pointer hDlg, char* lpPathSpec, int nIDComboBox, int nIDStaticPath, uint uFiletype);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectComboBoxExA(cpointer hwndDlg, ReadOnlySpan<byte> lpString, int cchOut, int idComboBox);
+        bool DlgDirSelectComboBoxExA(pointer hwndDlg, [MarshalAs(UnmanagedType.LPStr)] string lpString, int cchOut, int idComboBox);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectComboBoxExA(cpointer hwndDlg, byte* lpString, int cchOut, int idComboBox);
+        bool DlgDirSelectComboBoxExA(pointer hwndDlg, ReadOnlySpan<byte> lpString, int cchOut, int idComboBox);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool DlgDirSelectComboBoxExA(pointer hwndDlg, byte* lpString, int cchOut, int idComboBox);
     [DllImport(lib, EntryPoint = "DlgDirSelectComboBoxExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectComboBoxEx(cpointer hwndDlg, string lpString, int cchOut, int idComboBox);
+        bool DlgDirSelectComboBoxEx(pointer hwndDlg, string lpString, int cchOut, int idComboBox);
     [DllImport(lib, EntryPoint = "DlgDirSelectComboBoxExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectComboBoxEx(cpointer hwndDlg, char* lpString, int cchOut, int idComboBox);
+        bool DlgDirSelectComboBoxEx(pointer hwndDlg, char* lpString, int cchOut, int idComboBox);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectComboBoxExW(cpointer hwndDlg, string lpString, int cchOut, int idComboBox);
+        bool DlgDirSelectComboBoxExW(pointer hwndDlg, string lpString, int cchOut, int idComboBox);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool DlgDirSelectComboBoxExW(cpointer hwndDlg, char* lpString, int cchOut, int idComboBox);
+        bool DlgDirSelectComboBoxExW(pointer hwndDlg, char* lpString, int cchOut, int idComboBox);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int SetScrollInfo(cpointer hwnd, int nBar, cpointer unfoundType_LPCSCROLLINFO_lpsi, bool redraw);
+        int SetScrollInfo(pointer hwnd, int nBar, pointer unfoundType_LPCSCROLLINFO_lpsi, bool redraw);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetScrollInfo(cpointer hwnd, int nBar, cpointer unfoundType_LPSCROLLINFO_lpsi);
+        bool GetScrollInfo(pointer hwnd, int nBar, pointer unfoundType_LPSCROLLINFO_lpsi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long DefFrameProcA(cpointer hWnd, cpointer hWndMDIClient, uint uMsg, ulong wParam, long lParam);
+        long DefFrameProcA(pointer hWnd, pointer hWndMDIClient, uint uMsg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "DefFrameProcW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        long DefFrameProc(cpointer hWnd, cpointer hWndMDIClient, uint uMsg, ulong wParam, long lParam);
+        long DefFrameProc(pointer hWnd, pointer hWndMDIClient, uint uMsg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        long DefFrameProcW(cpointer hWnd, cpointer hWndMDIClient, uint uMsg, ulong wParam, long lParam);
+        long DefFrameProcW(pointer hWnd, pointer hWndMDIClient, uint uMsg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefMDIChildProcA(cpointer hWnd, uint uMsg, ulong wParam, long lParam);
+        pointer DefMDIChildProcA(pointer hWnd, uint uMsg, ulong wParam, long lParam);
     [DllImport(lib, EntryPoint = "DefMDIChildProcW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefMDIChildProc(cpointer hWnd, uint uMsg, ulong wParam, long lParam);
+        pointer DefMDIChildProc(pointer hWnd, uint uMsg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer DefMDIChildProcW(cpointer hWnd, uint uMsg, ulong wParam, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool TranslateMDISysAccel(cpointer hWndClient, cpointer unfoundType_LPMSG_lpMsg);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        uint ArrangeIconicWindows(cpointer hWnd);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindowA(byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindowA(byte* lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, EntryPoint = "CreateMDIWindowW", SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, EntryPoint = "CreateMDIWindowW", SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, EntryPoint = "CreateMDIWindowW", SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindow(char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, EntryPoint = "CreateMDIWindowW", SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindow(char* lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindowW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindowW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindowW(char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        cpointer CreateMDIWindowW(char* lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, cpointer hWndParent, cpointer unfoundType_HINSTANCE_hInstance, long lParam);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        short TileWindows(cpointer hwndParent, uint wHow, cpointer unfoundType_RECT_lpRect, uint cKids, cpointer lpKids);
+        pointer DefMDIChildProcW(pointer hWnd, uint uMsg, ulong wParam, long lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool WinHelpA(cpointer hWndMain, [MarshalAs(UnmanagedType.LPStr)] string lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
+        bool TranslateMDISysAccel(pointer hWndClient, pointer unfoundType_LPMSG_lpMsg);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        uint ArrangeIconicWindows(pointer hWnd);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindowA([MarshalAs(UnmanagedType.LPStr)] string lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindowA(byte* lpClassName, [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindowA(byte* lpClassName, byte* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, EntryPoint = "CreateMDIWindowW", SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, EntryPoint = "CreateMDIWindowW", SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindow([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, EntryPoint = "CreateMDIWindowW", SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindow(char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, EntryPoint = "CreateMDIWindowW", SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindow(char* lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindowW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindowW([MarshalAs(UnmanagedType.LPWStr)] string lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindowW(char* lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        pointer CreateMDIWindowW(char* lpClassName, char* lpWindowName, int dwStyle, int X, int Y, int nWidth, int nHeight, pointer hWndParent, pointer unfoundType_HINSTANCE_hInstance, long lParam);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        short TileWindows(pointer hwndParent, uint wHow, pointer unfoundType_RECT_lpRect, uint cKids, pointer lpKids);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool WinHelpA(cpointer hWndMain, byte* lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
+        bool WinHelpA(pointer hWndMain, [MarshalAs(UnmanagedType.LPStr)] string lpszHelp, uint uCommand, pointer unfoundType_ULONG_PTR_dwData);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool WinHelpA(pointer hWndMain, byte* lpszHelp, uint uCommand, pointer unfoundType_ULONG_PTR_dwData);
     [DllImport(lib, EntryPoint = "WinHelpW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool WinHelp(cpointer hWndMain, [MarshalAs(UnmanagedType.LPWStr)] string lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
+        bool WinHelp(pointer hWndMain, [MarshalAs(UnmanagedType.LPWStr)] string lpszHelp, uint uCommand, pointer unfoundType_ULONG_PTR_dwData);
     [DllImport(lib, EntryPoint = "WinHelpW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool WinHelp(cpointer hWndMain, char* lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
+        bool WinHelp(pointer hWndMain, char* lpszHelp, uint uCommand, pointer unfoundType_ULONG_PTR_dwData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool WinHelpW(cpointer hWndMain, [MarshalAs(UnmanagedType.LPWStr)] string lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
+        bool WinHelpW(pointer hWndMain, [MarshalAs(UnmanagedType.LPWStr)] string lpszHelp, uint uCommand, pointer unfoundType_ULONG_PTR_dwData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool WinHelpW(cpointer hWndMain, char* lpszHelp, uint uCommand, cpointer unfoundType_ULONG_PTR_dwData);
+        bool WinHelpW(pointer hWndMain, char* lpszHelp, uint uCommand, pointer unfoundType_ULONG_PTR_dwData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetGuiResources(cpointer hProcess, int uiFlags);
+        int GetGuiResources(pointer hProcess, int uiFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettingsA(cpointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
+        int ChangeDisplaySettingsA(pointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
     [DllImport(lib, EntryPoint = "ChangeDisplaySettingsW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettings(cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
+        int ChangeDisplaySettings(pointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettingsW(cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
+        int ChangeDisplaySettingsW(pointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettingsExA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, cpointer unfoundType_DEVMODEA_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
+        int ChangeDisplaySettingsExA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, pointer unfoundType_DEVMODEA_lpDevMode, pointer hwnd, int dwflags, pointer lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettingsExA(byte* lpszDeviceName, cpointer unfoundType_DEVMODEA_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
+        int ChangeDisplaySettingsExA(byte* lpszDeviceName, pointer unfoundType_DEVMODEA_lpDevMode, pointer hwnd, int dwflags, pointer lParam);
     [DllImport(lib, EntryPoint = "ChangeDisplaySettingsExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettingsEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, cpointer unfoundType_DEVMODEW_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
+        int ChangeDisplaySettingsEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, pointer unfoundType_DEVMODEW_lpDevMode, pointer hwnd, int dwflags, pointer lParam);
     [DllImport(lib, EntryPoint = "ChangeDisplaySettingsExW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettingsEx(char* lpszDeviceName, cpointer unfoundType_DEVMODEW_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
+        int ChangeDisplaySettingsEx(char* lpszDeviceName, pointer unfoundType_DEVMODEW_lpDevMode, pointer hwnd, int dwflags, pointer lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettingsExW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, cpointer unfoundType_DEVMODEW_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
+        int ChangeDisplaySettingsExW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, pointer unfoundType_DEVMODEW_lpDevMode, pointer hwnd, int dwflags, pointer lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int ChangeDisplaySettingsExW(char* lpszDeviceName, cpointer unfoundType_DEVMODEW_lpDevMode, cpointer hwnd, int dwflags, cpointer lParam);
+        int ChangeDisplaySettingsExW(char* lpszDeviceName, pointer unfoundType_DEVMODEW_lpDevMode, pointer hwnd, int dwflags, pointer lParam);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode);
+        bool EnumDisplaySettingsA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEA_lpDevMode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsA(byte* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode);
+        bool EnumDisplaySettingsA(byte* lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEA_lpDevMode);
     [DllImport(lib, EntryPoint = "EnumDisplaySettingsW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettings([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode);
+        bool EnumDisplaySettings([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEW_lpDevMode);
     [DllImport(lib, EntryPoint = "EnumDisplaySettingsW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettings(char* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode);
+        bool EnumDisplaySettings(char* lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEW_lpDevMode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode);
+        bool EnumDisplaySettingsW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEW_lpDevMode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsW(char* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode);
+        bool EnumDisplaySettingsW(char* lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEW_lpDevMode);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsExA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
+        bool EnumDisplaySettingsExA([MarshalAs(UnmanagedType.LPStr)] string lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsExA(byte* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
+        bool EnumDisplaySettingsExA(byte* lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEA_lpDevMode, int dwFlags);
     [DllImport(lib, EntryPoint = "EnumDisplaySettingsExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
+        bool EnumDisplaySettingsEx([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport(lib, EntryPoint = "EnumDisplaySettingsExW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsEx(char* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
+        bool EnumDisplaySettingsEx(char* lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsExW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
+        bool EnumDisplaySettingsExW([MarshalAs(UnmanagedType.LPWStr)] string lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplaySettingsExW(char* lpszDeviceName, int iModeNum, cpointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
+        bool EnumDisplaySettingsExW(char* lpszDeviceName, int iModeNum, pointer unfoundType_DEVMODEW_lpDevMode, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplayDevicesA([MarshalAs(UnmanagedType.LPStr)] string lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEA_lpDisplayDevice, int dwFlags);
+        bool EnumDisplayDevicesA([MarshalAs(UnmanagedType.LPStr)] string lpDevice, int iDevNum, pointer unfoundType_PDISPLAY_DEVICEA_lpDisplayDevice, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplayDevicesA(byte* lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEA_lpDisplayDevice, int dwFlags);
+        bool EnumDisplayDevicesA(byte* lpDevice, int iDevNum, pointer unfoundType_PDISPLAY_DEVICEA_lpDisplayDevice, int dwFlags);
     [DllImport(lib, EntryPoint = "EnumDisplayDevicesW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplayDevices([MarshalAs(UnmanagedType.LPWStr)] string lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
+        bool EnumDisplayDevices([MarshalAs(UnmanagedType.LPWStr)] string lpDevice, int iDevNum, pointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
     [DllImport(lib, EntryPoint = "EnumDisplayDevicesW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplayDevices(char* lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
+        bool EnumDisplayDevices(char* lpDevice, int iDevNum, pointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplayDevicesW([MarshalAs(UnmanagedType.LPWStr)] string lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
+        bool EnumDisplayDevicesW([MarshalAs(UnmanagedType.LPWStr)] string lpDevice, int iDevNum, pointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplayDevicesW(char* lpDevice, int iDevNum, cpointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
+        bool EnumDisplayDevicesW(char* lpDevice, int iDevNum, pointer unfoundType_PDISPLAY_DEVICEW_lpDisplayDevice, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetDisplayConfigBufferSizes(uint flags, cpointer numPathArrayElements, cpointer numModeInfoArrayElements);
+        int GetDisplayConfigBufferSizes(uint flags, pointer numPathArrayElements, pointer numModeInfoArrayElements);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int SetDisplayConfig(uint numPathArrayElements, cpointer unfoundType_DISPLAYCONFIG_PATH_INFO_pathArray, uint numModeInfoArrayElements, cpointer unfoundType_DISPLAYCONFIG_MODE_INFO_modeInfoArray, uint flags);
+        int SetDisplayConfig(uint numPathArrayElements, pointer unfoundType_DISPLAYCONFIG_PATH_INFO_pathArray, uint numModeInfoArrayElements, pointer unfoundType_DISPLAYCONFIG_MODE_INFO_modeInfoArray, uint flags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int QueryDisplayConfig(uint flags, cpointer numPathArrayElements, cpointer unfoundType_DISPLAYCONFIG_PATH_INFO_pathArray, cpointer numModeInfoArrayElements, cpointer unfoundType_DISPLAYCONFIG_MODE_INFO_modeInfoArray, cpointer unfoundType_DISPLAYCONFIG_TOPOLOGY_ID_currentTopologyId);
+        int QueryDisplayConfig(uint flags, pointer numPathArrayElements, pointer unfoundType_DISPLAYCONFIG_PATH_INFO_pathArray, pointer numModeInfoArrayElements, pointer unfoundType_DISPLAYCONFIG_MODE_INFO_modeInfoArray, pointer unfoundType_DISPLAYCONFIG_TOPOLOGY_ID_currentTopologyId);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DisplayConfigGetDeviceInfo(cpointer unfoundType_DISPLAYCONFIG_DEVICE_INFO_HEADER_requestPacket);
+        int DisplayConfigGetDeviceInfo(pointer unfoundType_DISPLAYCONFIG_DEVICE_INFO_HEADER_requestPacket);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int DisplayConfigSetDeviceInfo(cpointer unfoundType_DISPLAYCONFIG_DEVICE_INFO_HEADER_setPacket);
+        int DisplayConfigSetDeviceInfo(pointer unfoundType_DISPLAYCONFIG_DEVICE_INFO_HEADER_setPacket);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SystemParametersInfoA(uint uiAction, uint uiParam, cpointer pvParam, uint fWinIni);
+        bool SystemParametersInfoA(uint uiAction, uint uiParam, pointer pvParam, uint fWinIni);
     [DllImport(lib, EntryPoint = "SystemParametersInfoW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SystemParametersInfo(uint uiAction, uint uiParam, cpointer pvParam, uint fWinIni);
+        bool SystemParametersInfo(uint uiAction, uint uiParam, pointer pvParam, uint fWinIni);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SystemParametersInfoW(uint uiAction, uint uiParam, cpointer pvParam, uint fWinIni);
+        bool SystemParametersInfoW(uint uiAction, uint uiParam, pointer pvParam, uint fWinIni);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SystemParametersInfoForDpi(uint uiAction, uint uiParam, cpointer pvParam, uint fWinIni, uint dpi);
+        bool SystemParametersInfoForDpi(uint uiAction, uint uiParam, pointer pvParam, uint fWinIni, uint dpi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -4007,49 +4005,49 @@ public unsafe class user32
         void SetLastErrorEx(int dwErrCode, int dwType);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int InternalGetWindowText(cpointer hWnd, string pString, int cchMaxCount);
+        int InternalGetWindowText(pointer hWnd, string pString, int cchMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int InternalGetWindowText(cpointer hWnd, char* pString, int cchMaxCount);
+        int InternalGetWindowText(pointer hWnd, char* pString, int cchMaxCount);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EndTask(cpointer hWnd, bool fShutDown, bool fForce);
+        bool EndTask(pointer hWnd, bool fShutDown, bool fForce);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
         bool CancelShutdown();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer MonitorFromPoint(cpointer unfoundType_POINT_pt, int dwFlags);
+        pointer MonitorFromPoint(pointer unfoundType_POINT_pt, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer MonitorFromRect(cpointer unfoundType_LPCRECT_lprc, int dwFlags);
+        pointer MonitorFromRect(pointer unfoundType_LPCRECT_lprc, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer MonitorFromWindow(cpointer hwnd, int dwFlags);
+        pointer MonitorFromWindow(pointer hwnd, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMonitorInfoA(cpointer hMonitor, cpointer unfoundType_LPMONITORINFO_lpmi);
+        bool GetMonitorInfoA(pointer hMonitor, pointer unfoundType_LPMONITORINFO_lpmi);
     [DllImport(lib, EntryPoint = "GetMonitorInfoW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMonitorInfo(cpointer hMonitor, cpointer unfoundType_LPMONITORINFO_lpmi);
+        bool GetMonitorInfo(pointer hMonitor, pointer unfoundType_LPMONITORINFO_lpmi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMonitorInfoW(cpointer hMonitor, cpointer unfoundType_LPMONITORINFO_lpmi);
+        bool GetMonitorInfoW(pointer hMonitor, pointer unfoundType_LPMONITORINFO_lpmi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnumDisplayMonitors(cpointer hdc, cpointer unfoundType_LPCRECT_lprcClip, cpointer unfoundType_MONITORENUMPROC_lpfnEnum, long dwData);
+        bool EnumDisplayMonitors(pointer hdc, pointer unfoundType_LPCRECT_lprcClip, pointer unfoundType_MONITORENUMPROC_lpfnEnum, long dwData);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        void NotifyWinEvent(int argEvent, cpointer hwnd, int idObject, int idChild);
+        void NotifyWinEvent(int argEvent, pointer hwnd, int idObject, int idChild);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetWinEventHook(int eventMin, int eventMax, cpointer unfoundType_HMODULE_hmodWinEventProc, cpointer unfoundType_WINEVENTPROC_pfnWinEventProc, int idProcess, int idThread, int dwFlags);
+        pointer SetWinEventHook(int eventMin, int eventMax, pointer unfoundType_HMODULE_hmodWinEventProc, pointer unfoundType_WINEVENTPROC_pfnWinEventProc, int idProcess, int idThread, int dwFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -4057,11 +4055,11 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UnhookWinEvent(cpointer unfoundType_HWINEVENTHOOK_hWinEventHook);
+        bool UnhookWinEvent(pointer unfoundType_HWINEVENTHOOK_hWinEventHook);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetGUIThreadInfo(int idThread, cpointer unfoundType_PGUITHREADINFO_pgui);
+        bool GetGUIThreadInfo(int idThread, pointer unfoundType_PGUITHREADINFO_pgui);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -4076,163 +4074,163 @@ public unsafe class user32
         bool IsProcessDPIAware();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetThreadDpiAwarenessContext(cpointer unfoundType_DPI_AWARENESS_CONTEXT_dpiContext);
+        pointer SetThreadDpiAwarenessContext(pointer unfoundType_DPI_AWARENESS_CONTEXT_dpiContext);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetThreadDpiAwarenessContext();
+        pointer GetThreadDpiAwarenessContext();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetWindowDpiAwarenessContext(cpointer hwnd);
+        pointer GetWindowDpiAwarenessContext(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetAwarenessFromDpiAwarenessContext(cpointer unfoundType_DPI_AWARENESS_CONTEXT_value);
+        pointer GetAwarenessFromDpiAwarenessContext(pointer unfoundType_DPI_AWARENESS_CONTEXT_value);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDpiFromDpiAwarenessContext(cpointer unfoundType_DPI_AWARENESS_CONTEXT_value);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool AreDpiAwarenessContextsEqual(cpointer unfoundType_DPI_AWARENESS_CONTEXT_dpiContextA, cpointer unfoundType_DPI_AWARENESS_CONTEXT_dpiContextB);
+        uint GetDpiFromDpiAwarenessContext(pointer unfoundType_DPI_AWARENESS_CONTEXT_value);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsValidDpiAwarenessContext(cpointer unfoundType_DPI_AWARENESS_CONTEXT_value);
+        bool AreDpiAwarenessContextsEqual(pointer unfoundType_DPI_AWARENESS_CONTEXT_dpiContextA, pointer unfoundType_DPI_AWARENESS_CONTEXT_dpiContextB);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool IsValidDpiAwarenessContext(pointer unfoundType_DPI_AWARENESS_CONTEXT_value);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetDpiForWindow(cpointer hwnd);
+        uint GetDpiForWindow(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
         uint GetDpiForSystem();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetSystemDpiForProcess(cpointer hProcess);
+        uint GetSystemDpiForProcess(pointer hProcess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool EnableNonClientDpiScaling(cpointer hwnd);
+        bool EnableNonClientDpiScaling(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool InheritWindowMonitor(cpointer hwnd, cpointer hwndInherit);
+        bool InheritWindowMonitor(pointer hwnd, pointer hwndInherit);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetProcessDpiAwarenessContext(cpointer unfoundType_DPI_AWARENESS_CONTEXT_value);
+        bool SetProcessDpiAwarenessContext(pointer unfoundType_DPI_AWARENESS_CONTEXT_value);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetDpiAwarenessContextForProcess(cpointer hProcess);
+        pointer GetDpiAwarenessContextForProcess(pointer hProcess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer SetThreadDpiHostingBehavior(cpointer unfoundType_DPI_HOSTING_BEHAVIOR_value);
+        pointer SetThreadDpiHostingBehavior(pointer unfoundType_DPI_HOSTING_BEHAVIOR_value);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetThreadDpiHostingBehavior();
+        pointer GetThreadDpiHostingBehavior();
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetWindowDpiHostingBehavior(cpointer hwnd);
+        pointer GetWindowDpiHostingBehavior(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetWindowModuleFileNameA(cpointer hwnd, [MarshalAs(UnmanagedType.LPStr)] string pszFileName, uint cchFileNameMax);
+        uint GetWindowModuleFileNameA(pointer hwnd, [MarshalAs(UnmanagedType.LPStr)] string pszFileName, uint cchFileNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetWindowModuleFileNameA(cpointer hwnd, ReadOnlySpan<byte> pszFileName, uint cchFileNameMax);
+        uint GetWindowModuleFileNameA(pointer hwnd, ReadOnlySpan<byte> pszFileName, uint cchFileNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetWindowModuleFileNameA(cpointer hwnd, byte* pszFileName, uint cchFileNameMax);
+        uint GetWindowModuleFileNameA(pointer hwnd, byte* pszFileName, uint cchFileNameMax);
     [DllImport(lib, EntryPoint = "GetWindowModuleFileNameW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetWindowModuleFileName(cpointer hwnd, string pszFileName, uint cchFileNameMax);
+        uint GetWindowModuleFileName(pointer hwnd, string pszFileName, uint cchFileNameMax);
     [DllImport(lib, EntryPoint = "GetWindowModuleFileNameW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetWindowModuleFileName(cpointer hwnd, char* pszFileName, uint cchFileNameMax);
+        uint GetWindowModuleFileName(pointer hwnd, char* pszFileName, uint cchFileNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetWindowModuleFileNameW(cpointer hwnd, string pszFileName, uint cchFileNameMax);
+        uint GetWindowModuleFileNameW(pointer hwnd, string pszFileName, uint cchFileNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetWindowModuleFileNameW(cpointer hwnd, char* pszFileName, uint cchFileNameMax);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool GetCursorInfo(cpointer unfoundType_PCURSORINFO_pci);
+        uint GetWindowModuleFileNameW(pointer hwnd, char* pszFileName, uint cchFileNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetWindowInfo(cpointer hwnd, cpointer unfoundType_PWINDOWINFO_pwi);
+        bool GetCursorInfo(pointer unfoundType_PCURSORINFO_pci);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetTitleBarInfo(cpointer hwnd, cpointer unfoundType_PTITLEBARINFO_pti);
+        bool GetWindowInfo(pointer hwnd, pointer unfoundType_PWINDOWINFO_pwi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetMenuBarInfo(cpointer hwnd, int idObject, int idItem, cpointer unfoundType_PMENUBARINFO_pmbi);
+        bool GetTitleBarInfo(pointer hwnd, pointer unfoundType_PTITLEBARINFO_pti);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetScrollBarInfo(cpointer hwnd, int idObject, cpointer unfoundType_PSCROLLBARINFO_psbi);
+        bool GetMenuBarInfo(pointer hwnd, int idObject, int idItem, pointer unfoundType_PMENUBARINFO_pmbi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetComboBoxInfo(cpointer hwndCombo, cpointer unfoundType_PCOMBOBOXINFO_pcbi);
+        bool GetScrollBarInfo(pointer hwnd, int idObject, pointer unfoundType_PSCROLLBARINFO_psbi);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool GetComboBoxInfo(pointer hwndCombo, pointer unfoundType_PCOMBOBOXINFO_pcbi);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer GetAncestor(cpointer hwnd, uint gaFlags);
+        pointer GetAncestor(pointer hwnd, uint gaFlags);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        cpointer RealChildWindowFromPoint(cpointer hwndParent, cpointer unfoundType_POINT_ptParentClientCoords);
+        pointer RealChildWindowFromPoint(pointer hwndParent, pointer unfoundType_POINT_ptParentClientCoords);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint RealGetWindowClassA(cpointer hwnd, [MarshalAs(UnmanagedType.LPStr)] string ptszClassName, uint cchClassNameMax);
+        uint RealGetWindowClassA(pointer hwnd, [MarshalAs(UnmanagedType.LPStr)] string ptszClassName, uint cchClassNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint RealGetWindowClassA(cpointer hwnd, ReadOnlySpan<byte> ptszClassName, uint cchClassNameMax);
+        uint RealGetWindowClassA(pointer hwnd, ReadOnlySpan<byte> ptszClassName, uint cchClassNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint RealGetWindowClassA(cpointer hwnd, byte* ptszClassName, uint cchClassNameMax);
+        uint RealGetWindowClassA(pointer hwnd, byte* ptszClassName, uint cchClassNameMax);
     [DllImport(lib, EntryPoint = "RealGetWindowClassW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint RealGetWindowClass(cpointer hwnd, string ptszClassName, uint cchClassNameMax);
+        uint RealGetWindowClass(pointer hwnd, string ptszClassName, uint cchClassNameMax);
     [DllImport(lib, EntryPoint = "RealGetWindowClassW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint RealGetWindowClass(cpointer hwnd, char* ptszClassName, uint cchClassNameMax);
+        uint RealGetWindowClass(pointer hwnd, char* ptszClassName, uint cchClassNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint RealGetWindowClassW(cpointer hwnd, string ptszClassName, uint cchClassNameMax);
+        uint RealGetWindowClassW(pointer hwnd, string ptszClassName, uint cchClassNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint RealGetWindowClassW(cpointer hwnd, char* ptszClassName, uint cchClassNameMax);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool GetAltTabInfoA(cpointer hwnd, int iItem, cpointer unfoundType_PALTTABINFO_pati, [MarshalAs(UnmanagedType.LPStr)] string pszItemText, uint cchItemText);
+        uint RealGetWindowClassW(pointer hwnd, char* ptszClassName, uint cchClassNameMax);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetAltTabInfoA(cpointer hwnd, int iItem, cpointer unfoundType_PALTTABINFO_pati, ReadOnlySpan<byte> pszItemText, uint cchItemText);
+        bool GetAltTabInfoA(pointer hwnd, int iItem, pointer unfoundType_PALTTABINFO_pati, [MarshalAs(UnmanagedType.LPStr)] string pszItemText, uint cchItemText);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetAltTabInfoA(cpointer hwnd, int iItem, cpointer unfoundType_PALTTABINFO_pati, byte* pszItemText, uint cchItemText);
+        bool GetAltTabInfoA(pointer hwnd, int iItem, pointer unfoundType_PALTTABINFO_pati, ReadOnlySpan<byte> pszItemText, uint cchItemText);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool GetAltTabInfoA(pointer hwnd, int iItem, pointer unfoundType_PALTTABINFO_pati, byte* pszItemText, uint cchItemText);
     [DllImport(lib, EntryPoint = "GetAltTabInfoW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetAltTabInfo(cpointer hwnd, int iItem, cpointer unfoundType_PALTTABINFO_pati, string pszItemText, uint cchItemText);
+        bool GetAltTabInfo(pointer hwnd, int iItem, pointer unfoundType_PALTTABINFO_pati, string pszItemText, uint cchItemText);
     [DllImport(lib, EntryPoint = "GetAltTabInfoW", SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetAltTabInfo(cpointer hwnd, int iItem, cpointer unfoundType_PALTTABINFO_pati, char* pszItemText, uint cchItemText);
+        bool GetAltTabInfo(pointer hwnd, int iItem, pointer unfoundType_PALTTABINFO_pati, char* pszItemText, uint cchItemText);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetAltTabInfoW(cpointer hwnd, int iItem, cpointer unfoundType_PALTTABINFO_pati, string pszItemText, uint cchItemText);
+        bool GetAltTabInfoW(pointer hwnd, int iItem, pointer unfoundType_PALTTABINFO_pati, string pszItemText, uint cchItemText);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetAltTabInfoW(cpointer hwnd, int iItem, cpointer unfoundType_PALTTABINFO_pati, char* pszItemText, uint cchItemText);
+        bool GetAltTabInfoW(pointer hwnd, int iItem, pointer unfoundType_PALTTABINFO_pati, char* pszItemText, uint cchItemText);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        int GetListBoxInfo(cpointer hwnd);
+        int GetListBoxInfo(pointer hwnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -4240,63 +4238,63 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool UserHandleGrantAccess(cpointer hUserHandle, cpointer hJob, bool bGrant);
+        bool UserHandleGrantAccess(pointer hUserHandle, pointer hJob, bool bGrant);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetRawInputData(cpointer unfoundType_HRAWINPUT_hRawInput, uint uiCommand, cpointer pData, cpointer unfoundType_PUINT_pcbSize, uint cbSizeHeader);
+        uint GetRawInputData(pointer unfoundType_HRAWINPUT_hRawInput, uint uiCommand, pointer pData, pointer unfoundType_PUINT_pcbSize, uint cbSizeHeader);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetRawInputDeviceInfoA(cpointer hDevice, uint uiCommand, cpointer pData, cpointer unfoundType_PUINT_pcbSize);
+        uint GetRawInputDeviceInfoA(pointer hDevice, uint uiCommand, pointer pData, pointer unfoundType_PUINT_pcbSize);
     [DllImport(lib, EntryPoint = "GetRawInputDeviceInfoW", SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetRawInputDeviceInfo(cpointer hDevice, uint uiCommand, cpointer pData, cpointer unfoundType_PUINT_pcbSize);
+        uint GetRawInputDeviceInfo(pointer hDevice, uint uiCommand, pointer pData, pointer unfoundType_PUINT_pcbSize);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetRawInputDeviceInfoW(cpointer hDevice, uint uiCommand, cpointer pData, cpointer unfoundType_PUINT_pcbSize);
+        uint GetRawInputDeviceInfoW(pointer hDevice, uint uiCommand, pointer pData, pointer unfoundType_PUINT_pcbSize);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     public static extern
-        uint GetRawInputBuffer(cpointer unfoundType_PRAWINPUT_pData, cpointer unfoundType_PUINT_pcbSize, uint cbSizeHeader);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern
-        bool RegisterRawInputDevices(cpointer unfoundType_PCRAWINPUTDEVICE_pRawInputDevices, uint uiNumDevices, uint cbSize);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        uint GetRegisteredRawInputDevices(cpointer unfoundType_PRAWINPUTDEVICE_pRawInputDevices, cpointer unfoundType_PUINT_puiNumDevices, uint cbSize);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        uint GetRawInputDeviceList(cpointer unfoundType_PRAWINPUTDEVICELIST_pRawInputDeviceList, cpointer unfoundType_PUINT_puiNumDevices, uint cbSize);
-    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
-    public static extern
-        long DefRawInputProc(cpointer unfoundType_PRAWINPUT_paRawInput, int nInput, uint cbSizeHeader);
+        uint GetRawInputBuffer(pointer unfoundType_PRAWINPUT_pData, pointer unfoundType_PUINT_pcbSize, uint cbSizeHeader);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerDevices(cpointer deviceCount, cpointer unfoundType_POINTER_DEVICE_INFOpointerDevicespointerDevices_unnamed_1);
+        bool RegisterRawInputDevices(pointer unfoundType_PCRAWINPUTDEVICE_pRawInputDevices, uint uiNumDevices, uint cbSize);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        uint GetRegisteredRawInputDevices(pointer unfoundType_PRAWINPUTDEVICE_pRawInputDevices, pointer unfoundType_PUINT_puiNumDevices, uint cbSize);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        uint GetRawInputDeviceList(pointer unfoundType_PRAWINPUTDEVICELIST_pRawInputDeviceList, pointer unfoundType_PUINT_puiNumDevices, uint cbSize);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    public static extern
+        long DefRawInputProc(pointer unfoundType_PRAWINPUT_paRawInput, int nInput, uint cbSizeHeader);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerDevice(cpointer device, cpointer unfoundType_POINTER_DEVICE_INFOpointerDevicepointerDevice_unnamed_1);
+        bool GetPointerDevices(pointer deviceCount, pointer unfoundType_POINTER_DEVICE_INFOpointerDevicespointerDevices_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerDeviceProperties(cpointer device, cpointer propertyCount, cpointer unfoundType_POINTER_DEVICE_PROPERTYpointerPropertiespointerProperties_unnamed_2);
+        bool GetPointerDevice(pointer device, pointer unfoundType_POINTER_DEVICE_INFOpointerDevicepointerDevice_unnamed_1);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RegisterPointerDeviceNotifications(cpointer window, bool notifyRange);
+        bool GetPointerDeviceProperties(pointer device, pointer propertyCount, pointer unfoundType_POINTER_DEVICE_PROPERTYpointerPropertiespointerProperties_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerDeviceRects(cpointer device, cpointer unfoundType_RECT_pointerDeviceRect, cpointer unfoundType_RECT_displayRect);
+        bool RegisterPointerDeviceNotifications(pointer window, bool notifyRange);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetPointerDeviceCursors(cpointer device, cpointer cursorCount, cpointer unfoundType_POINTER_DEVICE_CURSOR_INFOdeviceCursorsdeviceCursors_unnamed_2);
+        bool GetPointerDeviceRects(pointer device, pointer unfoundType_RECT_pointerDeviceRect, pointer unfoundType_RECT_displayRect);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetRawPointerDeviceData(uint pointerId, uint historyCount, uint propertiesCount, cpointer unfoundType_POINTER_DEVICE_PROPERTY_pProperties, cpointer pValues);
+        bool GetPointerDeviceCursors(pointer device, pointer cursorCount, pointer unfoundType_POINTER_DEVICE_CURSOR_INFOdeviceCursorsdeviceCursors_unnamed_2);
+    [DllImport(lib, SetLastError = true, ExactSpelling = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern
+        bool GetRawPointerDeviceData(uint pointerId, uint historyCount, uint propertiesCount, pointer unfoundType_POINTER_DEVICE_PROPERTY_pProperties, pointer pValues);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -4304,71 +4302,71 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ChangeWindowMessageFilterEx(cpointer hwnd, uint message, int action, cpointer unfoundType_PCHANGEFILTERSTRUCT_pChangeFilterStruct);
+        bool ChangeWindowMessageFilterEx(pointer hwnd, uint message, int action, pointer unfoundType_PCHANGEFILTERSTRUCT_pChangeFilterStruct);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetGestureInfo(cpointer unfoundType_HGESTUREINFO_hGestureInfo, cpointer unfoundType_PGESTUREINFO_pGestureInfo);
+        bool GetGestureInfo(pointer unfoundType_HGESTUREINFO_hGestureInfo, pointer unfoundType_PGESTUREINFO_pGestureInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetGestureExtraArgs(cpointer unfoundType_HGESTUREINFO_hGestureInfo, uint cbExtraArgs, cpointer unfoundType_PBYTE_pExtraArgs);
+        bool GetGestureExtraArgs(pointer unfoundType_HGESTUREINFO_hGestureInfo, uint cbExtraArgs, pointer unfoundType_PBYTE_pExtraArgs);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool CloseGestureInfoHandle(cpointer unfoundType_HGESTUREINFO_hGestureInfo);
+        bool CloseGestureInfoHandle(pointer unfoundType_HGESTUREINFO_hGestureInfo);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetGestureConfig(cpointer hwnd, int dwReserved, uint cIDs, cpointer unfoundType_PGESTURECONFIG_pGestureConfig, uint cbSize);
+        bool SetGestureConfig(pointer hwnd, int dwReserved, uint cIDs, pointer unfoundType_PGESTURECONFIG_pGestureConfig, uint cbSize);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetGestureConfig(cpointer hwnd, int dwReserved, int dwFlags, cpointer unfoundType_PUINT_pcIDs, cpointer unfoundType_PGESTURECONFIG_pGestureConfig, uint cbSize);
+        bool GetGestureConfig(pointer hwnd, int dwReserved, int dwFlags, pointer unfoundType_PUINT_pcIDs, pointer unfoundType_PGESTURECONFIG_pGestureConfig, uint cbSize);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShutdownBlockReasonCreate(cpointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string pwszReason);
+        bool ShutdownBlockReasonCreate(pointer hWnd, [MarshalAs(UnmanagedType.LPWStr)] string pwszReason);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShutdownBlockReasonCreate(cpointer hWnd, char* pwszReason);
+        bool ShutdownBlockReasonCreate(pointer hWnd, char* pwszReason);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShutdownBlockReasonQuery(cpointer hWnd, string pwszBuff, cpointer unfoundType_DWORDpcchBuffpcchBuff_unnamed_2);
+        bool ShutdownBlockReasonQuery(pointer hWnd, string pwszBuff, pointer unfoundType_DWORDpcchBuffpcchBuff_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShutdownBlockReasonQuery(cpointer hWnd, char* pwszBuff, cpointer unfoundType_DWORDpcchBuffpcchBuff_unnamed_2);
+        bool ShutdownBlockReasonQuery(pointer hWnd, char* pwszBuff, pointer unfoundType_DWORDpcchBuffpcchBuff_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool ShutdownBlockReasonDestroy(cpointer hWnd);
+        bool ShutdownBlockReasonDestroy(pointer hWnd);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetCurrentInputMessageSource(cpointer unfoundType_INPUT_MESSAGE_SOURCEinputMessageSourceinputMessageSource_unnamed_0);
+        bool GetCurrentInputMessageSource(pointer unfoundType_INPUT_MESSAGE_SOURCEinputMessageSourceinputMessageSource_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetCIMSSM(cpointer unfoundType_INPUT_MESSAGE_SOURCEinputMessageSourceinputMessageSource_unnamed_0);
+        bool GetCIMSSM(pointer unfoundType_INPUT_MESSAGE_SOURCEinputMessageSourceinputMessageSource_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetAutoRotationState(cpointer unfoundType_PAR_STATE_pState);
+        bool GetAutoRotationState(pointer unfoundType_PAR_STATE_pState);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool GetDisplayAutoRotationPreferences(cpointer unfoundType_ORIENTATION_PREFERENCEpOrientationpOrientation_unnamed_0);
+        bool GetDisplayAutoRotationPreferences(pointer unfoundType_ORIENTATION_PREFERENCEpOrientationpOrientation_unnamed_0);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetDisplayAutoRotationPreferences(cpointer unfoundType_ORIENTATION_PREFERENCE_orientation);
+        bool SetDisplayAutoRotationPreferences(pointer unfoundType_ORIENTATION_PREFERENCE_orientation);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool IsImmersiveProcess(cpointer hProcess);
+        bool IsImmersiveProcess(pointer hProcess);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
@@ -4376,10 +4374,10 @@ public unsafe class user32
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool SetAdditionalForegroundBoostProcesses(cpointer topLevelWindow, int processHandleCount, cpointer unfoundType_HANDLEprocessHandleArrayprocessHandleArray_unnamed_2);
+        bool SetAdditionalForegroundBoostProcesses(pointer topLevelWindow, int processHandleCount, pointer unfoundType_HANDLEprocessHandleArrayprocessHandleArray_unnamed_2);
     [DllImport(lib, SetLastError = true, ExactSpelling = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern
-        bool RegisterForTooltipDismissNotification(cpointer hWnd, cpointer unfoundType_TOOLTIP_DISMISS_FLAGS_tdFlags);
+        bool RegisterForTooltipDismissNotification(pointer hWnd, pointer unfoundType_TOOLTIP_DISMISS_FLAGS_tdFlags);
 
 }

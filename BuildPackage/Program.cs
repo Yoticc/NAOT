@@ -1,18 +1,16 @@
-﻿using System.Diagnostics;
-using static System.IO.Path;
-
-var dotnetProcesses = Process.GetProcessesByName("dotnet").ToList();
+﻿var dotnetProcesses = Process.GetProcessesByName("dotnet").ToList();
 dotnetProcesses.ForEach(p => p.Kill());
 if (dotnetProcesses.Count > 0)
     Thread.Sleep(250); // Wait when all handles will be free
 
 var user = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+var packages = Combine(user, $@".nuget\packages");
 
 var packageId = "korn";
 var packageName = "Korn";
-var outPath = @"\bin\Release\net8.0";
+var outPath = @"\bin\x64\Release\net8.0";
 
-var package = Combine(user, $@".nuget\packages\{packageId}");
+var package = Combine(packages, packageId);
 if (Directory.Exists(package))
     Directory.Delete(package, true);
 
@@ -29,14 +27,19 @@ var core_bin = Combine(project, $@"{packageName}.Core{outPath}");
 var tasks_bin = Combine(project, $@"{packageName}.Tasks{outPath}");
 var analyzer_bin = Combine(project, $@"{packageName}.Analyzer{outPath}");
 var commands_bin = Combine(project, $@"{packageName}.Commands{outPath}");
+var dnb_package = Directory.GetDirectories(Combine(packages, "DotnetNativeBase")).Last();
+var dnb_bin = Combine(dnb_package, @"lib\net8.0");
 
 ((string dir, string path) from, (string dir, string path) to)[] files = [
     ((korn_bin, $"{packageName}.dll"), (lib_bin, $"{packageName}.dll")),
     ((korn_bin, $"{packageName}.pdb"), (lib_bin, $"{packageName}.pdb")),
+
     ((core_bin, $"{packageName}.Core.dll"), (build, $"{packageName}.Core.dll")),
     ((Combine(user, @".nuget\packages\dnlib\4.4.0\lib\net6.0"), "dnlib.dll"), (build, "dnlib.dll")),
     ((tasks_bin, $"{packageName}.Tasks.dll"), (build, $"{packageName}.Tasks.dll")),
     ((analyzer_bin, $"{packageName}.Analyzer.dll"), (build, $"{packageName}.Analyzer.dll")),
+    ((dnb_bin, "DotnetNativeBase.dll"), (build, "DotnetNativeBase.dll")),
+
     .. GetConsoleAppCopyFiles(commands_bin, build, $"{packageName}.Commands")
 ];
 

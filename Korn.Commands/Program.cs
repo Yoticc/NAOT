@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text.Json;
-
-if (args.Length < 2)
+﻿if (args.Length < 2)
 {
     Console.WriteLine($"Bad arguments");
     return;
@@ -53,6 +50,7 @@ if (kornProject is null)
     Crash($"Unable find .sln or .csproj file in directory \"{directory}\"");
 
 var kornFolder = Path.Combine(kornProject!, "korn");
+var outFolder = Path.Combine(kornProject!, "out");
 
 var kornBuildCommandFile = Path.Combine(kornFolder, "korn-build command.txt");
 var kornBuildCommand = File.Exists(kornBuildCommandFile) ? File.ReadAllText(kornBuildCommandFile) : "dotnet publish -r win-x64 -c Release -p:PublishAot=true -p:IncludeNativeLibrariesForSelfExtract=true -p:StripSymbols=true";
@@ -72,6 +70,14 @@ if (config is not null)
             kornBuildCommand += $" -p:StackTraceSupport={arguments.StackTraceSupport}";
         if (arguments.UseSystemResourceKeys is not null)
             kornBuildCommand += $" -p:UseSystemResourceKeys={arguments.UseSystemResourceKeys}";
+        if (arguments.GenerateLogFile is not null)
+        {
+            kornBuildCommand += $" -fl";
+            if (!kornBuildCommand.Contains("-flp:"))
+            {
+                kornBuildCommand += $" -flp:logfile={(Directory.Exists(outFolder) ? @"out\msbuild.log" : "msbuild.log")};verbosity=diagnostic";
+            }
+        }
     }
 } 
 

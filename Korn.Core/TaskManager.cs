@@ -1,8 +1,4 @@
-﻿using Korn.Core.Utils;
-using Microsoft.Build.Utilities;
-using System.Reflection;
-
-namespace Korn.Core;
+﻿namespace Korn.Core;
 public class TaskManager
 {
     public TaskManager(params TaskData[] tasks) => Tasks = tasks;

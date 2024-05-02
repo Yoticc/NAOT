@@ -1,15 +1,12 @@
-﻿using Korn.Core;
-using Korn.Core.Tasks;
-
-unsafe class CopyNativeOutTask() : ASMTask(-8)
+﻿unsafe class CopyNativeOutTask() : ASMTask(-8)
 {
     public override void Execute(string module)
     {
-        var config = Globals.Config.CustomNativeOut;
+        var config = CoreEnv.Config.CustomNativeOut;
         if (!config.Use)
             return;
 
-        var outPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(Path.Combine(Globals.Vars.ProjectDir, config.Path)))!;
+        var outPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(Path.Combine(CoreEnv.Vars.ProjectDir, config.Path)))!;
         var outDir = Path.GetDirectoryName(outPath)!;
         if (!Directory.Exists(outDir))
             Directory.CreateDirectory(outDir);

@@ -1,12 +1,4 @@
-﻿using Korn.Core.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Korn.Core;
+﻿namespace Korn.Core;
 public static class KornLogger
 {
     static readonly string logFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "korn.tasks.log.txt");

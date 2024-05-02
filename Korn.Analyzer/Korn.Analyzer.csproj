@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,33 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Korn.Core\Korn.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include=" System.Diagnostics" />
+    <Using Include="dnlib.DotNet" />
+    <Using Include="dnlib.DotNet.Emit" />
+    <Using Include="Korn.Analyzer" />
+    <Using Include="Korn.Analyzer.Utils" />
+    <Using Include="Korn.Analyzer.Utils.Dn" />
+    <Using Include="Korn.Analyzer.Utils.Sugar" />
+    <Using Include="Korn.Core" />
+    <Using Include="Korn.Core.CoreEnv.Dn">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Korn.Core.CoreEnv.Dn.DnModules">
+      <Static>True</Static>
+    </Using>
+    <Using Include="Korn.Core.Tasks" />
+    <Using Include="Korn.Core.Utils" />
+    <Using Include="Korn.Core.Utils.SugarExtensions">
+      <Static>True</Static>
+    </Using>
+    <Using Include="System.Globalization" />
+    <Using Include="System.Numerics" />
+    <Using Include="System.Runtime.CompilerServices" />
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="System.Security.Cryptography" />
   </ItemGroup>
 
 </Project>

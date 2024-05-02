@@ -1,17 +1,9 @@
-﻿using Korn.Analyzer.Utils;
-using Korn.Analyzer.Utils.Sugar;
-using Korn.Core;
-using Korn.Core.Tasks;
-using Korn.Core.Utils;
-using System.Runtime.CompilerServices;
-using static Korn.Core.Utils.SugarExtensions;
-
-namespace Korn.Analyzer.Tasks;
+﻿namespace Korn.Analyzer.Tasks;
 public class HandleEntryPointTaskIL() : ILMainTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {
-        var config = Globals.Config.CustomEntryPointPath;
+        var config = CoreEnv.Config.CustomEntryPointPath;
         if (config.Use)
         {
             var method = module.GetMethod(config.Path);
@@ -27,7 +19,7 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
         {
             var methods =
             module
-            .GetMethodsByAttribute(AGlobals.EntryPointAttribute)
+            .GetMethodsByAttribute(Env.EntryPointAttribute)
             .Where(method =>
             {
                 if (method.HasReturnType)
@@ -36,7 +28,7 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
                     return false;
                 }
 
-                if (!method.IsStatic || Globals.Config.BypassNonStaticNativeMethods)
+                if (!method.IsStatic || CoreEnv.Config.BypassNonStaticNativeMethods)
                 {
                     Log.Error($"EntryPoint {method.FullName} skipped because it's not static");
                     return false;
@@ -69,7 +61,7 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
     {
         if (!method.IsStatic)
         {
-            if (!Globals.Config.BypassNonStaticNativeMethods)
+            if (!CoreEnv.Config.BypassNonStaticNativeMethods)
             {
                 Log.Error("Cannot to use a non-static EntryPoint method. Make it static or set BypassNonStaticNativeMethods to \'true\'");
                 return;
@@ -80,7 +72,7 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
 
         var customAttributes = method.CustomAttributes;
 
-        var customAttributeIndex = customAttributes.ToList().FindIndex(a => a.AttributeType.IsSameByName(AGlobals.EntryPointAttribute));
+        var customAttributeIndex = customAttributes.ToList().FindIndex(a => a.AttributeType.IsSameByName(Env.EntryPointAttribute));
         if (customAttributeIndex != -1)
             customAttributes.RemoveAt(customAttributeIndex);
         customAttributes.Add(Helper.GetUnmanagedCallersOnlyAttribute(module, "Korn.Analyzer.EntryPoint", typeof(CallConvStdcall)));

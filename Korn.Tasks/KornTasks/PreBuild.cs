@@ -1,6 +1,4 @@
-﻿using Korn.Core;
-
-class PreBuild : KornTask
+﻿class PreBuild : KornTask
 {
     static bool executed;
 
@@ -27,8 +25,8 @@ class PreBuild : KornTask
 
         var profileFileText = File.ReadAllText(profilePath);
 
-        var cmdletsPath = Path.Combine(Globals.Paths.PackageToolsDir, "Cmdlets.psm1");
-        var cmdletsFileText = File.ReadAllText(cmdletsPath).Replace("CURRENT_PACKAGE_VERSION", Globals.Vars.PackageVersion);
+        var cmdletsPath = Path.Combine(CoreEnv.Paths.PackageToolsDir, "Cmdlets.psm1");
+        var cmdletsFileText = File.ReadAllText(cmdletsPath).Replace("CURRENT_PACKAGE_VERSION", CoreEnv.Vars.PackageVersion);
 
         if (profileFileText.Contains(KORN_FUNCTIONS_START_SIGN) && profileFileText.Contains(KORN_FUNCTIONS_END_SIGN))
         {
