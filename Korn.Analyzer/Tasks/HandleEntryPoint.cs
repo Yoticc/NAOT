@@ -3,7 +3,11 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
 {
     public override void Execute(ModuleDefMD module)
     {
-        var config = CoreEnv.Config.CustomEntryPointPath;
+        if (!CoreEnv.Config.EntryPoint.UseCustomEntryPoint)
+            return;
+
+        var config = CoreEnv.Config.EntryPoint.EntryPointPath;
+        var isBypassNonStaticMethods = CoreEnv.Config.BypassNonStaticNativeMethods;
         if (config.Use)
         {
             var method = module.GetMethod(config.Path);
@@ -28,13 +32,13 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
                     return false;
                 }
 
-                if (!method.IsStatic || CoreEnv.Config.BypassNonStaticNativeMethods)
+                if (!method.IsStatic && !isBypassNonStaticMethods)
                 {
                     Log.Error($"EntryPoint {method.FullName} skipped because it's not static");
                     return false;
                 }
 
-                if (method.Parameters.Count > 0)
+                if (!(method.Parameters.Count == 0 || (isBypassNonStaticMethods && method.Parameters.Count == 1 && method.Parameters[0].IsHiddenThisParameter)))
                 {
                     Log.Error($"EntryPoint {method.FullName} skipped because it's has parameters");
                     return false;
@@ -83,6 +87,9 @@ public unsafe class HandleEntryPointTaskASM() : ASMTask(-10)
 {
     public override void Execute(string module)
     {
+        if (!CoreEnv.Config.EntryPoint.UseCustomEntryPoint)
+            return;
+
         var epName = "Korn.Analyzer.EntryPoint"u8;
         var internalDllMainName = "Korn.Internal.DllMain"u8;
 

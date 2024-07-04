@@ -38,8 +38,19 @@ public static class CoreEnv
 
         public static string TargetObjDir;
         public static string RspFile;
-        public static string OutputNativeTargetFile;
+        public static string OutputNativeTargetFileWithoutExtension;
         public static string OutputTargetFile;
+
+        public static string GetOutputNativeTargetFile()
+        {
+            var filePathWithoutExtension = OutputNativeTargetFileWithoutExtension;
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePathWithoutExtension);
+            var outputFile =
+                Directory.GetFiles(Path.GetDirectoryName(filePathWithoutExtension)!)
+                .ToList()
+                .Find(file => Path.GetFileNameWithoutExtension(file) == fileNameWithoutExtension)!;
+            return outputFile;
+        }
 
         public static class Korn
         {

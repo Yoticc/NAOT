@@ -11,7 +11,7 @@ public class BaseTask
  * Scheme:
  * -InitTask                called after build has started
  * -ILTask                  uses for all IL dll's
- * --ILInputTask           uses for all non-bcl dll's
+ * --ILInputTask            uses for all non-bcl dll's
  * ---ILMainTask            uses for target dll
  * -PreIlcTask              called after IL part ended. Before calling ilc
  * -ASMTask                 uses for output native dll

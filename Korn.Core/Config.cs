@@ -1,20 +1,29 @@
 ﻿namespace Korn.Core;
 public class Config
 {
-    public Models.CustomEntryPointPath CustomEntryPointPath = new();
+    public Models.EntryPoint EntryPoint = new();
     public Models.CustomNativeOut CustomNativeOut = new();
     public Models.AddictionalBuildArguments AddictionalBuildArguments = new();
     public bool BypassNonStaticNativeMethods = true;
     public bool AutoCloseDotnetProcesses = true;
+    [JsonProperty] string desc => "Optimizing compiler by adding some libraries to ignore, it's worth adding here libraries-mappings that have a lot of non-user code. Example of name: \"UnrealEngine.Mappings.dll\"";
+    public List<string> LibrariesToIgnore = [];
+
 
     public class Models 
     {
-        public class CustomEntryPointPath
+        public class EntryPoint
         {
-            [JsonProperty] string desc => "Instead of using the EntryPointAttribute. Here can be written path to EntryPoint method without the EntryPointAttrbute";
-            public bool Use = false;
+            public bool UseCustomEntryPoint = true;
+            public CustomEntryPointPath EntryPointPath = new();
 
-            public string Path = "MyProj.Program.Main";
+            public class CustomEntryPointPath
+            {
+                [JsonProperty] string desc => "Instead of using the EntryPointAttribute. Here can be written path to EntryPoint method without the EntryPointAttrbute";
+                public bool Use = false;
+
+                public string Path = "Program.Main";
+            }
         }
             
         public class CustomNativeOut

@@ -70,12 +70,12 @@ if (config is not null)
             kornBuildCommand += $" -p:StackTraceSupport={arguments.StackTraceSupport}";
         if (arguments.UseSystemResourceKeys is not null)
             kornBuildCommand += $" -p:UseSystemResourceKeys={arguments.UseSystemResourceKeys}";
-        if (arguments.GenerateLogFile is not null)
+        if (arguments.GenerateLogFile is not null && arguments.GenerateLogFile.Value)
         {
             kornBuildCommand += $" -fl";
             if (!kornBuildCommand.Contains("-flp:"))
             {
-                kornBuildCommand += $" -flp:logfile={(Directory.Exists(outFolder) ? @"out\msbuild.log" : "msbuild.log")};verbosity=diagnostic";
+                kornBuildCommand += $" -flp:logfile={(Directory.Exists(outFolder) ? @"out\msbuild.log" : "msbuild.log")}";
             }
         }
     }

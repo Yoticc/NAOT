@@ -2,7 +2,7 @@
 {
     public override void Execute(string module)
     {
-        if (CoreEnv.Config.AutoCloseDotnetProcesses)
+        if (!CoreEnv.Config.AutoCloseDotnetProcesses)
             return;
 
         new Thread(() =>

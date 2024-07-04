@@ -83,8 +83,6 @@ public static partial class SugarExtensions
 
         method.IsStatic = true;
         method.Signature.HasThis = false;
-
-        KornLogger.FileLogger.WriteLine(string.Join(", ", valueCasted.Select(v => $"{v.Type.GetName()} {v.Name}: {v.Index}")));
     }
 
     public static void ModifyToStatic(this MethodDef method)
@@ -131,7 +129,6 @@ public static partial class SugarExtensions
                         {
                             instruction.Operand = method.Parameters[index - 1];
                         }
-
                         break;
                 }
             }

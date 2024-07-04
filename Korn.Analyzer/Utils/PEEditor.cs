@@ -118,7 +118,7 @@ public unsafe struct PEImage
             var nameOffset = RvaToFileOffset(nameRva);
             var name = ptr + nameOffset;
             var good = true;
-            for (int o = 0; o < targetName.Length; o++)
+            for (var o = 0; o < targetName.Length; o++)
                 if (((byte*)name)[o] != targetName[o])
                 {
                     good = false;

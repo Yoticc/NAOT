@@ -41,7 +41,7 @@
         {
             Paths.TargetObjDir = Vars.TargetBinDir.Replace("\\bin", "\\obj"); // 🥶
             Paths.RspFile = Path.Combine(Paths.TargetObjDir, "native", $"{Vars.AssemblyName}.ilc.rsp");
-            Paths.OutputNativeTargetFile = Path.Combine(Vars.TargetBinDir, "native", $"{Vars.AssemblyName}.dll");
+            Paths.OutputNativeTargetFileWithoutExtension = Path.Combine(Vars.TargetBinDir, "native", Vars.AssemblyName);
             Paths.OutputTargetFile = Path.Combine(Paths.TargetObjDir, $"{Vars.AssemblyName}.dll");
 
             SetupKornPaths();
@@ -231,8 +231,9 @@
         Dn.DnModules.Input = new();
         Dn.DnModules.References = new();
 
-        var mainModule = LoadModule(Paths.OutputTargetFile);
+        var mainModule = LoadModule(Paths.OutputTargetFile)!;
         Dn.Modules.All.Add(mainModule);
+        Dn.DnModules.All.Add(mainModule);
 
         foreach (var lib in Libs.CopiedIn.Input)
         {
@@ -305,8 +306,10 @@
 
     void SaveLibraries()
     {
+        
         foreach (var module in Dn.Modules.All)
             module.Module.Write(Path.Combine(ObjKornPaths.OutDir, Path.GetFileName(module.Path)));
+        
     }
 
     void AddInputsInRsp()
