@@ -93,6 +93,7 @@
             if (!createdLink.Exists)
                 Interop.MessageBox(0, $"Failed to create symbol link (from: \"{filePath}\", to: \"{linkPath}\"). Probably, because VS is not running with administrator privileges.", "Korn", 0);
         }
+
     }
 
     void SetupIlc()
