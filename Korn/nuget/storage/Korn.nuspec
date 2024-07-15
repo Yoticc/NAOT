@@ -1,16 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
-	<metadata>
-		<id>Korn</id>
-		<version>1.0.0</version>
-		<title>Library-Analyzer for additional functionality of NativeAOT</title>
-		<authors>Yotic</authors>
-		<description>Library-Analyzer for additional functionality of NativeAOT</description>
-		<repository type="git" url="https://github.com/Yoticc/Korn"/>
-		<serviceable>true</serviceable>
-		<dependencies>
-			<group targetFramework="net8.0">
-			</group>
-		</dependencies>
-	</metadata>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Korn</id>
+    <version>0.0.1-dev</version>
+    <title>Korn</title>
+    <authors>Yotic</authors>
+    <owners></owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE.txt</license>
+    <icon>DotnetNativeLogo.png</icon>
+    <readme>PACK.md</readme>
+    <description>Library-Analyzer for additional functionality of NativeAOT</description>
+    <tags>naot nativeaot</tags>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/Yoticc/Korn" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="DotnetNativeBase" version="1.0.7" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
 </package>

@@ -85,7 +85,13 @@
             File.WriteAllText(KornPaths.ConfigBuildCommandFile, DEFAULT_BUILD_COMMAND);
 
             Directory.CreateDirectory(KornPaths.AnalyzersDir);
-            File.CreateSymbolicLink(Path.Combine(KornPaths.AnalyzersDir, "Korn.Analyzer.dll"), Path.Combine(Paths.PackageBuildDir, "Korn.Analyzer.dll"));
+
+            var filePath = Path.Combine(Paths.PackageBuildDir, "Korn.Analyzer.dll");
+            var linkPath = Path.Combine(KornPaths.AnalyzersDir, "Korn.Analyzer.dll");
+            var createdLink = File.CreateSymbolicLink(linkPath, filePath);
+
+            if (!createdLink.Exists)
+                Interop.MessageBox(0, $"Failed to create symbol link (from: \"{filePath}\", to: \"{linkPath}\"). Probably, because VS is not running with administrator privileges.", "Korn", 0);
         }
     }
 

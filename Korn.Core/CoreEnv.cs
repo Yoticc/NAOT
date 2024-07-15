@@ -6,10 +6,6 @@ using System.Runtime.CompilerServices;
 namespace Korn.Core;
 public static class CoreEnv
 {
-    static CoreEnv()
-    {
-    }
-
     public static Random Rnd = new();
 
     public static List<Assembly> Analyzers;
@@ -19,7 +15,7 @@ public static class CoreEnv
 
     public static class Vars
     {
-        public static string PackageVersion = "1.0.0";
+        public static string PackageVersion = "0.0.1-dev";
 
         [AllowedValues("Debug", "Release")]
         public static string Configuration;

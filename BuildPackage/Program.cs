@@ -8,7 +8,7 @@ var packages = Combine(user, $@".nuget\packages");
 
 var packageId = "korn";
 var packageName = "Korn";
-var outPath = @"\bin\x64\Release\net8.0";
+var outPath = @"\bin\x64\Release\net8.0-windows";
 
 var package = Combine(packages, packageId);
 if (Directory.Exists(package))
