@@ -177,7 +177,7 @@
     {
         try
         {
-            CoreEnv.Config = Json.FileDeserial<Config>(KornPaths.ConfigFile);
+            CoreEnv.Config = Json.FileDeserial<Config>(KornPaths.ConfigFile)!;
         }
         catch (Exception ex)
         {
@@ -277,7 +277,7 @@
             var found = Dn.Modules.All.Find(m => m.Name == name);
             if (found is null)
                 Log.Error($"AfterWriteIlcRspFileForCompilation->LoadLibs: Couldn't find module {name}");
-            return found;
+            return found!;
         }
 
         DnModule? LoadModule(string path)

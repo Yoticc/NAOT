@@ -80,8 +80,8 @@ public abstract class RSPArgument(string tag)
         var value = hasValue ? string.Join(':', splitted[1..^0]) : null;
         return
             doublePrefix
-            ? hasValue ? new RSPDoubleValueArgument(tag, value) : new RSPDoubleArgument(tag)
-            : hasValue ? new RSPSingleValueArgument(tag, value) : new RSPSingleArgument(tag);
+            ? hasValue ? new RSPDoubleValueArgument(tag, value!) : new RSPDoubleArgument(tag)
+            : hasValue ? new RSPSingleValueArgument(tag, value!) : new RSPSingleArgument(tag);
     }
 }
 

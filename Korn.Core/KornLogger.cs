@@ -41,7 +41,7 @@ public class FileLogger
         if (stream is null)
             return;
 
-        var buffer = Encoding.GetBytes(obj.ToString());
+        var buffer = Encoding.GetBytes(obj.ToString()!);
         stream.Write(buffer, 0, buffer.Length);
         stream.Flush();
     }

@@ -5,7 +5,7 @@
     protected private string this[string key] => BuildEngine.GetEnvVar(key);
 
     #region Task implementation mirror
-    internal MsBuildTask msBuildTask;
+    [AllowNull] internal MsBuildTask msBuildTask;
     public IBuildEngine BuildEngine => msBuildTask.BuildEngine;
     public IBuildEngine2 BuildEngine2 => msBuildTask.BuildEngine2;
     public IBuildEngine3 BuildEngine3 => msBuildTask.BuildEngine3;

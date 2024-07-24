@@ -1,4 +1,4 @@
-﻿namespace Korn.Analyzer.Utils.Dn;
+﻿namespace Korn.Analyzer.Utils;
 public class StaticArraysManager
 {
     const string PID_TYPE_NAME = "<PrivateImplementationDetails>";
@@ -88,7 +88,7 @@ public class StaticArraysManager
         var length = array.Length;
         var structType = GetExistingStructType(length);
         var name = GetArrayHash(array);
-        var field = GetExistingField(structType, name, array);
+        var field = GetExistingField(structType!, name, array);
         if (field is null)
         {
             field = new FieldDefUser(name, new FieldSig(Env.ByteArray), FieldAttributes.Static);

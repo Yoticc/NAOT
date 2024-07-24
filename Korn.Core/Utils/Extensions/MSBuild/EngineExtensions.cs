@@ -50,7 +50,7 @@ public static partial class SugarExtensions
             throw new Exception("Could not extract targetBuilderCallback from " + buildEngineType.FullName);
 
         var targetBuilderCallback = targetBuilderCallbackField.GetValue(buildEngine);
-        var targetCallbackType = targetBuilderCallback.GetType();
+        var targetCallbackType = targetBuilderCallback!.GetType();
         var projectInstanceField = targetCallbackType.GetField("_projectInstance", bindingFlags);
         if (projectInstanceField is null)
             throw new Exception("Could not extract projectInstance from " + targetCallbackType.FullName);

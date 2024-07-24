@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>Test</AssemblyName>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,6 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <DebugType>portable</DebugType>
+    <NoWarn>1701;1702;CS8618;CS0169;CA1416</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -29,6 +30,7 @@
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <DebugType>portable</DebugType>
     <Optimize>False</Optimize>
+    <NoWarn>1701;1702;CS8618;CS0169;CA1416</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
