@@ -14,14 +14,14 @@ var package = Combine(packages, packageId);
 if (Directory.Exists(package))
     Directory.Delete(package, true);
 
-var storage = Combine(user, $@"source\repos\{packageName}\{packageName}\nuget\storage");
+var storage = Combine(user, $@"source\dotnetnative\{packageName}\{packageName}\nuget\storage");
 
 var lib = Combine(storage, "lib");
 var lib_bin = Combine(lib, "net8.0");
 
 var build = Combine(storage, "build");
 
-var project = Combine(user, $@"source\repos\{packageName}");
+var project = Combine(user, $@"source\dotnetnative\{packageName}");
 var korn_bin = Combine(project, $@"{packageName}{outPath}");
 var core_bin = Combine(project, $@"{packageName}.Core{outPath}");
 var tasks_bin = Combine(project, $@"{packageName}.Tasks{outPath}");
@@ -52,9 +52,9 @@ var dnb_bin = Combine(dnb_package, @"lib\net8.0");
 files
 .Select(f => (from: Combine(f.from.dir, f.from.path), to: Combine(f.to.dir, f.to.path)))
 .ToList()
-.ForEach(a =>
+.ForEach(file =>
 {
-    var (from, to) = a;
+    var (from, to) = file;
 
     if (File.Exists(to))
         File.Delete(to);
