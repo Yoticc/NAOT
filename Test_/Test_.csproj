@@ -1,22 +1,31 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NoWarn>1701;1702;CS8618;CS0169;CA1416</NoWarn>
+    <Platforms>x64</Platforms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NoWarn>1701;1702;CS8618;CS0169;CA1416</NoWarn>
+    <Platforms>x64</Platforms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Korn" Version="0.0.0-dev" />
+    <PackageReference Include="Korn" Version="1.0.1" />
+    <Using Include="korn">
+      <Static>True</Static>
+    </Using>
+    <None Remove="korn\analyzers\**" />
+    <None Remove="out\**" />
+    <None Remove="korn\cache.data" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\DotnetNative.Base\DotnetNative.Base\DotnetNative.Base.csproj" />
+  </ItemGroup>
 </Project>

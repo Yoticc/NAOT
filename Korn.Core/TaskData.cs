@@ -26,11 +26,11 @@ public class TaskData
                 ExecuteMethod.Invoke(instance.Instance, args);
                 var endTime = DateTime.Now;
                 var timeElapse = endTime - startedTime;
-                KornLogger.FileLogger.WriteLine($"Task {Type.Name}->{instance.Instance.GetType().Name}[{instance.Order}] finished for {Math.Round(timeElapse.TotalMilliseconds, 2)}ms");
+                KornLogger.FileLogger.WriteLine($"[{DateTime.Now:HH':'mm':'ss'.'fff}] [Info] Task {Type.Name}->{instance.Instance.GetType().Name}[{instance.Order}] finished for {Math.Round(timeElapse.TotalMilliseconds, 2)}ms");
             }
             catch (Exception ex)
             {
-                msBuildTask.Log.Error($"Exception in TaskData.InvokeAll->{Type.Name}->{instance.Instance.GetType().Name}: " + ex);
+                KornLogger.WriteException($"Core:TaskData->InvokeAll: Exception in TaskData.InvokeAll->{Type.Name}->{instance.Instance.GetType().Name}: " + ex);
             }
         }
     }

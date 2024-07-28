@@ -13,7 +13,7 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
             var method = module.GetMethod(config.Path);
             if (method is null)
             {
-                Log.Error($"HandleEntryPointTaskIL: Unable find method with path \'{config.Path}\'");
+                KornLogger.WriteError($"HandleEntryPointTaskIL: Unable find method with path \'{config.Path}\'");
                 return;
             }
                         
@@ -28,19 +28,19 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
             {
                 if (method.HasReturnType)
                 {
-                    Log.Error($"EntryPoint {method.FullName} skipped because it's has return type");
+                    KornLogger.ShowCriticalMessage($"EntryPoint {method.FullName} skipped because it's has return type");
                     return false;
                 }
 
                 if (!method.IsStatic && !isBypassNonStaticMethods)
                 {
-                    Log.Error($"EntryPoint {method.FullName} skipped because it's not static");
+                    KornLogger.ShowCriticalMessage($"EntryPoint {method.FullName} skipped because it's not static");
                     return false;
                 }
 
                 if (!(method.Parameters.Count == 0 || (isBypassNonStaticMethods && method.Parameters.Count == 1 && method.Parameters[0].IsHiddenThisParameter)))
                 {
-                    Log.Error($"EntryPoint {method.FullName} skipped because it's has parameters");
+                    KornLogger.ShowCriticalMessage($"EntryPoint {method.FullName} skipped because it's has parameters");
                     return false;
                 }
 
@@ -49,12 +49,12 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
 
             if (methods.Count == 0)
             {
-                Log.Error("HandleEntryPointTaskIL: Unable find EntryPoint method");
+                KornLogger.ShowCriticalMessage("HandleEntryPointTaskIL: Error: Unable find EntryPoint method");
                 return;
             }
 
             if (methods.Count > 1)
-                Log.Error($"HandleEntryPointTaskIL: Found more than one EntryPoint methods. Handled first, other skipped (methods: {string.Join(", ", methods.Select(m => m.FullName))})");
+                KornLogger.ShowCriticalMessage($"HandleEntryPointTaskIL: Error: Found more than one EntryPoint methods. Handled first, other skipped (methods: {string.Join(", ", methods.Select(m => m.FullName))})");
 
             var method = methods[0];
             HandleEntryPoint(module, method);
@@ -67,7 +67,7 @@ public class HandleEntryPointTaskIL() : ILMainTask(-10)
         {
             if (!CoreEnv.Config.BypassNonStaticNativeMethods)
             {
-                Log.Error("Cannot to use a non-static EntryPoint method. Make it static or set BypassNonStaticNativeMethods to \'true\'");
+                KornLogger.WriteError("HandleEntryPointTaskIL->HandleEntryPoint: Cannot to use a non-static EntryPoint method. Make it static or set BypassNonStaticNativeMethods to \'true\'");
                 return;
             }
 
@@ -113,7 +113,10 @@ public unsafe class HandleEntryPointTaskASM() : ASMTask(-10)
         var internalDllMainFuncSize = pe.CalculateFunctionSize((nint)internalDllMainFuncPtr, [0x90, 0x90, 0x90, 0x90]);
 
         if (internalDllMainFuncSize == -1)
-            Log.Error("Unable calculate size of Korn.Internal.DllMain function");
+        {
+            KornLogger.ShowCriticalMessage("HandleEntryPointTaskASM: Unable calculate size of Korn.Internal.DllMain function");
+            return;
+        }
 
         var foundFirstOffset = false;
         var foundSecondOffset = false;
@@ -160,9 +163,15 @@ public unsafe class HandleEntryPointTaskASM() : ASMTask(-10)
         }
 
         if (!foundFirstOffset)
-            Log.Error("Unable found first offset in Korn.Internal.DllMain function");
+        {
+            KornLogger.ShowCriticalMessage("HandleEntryPointTaskASM: Unable found first offset in Korn.Internal.DllMain function");
+            return;
+        }
         if (!foundSecondOffset)
-            Log.Error("Unable found second offset in Korn.Internal.DllMain function");
+        {
+            KornLogger.ShowCriticalMessage("HandleEntryPointTaskASM: Unable found second offset in Korn.Internal.DllMain function");
+            return;
+        }
 
         pe.Save(module);
     }

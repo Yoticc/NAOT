@@ -17,8 +17,8 @@
 
   <ItemGroup>
     <PackageReference Include="dnlib" Version="4.4.0" />
-    <PackageReference Include="Microsoft.Build" Version="17.8.3" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3" />
+    <PackageReference Include="Microsoft.Build" Version="17.10.4" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.10.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +47,7 @@
     <Using Include="System.Diagnostics" />
     <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Reflection" />
+    <Using Include="System.Xml" />
   </ItemGroup>
 
 </Project>

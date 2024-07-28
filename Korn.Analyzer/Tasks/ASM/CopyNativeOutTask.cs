@@ -2,26 +2,30 @@
 {
     public override void Execute(string module)
     {
+        var inputFile = CoreEnv.Paths.GetOutputNativeTargetFile();
+
         var config = CoreEnv.Config.CustomNativeOut;
         if (!config.Use)
             return;
 
-        var outPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(Path.Combine(CoreEnv.Vars.ProjectDir, config.Path)))!;
-        var outDir = Path.GetDirectoryName(outPath)!;
+        var outDir = Path.GetFullPath(Environment.ExpandEnvironmentVariables(Path.Combine(CoreEnv.Vars.ProjectDir, config.DirectoryPath)))!;
         if (!Directory.Exists(outDir))
             Directory.CreateDirectory(outDir);
 
-        if (File.Exists(outPath))
-            File.Delete(outPath);
-        File.Copy(module, outPath);
+        var outNameConfig = config.FileName;
+        var outName = config.FileName.UseCustomName ? config.FileName.CustomName : Path.GetFileNameWithoutExtension(module);
+        var outFilePath = Path.Combine(outDir, outName) + Path.GetExtension(inputFile);
+        if (File.Exists(outFilePath))
+            File.Delete(outFilePath);
+        File.Copy(inputFile, outFilePath);
 
         if (config.ExportPdbFile)
         {
-            var moduleDir = Path.GetDirectoryName(module)!;
+            var moduleDir = Path.GetDirectoryName(inputFile)!;
             var modulePdbFile = Directory.GetFiles(moduleDir, "*.pdb").FirstOrDefault();
             if (modulePdbFile is not null)
             {
-                var outPdbPath = Path.Combine(outDir, Path.GetFileNameWithoutExtension(config.AutoRenamePdbFileToDllName ? outPath : module) + ".pdb");
+                var outPdbPath = Path.Combine(outDir, outName) + ".pdb";
 
                 if (File.Exists(outPdbPath))
                     File.Delete(outPdbPath);
@@ -29,6 +33,6 @@
             }
         }
 
-        KornLogger.WriteLine("Finished Korn.Analyzer");
+        KornLogger.WriteMessage("Finished Korn.Analyzer");
     }
 }

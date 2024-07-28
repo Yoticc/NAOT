@@ -11,6 +11,7 @@ public class TaskManager
     }
 
     public readonly TaskData[] Tasks;
+    public bool HasILTasks => Tasks.Any(task => task.Type == typeof(ILTask));
 
     public void AddExtractedTasks(Assembly assembly)
     {
@@ -43,7 +44,7 @@ public class TaskManager
             return;
         }
 
-        msBuildTask.Log.Error($"Unable find task data in TaskManager for task {typeof(T).Name}");
+        KornLogger.WriteError($"Core:TaskManager->Invoke<T>: Unable find task data in TaskManager for task {typeof(T).Name}");
     }
 
     public void InvokeFor<T>(Microsoft.Build.Utilities.Task msBuildTask, List<object?[]?> listOfArgs)
@@ -60,6 +61,6 @@ public class TaskManager
             return;
         }
 
-        msBuildTask.Log.Error($"Unable find task data in TaskManager for task {typeof(T).Name}");
+        KornLogger.WriteError($"Core:TaskManager->InvokeFor<T>: Unable find task data in TaskManager for task {typeof(T).Name}");
     }
 }

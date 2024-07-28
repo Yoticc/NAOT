@@ -12,7 +12,7 @@ public static partial class SugarExtensions
         var type = module.FindType(name, true);
 
         if (type is null)
-            KornLogger.WriteLine($"SugarExtensions->FindType: Unable to find type {name}");
+            KornLogger.WriteWarning($"SugarExtensions->FindType: Unable to find type {name}");
 
         return type!;
     }

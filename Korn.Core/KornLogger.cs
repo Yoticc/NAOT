@@ -1,27 +1,36 @@
 ﻿namespace Korn.Core;
 public static class KornLogger
 {
-    static readonly string logFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "korn.tasks.log.txt");
     public static readonly FileLogger FileLogger = new();
 
-    static KornLogger()
+    public static void WriteError(object obj) => WriteLine("Error", obj);
+
+    public static void WriteWarning(object obj) => WriteLine("Warning", obj);
+
+    public static void WriteException(object obj) => WriteLine("Exception", obj);
+
+    public static void WriteMessage(object obj) => WriteLine("Message", obj);
+
+    public static void ShowCriticalMessage(object obj)
     {
-        FileLogger.SetFile(logFilePath);
-        FileLogger.Clear();
+        WriteLine("Critical Error", obj);
+        Interop.MessageBox(0, obj.ToString()!, "Korn critical message", 0);
     }
 
-    public static void WriteLine(object obj)
+    public static void WriteLine(string tag, object obj)
     {
-        FileLogger.WriteLine($"{obj}");
+        var text = $"[{DateTime.Now:HH':'mm':'ss'.'fff}] [{tag}] {obj}";
+
+        FileLogger.WriteLine(text);
 
         if (BaseTask.LogInstance is null)
         {
-            Console.WriteLine(obj);
+            Console.WriteLine(text);
             return;
         }
 
-        BaseTask.LogInstance.LogMessage($"[Unknown source] {obj}");
-    }
+        BaseTask.LogInstance.LogMessage($"[Unknown source] {text}");
+    }    
 }
 
 public class FileLogger
@@ -31,18 +40,33 @@ public class FileLogger
     public string? Path;
 
     FileStream? stream;
+    List<string> buffer = [];
 
-    public void SetFile(string path) => stream = new(Path = path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+    public void SetFile(string path)
+    {
+        stream = new(Path = path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+        Clear();
+        if (buffer.Count > 0)
+        {
+            foreach (var line in buffer)
+                WriteLine(line);
+            buffer.Clear();
+        }
+    }
 
     public void Clear() => stream?.SetLength(0);
 
     public void Write(object obj)
     {
+        var objString = obj.ToString()!;
         if (stream is null)
+        {
+            buffer.Add(objString);
             return;
+        }
 
-        var buffer = Encoding.GetBytes(obj.ToString()!);
-        stream.Write(buffer, 0, buffer.Length);
+        var array = Encoding.GetBytes(objString);
+        stream.Write(array, 0, array.Length);
         stream.Flush();
     }
 

@@ -4,6 +4,7 @@
     {
         SetupGlobals();
         SetupKorn();
+        SetupLogger();
 
         SetupIlc();
         SetupObjKorn();
@@ -14,7 +15,7 @@
         InitTaskManager();
 
         LoadAnalyzers();
-        LogAnalyzers();
+        LogAnalyzerStats();
 
         LoadLibraries();
         ExecuteILTasks();
@@ -52,6 +53,8 @@
                 KornPaths.Dir = Path.Combine(Vars.ProjectDir, "korn");
                 KornPaths.ConfigFile = Path.Combine(KornPaths.Dir, "config.json");
                 KornPaths.ConfigBuildCommandFile = Path.Combine(KornPaths.Dir, "korn-build command.txt");
+                KornPaths.CacheFile = Path.Combine(KornPaths.Dir, "cache.data");
+                KornPaths.LogFile = Path.Combine(KornPaths.Dir, "log.txt");
                 KornPaths.AnalyzersDir = Path.Combine(KornPaths.Dir, "analyzers");
             }
 
@@ -80,20 +83,63 @@
         {
             Directory.CreateDirectory(KornPaths.Dir);
 
-            File.WriteAllText(KornPaths.ConfigFile, Json.Serial(new Config()));
-
+            Json.FileSerial(KornPaths.ConfigFile, new Config());
             File.WriteAllText(KornPaths.ConfigBuildCommandFile, DEFAULT_BUILD_COMMAND);
+            Json.FileSerial(KornPaths.CacheFile, new KornCache(Vars.PackageVersion));
+            File.Create(KornPaths.LogFile).Dispose();
 
             Directory.CreateDirectory(KornPaths.AnalyzersDir);
+            CreateAnalyzerLink();
+        }
+        else if (!Directory.Exists(KornPaths.AnalyzersDir))
+        {
+            Directory.CreateDirectory(KornPaths.AnalyzersDir);
+            CreateAnalyzerLink();
+        }
+        else if (Directory.GetFiles(KornPaths.AnalyzersDir).Length == 0)
+        {
+            CreateAnalyzerLink();
+        }
+        else
+        {
+            var isVersionMatch = true;
+            KornCache? cache = null;
+            if (!File.Exists(KornPaths.CacheFile))
+                isVersionMatch = false;
+            else
+            {
+                cache = Json.FileDeserial<KornCache>(KornPaths.CacheFile);
+                if (cache is not null)
+                {
+                    if (cache.LastPackageVersion != Vars.PackageVersion)
+                        isVersionMatch = false;
+                }
+                else isVersionMatch = false;
+            }
 
+            if (!isVersionMatch)
+            {
+                cache = new(Vars.PackageVersion);
+                File.Delete(Path.Combine(KornPaths.AnalyzersDir, "Korn.Analyzer.dll"));
+                CreateAnalyzerLink();
+                Json.FileSerial(KornPaths.CacheFile, cache);
+            }
+        }
+
+        void CreateAnalyzerLink()
+        {
             var filePath = Path.Combine(Paths.PackageBuildDir, "Korn.Analyzer.dll");
             var linkPath = Path.Combine(KornPaths.AnalyzersDir, "Korn.Analyzer.dll");
             var createdLink = File.CreateSymbolicLink(linkPath, filePath);
 
             if (!createdLink.Exists)
-                Interop.MessageBox(0, $"Failed to create symbol link (from: \"{filePath}\", to: \"{linkPath}\"). Probably, because VS is not running with administrator privileges.", "Korn", 0);
+                KornLogger.ShowCriticalMessage($"Failed to create symbol link (from: \"{filePath}\", to: \"{linkPath}\"). Probably, because VS is not running with administrator privileges.");
         }
+    }
 
+    void SetupLogger()
+    {
+        KornLogger.FileLogger.SetFile(KornPaths.LogFile);
     }
 
     void SetupIlc()
@@ -143,12 +189,15 @@
             foreach (var lib in Libs.References)
             {
                 var libName = Path.GetFileName(lib);
+                var name = Path.GetFileNameWithoutExtension(lib);
 
                 if (libName.Contains("microsoft.netcore.app.runtime") && libName.Contains("WindowsBase.dll"))
                     continue;
 
                 var newInPath = Path.Combine(ObjKornPaths.InDir, libName);
                 var newOutPath = Path.Combine(ObjKornPaths.OutDir, libName);
+                if (CoreEnv.Config.LibrariesToIgnore.Contains(name))
+                    newOutPath = newInPath;
 
                 inLibrariesPath.Add((lib, newInPath));
                 Libs.CopiedIn.All.Add(newInPath);
@@ -181,7 +230,7 @@
         }
         catch (Exception ex)
         {
-            Log.Error($"AfterWriteIlcRspFileForCompilation->LoadConfig: Couldn't deserialize config. Will be used default: {ex}");
+            KornLogger.ShowCriticalMessage($"PreNative->LoadConfig: Couldn't deserialize config. Will be used default: {ex}");
             CoreEnv.Config = new();
         }
     }
@@ -209,7 +258,7 @@
 
             var assembly = loadedAssemblies.Find(a => a.FullName is not null && a.FullName.Split(", ")[0] == name);
             if (assembly is null)
-                Log.Warning("AppDomain.CurrentDomain.AssemblyResolve: Cannot find loaded assembly for " + e.Name);
+                KornLogger.WriteWarning("PreNative->LoadAnalyzers: AppDomain.CurrentDomain.AssemblyResolve: Cannot find loaded assembly for " + e.Name);
             return assembly;
         };
 
@@ -221,9 +270,9 @@
         }
     }
 
-    void LogAnalyzers()
+    void LogAnalyzerStats()
     {
-        Log.Message($"  Uses {Analyzers.Count} analyzers"); // This prints from time to time, related to project, idk what wrong. 
+        KornLogger.WriteMessage($"Uses {Analyzers.Count} analyzers");
     }
 
     void LoadLibraries()
@@ -253,11 +302,26 @@
             Dn.DnModules.Input.Add(module.Module);
         }
 
-        foreach (var lib in Libs.CopiedIn.References)
+        if (CoreEnv.TaskManager.HasILTasks)
+        {
+            foreach (var lib in Libs.CopiedIn.References)
+                AddReferenceModule(lib);
+        }
+        else
+        {
+            AddReferenceModule(FindLib("System.Runtime.InteropServices"));
+            AddReferenceModule(FindLib("System.Private.CoreLib"));
+            AddReferenceModule(FindLib("System.Linq"));
+            AddReferenceModule(FindLib("mscorlib"));
+
+            string FindLib(string name) => Libs.CopiedIn.References.Find(reference => Path.GetFileNameWithoutExtension(reference) == name)!;
+        }
+
+        void AddReferenceModule(string lib)
         {
             var module = LoadModule(lib);
             if (module is null)
-                continue;
+                return;
             Dn.Modules.All.Add(module);
             Dn.Modules.References.Add(module);
             Dn.DnModules.All.Add(module.Module);
@@ -276,21 +340,24 @@
         {
             var found = Dn.Modules.All.Find(m => m.Name == name);
             if (found is null)
-                Log.Error($"AfterWriteIlcRspFileForCompilation->LoadLibs: Couldn't find module {name}");
+                KornLogger.WriteWarning($"PreNative->LoadLibs: Couldn't find module {name}");
             return found!;
         }
 
         DnModule? LoadModule(string path)
         {
             var name = Path.GetFileNameWithoutExtension(path);
+            if (CoreEnv.Config.LibrariesToIgnore.Contains(name))
+                return null;
+
             var assembly = ctx.LoadFromAssemblyPath(path);
             var modules = assembly.Modules;
 
             var moduleCount = modules.Count();
             if (moduleCount == 0)
-                Log.Warning($"Assembly {name} skipped because has no modules");
+                KornLogger.WriteWarning($"Assembly {name} skipped because has no modules");
             else if (moduleCount > 1)
-                Log.Warning($"Assembly {name} skipped because has more than one module");
+                KornLogger.WriteWarning($"Assembly {name} skipped because has more than one module");
             else
             {
                 var reflectionModule = modules.First();
@@ -341,3 +408,5 @@
         File.WriteAllLines(Paths.RspFile, Ilc.RspArguments.Serialize());
     }
 }
+
+record KornCache(string LastPackageVersion);

@@ -58,11 +58,11 @@
                     }
                     catch (Exception ex)
                     {
-                        Log.Error($"Exception in HandleHexILTask->handler->{name}: {ex}");
+                        KornLogger.WriteException($"Exception in HandleHexILTask->handler->{name}: {ex}");
                     }
                 }
 
-                Log.Error($"HandleHexILTask: Unable convert hex-type method in method \'{method.FullName}\'[{counter}]");
+                KornLogger.WriteError($"HandleHexILTask: Unable convert hex-type method in method \'{method.FullName}\'[{counter}]");
 
             NEXT:
                 counter++;
@@ -179,7 +179,7 @@
 
         if (bytes is null)
         {
-            Log.Error($"HandleHexILTask->ReplaceInstructionsByByteArray: bytes is null");
+            KornLogger.WriteError($"HandleHexILTask->ReplaceInstructionsByByteArray: bytes is null");
             return;
         }
 
@@ -261,7 +261,7 @@
         }
         catch (Exception ex)
         {
-            Log.Error($"HandleHexILTask->CompileToByteArray->ParseString: Unable parse string \'{input}\'('{lastParsingPart}'): {ex}");
+            KornLogger.WriteError($"HandleHexILTask->CompileToByteArray->ParseString: Unable parse string \'{input}\'('{lastParsingPart}'): {ex}");
             return null;
         }
     }
@@ -293,7 +293,7 @@
         {
             var count = insts.Count;
             if (count == 0)
-                Log.Error($"HandleHexILTask->CompileToByteArray: Input 0 Instructions to parse.");
+                KornLogger.WriteError($"HandleHexILTask->CompileToByteArray: Input 0 Instructions to parse.");
             else
             {
                 var inst = insts[0];
@@ -342,7 +342,7 @@
                                     parsed = ParseInteger(instOperand, (TypeKind)boxType);
                                 result.AddRange(parsed);
                             }
-                            else Log.Error($"HandleHexILTask->CompileToByteArray: Unable parse TypeKind for type \'{typeName}\'");
+                            else KornLogger.WriteError($"HandleHexILTask->CompileToByteArray: Unable parse TypeKind for type \'{typeName}\'");
                         }
                         else PrintError();
                     }
@@ -350,7 +350,7 @@
                 else PrintError();
             }
 
-            void PrintError() => Log.Error($"HandleHexILTask->CompileToByteArray: Unable parse instructions: [{string.Join(", ", insts.Select(i => $"{i.OpCode.Code} {i.Operand}"))}]");
+            void PrintError() => KornLogger.WriteError($"HandleHexILTask->CompileToByteArray: Unable parse instructions: [{string.Join(", ", insts.Select(i => $"{i.OpCode.Code} {i.Operand}"))}]");
         }
 
         return result;
@@ -444,7 +444,7 @@
                         AddToCurrentNode(prevInst);
                         i -= 6;
                     }
-                    else Log.Error("HandleHexILTask->GetArrayInstructions: Unexpected call instruction in hex's method arguments");
+                    else KornLogger.WriteError("HandleHexILTask->GetArrayInstructions: Unexpected call instruction in hex's method arguments");
                 }
                 else if (inst.IsLdcI4() && i > 0 && instructions[i - 1].OpCode.Code == Code.Dup)
                     i--;
@@ -453,7 +453,7 @@
             }
         }
 
-        Log.Error($"HandleHexILTask->GetArrayInstructions: Unable parse IL code. Vars: foundElements: {foundElements}, predicateElements: {predicateElements}"); 
+        KornLogger.WriteError($"HandleHexILTask->GetArrayInstructions: Unable parse IL code. Vars: foundElements: {foundElements}, predicateElements: {predicateElements}"); 
         return null;
 
         void AddToResult()
@@ -472,7 +472,7 @@
                 {
                     var indexInstruction = instructions[o + 1];
                     if (!indexInstruction.IsLdcI4())
-                        Log.Error($"HandleHexILTask->GetArrayInstructions->AddToUnmanagedList: Wrong instruction under Dup instruction.");
+                        KornLogger.WriteError($"HandleHexILTask->GetArrayInstructions->AddToUnmanagedList: Wrong instruction under Dup instruction.");
 
                     index = indexInstruction.GetLdcI4Value();
                 }

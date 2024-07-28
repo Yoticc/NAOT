@@ -29,12 +29,12 @@ class KornTaskFactory
             }
             catch (Exception ex)
             {
-                msBuildTask.Log.Error($"Exception in KornTask->ExecuteNewTask->{typeof(T).Name}:" + ex);
+                KornLogger.WriteException($"Exception in KornTask->ExecuteNewTask->{typeof(T).Name}:" + ex);
             }
         }
         catch (Exception ex)
         {
-            msBuildTask.Log.Error($"Exception in KornTask->ExecuteNewTask for task type {typeof(T).Name}" + ex);
+            KornLogger.WriteException($"Exception in KornTask->ExecuteNewTask for task type {typeof(T).Name}" + ex);
         }
     }
 }

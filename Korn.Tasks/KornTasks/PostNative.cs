@@ -7,6 +7,6 @@
 
     void ExecuteASMTasks()
     {
-        CoreEnv.TaskManager.Invoke<ASMTask>(msBuildTask, [CoreEnv.Paths.GetOutputNativeTargetFile()]);
+        CoreEnv.TaskManager.Invoke<ASMTask>(msBuildTask, [Paths.GetOutputNativeTargetFile()]);
     }
 }

@@ -9,7 +9,7 @@
         executed = true;
 
         SetupPowershell();
-        ClearObj();
+        // ClearObj(); // This was used to clear the obj folder of old entries, maybe these are not needed and everything will work like this
         TryAddExceptionsInGitIgnoreFile();
     }
 
@@ -25,8 +25,8 @@
 
         var profileFileText = File.ReadAllText(profilePath);
 
-        var cmdletsPath = Path.Combine(CoreEnv.Paths.PackageToolsDir, "Cmdlets.psm1");
-        var cmdletsFileText = File.ReadAllText(cmdletsPath).Replace("CURRENT_PACKAGE_VERSION", CoreEnv.Vars.PackageVersion);
+        var cmdletsPath = Path.Combine(Paths.PackageToolsDir, "Cmdlets.psm1");
+        var cmdletsFileText = File.ReadAllText(cmdletsPath).Replace("CURRENT_PACKAGE_VERSION", Vars.PackageVersion);
 
         if (profileFileText.Contains(KORN_FUNCTIONS_START_SIGN) && profileFileText.Contains(KORN_FUNCTIONS_END_SIGN))
         {
@@ -73,16 +73,19 @@
 
     void TryAddExceptionsInGitIgnoreFile()
     {
-        string[] ignoreLines = [@"**/korn/analyzers"];
-
+        string[] ignoreLines = [@"**/korn/analyzers", "**/korn/cache.data", "**/korn/log.txt"];
+            
         var gitIgnorePath = Path.Combine(string.Join('\\', this["ProjectDir"].Split('\\')[0..^2]), ".gitignore");
         if (!File.Exists(gitIgnorePath))
             if (!File.Exists(gitIgnorePath = Path.Combine(this["ProjectDir"], ".gitignore")))
-                return; // Unable find gitignore file in supposted solution folder or project folder.
+            {
+                KornLogger.WriteWarning("Unable find gitignore file in supposted solution folder or project folder");
+                return;
+            }
 
         var lines = File.ReadAllLines(gitIgnorePath);
         foreach (var ignoreLine in ignoreLines)
             if (!lines.Contains(ignoreLine))
                 File.AppendAllText(gitIgnorePath, '\n' + ignoreLine);
-    }
+    }    
 }

@@ -3,7 +3,7 @@
 namespace Korn.Core;
 public static class CoreEnv
 {
-    public static Random Rnd = new();
+    public static Random Rnd = Random.Shared;
 
     public static List<Assembly> Analyzers;
     public static TaskManager TaskManager;
@@ -12,7 +12,7 @@ public static class CoreEnv
 
     public static class Vars
     {
-        public static string PackageVersion = "0.0.1-dev";
+        public static string PackageVersion = "1.0.1";
 
         [AllowedValues("Debug", "Release")]
         public static string Configuration;
@@ -50,6 +50,8 @@ public static class CoreEnv
             public static string Dir;
             public static string ConfigFile;
             public static string ConfigBuildCommandFile;
+            public static string CacheFile;
+            public static string LogFile;
             public static string AnalyzersDir;
         }
 

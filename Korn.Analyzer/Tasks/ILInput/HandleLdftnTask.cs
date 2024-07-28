@@ -174,7 +174,7 @@
                 {
                     if (!CoreEnv.Config.BypassNonStaticNativeMethods)
                     {
-                        Log.Error($"Detected native non static method {method.FullName}. It skipped because it's not static");
+                        KornLogger.WriteError($"Detected native non static method {method.FullName}. It skipped because it's not static");
                         continue;
                     }   
 
