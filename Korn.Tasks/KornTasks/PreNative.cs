@@ -5,13 +5,13 @@
         SetupGlobals();
         SetupKorn();
         SetupLogger();
+        LoadConfig();
 
         SetupIlc();
         SetupObjKorn();
         SetupLibs();
         CopyLibraries();
 
-        LoadConfig();
         InitTaskManager();
 
         LoadAnalyzers();
