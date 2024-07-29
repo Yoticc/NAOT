@@ -2,7 +2,7 @@
 {
     public override void Execute()
     {
-        ExecuteASMTasks();
+        ExecuteCascadeWithLogging(ExecuteASMTasks);
     }
 
     void ExecuteASMTasks()

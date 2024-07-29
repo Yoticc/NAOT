@@ -2,8 +2,6 @@
 {
     public override void Execute()
     {
-        KornLogger.WriteMessage("Started Korn.Analyzer");
-        
         Env.UnmanagedCallersOnlyAttribute = SystemPrivateCoreLib.FindType("System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute");
         Env.UnmanagedCallersOnlyAttributeCtor = Env.UnmanagedCallersOnlyAttribute.FindConstructors().First();
 

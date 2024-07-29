@@ -2,6 +2,18 @@
 {
     public abstract void Execute();
 
+    private protected void ExecuteCascadeWithLogging(params Action[] actions)
+    {
+        foreach (var action in actions)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            action();
+            stopwatch.Stop();
+            KornLogger.FileLogger.WriteLine($"[{DateTime.Now:HH':'mm':'ss'.'fff}] [Info] Cascade action {GetType().Name}->{action.Method.Name} finished for {stopwatch.ElapsedMilliseconds}ms");
+        }
+    }
+
     protected private string this[string key] => BuildEngine.GetEnvVar(key);
 
     #region Task implementation mirror

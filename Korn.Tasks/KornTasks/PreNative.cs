@@ -2,27 +2,29 @@
 {
     public override void Execute()
     {
-        SetupGlobals();
-        SetupKorn();
-        SetupLogger();
-        LoadConfig();
+        ExecuteCascadeWithLogging(
+            SetupGlobals,
+            SetupKorn,
+            SetupLogger,
+            LoadConfig,
 
-        SetupIlc();
-        SetupObjKorn();
-        SetupLibs();
-        CopyLibraries();
+            SetupIlc,
+            SetupObjKorn,
+            SetupLibs,
+            CopyLibraries,
 
-        InitTaskManager();
+            InitTaskManager,
 
-        LoadAnalyzers();
-        LogAnalyzerStats();
+            LoadAnalyzers,
+            LogAnalyzerStats,
 
-        LoadLibraries();
-        ExecuteILTasks();
-        AddInputsInRsp();
-        ExecutePrepareNativeTasks();
-        SaveLibraries();
-        PushRspArguments();
+            LoadLibraries,
+            ExecuteILTasks,
+            AddInputsInRsp,
+            ExecutePrepareNativeTasks,
+            SaveLibraries,
+            PushRspArguments
+        );
     }
 
     void SetupGlobals()
@@ -270,10 +272,7 @@
         }
     }
 
-    void LogAnalyzerStats()
-    {
-        KornLogger.WriteMessage($"Uses {Analyzers.Count} analyzers");
-    }
+    void LogAnalyzerStats() => KornLogger.WriteMessage($"Uses {Analyzers.Count} analyzers: [{string.Join(", ", Analyzers.Select(analyzer => analyzer.GetName().Name))}]");
 
     void LoadLibraries()
     {

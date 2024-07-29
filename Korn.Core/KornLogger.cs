@@ -49,7 +49,7 @@ public class FileLogger
         if (buffer.Count > 0)
         {
             foreach (var line in buffer)
-                WriteLine(line);
+                Write(line);
             buffer.Clear();
         }
     }
@@ -72,7 +72,13 @@ public class FileLogger
 
     public void WriteLine(object obj)
     {
-        Write(obj);
-        Write('\n');
+        var objString = obj + "\n";
+        if (stream is null)
+        {
+            buffer.Add(objString);
+            return;
+        }
+
+        Write(objString);
     }
 }

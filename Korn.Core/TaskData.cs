@@ -1,4 +1,6 @@
-﻿namespace Korn.Core;
+﻿using System.Diagnostics;
+
+namespace Korn.Core;
 public class TaskData
 {
     public TaskData(Type type)
@@ -22,11 +24,11 @@ public class TaskData
             {
                 (instance.Instance as BaseTask)!.Log = msBuildTask.Log;
 
-                var startedTime = DateTime.Now;
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
                 ExecuteMethod.Invoke(instance.Instance, args);
-                var endTime = DateTime.Now;
-                var timeElapse = endTime - startedTime;
-                KornLogger.FileLogger.WriteLine($"[{DateTime.Now:HH':'mm':'ss'.'fff}] [Info] Task {Type.Name}->{instance.Instance.GetType().Name}[{instance.Order}] finished for {Math.Round(timeElapse.TotalMilliseconds, 2)}ms");
+                stopwatch.Stop();
+                KornLogger.FileLogger.WriteLine($"[{DateTime.Now:HH':'mm':'ss'.'fff}] [Info] Task {Type.Name}->{instance.Instance.GetType().Name}[{instance.Order}] finished for {stopwatch.ElapsedMilliseconds}ms");
             }
             catch (Exception ex)
             {

@@ -8,9 +8,11 @@
             return;
         executed = true;
 
-        SetupPowershell();
-        // ClearObj(); // This was used to clear the obj folder of old entries, maybe these are not needed and everything will work like this
-        TryAddExceptionsInGitIgnoreFile();
+        ExecuteCascadeWithLogging(
+            SetupPowershell,
+            // ClearObj(); // This was used to clear the obj folder of old entries, maybe these are not needed and everything will work like this
+            TryAddExceptionsInGitIgnoreFile
+        );
     }
 
     void SetupPowershell()

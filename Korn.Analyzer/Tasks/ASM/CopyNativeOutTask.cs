@@ -32,7 +32,5 @@
                 File.Copy(modulePdbFile, outPdbPath);
             }
         }
-
-        KornLogger.WriteMessage("Finished Korn.Analyzer");
     }
 }
